@@ -1,0 +1,62 @@
+#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/padKONTROL/config.py
+from __future__ import absolute_import, print_function, unicode_literals
+from .consts import *
+TRANSPORT_CONTROLS = {u'STOP': GENERIC_STOP,
+ u'PLAY': GENERIC_PLAY,
+ u'REC': GENERIC_REC,
+ u'LOOP': GENERIC_LOOP,
+ u'RWD': GENERIC_RWD,
+ u'FFWD': GENERIC_FFWD}
+DEVICE_CONTROLS = (GENERIC_ENC1,
+ GENERIC_ENC2,
+ GENERIC_ENC3,
+ GENERIC_ENC4,
+ GENERIC_ENC5,
+ GENERIC_ENC6,
+ GENERIC_ENC7,
+ GENERIC_ENC8)
+VOLUME_CONTROLS = GENERIC_SLIDERS
+TRACKARM_CONTROLS = (GENERIC_BUT1,
+ GENERIC_BUT2,
+ GENERIC_BUT3,
+ GENERIC_BUT4,
+ GENERIC_BUT5,
+ GENERIC_BUT6,
+ GENERIC_BUT7,
+ GENERIC_BUT8)
+BANK_CONTROLS = {u'TOGGLELOCK': GENERIC_BUT9,
+ u'BANKDIAL': -1,
+ u'NEXTBANK': -1,
+ u'PREVBANK': -1,
+ u'BANK1': -1,
+ u'BANK2': -1,
+ u'BANK3': -1,
+ u'BANK4': -1,
+ u'BANK5': -1,
+ u'BANK6': -1,
+ u'BANK7': -1,
+ u'BANK8': -1}
+PAD_TRANSLATION = ((0, 0, 61, 9),
+ (1, 0, 69, 9),
+ (2, 0, 65, 9),
+ (3, 0, 63, 9),
+ (0, 1, 60, 9),
+ (1, 1, 59, 9),
+ (2, 1, 57, 9),
+ (3, 1, 55, 9),
+ (0, 2, 49, 9),
+ (1, 2, 51, 9),
+ (2, 2, 68, 9),
+ (3, 2, 56, 9),
+ (0, 3, 48, 9),
+ (1, 3, 52, 9),
+ (2, 3, 54, 9),
+ (3, 3, 58, 9))
+CONTROLLER_DESCRIPTIONS = {u'INPUTPORT': u'padKONTROL (Port 2)',
+ u'OUTPUTPORT': u'padKONTROL (Port 2)',
+ u'CHANNEL': 9,
+ u'PAD_TRANSLATION': PAD_TRANSLATION}
+MIXER_OPTIONS = {u'NUMSENDS': 2,
+ u'SEND1': (-1, -1, -1, -1, -1, -1, -1, -1),
+ u'SEND2': (-1, -1, -1, -1, -1, -1, -1, -1),
+ u'MASTERVOLUME': 21}
