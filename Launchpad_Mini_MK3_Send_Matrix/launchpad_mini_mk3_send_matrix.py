@@ -4,39 +4,43 @@ from ableton.v2.control_surface import Layer
 from ableton.v2.control_surface.components import SessionOverviewComponent
 from ableton.v2.control_surface.mode import AddLayerMode, ModesComponent
 from novation import sysex
-from novation.novation_base import NovationBase
+from novation_base_modified import NovationBase
 from novation.session_modes import SessionModesComponent
 from . import sysex_ids as ids
 from .elements import Elements
 from .notifying_background import NotifyingBackgroundComponent
 from .skin import skin
+import logging
+
+logger = logging.getLogger(__name__)
+logger.info("Stripped down version")
 
 
-class Launchpad_Mini_MK3(NovationBase):
+class Launchpad_Mini_MK3_Send_Matrix(NovationBase):
     model_family_code = ids.LP_MINI_MK3_FAMILY_CODE
     element_class = Elements
     skin = skin
 
     def __init__(self, *a, **k):
         self._last_layout_byte = sysex.SESSION_LAYOUT_BYTE
-        super(Launchpad_Mini_MK3, self).__init__(*a, **k)
+        super(Launchpad_Mini_MK3_Send_Matrix, self).__init__(*a, **k)
 
     def on_identified(self, midi_bytes):
         self._elements.firmware_mode_switch.send_value(sysex.DAW_MODE_BYTE)
         self._elements.layout_switch.send_value(self._last_layout_byte)
-        super(Launchpad_Mini_MK3, self).on_identified(midi_bytes)
+        super(Launchpad_Mini_MK3_Send_Matrix, self).on_identified(midi_bytes)
 
     def _create_components(self):
-        super(Launchpad_Mini_MK3, self)._create_components()
-        self._create_background()
-        self._create_stop_solo_mute_modes()
-        self._create_session_modes()
-        self.__on_layout_switch_value.subject = self._elements.layout_switch
+        super(Launchpad_Mini_MK3_Send_Matrix, self)._create_components()
+        # self._create_background()
+        # self._create_stop_solo_mute_modes()
+        # self._create_session_modes()
+        # self.__on_layout_switch_value.subject = self._elements.layout_switch
 
     def _create_session_layer(self):
-        return super(Launchpad_Mini_MK3, self)._create_session_layer() + Layer(
-            scene_launch_buttons="scene_launch_buttons"
-        )
+        return super(
+            Launchpad_Mini_MK3_Send_Matrix, self
+        )._create_session_layer() + Layer(scene_launch_buttons="scene_launch_buttons")
 
     def _create_stop_solo_mute_modes(self):
         self._stop_solo_mute_modes = ModesComponent(

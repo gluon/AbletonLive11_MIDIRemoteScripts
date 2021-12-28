@@ -1,5 +1,5 @@
 from __future__ import absolute_import, print_function, unicode_literals
-from .launchpad_mini_mk3_send_matrix import Launchpad_Mini_MK3
+from .launchpad_mini_mk3_send_matrix import Launchpad_Mini_MK3_Send_Matrix
 from ableton.v2.control_surface.capabilities import (
     CONTROLLER_ID_KEY,
     NOTES_CC,
@@ -28,4 +28,4 @@ def get_capabilities():
 
 
 def create_instance(c_instance):
-    return Launchpad_Mini_MK3(c_instance=c_instance)
+    return Launchpad_Mini_MK3_Send_Matrix(c_instance=c_instance)
