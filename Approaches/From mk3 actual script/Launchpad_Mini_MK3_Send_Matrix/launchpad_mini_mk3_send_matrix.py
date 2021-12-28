@@ -4,16 +4,12 @@ from ableton.v2.control_surface import Layer
 from ableton.v2.control_surface.components import SessionOverviewComponent
 from ableton.v2.control_surface.mode import AddLayerMode, ModesComponent
 from novation import sysex
-from novation_base_modified import NovationBase
+from .novation_base_modified import NovationBase
 from novation.session_modes import SessionModesComponent
 from . import sysex_ids as ids
 from .elements import Elements
 from .notifying_background import NotifyingBackgroundComponent
 from .skin import skin
-import logging
-
-logger = logging.getLogger(__name__)
-logger.info("Stripped down version")
 
 
 class Launchpad_Mini_MK3_Send_Matrix(NovationBase):

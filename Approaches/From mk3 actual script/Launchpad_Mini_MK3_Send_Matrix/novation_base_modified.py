@@ -1,4 +1,3 @@
-# Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/novation/novation_base.py
 from __future__ import absolute_import, print_function, unicode_literals
 from contextlib import contextmanager
 from ableton.v2.base import const, inject, nop
@@ -10,18 +9,24 @@ from ableton.v2.control_surface.components import (
     SimpleTrackAssigner,
 )
 from ableton.v2.control_surface.mode import ModesComponent
-from . import sysex
-from ..novation.channel_strip import ChannelStripComponent
-from ..novation.colors import CLIP_COLOR_TABLE, RGB_COLOR_TABLE
-from ..novation.launchpad_elements import (
+from novation import sysex
+from novation.channel_strip import ChannelStripComponent
+from novation.colors import CLIP_COLOR_TABLE, RGB_COLOR_TABLE
+from novation.launchpad_elements import (
     LaunchpadElements,
     SESSION_HEIGHT,
     SESSION_WIDTH,
 )
-from ..novation.mixer import MixerComponent
-from ..novation.session_navigation import SessionNavigationComponent
-from .skin import skin
-from ..novation.track_recording import TrackRecordingComponent
+from novation.mixer import MixerComponent
+from novation.session_navigation import SessionNavigationComponent
+from novation.skin import skin
+from novation.track_recording import TrackRecordingComponent
+
+
+import logging
+
+logger = logging.getLogger(__name__)
+logger.info("Modded novation base")
 
 
 class NovationBase(IdentifiableControlSurface):
@@ -75,6 +80,7 @@ class NovationBase(IdentifiableControlSurface):
     def _create_components(self):
         self._create_session()
         self._create_mixer()
+        pass
 
     def _create_session(self):
         self._session_ring = SessionRingComponent(
@@ -87,7 +93,7 @@ class NovationBase(IdentifiableControlSurface):
             name="Session",
             is_enabled=False,
             session_ring=self._session_ring,
-            layer=self._create_session_layer(),
+            # layer=self._create_session_layer(),
         )
         self._session.set_rgb_mode(CLIP_COLOR_TABLE, RGB_COLOR_TABLE)
         self._session.set_enabled(True)
@@ -99,8 +105,8 @@ class NovationBase(IdentifiableControlSurface):
         )
         self._session_navigation.set_enabled(True)
 
-    def _create_session_layer(self):
-        return Layer(clip_launch_buttons="clip_launch_matrix")
+    # def _create_session_layer(self):
+    #     return Layer(clip_launch_buttons="clip_launch_matrix")
 
     def _create_session_navigation_layer(self):
         return Layer(
@@ -118,6 +124,7 @@ class NovationBase(IdentifiableControlSurface):
             track_assigner=SimpleTrackAssigner(),
             invert_mute_feedback=True,
             channel_strip_component_type=self.channel_strip_class,
+            layer=Layer(send_controls="clip_launch_matrix"),
         )
 
     def _create_session_recording(self):
