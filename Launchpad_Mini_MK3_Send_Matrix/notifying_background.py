@@ -1,4 +1,3 @@
-# Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Launchpad_Mini_MK3/notifying_background.py
 from __future__ import absolute_import, print_function, unicode_literals
 from functools import partial
 from ableton.v2.control_surface.components import BackgroundComponent

@@ -1,4 +1,3 @@
-# Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Launchpad_Mini_MK3/launchpad_mini_mk3.py
 from __future__ import absolute_import, print_function, unicode_literals
 from ableton.v2.base import listens
 from ableton.v2.control_surface import Layer
