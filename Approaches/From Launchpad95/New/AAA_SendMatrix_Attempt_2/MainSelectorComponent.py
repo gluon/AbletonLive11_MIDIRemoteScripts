@@ -5,6 +5,7 @@ from _Framework.ButtonElement import ButtonElement
 from _Framework.ButtonMatrixElement import ButtonMatrixElement
 from _Framework.SessionZoomingComponent import DeprecatedSessionZoomingComponent  # noqa
 from .SpecialSessionComponent import SpecialSessionComponent
+from .SendsMixerComponent import SendsMixerComponent
 from .Settings import Settings
 
 
@@ -28,6 +29,7 @@ class MainSelectorComponent(ModeSelectorComponent):
         assert isinstance(side_buttons, tuple)
         assert len(side_buttons) == 8
         assert isinstance(config_button, ButtonElement)
+
         ModeSelectorComponent.__init__(self)  # super constructor
 
         # inject ControlSurface
@@ -69,11 +71,23 @@ class MainSelectorComponent(ModeSelectorComponent):
         self._init_session()
         self._all_buttons = tuple(self._all_buttons)
 
+        # Mixer
+        self._mixer = SendsMixerComponent(matrix.width())
+        self._matrix = matrix
+        self._mixer.name = "Mixer"
+        self._mixer.selected_strip().name = "Selected_Channel_strip"
+        for column in range(matrix.width()):
+            self._mixer.channel_strip(column).name = "Channel_Strip_" + str(column)
+        self._side_buttons = side_buttons[4:]
+        self._update_callback = None
+        self._session.set_mixer(self._mixer)
+
     def disconnect(self):
         for button in self._modes_buttons:
             button.remove_value_listener(self._mode_value)
 
         self._session = None
+        self._mixer = None
         self._zooming = None
         for button in self._all_buttons:
             button.set_on_off_values("DefaultButton.Disabled", "DefaultButton.Disabled")
@@ -83,7 +97,11 @@ class MainSelectorComponent(ModeSelectorComponent):
         self._side_buttons = None
         self._nav_buttons = None
         self._config_button = None
+        self._update_callback = None
         ModeSelectorComponent.disconnect(self)
+
+    def set_update_callback(self, callback):
+        self._update_callback = callback
 
     def session_component(self):
         return self._session
@@ -126,6 +144,7 @@ class MainSelectorComponent(ModeSelectorComponent):
         return 1 + 3 + 3 + 1
 
     def on_enabled_changed(self):
+        self._mixer.set_enabled(self.is_enabled())
         self.update()
 
     def _update_mode_buttons(self):
@@ -165,6 +184,17 @@ class MainSelectorComponent(ModeSelectorComponent):
         # in this code, midi channel is 0.
         return 0
 
+    def release_controls(self):
+        for track in range(self._matrix.width()):
+            for row in range(self._matrix.height()):
+                self._matrix.get_button(track, row).set_on_off_values(
+                    127, "DefaultButton.Disabled"
+                )
+
+            strip = self._mixer.channel_strip(track)
+            strip.set_default_buttons(None, None, None, None)
+            strip.set_send_controls((None, None))
+
     def update(self):
         assert self._modes_buttons != None
         if self.is_enabled():
@@ -175,6 +205,7 @@ class MainSelectorComponent(ModeSelectorComponent):
             as_enabled = True
             self._session.set_allow_update(False)
             self._zooming.set_allow_update(False)
+            self._mixer.set_allow_update(False)
             self._config_button.send_value(
                 40
             )  # Set LP double buffering mode (investigate this)
@@ -209,9 +240,49 @@ class MainSelectorComponent(ModeSelectorComponent):
                 self._mode_index = self._main_mode_index
             else:
                 assert False
+            self._setup_mixer_overview()
+            if self._update_callback != None:
+                self._update_callback()
 
             self._session.set_allow_update(True)
             self._zooming.set_allow_update(True)
+            self._mixer.set_allow_update(True)
+        else:
+            self.release_controls()
+
+    def _setup_mixer_overview(self):
+        for track in range(self._matrix.width()):
+            strip = self._mixer.channel_strip(track)
+            strip.set_send_controls((None, None))
+            for row in range(self._matrix.height()):
+                if row == 2:
+                    self._matrix.get_button(track, row).set_on_off_values("Mixer.Sends")
+                elif row == 3:
+                    self._matrix.get_button(track, row).set_on_off_values("Mixer.Sends")
+
+            strip.set_default_buttons(
+                self._matrix.get_button(track, 2), self._matrix.get_button(track, 3)
+            )
+
+    def _setup_send1_mode(self):
+        for track in range(self._matrix.width()):
+            strip = self._mixer.channel_strip(track)
+            strip.set_default_buttons(None, None)
+            for row in range(self._matrix.height()):
+                self._matrix.get_button(track, row).set_on_off_values(
+                    "Mixer.SendsSlider_1"
+                )
+            strip.set_send_controls((self._sliders[track], None))
+
+    def _setup_send2_mode(self):
+        for track in range(self._matrix.width()):
+            strip = self._mixer.channel_strip(track)
+            strip.set_default_buttons(None, None)
+            for row in range(self._matrix.height()):
+                self._matrix.get_button(track, row).set_on_off_values(
+                    "Mixer.SendsSlider_2"
+                )
+            strip.set_send_controls((None, self._sliders[track]))
 
     def _setup_session(self, as_active, as_navigation_enabled):
         assert isinstance(as_active, type(False))  # assert is boolean
@@ -229,6 +300,8 @@ class MainSelectorComponent(ModeSelectorComponent):
         for track_index in range(
             self._session._num_tracks
         ):  # iterate over tracks of a scene -> clip slots
+            for strip in self._session._mixer._channel_strips:
+                self._control_surface.log_message("Jonnie", strip.__dict__)
             for scene_index in range(self._session._num_scenes):  # iterate over scenes
                 scene = self._session.scene(scene_index)
 
