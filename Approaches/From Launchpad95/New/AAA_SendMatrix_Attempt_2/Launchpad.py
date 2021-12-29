@@ -6,11 +6,7 @@ from _Framework.ButtonElement import ButtonElement
 from _Framework.ButtonMatrixElement import ButtonMatrixElement
 from .ConfigurableButtonElement import ConfigurableButtonElement
 from .MainSelectorComponent import MainSelectorComponent
-
-try:
-    exec("from .Settings import Settings")
-except ImportError:
-    exec("from .Settings import *")
+from .Settings import Settings
 
 DO_COMBINE = Live.Application.combine_apcs()  # requires 8.2 & higher
 
@@ -145,7 +141,7 @@ class Launchpad(ControlSurface):
                 button_row = []
                 for column in range(8):
                     if self._mk3_rgb:
-                        # for mk2 buttons are assigned "top to bottom"
+                        # for mk3 buttons are assigned "top to bottom"
                         midi_note = (81 - (10 * row)) + column
                     else:
                         midi_note = row * 16 + column
