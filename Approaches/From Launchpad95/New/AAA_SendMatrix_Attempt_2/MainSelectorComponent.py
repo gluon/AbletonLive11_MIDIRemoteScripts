@@ -226,21 +226,12 @@ class MainSelectorComponent(ModeSelectorComponent):
         # matrix
         self._activate_matrix(True)
         # TODO change to iterating through sends
-        for scene_index in range(self._session._num_scenes):  # iterate over scenes
-            scene = self._session.scene(scene_index)
-            if as_active:  # set scene launch buttons
-                scene_button = self._side_buttons[scene_index]
-                scene_button.set_enabled(as_active)
-                scene_button.set_on_off_values(
-                    "DefaultButton.Disabled", "DefaultButton.Disabled"
-                )
-                scene.set_launch_button(scene_button)
-            else:
-                scene.set_launch_button(None)
+        for track_index in range(
+            self._session._num_tracks
+        ):  # iterate over tracks of a scene -> clip slots
+            for scene_index in range(self._session._num_scenes):  # iterate over scenes
+                scene = self._session.scene(scene_index)
 
-            for track_index in range(
-                self._session._num_tracks
-            ):  # iterate over tracks of a scene -> clip slots
                 if as_active:  # set clip slot launch button
                     button = self._matrix.get_button(track_index, scene_index)
                     button.set_on_off_values(
@@ -250,29 +241,6 @@ class MainSelectorComponent(ModeSelectorComponent):
                     scene.clip_slot(track_index).set_launch_button(button)
                 else:
                     scene.clip_slot(track_index).set_launch_button(None)
-
-        if as_active:  # Set up stop clip buttons and stop all clips button
-            if self._session._stop_clip_buttons != None:
-                for button in self._session._stop_clip_buttons:
-                    button.set_enabled(as_active)
-                # 	button.set_on_off_values("Session.StopClip", "DefaultButton.Disabled")
-                self._session.set_stop_track_clip_buttons(
-                    self._session._stop_clip_buttons
-                )
-
-                self._side_buttons[self._session._num_scenes].set_enabled(as_active)
-                self._side_buttons[self._session._num_scenes].set_on_off_values(
-                    "Session.StopClip", "DefaultButton.Disabled"
-                )
-                self._session.set_stop_all_clips_button(
-                    self._side_buttons[self._session._num_scenes]
-                )
-            else:
-                self._session.set_stop_track_clip_buttons(None)
-                self._session.set_stop_all_clips_button(None)
-        else:
-            self._session.set_stop_track_clip_buttons(None)
-            self._session.set_stop_all_clips_button(None)
 
         if as_active:  # zoom
             self._zooming.set_zoom_button(
