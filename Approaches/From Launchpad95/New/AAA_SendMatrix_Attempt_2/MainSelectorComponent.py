@@ -43,6 +43,9 @@ class MainSelectorComponent(ModeSelectorComponent):
         # initialize index variables
         self._mode_index = 0  # Inherited from parent
         self._main_mode_index = 0  # LP original modes
+        self._sub_mode_list = [0, 0, 0, 0]
+        for index in range(4):
+            self._sub_mode_list[index] = 0
         self.set_mode_buttons(self._mode_buttons)
 
         ###SESSION COMPONENT
@@ -111,7 +114,24 @@ class MainSelectorComponent(ModeSelectorComponent):
         # TODO Gut this
         assert mode in range(self.number_of_modes())  # 8 for this script
         if self._main_mode_index == mode:
-            self._mode_index = 0
+            if (
+                self._main_mode_index == 1
+            ):  # user mode 1 and device controller and instrument mode
+                self._sub_mode_list[self._main_mode_index] = (
+                    self._sub_mode_list[self._main_mode_index] + 1
+                ) % len(Settings.USER_MODES_1)
+                self.update()
+            elif self._main_mode_index == 2:  # user mode 2  and step sequencer
+                self._sub_mode_list[self._main_mode_index] = (
+                    self._sub_mode_list[self._main_mode_index] + 1
+                ) % len(Settings.USER_MODES_2)
+                self.update()
+            elif self._main_mode_index == 3:  # Mixer mode
+                self.update()
+            else:  # Session mode
+                self._sub_mode_list[self._main_mode_index] = 0
+                self._mode_index = 0
+
         else:
             self._main_mode_index = mode
             self.update()
@@ -277,28 +297,28 @@ class MainSelectorComponent(ModeSelectorComponent):
         # matrix
         self._activate_matrix(True)
         # TODO change to iterating through sends
-        # for track_index in range(
-        #     self._session._num_tracks
-        # ):  # iterate over tracks of a scene -> clip slots
-        #     for strip in self._session._mixer._channel_strips:
-        #         self._control_surface.log_message("Jonnie", strip.__dict__)
-        #     for scene_index in range(self._session._num_scenes):  # iterate over scenes
-        #         scene = self._session.scene(scene_index)
+        for track_index in range(
+            self._session._num_tracks
+        ):  # iterate over tracks of a scene -> clip slots
+            for strip in self._session._mixer._channel_strips:
+                self._control_surface.log_message("Jonnie", strip.__dict__)
+            for scene_index in range(self._session._num_scenes):  # iterate over scenes
+                scene = self._session.scene(scene_index)
 
-        #         if as_active:  # set clip slot launch button
-        #             button = self._matrix.get_button(track_index, scene_index)
-        #             button.set_on_off_values(
-        #                 "DefaultButton.Disabled", "DefaultButton.Disabled"
-        #             )
-        #             button.set_enabled(as_active)
-        #             scene.clip_slot(track_index).set_launch_button(button)
-        #         else:
-        #             scene.clip_slot(track_index).set_launch_button(None)
+                if as_active:  # set clip slot launch button
+                    button = self._matrix.get_button(track_index, scene_index)
+                    button.set_on_off_values(
+                        "DefaultButton.Disabled", "DefaultButton.Disabled"
+                    )
+                    button.set_enabled(as_active)
+                    scene.clip_slot(track_index).set_launch_button(button)
+                else:
+                    scene.clip_slot(track_index).set_launch_button(None)
 
-        # zoom
-        if as_active:
-            # Set Session button as zoom shift button
-            self._zooming.set_zoom_button(self._modes_buttons[0])
+        if as_active:  # zoom
+            self._zooming.set_zoom_button(
+                self._modes_buttons[0]
+            )  # Set Session button as zoom shift button
             self._zooming.set_button_matrix(self._matrix)
             self._zooming.set_scene_bank_buttons(self._side_buttons)
             self._zooming.set_nav_buttons(
