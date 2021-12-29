@@ -161,18 +161,9 @@ class MainSelectorComponent(ModeSelectorComponent):
             user2Mode = "StepSequencer2"
         return user2Mode
 
-    def channel_for_current_mode(self):
-        # in this code, midi channels start at 0.
-        # so channels range from 0 - 15.
-        # mapping to 1-16 in the real world
-
-        if self._main_mode_index == 0:
-            new_channel = 0  # session
-
-        elif self._main_mode_index == 3:
-            new_channel = 6  # mixer
-
-        return new_channel
+    def channel(self):
+        # in this code, midi channel is 0.
+        return 0
 
     def update(self):
         assert self._modes_buttons != None
@@ -192,7 +183,6 @@ class MainSelectorComponent(ModeSelectorComponent):
             if self._main_mode_index == 0:
                 # session
                 self._control_surface.show_message("Send matrix mode")
-                self._setup_mixer(not as_active)
                 self._setup_session(as_active, as_enabled)
                 self._update_control_channels()
                 self._mode_index = self._main_mode_index
@@ -200,7 +190,6 @@ class MainSelectorComponent(ModeSelectorComponent):
             elif self._main_mode_index == 1:
                 # Mode 2
                 self._control_surface.show_message("Mode 2 [not implemented]")
-                self._setup_mixer(not as_active)
                 self._setup_session(not as_active, not as_enabled)
                 self._update_control_channels()
                 self._mode_index = self._main_mode_index
@@ -208,7 +197,6 @@ class MainSelectorComponent(ModeSelectorComponent):
             elif self._main_mode_index == 2:
                 # Mode 3
                 self._control_surface.show_message("Mode 3 [not implemented]")
-                self._setup_mixer(not as_active)
                 self._setup_session(not as_active, not as_enabled)
                 self._update_control_channels()
                 self._mode_index = self._main_mode_index
@@ -216,7 +204,6 @@ class MainSelectorComponent(ModeSelectorComponent):
             elif self._main_mode_index == 3:
                 # Mode 4
                 self._control_surface.show_message("Mode 4 [not implemented]")
-                self._setup_mixer(not as_active)
                 self._setup_session(not as_active, not as_enabled)
                 self._update_control_channels()
                 self._mode_index = self._main_mode_index
@@ -238,6 +225,7 @@ class MainSelectorComponent(ModeSelectorComponent):
 
         # matrix
         self._activate_matrix(True)
+        # TODO change to iterating through sends
         for scene_index in range(self._session._num_scenes):  # iterate over scenes
             scene = self._session.scene(scene_index)
             if as_active:  # set scene launch buttons
@@ -262,6 +250,29 @@ class MainSelectorComponent(ModeSelectorComponent):
                     scene.clip_slot(track_index).set_launch_button(button)
                 else:
                     scene.clip_slot(track_index).set_launch_button(None)
+
+        if as_active:  # Set up stop clip buttons and stop all clips button
+            if self._session._stop_clip_buttons != None:
+                for button in self._session._stop_clip_buttons:
+                    button.set_enabled(as_active)
+                # 	button.set_on_off_values("Session.StopClip", "DefaultButton.Disabled")
+                self._session.set_stop_track_clip_buttons(
+                    self._session._stop_clip_buttons
+                )
+
+                self._side_buttons[self._session._num_scenes].set_enabled(as_active)
+                self._side_buttons[self._session._num_scenes].set_on_off_values(
+                    "Session.StopClip", "DefaultButton.Disabled"
+                )
+                self._session.set_stop_all_clips_button(
+                    self._side_buttons[self._session._num_scenes]
+                )
+            else:
+                self._session.set_stop_track_clip_buttons(None)
+                self._session.set_stop_all_clips_button(None)
+        else:
+            self._session.set_stop_track_clip_buttons(None)
+            self._session.set_stop_all_clips_button(None)
 
         if as_active:  # zoom
             self._zooming.set_zoom_button(
@@ -293,18 +304,8 @@ class MainSelectorComponent(ModeSelectorComponent):
             self._session.set_track_bank_buttons(None, None)
             self._session.set_scene_bank_buttons(None, None)
 
-    # TODO Merge this into above
-    def _setup_mixer(self, as_active):
-        assert isinstance(as_active, type(False))
-        if as_active:
-            self._activate_navigation_buttons(True)
-            self._activate_scene_buttons(True)
-            self._activate_matrix(True)
-
     def _init_session(self):
         session_height = self._matrix.height()
-        if self._session._stop_clip_buttons != None:
-            session_height = self._matrix.height() - 1
 
         for scene_index in range(session_height):
             for track_index in range(self._matrix.width()):
@@ -327,7 +328,7 @@ class MainSelectorComponent(ModeSelectorComponent):
 
     # Update the channels of the buttons in the user modes..
     def _update_control_channels(self):
-        new_channel = self.channel_for_current_mode()
+        new_channel = self.channel()
         for button in self._all_buttons:
             button.set_channel(new_channel)
             button.force_next_send()
