@@ -12,26 +12,16 @@ from novation.skin import Colors
 logger = logging.getLogger(__name__)
 
 
-class JonnieColors(Colors):
-    class Mixer(object):
-        SoloOn = Rgb.BLUE
-        SoloOff = Rgb.BLUE_HALF
-        MuteOn = Rgb.YELLOW_HALF
-        MuteOff = Rgb.YELLOW
-        ArmOn = Rgb.RED
-        ArmOff = Rgb.RED_HALF
-        EmptyTrack = Rgb.BLACK
-        TrackSelected = Rgb.WHITE
-        TrackNotSelected = Rgb.WHITE_HALF
+class AugmentedColors(Colors):
+    class Mixer(Colors.Mixer):
         SendControls = Rgb.PURPLE
 
 
-jonnie_skin = Skin(JonnieColors)
-skin = merge_skins(*(default_mk3_skin, jonnie_skin))
+augmented_skin = merge_skins(*(default_mk3_skin, Skin(AugmentedColors)))
 
 
 class Launchpad_Mini_MK3_Augmented(Launchpad_Mini_MK3):
-    skin = skin
+    skin = augmented_skin
 
     def _create_stop_solo_mute_modes(self):
         self._stop_solo_mute_modes = ModesComponent(
@@ -40,6 +30,7 @@ class Launchpad_Mini_MK3_Augmented(Launchpad_Mini_MK3):
             support_momentary_mode_cycling=False,
             layer=Layer(cycle_mode_button=self._elements.scene_launch_buttons_raw[7]),
         )
+        # all_rows = self._elements.clip_launch_matrix.submatrix[:, 0:8]
         bottom_row = self._elements.clip_launch_matrix.submatrix[:, 7:8]
         self._stop_solo_mute_modes.add_mode(
             u"launch", None, cycle_mode_button_color=u"Mode.Launch.On"
@@ -64,5 +55,5 @@ class Launchpad_Mini_MK3_Augmented(Launchpad_Mini_MK3):
             AddLayerMode(self._mixer, Layer(send_controls=bottom_row)),
             cycle_mode_button_color=u"Mixer.SendControls",
         )
-        self._stop_solo_mute_modes.selected_mode = u"launch"
+        self._stop_solo_mute_modes.selected_mode = u"send_controls"
         self._stop_solo_mute_modes.set_enabled(True)
