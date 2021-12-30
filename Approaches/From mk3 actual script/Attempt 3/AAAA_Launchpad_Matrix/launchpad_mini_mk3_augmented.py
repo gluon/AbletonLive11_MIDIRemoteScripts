@@ -3,7 +3,9 @@ import logging
 from ableton.v2.control_surface import Layer
 from ableton.v2.control_surface.mode import AddLayerMode, ModesComponent
 from Launchpad_Mini_MK3 import Launchpad_Mini_MK3
+from Launchpad_Mini_MK3.skin import skin as default_mk3_skin
 from ableton.v2.control_surface.skin import Skin
+from ableton.v2.control_surface import merge_skins
 from novation.colors import Rgb
 from novation.skin import Colors
 
@@ -24,7 +26,8 @@ class JonnieColors(Colors):
         SendControls = Rgb.PURPLE
 
 
-skin = Skin(JonnieColors)
+jonnie_skin = Skin(JonnieColors)
+skin = merge_skins(*(default_mk3_skin, jonnie_skin))
 
 
 class Launchpad_Mini_MK3_Augmented(Launchpad_Mini_MK3):
