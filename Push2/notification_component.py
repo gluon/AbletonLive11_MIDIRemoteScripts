@@ -1,18 +1,24 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Push2/notification_component.py
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Push2/notification_component.py
+# Compiled at: 2022-01-27 16:28:16
+# Size of source mod 2**32: 3111 bytes
 from __future__ import absolute_import, print_function, unicode_literals
 from weakref import ref
 import Live
-from ableton.v2.base import nop, listenable_property
-from ableton.v2.control_surface import ControlElement, Component
+from ableton.v2.base import listenable_property, nop
+from ableton.v2.control_surface import Component, ControlElement
 from pushbase.message_box_component import Notification, strip_restriction_markup_and_format
-from .model.repr import strip_formatted_string
+from model.repr import strip_formatted_string
 
 class NotificationComponent(Component):
 
-    def __init__(self, default_notification_time = 2.5, *a, **k):
-        super(NotificationComponent, self).__init__(*a, **k)
+    def __init__(self, default_notification_time=2.5, *a, **k):
+        (super(NotificationComponent, self).__init__)(*a, **k)
         self._visible = False
-        self._message = u''
+        self._message = ''
         self.show_notification = self._show_notification
         self._notification_timer = None
         self._default_notification_time = default_notification_time
@@ -32,7 +38,7 @@ class NotificationComponent(Component):
     def message(self):
         return self._message
 
-    def _show_notification(self, text, blink_text = None, notification_time = None):
+    def _show_notification(self, text, blink_text=None, notification_time=None):
         text = strip_restriction_markup_and_format(text)
         self._message = strip_formatted_string(text)
         if notification_time is None:
@@ -40,7 +46,15 @@ class NotificationComponent(Component):
         if self._notification_timer:
             self._notification_timer.stop()
         if notification_time != -1:
-            self._notification_timer = Live.Base.Timer(callback=self.hide_notification, interval=int(1000 * notification_time), repeat=False)
+            component_ref = ref(self)
+
+            def timer_callback():
+                if component_ref():
+                    component_ref().hide_notification()
+
+            self._notification_timer = Live.Base.Timer(callback=timer_callback,
+              interval=(int(1000 * notification_time)),
+              repeat=False)
             self._notification_timer.start()
         if not self._visible:
             self._visible = True
@@ -58,13 +72,7 @@ class NotificationComponent(Component):
             self.notify_visible()
 
     def use_single_line(self, *a):
-        u"""
-        Only for Push 1 compatibility
-        """
         return self._dummy_control_element
 
     def use_full_display(self, *a):
-        u"""
-        Only for Push 1 compatibility
-        """
         return self._dummy_control_element

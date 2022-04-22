@@ -1,27 +1,28 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/ableton/v2/control_surface/component.py
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/ableton/v2/control_surface/component.py
+# Compiled at: 2022-01-28 05:06:24
+# Size of source mod 2**32: 5388 bytes
 from __future__ import absolute_import, print_function, unicode_literals
 from builtins import map
 import Live
+from ..base import BooleanContext, depends, is_iterable, lazy_attribute, task
 from .control import ControlManager
-from ..base import BooleanContext, depends, lazy_attribute, task, is_iterable
 
 class Component(ControlManager):
-    u"""
-    Base class for all classes encapsulating functions in Live
-    """
-    __events__ = (u'enabled',)
-    name = u''
+    __events__ = ('enabled', )
+    name = ''
     canonical_parent = None
     is_private = False
     _has_task_group = False
     _layer = None
 
     @depends(register_component=None, song=None)
-    def __init__(self, name = u'', parent = None, register_component = None, song = None, layer = None, is_enabled = True, *a, **k):
-        assert callable(register_component)
-        super(Component, self).__init__(*a, **k)
+    def __init__(self, name='', parent=None, register_component=None, song=None, layer=None, is_enabled=True, *a, **k):
+        (super(Component, self).__init__)(*a, **k)
         self.name = name
-        assert layer is None or not is_enabled
         self._parent = parent
         self._explicit_is_enabled = is_enabled
         self._recursive_is_enabled = True
@@ -61,11 +62,7 @@ class Component(ControlManager):
         for component in self._child_components:
             component._set_enabled_recursive(self.is_enabled())
 
-    def is_enabled(self, explicit = False):
-        u"""
-        Returns whether the component is enabled.
-        If 'explicit' is True the parent state is ignored.
-        """
+    def is_enabled(self, explicit=False):
         if not explicit:
             return self._is_enabled
         return self._explicit_is_enabled
@@ -97,8 +94,6 @@ class Component(ControlManager):
                 self._grab_all_layers()
 
     def _add_child(self, component):
-        assert component != None
-        assert component not in self._child_components
         component._set_enabled_recursive(self.is_enabled())
         self._child_components.append(component)
         return component
@@ -131,7 +126,7 @@ class Component(ControlManager):
 
     @lazy_attribute
     @depends(parent_task_group=None)
-    def _tasks(self, parent_task_group = None):
+    def _tasks(self, parent_task_group=None):
         tasks = parent_task_group.add(task.TaskGroup())
         if not self._is_enabled:
             tasks.pause()
@@ -141,7 +136,6 @@ class Component(ControlManager):
     def _grab_all_layers(self):
         for layer in self._get_layer_iterable():
             grabbed = layer.grab(self)
-            assert grabbed, u'Only one component can use a layer at a time'
 
     def _release_all_layers(self):
         for layer in self._get_layer_iterable():

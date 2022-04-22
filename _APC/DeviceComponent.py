@@ -1,13 +1,19 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/_APC/DeviceComponent.py
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/_APC/DeviceComponent.py
+# Compiled at: 2022-01-27 16:28:16
+# Size of source mod 2**32: 1632 bytes
 from __future__ import absolute_import, print_function, unicode_literals
 from builtins import range
-from _Framework.CompoundComponent import CompoundComponent
-from _Framework.DeviceComponent import DeviceComponent as DeviceComponentBase
+import _Framework.CompoundComponent as CompoundComponent
+import _Framework.DeviceComponent as DeviceComponentBase
 
 class DeviceComponent(DeviceComponentBase, CompoundComponent):
 
-    def __init__(self, use_fake_banks = False, *a, **k):
-        super(DeviceComponent, self).__init__(*a, **k)
+    def __init__(self, use_fake_banks=False, *a, **k):
+        (super(DeviceComponent, self).__init__)(*a, **k)
         self._use_fake_banks = use_fake_banks
 
     def set_parameter_controls(self, controls):
@@ -15,7 +21,7 @@ class DeviceComponent(DeviceComponentBase, CompoundComponent):
         self._update_parameter_controls()
 
     def _current_bank_details(self):
-        bank_name = u''
+        bank_name = ''
         bank = []
         if self._bank_index in range(len(self._parameter_banks())):
             bank_name, bank = super(DeviceComponent, self)._current_bank_details()

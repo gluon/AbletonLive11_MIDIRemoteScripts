@@ -1,27 +1,35 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Push2/auto_filter.py
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Push2/auto_filter.py
+# Compiled at: 2022-01-27 16:28:16
+# Size of source mod 2**32: 3324 bytes
 from __future__ import absolute_import, print_function, unicode_literals
 from builtins import range
 from ableton.v2.base import EventObject, listens, liveobj_valid
 from ableton.v2.control_surface import LiveObjectDecorator, get_parameter_by_name
-from .device_decoration import DeviceSwitchOption
 from .device_component import DeviceComponentWithTrackColorViewData
+from .device_decoration import DeviceSwitchOption
 from .visualisation_settings import VisualisationGuides
 
 class AutoFilterDeviceDecorator(EventObject, LiveObjectDecorator):
 
     def __init__(self, *a, **k):
-        super(AutoFilterDeviceDecorator, self).__init__(*a, **k)
-        self.__on_parameters_changed.subject = self._live_object
-        self.slope_option = DeviceSwitchOption(name=u'Slope', parameter=get_parameter_by_name(self, u'Slope'))
+        (super(AutoFilterDeviceDecorator, self).__init__)(*a, **k)
+        self._AutoFilterDeviceDecorator__on_parameters_changed.subject = self._live_object
+        self.slope_option = DeviceSwitchOption(name='Slope',
+          parameter=(get_parameter_by_name(self, 'Slope')))
         self.register_disconnectables(self.options)
 
     @property
     def options(self):
-        return (self.slope_option,)
+        return (
+         self.slope_option,)
 
-    @listens(u'parameters')
+    @listens('parameters')
     def __on_parameters_changed(self):
-        self.slope_option.set_parameter(get_parameter_by_name(self, u'Slope'))
+        self.slope_option.set_parameter(get_parameter_by_name(self, 'Slope'))
 
 
 class AutoFilterDeviceComponent(DeviceComponentWithTrackColorViewData):
@@ -47,18 +55,19 @@ class AutoFilterDeviceComponent(DeviceComponentWithTrackColorViewData):
         return view_data
 
     def _filter_visualisation_data(self):
-        touched_parameters = [ self.parameters[button.index] for button in self.parameter_touch_buttons if button.is_pressed ]
-        parameter_names = [u'Filter Type',
-         u'Filter Type (Legacy)',
-         u'Frequency',
-         u'Resonance',
-         u'Resonance (Legacy)']
-        filter_focus = any([ parameter.parameter.name in parameter_names for parameter in touched_parameters if liveobj_valid(parameter.parameter) ])
-        return {u'FilterLeft': VisualisationGuides.light_left_x(0),
-         u'FilterRight': VisualisationGuides.light_right_x(2),
-         u'FilterFocus': filter_focus}
+        touched_parameters = [self.parameters[button.index] for button in self.parameter_touch_buttons if button.is_pressed]
+        parameter_names = [
+         'Filter Type',
+         'Filter Type (Legacy)',
+         'Frequency',
+         'Resonance',
+         'Resonance (Legacy)']
+        filter_focus = any([parameter.parameter.name in parameter_names for parameter in touched_parameters if liveobj_valid(parameter.parameter)])
+        return {'FilterLeft':VisualisationGuides.light_left_x(0), 
+         'FilterRight':VisualisationGuides.light_right_x(2), 
+         'FilterFocus':filter_focus}
 
-    @listens(u'oscillator_index')
+    @listens('oscillator_index')
     def __on_selected_oscillator_changed(self):
         self._update_visualisation_view_data(self._filter_visualisation_data())
 
@@ -68,4 +77,4 @@ class AutoFilterDeviceComponent(DeviceComponentWithTrackColorViewData):
 
     @property
     def _shrink_parameters(self):
-        return [ self._visualisation_visible and index < 3 for index in range(8) ]
+        return [self._visualisation_visible and index < 3 for index in range(8)]

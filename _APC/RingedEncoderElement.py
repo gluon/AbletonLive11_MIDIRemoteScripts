@@ -1,34 +1,37 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/_APC/RingedEncoderElement.py
-from __future__ import absolute_import, print_function, unicode_literals
-from __future__ import division
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/_APC/RingedEncoderElement.py
+# Compiled at: 2022-01-27 16:28:16
+# Size of source mod 2**32: 3318 bytes
+from __future__ import absolute_import, division, print_function, unicode_literals
 from past.utils import old_div
-from _Framework.EncoderElement import EncoderElement
-from _Framework.ButtonElement import ButtonElement
+import _Framework.ButtonElement as ButtonElement
+import _Framework.EncoderElement as EncoderElement
 RING_OFF_VALUE = 0
 RING_SIN_VALUE = 1
 RING_VOL_VALUE = 2
 RING_PAN_VALUE = 3
 
 class RingedEncoderElement(EncoderElement):
-    u"""
-    Class representing a continuous control on the controller enclosed with an LED ring
-    """
 
     def __init__(self, msg_type, channel, identifier, map_mode, *a, **k):
-        super(RingedEncoderElement, self).__init__(msg_type, channel, identifier, map_mode, *a, **k)
+        (super(RingedEncoderElement, self).__init__)(
+ msg_type, channel, identifier, map_mode, *a, **k)
         self._ring_mode_button = None
         self.set_needs_takeover(False)
 
     def set_ring_mode_button(self, button):
-        assert button == None or isinstance(button, ButtonElement)
         if self._ring_mode_button != None:
             self._ring_mode_button.send_value(RING_OFF_VALUE, force=True)
         self._ring_mode_button = button
         self._update_ring_mode()
 
     def connect_to(self, parameter):
-        if parameter != self._parameter_to_map_to and not self.is_mapped_manually():
-            self._ring_mode_button.send_value(RING_OFF_VALUE, force=True)
+        if parameter != self._parameter_to_map_to:
+            if not self.is_mapped_manually():
+                self._ring_mode_button.send_value(RING_OFF_VALUE, force=True)
         super(RingedEncoderElement, self).connect_to(parameter)
 
     def release_parameter(self):
@@ -37,8 +40,9 @@ class RingedEncoderElement(EncoderElement):
 
     def install_connections(self, install_translation_callback, install_mapping_callback, install_forwarding_callback):
         super(RingedEncoderElement, self).install_connections(install_translation_callback, install_mapping_callback, install_forwarding_callback)
-        if not self._is_mapped and self.value_listener_count() == 0:
-            self._is_being_forwarded = install_forwarding_callback(self)
+        if not self._is_mapped:
+            if self.value_listener_count() == 0:
+                self._is_being_forwarded = install_forwarding_callback(self)
         self._update_ring_mode()
 
     def is_mapped_manually(self):
@@ -52,7 +56,7 @@ class RingedEncoderElement(EncoderElement):
                 param = self._parameter_to_map_to
                 p_range = param.max - param.min
                 value = old_div(param.value - param.min, p_range) * 127
-                self.send_value(int(value), force=True)
+                self.send_value((int(value)), force=True)
                 if self._parameter_to_map_to.min == -1 * self._parameter_to_map_to.max:
                     self._ring_mode_button.send_value(RING_PAN_VALUE, force=True)
                 elif self._parameter_to_map_to.is_quantized:

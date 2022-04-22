@@ -1,15 +1,17 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/ableton/v2/control_surface/components/scroll.py
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/ableton/v2/control_surface/components/scroll.py
+# Compiled at: 2022-01-28 05:06:24
+# Size of source mod 2**32: 4309 bytes
 from __future__ import absolute_import, print_function, unicode_literals
 from ...base import task
 from .. import defaults
-from ..control import ButtonControl
 from ..component import Component
+from ..control import ButtonControl
 
 class Scrollable(object):
-    u"""
-    Abstract interface for an object that can be scrolled in discreet
-    steps in one dimension.
-    """
 
     def can_scroll_up(self):
         return False
@@ -25,10 +27,6 @@ class Scrollable(object):
 
 
 class ScrollComponent(Component, Scrollable):
-    u"""
-    A component that handles scrolling behavior over a Scrollable
-    with a pair of buttons.
-    """
     is_private = True
     scrolling_delay = defaults.MOMENTARY_DELAY
     scrolling_step_delay = 0.1
@@ -38,8 +36,8 @@ class ScrollComponent(Component, Scrollable):
     scroll_up_button = ButtonControl()
     scroll_down_button = ButtonControl()
 
-    def __init__(self, scrollable = None, *a, **k):
-        super(ScrollComponent, self).__init__(*a, **k)
+    def __init__(self, scrollable=None, *a, **k):
+        (super(ScrollComponent, self).__init__)(*a, **k)
         self._scroll_task_up = self._make_scroll_task(self._do_scroll_up)
         self._scroll_task_down = self._make_scroll_task(self._do_scroll_down)
         if scrollable != None:

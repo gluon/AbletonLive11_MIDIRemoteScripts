@@ -1,4 +1,10 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/novation/fixed_length_recording.py
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/novation/fixed_length_recording.py
+# Compiled at: 2022-01-27 16:28:17
+# Size of source mod 2**32: 1269 bytes
 from __future__ import absolute_import, print_function, unicode_literals
 from builtins import object
 NUM_LENGTHS = 8
@@ -8,15 +14,9 @@ def track_can_record(track):
 
 
 class FixedLengthRecording(object):
-    u"""
-    Handles recording a fixed length clip
-    based on a fixed length setting
-    """
 
-    def __init__(self, song = None, fixed_length_setting = None, *a, **k):
-        assert song is not None
-        assert fixed_length_setting is not None
-        super(FixedLengthRecording, self).__init__(*a, **k)
+    def __init__(self, song=None, fixed_length_setting=None, *a, **k):
+        (super(FixedLengthRecording, self).__init__)(*a, **k)
         self._song = song
         self._fixed_length_setting = fixed_length_setting
 
@@ -25,6 +25,6 @@ class FixedLengthRecording(object):
 
     def start_recording_in_slot(self, clip_slot):
         if self.should_start_recording_in_slot(clip_slot):
-            clip_slot.fire(record_length=self._fixed_length_setting.get_selected_length(self._song))
+            clip_slot.fire(record_length=(self._fixed_length_setting.get_selected_length(self._song)))
         else:
             clip_slot.fire()

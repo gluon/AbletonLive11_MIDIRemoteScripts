@@ -1,11 +1,17 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Akai_Force_MPC/device_parameters.py
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Akai_Force_MPC/device_parameters.py
+# Compiled at: 2022-01-27 16:28:16
+# Size of source mod 2**32: 7759 bytes
 from __future__ import absolute_import, print_function, unicode_literals
 from builtins import map
-from past.utils import old_div
 from future.moves.itertools import zip_longest
+from past.utils import old_div
 from itertools import chain
 from ableton.v2.base import clamp, is_parameter_bipolar, listens, liveobj_valid
-from ableton.v2.control_surface.components import DisplayingDeviceParameterComponent as DeviceParameterComponentBase
+import ableton.v2.control_surface.components as DeviceParameterComponentBase
 from ableton.v2.control_surface.control import ButtonControl, ConfigurableTextDisplayControl, SendValueControl, control_list, is_internal_parameter
 from ableton.v2.control_surface.elements import DisplayDataSource
 from .control import SendingMappedAbsoluteControl, SendingMappedSensitivitySettingControl
@@ -45,9 +51,9 @@ class DeviceParameterComponent(DeviceParameterComponentBase):
     device_enable_button = ButtonControl()
 
     def __init__(self, *a, **k):
-        self._physical_display_parameter_name_data_sources = list(map(DisplayDataSource, (u'',) * NUM_PARAM_CONTROLS))
-        self._physical_display_parameter_value_data_sources = list(map(DisplayDataSource, (u'',) * NUM_PARAM_CONTROLS))
-        super(DeviceParameterComponent, self).__init__(*a, **k)
+        self._physical_display_parameter_name_data_sources = list(map(DisplayDataSource, ('', ) * NUM_PARAM_CONTROLS))
+        self._physical_display_parameter_value_data_sources = list(map(DisplayDataSource, ('', ) * NUM_PARAM_CONTROLS))
+        (super(DeviceParameterComponent, self).__init__)(*a, **k)
         self._update_parameter_name_or_value_displays()
 
     @property
@@ -82,13 +88,14 @@ class DeviceParameterComponent(DeviceParameterComponentBase):
 
     def _toggle_device_enabled_status(self):
         on_off = self.device_on_off_parameter
-        if liveobj_valid(on_off) and on_off.is_enabled:
-            on_off.value = not on_off.value
+        if liveobj_valid(on_off):
+            if on_off.is_enabled:
+                on_off.value = not on_off.value
 
     def _clear_display(self):
         super(DeviceParameterComponent, self)._clear_display()
         for source in chain(self._physical_parameter_name_data_sources, self._physical_parameter_value_data_sources):
-            source.set_display_string(u'')
+            source.set_display_string('')
 
     def _update_parameter_names(self):
         super(DeviceParameterComponent, self)._update_parameter_names()
@@ -116,26 +123,28 @@ class DeviceParameterComponent(DeviceParameterComponentBase):
         self._update_parameter_enable_controls()
 
     def _on_parameter_provider_changed(self, provider):
-        self.__on_device_changed.subject = provider
-        self.__on_device_changed()
+        self._DeviceParameterComponent__on_device_changed.subject = provider
+        self._DeviceParameterComponent__on_device_changed()
 
-    @listens(u'device')
+    @listens('device')
     def __on_device_changed(self):
-        self.__on_device_enabled_changed.subject = self.device_on_off_parameter
-        self.__on_device_enabled_changed()
+        self._DeviceParameterComponent__on_device_enabled_changed.subject = self.device_on_off_parameter
+        self._DeviceParameterComponent__on_device_enabled_changed()
 
-    @listens(u'value')
+    @listens('value')
     def __on_device_enabled_changed(self):
         self._update_device_enable_button()
 
     def _update_device_enable_button(self):
         on_off = self.device_on_off_parameter
-        self.device_enable_button.color = u'DefaultButton.On' if liveobj_valid(on_off) and on_off.value else u'DefaultButton.Off'
+        self.device_enable_button.color = 'DefaultButton.On' if (liveobj_valid(on_off)) and (on_off.value) else 'DefaultButton.Off'
 
     def _update_parameter_enable_controls(self):
         for control, parameter_info in zip_longest(self.parameter_enable_controls, self._parameter_provider.parameters[:self.controls.control_count]):
-            control.value = ON_VALUE if parameter_info and parameter_info.parameter else OFF_VALUE
+            if parameter_info:
+                control.value = ON_VALUE if parameter_info.parameter else OFF_VALUE
 
     def _update_parameter_name_or_value_displays(self):
         for display, control, name_data_source, value_data_source in zip(self.parameter_name_or_value_displays, self.touch_controls, self._physical_display_parameter_name_data_sources, self._physical_display_parameter_value_data_sources):
-            display.set_data_sources([value_data_source if control.is_pressed else name_data_source])
+            display.set_data_sources([
+             value_data_source if control.is_pressed else name_data_source])

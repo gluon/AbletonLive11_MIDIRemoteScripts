@@ -1,22 +1,26 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Launch_Control_XL/LaunchControlXL.py
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Launch_Control_XL/LaunchControlXL.py
+# Compiled at: 2022-01-27 16:28:16
+# Size of source mod 2**32: 9674 bytes
 from __future__ import absolute_import, print_function, unicode_literals
-from builtins import map
-from builtins import chr
-from builtins import range
+from builtins import chr, map, range
 from functools import partial
 from itertools import chain
 import Live
-from _Framework.ButtonMatrixElement import ButtonMatrixElement
-from _Framework.EncoderElement import EncoderElement
-from _Framework.IdentifiableControlSurface import IdentifiableControlSurface
+from _Framework import Task
+import _Framework.ButtonMatrixElement as ButtonMatrixElement
+import _Framework.EncoderElement as EncoderElement
+import _Framework.IdentifiableControlSurface as IdentifiableControlSurface
 from _Framework.InputControlElement import MIDI_CC_TYPE, MIDI_NOTE_TYPE
-from _Framework.Layer import Layer
-from _Framework.ModesComponent import ModeButtonBehaviour, ModesComponent, AddLayerMode
-from _Framework.SessionComponent import SessionComponent
-from _Framework.SliderElement import SliderElement
+import _Framework.Layer as Layer
+from _Framework.ModesComponent import AddLayerMode, ModeButtonBehaviour, ModesComponent
+import _Framework.SessionComponent as SessionComponent
+import _Framework.SliderElement as SliderElement
 from _Framework.SubjectSlot import subject_slot
 from _Framework.Util import nop
-from _Framework import Task
 from .ButtonElement import ButtonElement
 from .DeviceComponent import DeviceComponent, DeviceModeComponent
 from .MixerComponent import MixerComponent
@@ -29,7 +33,7 @@ LIVE_TEMPLATE_SYSEX = PREFIX_TEMPLATE_SYSEX + (LIVE_CHANNEL, 247)
 class LaunchControlXL(IdentifiableControlSurface):
 
     def __init__(self, c_instance, *a, **k):
-        super(LaunchControlXL, self).__init__(c_instance=c_instance, product_id_bytes=(0, 32, 41, 97), *a, **k)
+        (super(LaunchControlXL, self).__init__)(a, c_instance=c_instance, product_id_bytes=(0, 32, 41, 97), **k)
         self._biled_skin = make_biled_skin()
         self._default_skin = make_default_skin()
         with self.component_guard():
@@ -52,106 +56,125 @@ class LaunchControlXL(IdentifiableControlSurface):
 
     def _create_controls(self):
 
-        def make_button(identifier, name, midi_type = MIDI_CC_TYPE, skin = self._default_skin):
-            return ButtonElement(True, midi_type, LIVE_CHANNEL, identifier, name=name, skin=skin)
+        def make_button(identifier, name, midi_type=MIDI_CC_TYPE, skin=self._default_skin):
+            return ButtonElement(True,
+              midi_type, LIVE_CHANNEL, identifier, name=name, skin=skin)
 
         def make_button_list(identifiers, name):
-            return [ make_button(identifier, name % (i + 1), MIDI_NOTE_TYPE, self._biled_skin) for i, identifier in enumerate(identifiers) ]
+            return [make_button(identifier, name % (i + 1), MIDI_NOTE_TYPE, self._biled_skin) for i, identifier in enumerate(identifiers)]
 
         def make_encoder(identifier, name):
-            return EncoderElement(MIDI_CC_TYPE, LIVE_CHANNEL, identifier, Live.MidiMap.MapMode.absolute, name=name)
+            return EncoderElement(MIDI_CC_TYPE,
+              LIVE_CHANNEL,
+              identifier,
+              (Live.MidiMap.MapMode.absolute),
+              name=name)
 
         def make_slider(identifier, name):
             return SliderElement(MIDI_CC_TYPE, LIVE_CHANNEL, identifier, name=name)
 
-        self._send_encoders = ButtonMatrixElement(rows=[[ make_encoder(13 + i, u'Top_Send_%d' % (i + 1)) for i in range(8) ], [ make_encoder(29 + i, u'Bottom_Send_%d' % (i + 1)) for i in range(8) ]])
-        self._pan_device_encoders = ButtonMatrixElement(rows=[[ make_encoder(49 + i, u'Pan_Device_%d' % (i + 1)) for i in range(8) ]])
-        self._volume_faders = ButtonMatrixElement(rows=[[ make_slider(77 + i, u'Volume_%d' % (i + 1)) for i in range(8) ]])
-        self._pan_device_mode_button = make_button(105, u'Pan_Device_Mode', MIDI_NOTE_TYPE)
-        self._mute_mode_button = make_button(106, u'Mute_Mode', MIDI_NOTE_TYPE)
-        self._solo_mode_button = make_button(107, u'Solo_Mode', MIDI_NOTE_TYPE)
-        self._arm_mode_button = make_button(108, u'Arm_Mode', MIDI_NOTE_TYPE)
-        self._up_button = make_button(104, u'Up')
-        self._down_button = make_button(105, u'Down')
-        self._left_button = make_button(106, u'Track_Left')
-        self._right_button = make_button(107, u'Track_Right')
-        self._select_buttons = ButtonMatrixElement(rows=[make_button_list(chain(range(41, 45), range(57, 61)), u'Track_Select_%d')])
-        self._state_buttons = ButtonMatrixElement(rows=[make_button_list(chain(range(73, 77), range(89, 93)), u'Track_State_%d')])
-        self._send_encoder_lights = ButtonMatrixElement(rows=[make_button_list([13,
-          29,
-          45,
-          61,
-          77,
-          93,
-          109,
-          125], u'Top_Send_Encoder_Light_%d'), make_button_list([14,
-          30,
-          46,
-          62,
-          78,
-          94,
-          110,
-          126], u'Bottom_Send_Encoder_Light_%d')])
-        self._pan_device_encoder_lights = ButtonMatrixElement(rows=[make_button_list([15,
-          31,
-          47,
-          63,
-          79,
-          95,
-          111,
-          127], u'Pan_Device_Encoder_Light_%d')])
+        self._send_encoders = ButtonMatrixElement(rows=[
+         [make_encoder(13 + i, 'Top_Send_%d' % (i + 1)) for i in range(8)],
+         [make_encoder(29 + i, 'Bottom_Send_%d' % (i + 1)) for i in range(8)]])
+        self._pan_device_encoders = ButtonMatrixElement(rows=[
+         [make_encoder(49 + i, 'Pan_Device_%d' % (i + 1)) for i in range(8)]])
+        self._volume_faders = ButtonMatrixElement(rows=[
+         [make_slider(77 + i, 'Volume_%d' % (i + 1)) for i in range(8)]])
+        self._pan_device_mode_button = make_button(105, 'Pan_Device_Mode', MIDI_NOTE_TYPE)
+        self._mute_mode_button = make_button(106, 'Mute_Mode', MIDI_NOTE_TYPE)
+        self._solo_mode_button = make_button(107, 'Solo_Mode', MIDI_NOTE_TYPE)
+        self._arm_mode_button = make_button(108, 'Arm_Mode', MIDI_NOTE_TYPE)
+        self._up_button = make_button(104, 'Up')
+        self._down_button = make_button(105, 'Down')
+        self._left_button = make_button(106, 'Track_Left')
+        self._right_button = make_button(107, 'Track_Right')
+        self._select_buttons = ButtonMatrixElement(rows=[
+         make_button_list(chain(range(41, 45), range(57, 61)), 'Track_Select_%d')])
+        self._state_buttons = ButtonMatrixElement(rows=[
+         make_button_list(chain(range(73, 77), range(89, 93)), 'Track_State_%d')])
+        self._send_encoder_lights = ButtonMatrixElement(rows=[
+         make_button_list([
+          13, 29, 45, 61, 77, 93, 109, 125], 'Top_Send_Encoder_Light_%d'),
+         make_button_list([
+          14, 30, 46, 62, 78, 94, 110, 126], 'Bottom_Send_Encoder_Light_%d')])
+        self._pan_device_encoder_lights = ButtonMatrixElement(rows=[
+         make_button_list([
+          15, 31, 47, 63, 79, 95, 111, 127], 'Pan_Device_Encoder_Light_%d')])
 
     def _create_mixer(self):
         mixer = MixerComponent(NUM_TRACKS, is_enabled=True, auto_name=True)
-        mixer.layer = Layer(track_select_buttons=self._select_buttons, send_controls=self._send_encoders, next_sends_button=self._down_button, prev_sends_button=self._up_button, pan_controls=self._pan_device_encoders, volume_controls=self._volume_faders, send_lights=self._send_encoder_lights, pan_lights=self._pan_device_encoder_lights)
+        mixer.layer = Layer(track_select_buttons=(self._select_buttons),
+          send_controls=(self._send_encoders),
+          next_sends_button=(self._down_button),
+          prev_sends_button=(self._up_button),
+          pan_controls=(self._pan_device_encoders),
+          volume_controls=(self._volume_faders),
+          send_lights=(self._send_encoder_lights),
+          pan_lights=(self._pan_device_encoder_lights))
         mixer.on_send_index_changed = partial(self._show_controlled_sends_message, mixer)
         for channel_strip in map(mixer.channel_strip, range(NUM_TRACKS)):
-            channel_strip.empty_color = u'Mixer.NoTrack'
+            channel_strip.empty_color = 'Mixer.NoTrack'
 
         mixer_modes = ModesComponent()
-        mixer_modes.add_mode(u'mute', [AddLayerMode(mixer, Layer(mute_buttons=self._state_buttons))])
-        mixer_modes.add_mode(u'solo', [AddLayerMode(mixer, Layer(solo_buttons=self._state_buttons))])
-        mixer_modes.add_mode(u'arm', [AddLayerMode(mixer, Layer(arm_buttons=self._state_buttons))])
-        mixer_modes.layer = Layer(mute_button=self._mute_mode_button, solo_button=self._solo_mode_button, arm_button=self._arm_mode_button)
-        mixer_modes.selected_mode = u'mute'
+        mixer_modes.add_mode('mute', [AddLayerMode(mixer, Layer(mute_buttons=(self._state_buttons)))])
+        mixer_modes.add_mode('solo', [AddLayerMode(mixer, Layer(solo_buttons=(self._state_buttons)))])
+        mixer_modes.add_mode('arm', [AddLayerMode(mixer, Layer(arm_buttons=(self._state_buttons)))])
+        mixer_modes.layer = Layer(mute_button=(self._mute_mode_button),
+          solo_button=(self._solo_mode_button),
+          arm_button=(self._arm_mode_button))
+        mixer_modes.selected_mode = 'mute'
         return mixer
 
     def _create_session(self):
-        session = SessionComponent(num_tracks=NUM_TRACKS, is_enabled=True, auto_name=True, enable_skinning=True)
-        session.layer = Layer(track_bank_left_button=self._left_button, track_bank_right_button=self._right_button)
+        session = SessionComponent(num_tracks=NUM_TRACKS,
+          is_enabled=True,
+          auto_name=True,
+          enable_skinning=True)
+        session.layer = Layer(track_bank_left_button=(self._left_button),
+          track_bank_right_button=(self._right_button))
         self._on_session_offset_changed.subject = session
         return session
 
-    @subject_slot(u'offset')
+    @subject_slot('offset')
     def _on_session_offset_changed(self):
         session = self._on_session_offset_changed.subject
         self._show_controlled_tracks_message(session)
 
     def _create_device(self):
-        device = DeviceComponent(name=u'Device_Component', is_enabled=False, device_selection_follows_track_selection=True)
-        device.layer = Layer(parameter_controls=self._pan_device_encoders, parameter_lights=self._pan_device_encoder_lights, priority=1)
-        device_settings_layer = Layer(bank_buttons=self._state_buttons, prev_device_button=self._left_button, next_device_button=self._right_button, priority=1)
-        mode = DeviceModeComponent(component=device, device_settings_mode=[AddLayerMode(device, device_settings_layer)], is_enabled=True)
-        mode.layer = Layer(device_mode_button=self._pan_device_mode_button)
+        device = DeviceComponent(name='Device_Component',
+          is_enabled=False,
+          device_selection_follows_track_selection=True)
+        device.layer = Layer(parameter_controls=(self._pan_device_encoders),
+          parameter_lights=(self._pan_device_encoder_lights),
+          priority=1)
+        device_settings_layer = Layer(bank_buttons=(self._state_buttons),
+          prev_device_button=(self._left_button),
+          next_device_button=(self._right_button),
+          priority=1)
+        mode = DeviceModeComponent(component=device,
+          device_settings_mode=[
+         AddLayerMode(device, device_settings_layer)],
+          is_enabled=True)
+        mode.layer = Layer(device_mode_button=(self._pan_device_mode_button))
         return device
 
     def _show_controlled_sends_message(self, mixer):
         if mixer.send_index is not None:
             send_index = mixer.send_index
-            send_name1 = chr(ord(u'A') + send_index)
+            send_name1 = chr(ord('A') + send_index)
             if send_index + 1 < mixer.num_sends:
-                send_name2 = chr(ord(u'A') + send_index + 1)
-                self.show_message(u'Controlling Send %s and %s' % (send_name1, send_name2))
+                send_name2 = chr(ord('A') + send_index + 1)
+                self.show_message('Controlling Send %s and %s' % (send_name1, send_name2))
             else:
-                self.show_message(u'Controlling Send %s' % send_name1)
+                self.show_message('Controlling Send %s' % send_name1)
 
     def _show_controlled_tracks_message(self, session):
         start = session.track_offset() + 1
         end = min(start + 8, len(session.tracks_to_use()))
         if start < end:
-            self.show_message(u'Controlling Track %d to %d' % (start, end))
+            self.show_message('Controlling Track %d to %d' % (start, end))
         else:
-            self.show_message(u'Controlling Track %d' % start)
+            self.show_message('Controlling Track %d' % start)
 
     def _send_live_template(self):
         self._send_midi(LIVE_TEMPLATE_SYSEX)

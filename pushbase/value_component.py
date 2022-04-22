@@ -1,11 +1,16 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/pushbase/value_component.py
-from __future__ import absolute_import, print_function, unicode_literals
-from __future__ import division
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/pushbase/value_component.py
+# Compiled at: 2022-01-27 16:28:17
+# Size of source mod 2**32: 9563 bytes
+from __future__ import absolute_import, division, print_function, unicode_literals
 from builtins import str
 from past.utils import old_div
 from ableton.v2.base import listenable_property, listens
 from ableton.v2.control_surface import Component, ParameterSlot
-from ableton.v2.control_surface.control import EncoderControl, ButtonControl
+from ableton.v2.control_surface.control import ButtonControl, EncoderControl
 from ableton.v2.control_surface.elements import DisplayDataSource
 from . import consts
 from .device_parameter_component import convert_parameter_value_to_graphic
@@ -16,14 +21,14 @@ def convert_value_to_graphic(value):
     if index is not None and index < len(consts.GRAPH_VOL):
         graphic_display_string = consts.GRAPH_VOL[index]
     else:
-        graphic_display_string = u' '
+        graphic_display_string = ' '
     return graphic_display_string
 
 
 class ValueDisplayComponentBase(Component):
 
-    def __init__(self, display_label = u' ', display_seg_start = 0, *a, **k):
-        super(ValueDisplayComponentBase, self).__init__(*a, **k)
+    def __init__(self, display_label=' ', display_seg_start=0, *a, **k):
+        (super(ValueDisplayComponentBase, self).__init__)(*a, **k)
         self._label_data_source = DisplayDataSource(display_label)
         self._value_data_source = DisplayDataSource()
         self._graphic_data_source = DisplayDataSource()
@@ -51,7 +56,7 @@ class ValueDisplayComponentBase(Component):
 
     def _set_display(self, display, source):
         if display:
-            display.set_data_sources((None,) * NUM_SEGMENTS)
+            display.set_data_sources((None, ) * NUM_SEGMENTS)
             display.segment(self._display_seg_start).set_data_source(source)
 
     def update(self):
@@ -62,23 +67,19 @@ class ValueDisplayComponentBase(Component):
 
 
 class ValueComponentBase(Component):
-    u"""
-    Component to control one continuous property with a infinite
-    touch-sensitive encoder. You can optionally give it a display and
-    a button such that the value will be displayed while its pressed.
-    """
 
     def create_display_component(self, *a, **k):
         raise NotImplementedError
 
-    def __init__(self, display_label = u' ', display_seg_start = 0, encoder_touch_delay = 0, *a, **k):
-        super(ValueComponentBase, self).__init__(*a, **k)
+    def __init__(self, display_label=' ', display_seg_start=0, encoder_touch_delay=0, *a, **k):
+        (super(ValueComponentBase, self).__init__)(*a, **k)
         encoder = EncoderControl(touch_event_delay=encoder_touch_delay)
-        encoder.touched = ValueComponentBase.__on_encoder_touched
-        encoder.released = ValueComponentBase.__on_encoder_released
-        encoder.value = ValueComponentBase.__on_encoder_value
-        self.add_control(u'encoder', encoder)
-        self._display = self.create_display_component(display_label=display_label, display_seg_start=display_seg_start)
+        encoder.touched = ValueComponentBase._ValueComponentBase__on_encoder_touched
+        encoder.released = ValueComponentBase._ValueComponentBase__on_encoder_released
+        encoder.value = ValueComponentBase._ValueComponentBase__on_encoder_value
+        self.add_control('encoder', encoder)
+        self._display = self.create_display_component(display_label=display_label,
+          display_seg_start=display_seg_start)
         self._display.set_enabled(False)
 
     @property
@@ -102,12 +103,9 @@ class ValueComponentBase(Component):
 
 
 class ValueDisplayComponent(ValueDisplayComponentBase):
-    u"""
-    Display for values from standard Python properties.
-    """
 
-    def __init__(self, property_name = None, subject = None, display_format = u'%f', view_transform = None, graphic_transform = None, *a, **k):
-        super(ValueDisplayComponent, self).__init__(*a, **k)
+    def __init__(self, property_name=None, subject=None, display_format='%f', view_transform=None, graphic_transform=None, *a, **k):
+        (super(ValueDisplayComponent, self).__init__)(*a, **k)
         self._subject = subject
         self._property_name = property_name
         self._display_format = display_format
@@ -139,22 +137,18 @@ class ValueDisplayComponent(ValueDisplayComponentBase):
 
 
 class ValueComponent(ValueComponentBase):
-    u"""
-    Component to control one continuous property with a infinite
-    touch-sensitive encoder. You can optionally give it a display and
-    a button such that the value will be displayed while its pressed.
-    """
     shift_button = ButtonControl()
     encoder_factor = 1.0
 
     def create_display_component(self, *a, **k):
-        return ValueDisplayComponent(parent=self, property_name=self._property_name, subject=self._subject, display_format=self._display_format, view_transform=(lambda x: self.view_transform(x)), graphic_transform=(lambda x: self.graphic_transform(x)), *a, **k)
+        return ValueDisplayComponent(a, parent=self, property_name=self._property_name, subject=self._subject, display_format=self._display_format, view_transform=lambda x: self.view_transform(x), 
+         graphic_transform=lambda x: self.graphic_transform(x), **k)
 
-    def __init__(self, property_name = None, subject = None, display_format = u'%f', model_transform = None, view_transform = None, graphic_transform = None, encoder_factor = None, *a, **k):
+    def __init__(self, property_name=None, subject=None, display_format='%f', model_transform=None, view_transform=None, graphic_transform=None, encoder_factor=None, *a, **k):
         self._property_name = property_name
         self._subject = subject
         self._display_format = display_format
-        super(ValueComponent, self).__init__(*a, **k)
+        (super(ValueComponent, self).__init__)(*a, **k)
         if model_transform is not None:
             self.model_transform = model_transform
         if view_transform is not None:
@@ -166,24 +160,12 @@ class ValueComponent(ValueComponentBase):
         self._original_encoder_factor = self.encoder_factor
 
     def model_transform(self, x):
-        u"""
-        Tranform a value 'x' from the view domain to the domain as
-        stored in the subject.
-        """
         return x
 
     def view_transform(self, x):
-        u"""
-        Transform a value 'x' from the model domain to the view domain
-        as represented to the user.
-        """
         return x
 
     def graphic_transform(self, x):
-        u"""
-        Transform a value 'x' from the model domain to [0..1] range to
-        be used in the slider-representation of the value.
-        """
         return old_div(self.view_transform(x), self.encoder_factor)
 
     @shift_button.pressed
@@ -201,12 +183,9 @@ class ValueComponent(ValueComponentBase):
 
 
 class ParameterValueDisplayComponent(ValueDisplayComponentBase):
-    u"""
-    Display for values from device parameters.
-    """
 
-    def __init__(self, device_parameter = None, *a, **k):
-        super(ParameterValueDisplayComponent, self).__init__(*a, **k)
+    def __init__(self, device_parameter=None, *a, **k):
+        (super(ParameterValueDisplayComponent, self).__init__)(*a, **k)
         self._on_value_changed.subject = device_parameter
         self._on_value_changed()
 
@@ -216,25 +195,20 @@ class ParameterValueDisplayComponent(ValueDisplayComponentBase):
     def get_graphic_string(self):
         return convert_parameter_value_to_graphic(self._on_value_changed.subject)
 
-    @listens(u'value')
+    @listens('value')
     def _on_value_changed(self):
         self.update()
         self.notify_value_string()
 
 
 class ParameterValueComponent(ValueComponentBase):
-    u"""
-    Component to control a device parameter with a infinite
-    touch-sensitive encoder. You can optionally give it a display and
-    a button such that the value will be displayed while its pressed.
-    """
 
     def create_display_component(self, *a, **k):
-        return ParameterValueDisplayComponent(device_parameter=self._parameter_slot.parameter, *a, **k)
+        return ParameterValueDisplayComponent(a, device_parameter=self._parameter_slot.parameter, **k)
 
-    def __init__(self, device_parameter = None, *a, **k):
+    def __init__(self, device_parameter=None, *a, **k):
         self._parameter_slot = ParameterSlot(device_parameter)
-        super(ParameterValueComponent, self).__init__(*a, **k)
+        (super(ParameterValueComponent, self).__init__)(*a, **k)
         self.register_disconnectable(self._parameter_slot)
 
     def set_encoder(self, encoder):

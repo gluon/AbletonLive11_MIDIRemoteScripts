@@ -1,12 +1,18 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Push2/browser_item.py
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Push2/browser_item.py
+# Compiled at: 2022-01-27 16:28:16
+# Size of source mod 2**32: 2112 bytes
 from __future__ import absolute_import, print_function, unicode_literals
 from builtins import object
 from ableton.v2.base import Proxy
 
 class BrowserItem(object):
 
-    def __init__(self, name = u'', icon = u'', children = None, is_loadable = False, is_selected = False, is_device = False, contained_item = None, enable_wrapping = True, *a, **k):
-        super(BrowserItem, self).__init__(*a, **k)
+    def __init__(self, name='', icon='', children=None, is_loadable=False, is_selected=False, is_device=False, contained_item=None, enable_wrapping=True, *a, **k):
+        (super(BrowserItem, self).__init__)(*a, **k)
         self._name = name
         self._icon = icon
         self._children = [] if children is None else children
@@ -61,8 +67,8 @@ class BrowserItem(object):
 
 class ProxyBrowserItem(Proxy):
 
-    def __init__(self, enable_wrapping = True, icon = u'', *a, **k):
-        super(ProxyBrowserItem, self).__init__(*a, **k)
+    def __init__(self, enable_wrapping=True, icon='', *a, **k):
+        (super(ProxyBrowserItem, self).__init__)(*a, **k)
         self._enable_wrapping = enable_wrapping
         self._icon = icon
 

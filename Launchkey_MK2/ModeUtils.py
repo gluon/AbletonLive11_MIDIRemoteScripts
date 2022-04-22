@@ -1,18 +1,24 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Launchkey_MK2/ModeUtils.py
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Launchkey_MK2/ModeUtils.py
+# Compiled at: 2022-01-27 16:28:16
+# Size of source mod 2**32: 2958 bytes
 from __future__ import absolute_import, print_function, unicode_literals
 from _Framework.Dependency import depends
-from _Framework.ModesComponent import ModesComponent, ModeButtonBehaviour
+from _Framework.ModesComponent import ModeButtonBehaviour, ModesComponent
 from . import consts
 
 def to_class_name(mode_name):
-    return u''.join([ s.capitalize() for s in mode_name.replace(u'_', u' ').split() ])
+    return ''.join([s.capitalize() for s in mode_name.replace('_', ' ').split()])
 
 
 class MomentaryBehaviour(ModeButtonBehaviour):
 
     @depends(send_midi=None)
-    def __init__(self, send_midi = None, *a, **k):
-        super(MomentaryBehaviour, self).__init__(*a, **k)
+    def __init__(self, send_midi=None, *a, **k):
+        (super(MomentaryBehaviour, self).__init__)(*a, **k)
         self._send_midi = send_midi
 
     def press_immediate(self, component, mode):
@@ -36,22 +42,17 @@ class SkinableBehaviourMixin(ModeButtonBehaviour):
         selected_groups = component.get_mode_groups(selected_mode)
         mode_color = to_class_name(mode)
         is_selected = mode == selected_mode or bool(groups & selected_groups)
-        button.set_light(u'Mode.%s%s' % (mode_color, u'On' if is_selected else u''))
+        button.set_light('Mode.%s%s' % (mode_color, 'On' if is_selected else ''))
 
 
 class DisablingModesComponent(ModesComponent):
-    u"""
-    ModesComponent whose modes can be disabled, so that
-    we can dynamically remove or add buttons, e.g. when
-    the number of Return Tracks changes.
-    """
 
     def __init__(self, *a, **k):
-        super(DisablingModesComponent, self).__init__(*a, **k)
+        (super(DisablingModesComponent, self).__init__)(*a, **k)
         self._enabled_modes = {}
 
-    def add_mode(self, name, mode_or_component, is_enabled = True, **k):
-        super(DisablingModesComponent, self).add_mode(name, mode_or_component, **k)
+    def add_mode(self, name, mode_or_component, is_enabled=True, **k):
+        (super(DisablingModesComponent, self).add_mode)(name, mode_or_component, **k)
         self._enabled_modes[name] = is_enabled
 
     def set_mode_enabled(self, mode, enable):
@@ -66,7 +67,7 @@ class DisablingModesComponent(ModesComponent):
                         self._get_mode_behaviour(name).update_button(self, name, selected)
                     else:
                         button = self.get_mode_button(name)
-                        button.set_light(u'Mode.Disabled')
+                        button.set_light('Mode.Disabled')
 
             if self._mode_toggle:
                 entry = self._mode_map.get(selected)

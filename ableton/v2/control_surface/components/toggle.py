@@ -1,19 +1,21 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/ableton/v2/control_surface/components/toggle.py
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/ableton/v2/control_surface/components/toggle.py
+# Compiled at: 2021-06-29 09:33:48
+# Size of source mod 2**32: 2802 bytes
 from __future__ import absolute_import, print_function, unicode_literals
 from ...base import listens
 from ..component import Component
 
 class ToggleComponent(Component):
-    u"""
-    Maps a toggle button to a boolean property of the Live model.
-    """
     is_private = True
     is_momentary = False
     read_only = False
 
-    def __init__(self, property_name = None, subject = None, is_momentary = False, model_transform = None, view_transform = None, read_only = False, *a, **k):
-        assert property_name
-        super(ToggleComponent, self).__init__(*a, **k)
+    def __init__(self, property_name=None, subject=None, is_momentary=False, model_transform=None, view_transform=None, read_only=False, *a, **k):
+        (super(ToggleComponent, self).__init__)(*a, **k)
         self._property_name = property_name
         self._property_slot = self.register_slot(subject, self._on_property_changed_in_model, property_name)
         self._property_button = None
@@ -52,9 +54,8 @@ class ToggleComponent(Component):
         setattr(self.subject, self._property_name, value)
 
     def set_toggle_button(self, button):
-        assert button is None or not self.is_momentary or button.is_momentary()
         self._property_button = button
-        self.__on_button_value.subject = button
+        self._ToggleComponent__on_button_value.subject = button
         self._update_button()
 
     def update(self):
@@ -70,7 +71,7 @@ class ToggleComponent(Component):
     def _on_property_changed_in_model(self):
         self._update_button()
 
-    @listens(u'value')
+    @listens('value')
     def __on_button_value(self, value):
         if self.is_enabled() and not self.read_only:
             if self.is_momentary:
@@ -78,5 +79,5 @@ class ToggleComponent(Component):
                     self.value = self.model_transform(True)
                 else:
                     self.value = self.model_transform(False)
-            elif value or not self._property_button.is_momentary():
-                self.value = self.model_transform(not self.value)
+        elif not (value or self._property_button.is_momentary()):
+            self.value = self.model_transform(not self.value)

@@ -1,4 +1,10 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/ableton/v2/control_surface/control/text_display.py
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/ableton/v2/control_surface/control/text_display.py
+# Compiled at: 2021-06-29 09:33:48
+# Size of source mod 2**32: 1485 bytes
 from __future__ import absolute_import, print_function, unicode_literals
 from ..elements import DisplayDataSource
 from .control import Control
@@ -7,13 +13,14 @@ class TextDisplayControl(Control):
 
     class State(Control.State):
 
-        def __init__(self, segments = (u'',), *a, **k):
-            super(TextDisplayControl.State, self).__init__(*a, **k)
-            self._data_sources = [ DisplayDataSource(segment) for segment in segments ]
+        def __init__(self, segments=('',), *a, **k):
+            (super(TextDisplayControl.State, self).__init__)(*a, **k)
+            self._data_sources = [DisplayDataSource(segment) for segment in segments]
 
         def set_control_element(self, control_element):
-            if not control_element and self._control_element:
-                self._control_element.set_data_sources(None)
+            if not control_element:
+                if self._control_element:
+                    self._control_element.set_data_sources(None)
             super(TextDisplayControl.State, self).set_control_element(control_element)
             if control_element:
                 control_element.set_data_sources(self._data_sources)

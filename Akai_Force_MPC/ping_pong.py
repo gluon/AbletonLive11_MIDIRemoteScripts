@@ -1,4 +1,10 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Akai_Force_MPC/ping_pong.py
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Akai_Force_MPC/ping_pong.py
+# Compiled at: 2021-06-29 09:33:48
+# Size of source mod 2**32: 1881 bytes
 from __future__ import absolute_import, print_function, unicode_literals
 from ableton.v2.base import task
 from ableton.v2.control_surface import Component
@@ -8,10 +14,8 @@ PING_PERIOD = 3
 class PingPongComponent(Component):
     pong = InputControl()
 
-    def __init__(self, on_pong_callback = None, on_ping_timeout = None, *a, **k):
-        super(PingPongComponent, self).__init__(*a, **k)
-        assert on_pong_callback is not None
-        assert on_ping_timeout is not None
+    def __init__(self, on_pong_callback=None, on_ping_timeout=None, *a, **k):
+        (super(PingPongComponent, self).__init__)(*a, **k)
         self._on_pong_callback = on_pong_callback
         self._on_ping_timeout = on_ping_timeout
         self._ping = None
@@ -33,9 +37,10 @@ class PingPongComponent(Component):
         self._keepalive_starter_task.restart()
 
     def _send_ping(self):
-        if self._ping and self.is_enabled():
-            self._pong_received = False
-            self._ping.send_value(0)
+        if self._ping:
+            if self.is_enabled():
+                self._pong_received = False
+                self._ping.send_value(0)
 
     def _check_pong_received(self):
         if not self._pong_received:

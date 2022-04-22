@@ -1,11 +1,17 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/KeyLab_mkII/channel_strip.py
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/KeyLab_mkII/channel_strip.py
+# Compiled at: 2021-06-29 09:33:48
+# Size of source mod 2**32: 893 bytes
 from __future__ import absolute_import, print_function, unicode_literals
 from ableton.v2.base import liveobj_valid
 from ableton.v2.control_surface.control import TextDisplayControl
-from KeyLab_Essential.channel_strip import ChannelStripComponent as ChannelStripComponentBase
+import KeyLab_Essential.channel_strip as ChannelStripComponentBase
 
 class ChannelStripComponent(ChannelStripComponentBase):
-    track_name_display = TextDisplayControl(u' ')
+    track_name_display = TextDisplayControl(' ')
 
     def set_track_name_display(self, display):
         self.track_name_display.set_control_element(display)
@@ -17,4 +23,4 @@ class ChannelStripComponent(ChannelStripComponentBase):
 
     def _update_track_name_display(self):
         track = self._track
-        self.track_name_display[0] = track.name if liveobj_valid(track) else u''
+        self.track_name_display[0] = track.name if liveobj_valid(track) else ''

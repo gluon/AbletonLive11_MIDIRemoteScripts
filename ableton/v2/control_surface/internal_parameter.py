@@ -1,8 +1,14 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/ableton/v2/control_surface/internal_parameter.py
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/ableton/v2/control_surface/internal_parameter.py
+# Compiled at: 2022-01-28 05:06:24
+# Size of source mod 2**32: 14168 bytes
 from __future__ import absolute_import, print_function, unicode_literals
 from past.builtins import unicode
 from Live import DeviceParameter
-from ..base import clamp, listenable_property, liveobj_valid, nop, old_hasattr, EventError, EventObject, Slot
+from ..base import EventError, EventObject, Slot, clamp, listenable_property, liveobj_valid, nop, old_hasattr
 
 def identity(value, _parent):
     return value
@@ -10,21 +16,20 @@ def identity(value, _parent):
 
 def to_percentage_display(value):
     percentage = 100.0 * value
-    percentage_str = u'100'
+    percentage_str = '100'
     if percentage < 100.0:
         precision = 2 if percentage < 10.0 else 1
-        format_str = u'%.' + str(precision) + u'f'
+        format_str = '%.' + str(precision) + 'f'
         percentage_str = format_str % percentage
-    return unicode(percentage_str + u' %')
+    return unicode(percentage_str + ' %')
 
 
 class InternalParameterBase(EventObject):
     is_enabled = True
     is_quantized = False
 
-    def __init__(self, name = None, *a, **k):
-        assert name is not None
-        super(InternalParameterBase, self).__init__(*a, **k)
+    def __init__(self, name=None, *a, **k):
+        (super(InternalParameterBase, self).__init__)(*a, **k)
         self._name = name
         self._state = DeviceParameter.ParameterState.enabled
 
@@ -73,7 +78,6 @@ class InternalParameterBase(EventObject):
 
     @state.setter
     def state(self, new_state):
-        assert new_state in (DeviceParameter.ParameterState.enabled, DeviceParameter.ParameterState.irrelevant, DeviceParameter.ParameterState.disabled)
         self._state = new_state
         self.notify_state()
 
@@ -86,14 +90,10 @@ class InternalParameterBase(EventObject):
 
 
 class InternalParameter(InternalParameterBase):
-    u"""
-    Class implementing the DeviceParameter interface. Using instances of this class,
-    we can mix script-internal values with DeviceParameter instances.
-    """
-    __events__ = (u'value',)
+    __events__ = ('value', )
 
-    def __init__(self, parent = None, display_value_conversion = None, *a, **k):
-        super(InternalParameter, self).__init__(*a, **k)
+    def __init__(self, parent=None, display_value_conversion=None, *a, **k):
+        (super(InternalParameter, self).__init__)(*a, **k)
         self._value = 0.0
         self._parent = parent
         self.set_display_value_conversion(display_value_conversion)
@@ -117,7 +117,6 @@ class InternalParameter(InternalParameterBase):
         return self.min
 
     def _set_value(self, new_value):
-        assert self.min <= new_value <= self.max, u'Invalid value %f' % new_value
         self.linear_value = self._to_internal(new_value, self._parent)
 
     value = property(_get_value, _set_value)
@@ -146,9 +145,6 @@ class InternalParameter(InternalParameterBase):
 
 
 class PropertyHostMixin(object):
-    u"""
-    This is only used to document the set_property_host API
-    """
 
     def set_property_host(self, new_host):
         raise NotImplementedError
@@ -156,15 +152,15 @@ class PropertyHostMixin(object):
 
 class WrappingParameter(InternalParameter, PropertyHostMixin):
 
-    def __init__(self, property_host = None, source_property = None, from_property_value = None, to_property_value = None, display_value_conversion = nop, value_items = [], *a, **k):
-        assert source_property is not None
-        super(WrappingParameter, self).__init__(display_value_conversion=display_value_conversion, *a, **k)
+    def __init__(self, property_host=None, source_property=None, from_property_value=None, to_property_value=None, display_value_conversion=nop, value_items=[], *a, **k):
+        (super(WrappingParameter, self).__init__)(a, display_value_conversion=display_value_conversion, **k)
         self._property_host = property_host
-        assert self._property_host == None or old_hasattr(self._property_host, source_property) or source_property in dir(self._property_host)
         self._source_property = source_property
         self._value_items = value_items
         self.set_scaling_functions(to_property_value, from_property_value)
-        self._property_slot = self.register_slot(Slot(listener=self.notify_value, event_name=source_property, subject=self._property_host))
+        self._property_slot = self.register_slot(Slot(listener=(self.notify_value),
+          event_name=source_property,
+          subject=(self._property_host)))
 
     def set_property_host(self, new_host):
         self._property_host = new_host
@@ -184,7 +180,6 @@ class WrappingParameter(InternalParameter, PropertyHostMixin):
             return self.min
 
     def _set_value(self, new_value):
-        assert self.min <= new_value <= self.max, u'Invalid value %f' % new_value
         if liveobj_valid(self._property_host):
             try:
                 setattr(self._property_host, self._source_property, self._to_internal(new_value, self._property_host))
@@ -198,7 +193,7 @@ class WrappingParameter(InternalParameter, PropertyHostMixin):
     def display_value(self):
         try:
             value = self._get_property_value()
-            return unicode(self._display_value_conversion(value) if liveobj_valid(self._property_host) else u'')
+            return unicode(self._display_value_conversion(value) if liveobj_valid(self._property_host) else '')
         except RuntimeError:
             return unicode()
 
@@ -215,11 +210,8 @@ class EnumWrappingParameter(InternalParameterBase, PropertyHostMixin):
     is_enabled = True
     is_quantized = True
 
-    def __init__(self, parent = None, index_property_host = None, values_host = None, values_property = None, index_property = None, value_type = int, to_index_conversion = None, from_index_conversion = None, *a, **k):
-        assert parent is not None
-        assert values_property is not None
-        assert index_property is not None
-        super(EnumWrappingParameter, self).__init__(*a, **k)
+    def __init__(self, parent=None, index_property_host=None, values_host=None, values_property=None, index_property=None, value_type=int, to_index_conversion=None, from_index_conversion=None, *a, **k):
+        (super(EnumWrappingParameter, self).__init__)(*a, **k)
         self._parent = parent
         self._values_host = values_host
         self._index_property_host = index_property_host
@@ -244,8 +236,7 @@ class EnumWrappingParameter(InternalParameterBase, PropertyHostMixin):
         values = self._get_values()
         if index < len(values):
             return unicode(values[index])
-        else:
-            return unicode()
+        return unicode()
 
     @listenable_property
     def value_items(self):
@@ -257,7 +248,7 @@ class EnumWrappingParameter(InternalParameterBase, PropertyHostMixin):
 
     @value.setter
     def value(self, new_value):
-        if new_value < 0 or new_value >= len(self._get_values()):
+        if new_value < 0 or (new_value >= len(self._get_values())):
             raise IndexError
         self._set_index(new_value)
 
@@ -288,7 +279,7 @@ class EnumWrappingParameter(InternalParameterBase, PropertyHostMixin):
 
 
 class RelativeInternalParameter(InternalParameter):
-    __events__ = (u'delta',)
+    __events__ = ('delta', )
 
     @property
     def default_value(self):
@@ -309,8 +300,10 @@ class RelativeInternalParameter(InternalParameter):
 
 class IntegerParameter(InternalParameter):
 
-    def __init__(self, integer_value_host = None, integer_value_property_name = None, min_value = None, max_value = None, show_as_quantized = False, *a, **k):
-        super(IntegerParameter, self).__init__(display_value_conversion=unicode, *a, **k)
+    def __init__(self, integer_value_host=None, integer_value_property_name=None, min_value=None, max_value=None, show_as_quantized=False, *a, **k):
+        if 'display_value_conversion' not in k:
+            k['display_value_conversion'] = unicode
+        (super(IntegerParameter, self).__init__)(*a, **k)
         self._integer_value_host = integer_value_host
         self._integer_value_property_name = integer_value_property_name
         self._min_value = min_value if min_value is not None else 0
@@ -353,7 +346,6 @@ class IntegerParameter(InternalParameter):
         return self._min_value
 
     def _set_integer_value(self, new_value):
-        assert self._min_value <= new_value <= self._max_value, u'Invalid value {}'.format(new_value)
         setattr(self._integer_value_host, self._integer_value_property_name, int(new_value))
 
     def _index_to_value(self, index):

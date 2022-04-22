@@ -1,4 +1,10 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Akai_Force_MPC/scene_list.py
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Akai_Force_MPC/scene_list.py
+# Compiled at: 2022-01-27 16:28:16
+# Size of source mod 2**32: 1729 bytes
 from __future__ import absolute_import, print_function, unicode_literals
 from builtins import range
 from future.moves.itertools import zip_longest
@@ -8,13 +14,12 @@ from .scene import MPCSceneComponent
 
 class SceneListComponent(Component):
 
-    def __init__(self, session_ring = None, num_scenes = 0, *a, **k):
-        super(SceneListComponent, self).__init__(*a, **k)
-        assert session_ring is not None
+    def __init__(self, session_ring=None, num_scenes=0, *a, **k):
+        (super(SceneListComponent, self).__init__)(*a, **k)
         self._session_ring = session_ring
-        self.__on_offsets_changed.subject = session_ring
-        self._scenes = [ MPCSceneComponent(parent=self, session_ring=session_ring) for _ in range(num_scenes) ]
-        self.__on_scene_list_changed.subject = self.song
+        self._SceneListComponent__on_offsets_changed.subject = session_ring
+        self._scenes = [MPCSceneComponent(parent=self, session_ring=session_ring) for _ in range(num_scenes)]
+        self._SceneListComponent__on_scene_list_changed.subject = self.song
         self._reassign_scenes()
 
     def set_scene_launch_buttons(self, buttons):
@@ -25,12 +30,12 @@ class SceneListComponent(Component):
         for scene, control in zip_longest(self._scenes, controls or []):
             scene.scene_color_control.set_control_element(control)
 
-    @listens(u'offset')
+    @listens('offset')
     def __on_offsets_changed(self, *a):
         if self.is_enabled():
             self._reassign_scenes()
 
-    @listens(u'scenes')
+    @listens('scenes')
     def __on_scene_list_changed(self):
         self._reassign_scenes()
 

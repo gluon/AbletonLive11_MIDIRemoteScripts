@@ -1,4 +1,10 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Push/special_mixer_component.py
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Push/special_mixer_component.py
+# Compiled at: 2022-01-27 16:28:16
+# Size of source mod 2**32: 7053 bytes
 from __future__ import absolute_import, print_function, unicode_literals
 from builtins import map
 from future.moves.itertools import zip_longest
@@ -8,34 +14,24 @@ from ableton.v2.control_surface.elements import DisplayDataSource
 from .special_chan_strip_component import SpecialChanStripComponent
 
 class SpecialMixerComponent(components.MixerComponent):
-    u"""
-    Special mixer class that uses return tracks alongside midi and
-    audio tracks.  This provides also a more convenient interface to
-    set controls for the different modes of Push.
-    """
     num_label_segments = 4
 
     def __init__(self, *a, **k):
-        super(SpecialMixerComponent, self).__init__(channel_strip_component_type=SpecialChanStripComponent, *a, **k)
+        (super(SpecialMixerComponent, self).__init__)(a, channel_strip_component_type=SpecialChanStripComponent, **k)
         self._pan_send_index = 0
         self._pan_send_controls = None
         self._pan_send_names_display = None
         self._pan_send_values_display = None
         self._pan_send_graphics_display = None
         self._pan_send_toggle_skip = False
-        self._selected_track_data_sources = list(map(DisplayDataSource, (u'',) * self.num_label_segments))
-        self._selected_track_data_sources[0].set_display_string(u'Track Selection:')
+        self._selected_track_data_sources = list(map(DisplayDataSource, ('', ) * self.num_label_segments))
+        self._selected_track_data_sources[0].set_display_string('Track Selection:')
         self._selected_track_name_data_source = self._selected_track_data_sources[1]
         self._on_selected_track_name_changed.subject = self.song.view
         self._on_track_list_changed.subject = self.song
         self._update_selected_track_name()
 
     def set_pan_send_toggle(self, toggle):
-        u"""
-        The pan_send_toggle cycles through the different pan, or send
-        modes changing the bejhaviour of the pan_send display and
-        controls.
-        """
         self._pan_send_toggle = toggle
         self._on_pan_send_value.subject = toggle
         self._pan_send_toggle_skip = True
@@ -58,7 +54,7 @@ class SpecialMixerComponent(components.MixerComponent):
 
     def set_track_names_display(self, display):
         if display:
-            sources = [ strip.track_name_data_source() for strip in self._channel_strips ]
+            sources = [strip.track_name_data_source() for strip in self._channel_strips]
             display.set_data_sources(sources)
 
     def set_volume_names_display(self, display):
@@ -98,9 +94,9 @@ class SpecialMixerComponent(components.MixerComponent):
             self.set_pan_controls(controls)
         else:
             sends = self._pan_send_index - 1
-            self.set_send_controls([ (None,) * sends + (ctl,) for ctl in controls or [] ])
+            self.set_send_controls([(None, ) * sends + (ctl,) for ctl in controls or []])
 
-    @listens(u'visible_tracks')
+    @listens('visible_tracks')
     def _on_track_list_changed(self):
         self._update_pan_sends()
 
@@ -114,25 +110,26 @@ class SpecialMixerComponent(components.MixerComponent):
 
     def _set_parameter_names_display(self, display, parameter):
         if display:
-            sources = [ strip.track_parameter_name_sources(parameter) for strip in self._channel_strips ]
+            sources = [strip.track_parameter_name_sources(parameter) for strip in self._channel_strips]
             display.set_data_sources(sources)
 
     def _set_parameter_values_display(self, display, parameter):
         if display:
-            sources = [ strip.track_parameter_data_sources(parameter) for strip in self._channel_strips ]
+            sources = [strip.track_parameter_data_sources(parameter) for strip in self._channel_strips]
             display.set_data_sources(sources)
 
     def _set_parameter_graphics_display(self, display, parameter):
         if display:
-            sources = [ strip.track_parameter_graphic_sources(parameter) for strip in self._channel_strips ]
+            sources = [strip.track_parameter_graphic_sources(parameter) for strip in self._channel_strips]
             display.set_data_sources(sources)
 
-    @listens(u'value')
+    @listens('value')
     def _on_pan_send_value(self, value):
-        if not self._pan_send_toggle_skip and self.is_enabled() and (value or not self._pan_send_toggle.is_momentary()):
-            self._pan_send_index += 1
-            self._update_pan_sends()
-        self._pan_send_toggle_skip = False
+        if not self._pan_send_toggle_skip or self.is_enabled():
+            if not (value or self._pan_send_toggle.is_momentary()):
+                self._pan_send_index += 1
+                self._update_pan_sends()
+            self._pan_send_toggle_skip = False
 
     def _update_pan_sends(self):
         self.set_pan_send_controls(self._pan_send_controls)
@@ -140,10 +137,10 @@ class SpecialMixerComponent(components.MixerComponent):
         self.set_pan_send_graphics_display(self._pan_send_graphics_display)
 
     def _normalize_pan_send_index(self):
-        if len(self.song.tracks) == 0 or self._pan_send_index > len(self.song.tracks[0].mixer_device.sends):
+        if len(self.song.tracks) == 0 or (self._pan_send_index > len(self.song.tracks[0].mixer_device.sends)):
             self._pan_send_index = 0
 
-    @listens(u'selected_track.name')
+    @listens('selected_track.name')
     def _on_selected_track_name_changed(self):
         self._update_selected_track_name()
 

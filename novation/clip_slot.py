@@ -1,14 +1,19 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/novation/clip_slot.py
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/novation/clip_slot.py
+# Compiled at: 2021-06-29 09:33:48
+# Size of source mod 2**32: 949 bytes
 from __future__ import absolute_import, print_function, unicode_literals
 from ableton.v2.base import const, depends
-from ableton.v2.control_surface.components import ClipSlotComponent as ClipSlotComponentBase
+import ableton.v2.control_surface.components as ClipSlotComponentBase
 
 class FixedLengthClipSlotComponent(ClipSlotComponentBase):
 
-    @depends(fixed_length_recording=const(None))
+    @depends(fixed_length_recording=(const(None)))
     def __init__(self, fixed_length_recording, *a, **k):
-        assert fixed_length_recording is not None
-        super(FixedLengthClipSlotComponent, self).__init__(*a, **k)
+        (super(FixedLengthClipSlotComponent, self).__init__)(*a, **k)
         self._fixed_length_recording = fixed_length_recording
 
     def _do_launch_clip(self, fire_state):

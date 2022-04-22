@@ -1,14 +1,20 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/ableton/v2/control_surface/banking_util.py
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/ableton/v2/control_surface/banking_util.py
+# Compiled at: 2022-01-27 16:28:17
+# Size of source mod 2**32: 3892 bytes
 from __future__ import absolute_import, print_function, unicode_literals
 from builtins import range
 from past.utils import old_div
-from math import ceil
 from copy import deepcopy
+from math import ceil
 from ..base import liveobj_valid
 MX_MAIN_BANK_INDEX = -1
-BANK_FORMAT = u'Bank %d'
-BANK_PARAMETERS_KEY = u'Parameters'
-BANK_MAIN_KEY = u'Main'
+BANK_FORMAT = 'Bank %d'
+BANK_PARAMETERS_KEY = 'Parameters'
+BANK_MAIN_KEY = 'Main'
 
 def has_bank_count(device):
     if liveobj_valid(device):
@@ -18,7 +24,7 @@ def has_bank_count(device):
         except (AttributeError, RuntimeError):
             pass
 
-    return False
+        return False
 
 
 def has_main_bank(device, definitions):
@@ -51,7 +57,7 @@ def all_parameters(device):
     return []
 
 
-def device_bank_count(device, bank_size = 8, definition = None, definitions = None):
+def device_bank_count(device, bank_size=8, definition=None, definitions=None):
     count = 0
     if liveobj_valid(device):
         definition = definition or definitions.get(device.class_name, {})
@@ -70,7 +76,7 @@ def device_bank_definition(device, definitions):
     return definition
 
 
-def device_bank_names(device, bank_size = 8, definitions = None):
+def device_bank_names(device, bank_size=8, definitions=None):
     names = []
     if liveobj_valid(device):
         class_name = device.class_name
@@ -78,12 +84,13 @@ def device_bank_names(device, bank_size = 8, definitions = None):
             names = definitions[class_name].keys()
         elif has_bank_count(device) and has_bank_names(device, definitions):
             offset = int(has_main_bank(device, definitions))
-            names = [ device.get_bank_name(index - offset) for index in range(device_bank_count(device, definitions=definitions)) ]
-            if has_main_bank(device, definitions) and not names[0]:
-                names[0] = BANK_MAIN_KEY
+            names = [device.get_bank_name(index - offset) for index in range(device_bank_count(device, definitions=definitions))]
+            if has_main_bank(device, definitions):
+                names[0] = names[0] or BANK_MAIN_KEY
         else:
-            bank_count = device_bank_count(device, bank_size=bank_size, definitions=definitions)
-            names = [ BANK_FORMAT % (index + 1) for index in range(bank_count) ]
+            bank_count = device_bank_count(device,
+              bank_size=bank_size, definitions=definitions)
+            names = [BANK_FORMAT % (index + 1) for index in range(bank_count)]
     return names
 
 
@@ -96,16 +103,16 @@ class BankingInfo(object):
         return has_bank_count(device)
 
     def has_main_bank(self, device):
-        return has_main_bank(device, definitions=self._bank_definitions)
+        return has_main_bank(device, definitions=(self._bank_definitions))
 
     def has_bank_names(self, device):
-        return has_bank_names(device, definitions=self._bank_definitions)
+        return has_bank_names(device, definitions=(self._bank_definitions))
 
     def device_bank_count(self, device, **k):
         return device_bank_count(device, definitions=self._bank_definitions, **k)
 
     def device_bank_definition(self, device):
-        return device_bank_definition(device, definitions=self._bank_definitions)
+        return device_bank_definition(device, definitions=(self._bank_definitions))
 
     def device_bank_names(self, device, **k):
         return device_bank_names(device, definitions=self._bank_definitions, **k)

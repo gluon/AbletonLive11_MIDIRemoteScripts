@@ -1,55 +1,52 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/pushbase/message_box_component.py
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/pushbase/message_box_component.py
+# Compiled at: 2022-01-27 16:28:17
+# Size of source mod 2**32: 7241 bytes
 from __future__ import absolute_import, print_function, unicode_literals
-from builtins import map
-from builtins import object
-import re
+from builtins import map, object
 from future.moves.itertools import zip_longest
-from ableton.v2.base import forward_property, const, nop, listens, listenable_property
-from ableton.v2.base.dependency import dependency
+import re
+from ableton.v2.base import const, forward_property, listenable_property, listens, nop
+import ableton.v2.base.dependency as dependency
 from ableton.v2.control_surface import Component
-from ableton.v2.control_surface.elements import DisplayDataSource
 from ableton.v2.control_surface.components import BackgroundComponent
+from ableton.v2.control_surface.elements import DisplayDataSource
 from .consts import DISPLAY_LENGTH, MessageBoxText
-FORMAT_SPECIFIER_WITH_MARKUP_PATTERN = re.compile(u'[%](len=([0-9]+),)?([^%]*?[diouxXeEfFgGcrs])')
+FORMAT_SPECIFIER_WITH_MARKUP_PATTERN = re.compile('[%](len=([0-9]+),)?([^%]*?[diouxXeEfFgGcrs])')
 
 def strip_restriction_markup_and_format(text_or_text_spec):
     if isinstance(text_or_text_spec, tuple):
         format_string = text_or_text_spec[0]
-        stripped_format_string = re.sub(FORMAT_SPECIFIER_WITH_MARKUP_PATTERN, u'%\\g<3>', format_string)
+        stripped_format_string = re.sub(FORMAT_SPECIFIER_WITH_MARKUP_PATTERN, '%\\g<3>', format_string)
         arguments = text_or_text_spec[1:]
         return stripped_format_string % arguments
-    else:
-        return text_or_text_spec
+    return text_or_text_spec
 
 
 class Notification(object):
 
     def __init__(self, parent, *a, **k):
-        super(Notification, self).__init__(*a, **k)
+        (super(Notification, self).__init__)(*a, **k)
         self.hide = parent.hide_notification
 
 
 class Messenger(object):
-    u"""
-    Externally provided interface for those components that provide
-    global Push feedback.
-    """
-    expect_dialog = dependency(expect_dialog=const(nop))
-    show_notification = dependency(show_notification=const(nop))
+    expect_dialog = dependency(expect_dialog=(const(nop)))
+    show_notification = dependency(show_notification=(const(nop)))
 
 
 class MessageBoxComponent(BackgroundComponent):
-    u"""
-    Component showing a temporary message in the display
-    """
-    __events__ = (u'cancel',)
+    __events__ = ('cancel', )
     num_lines = 4
 
     def __init__(self, *a, **k):
-        super(MessageBoxComponent, self).__init__(*a, **k)
+        (super(MessageBoxComponent, self).__init__)(*a, **k)
         self._current_text = None
         self._can_cancel = False
-        self.data_sources = list(map(DisplayDataSource, (u'',) * self.num_lines))
+        self.data_sources = list(map(DisplayDataSource, ('', ) * self.num_lines))
         self._notification_display = None
 
     def _set_display_line(self, n, display_line):
@@ -77,23 +74,26 @@ class MessageBoxComponent(BackgroundComponent):
             button = self._on_cancel_button_value.subject
             if button is not None:
                 button.reset()
-            if self._can_cancel and button:
-                button.set_light(u'MessageBox.Cancel')
+            if self._can_cancel:
+                if button:
+                    button.set_light('MessageBox.Cancel')
 
     def _update_display(self):
         if self._current_text != None:
-            lines = self._current_text.split(u'\n')
+            lines = self._current_text.split('\n')
             for source_line, line in zip_longest(self.data_sources, lines):
                 if source_line:
-                    source_line.set_display_string(line or u'')
+                    source_line.set_display_string(line or '')
 
             if self._can_cancel:
-                self.data_sources[-1].set_display_string(u'[  Ok  ]'.rjust(DISPLAY_LENGTH - 1))
+                self.data_sources[(-1)].set_display_string('[  Ok  ]'.rjust(DISPLAY_LENGTH - 1))
 
-    @listens(u'value')
+    @listens('value')
     def _on_cancel_button_value(self, value):
-        if self.is_enabled() and self._can_cancel and value:
-            self.notify_cancel()
+        if self.is_enabled():
+            if self._can_cancel:
+                if value:
+                    self.notify_cancel()
 
     @listenable_property
     def text(self):
@@ -125,36 +125,26 @@ class MessageBoxComponent(BackgroundComponent):
 
 
 class DialogComponent(Component):
-    u"""
-    Handles representing modal dialogs from the application.  The
-    script can also request dialogs.
-    """
 
     def __init__(self, *a, **k):
-        super(DialogComponent, self).__init__(*a, **k)
+        (super(DialogComponent, self).__init__)(*a, **k)
         self._message_box = MessageBoxComponent(parent=self, is_enabled=False)
         self._next_message = None
         self._on_open_dialog_count.subject = self.application
         self._on_message_cancel.subject = self._message_box
 
-    message_box_layer = forward_property(u'_message_box')(u'layer')
+    message_box_layer = forward_property('_message_box')('layer')
 
     def expect_dialog(self, message):
-        u"""
-        Expects a dialog from Live to appear soon.  The dialog will be
-        shown on the controller with the given message regardless of
-        wether a dialog actually appears.  This dialog can be
-        cancelled.
-        """
         self._next_message = message
         self._update_dialog()
 
-    @listens(u'open_dialog_count')
+    @listens('open_dialog_count')
     def _on_open_dialog_count(self):
         self._update_dialog(open_dialog_changed=True)
         self._next_message = None
 
-    @listens(u'cancel')
+    @listens('cancel')
     def _on_message_cancel(self):
         self._next_message = None
         try:
@@ -164,21 +154,18 @@ class DialogComponent(Component):
 
         self._update_dialog()
 
-    def _update_dialog(self, open_dialog_changed = False):
+    def _update_dialog(self, open_dialog_changed=False):
         message = self._next_message or MessageBoxText.LIVE_DIALOG
         can_cancel = self._next_message != None
         self._message_box.text = message
         self._message_box.can_cancel = can_cancel
-        self._message_box.set_enabled(self.application.open_dialog_count > 0 or not open_dialog_changed and self._next_message)
+        self._message_box.set_enabled((self.application.open_dialog_count > 0) or ((not open_dialog_changed) and (self._next_message)))
 
 
 class InfoComponent(BackgroundComponent):
-    u"""
-    Component that will show an info text and grab all components that should be unusable.
-    """
 
-    def __init__(self, info_text = u'', *a, **k):
-        super(InfoComponent, self).__init__(*a, **k)
+    def __init__(self, info_text='', *a, **k):
+        (super(InfoComponent, self).__init__)(*a, **k)
         self._data_source = DisplayDataSource()
         self._data_source.set_display_string(info_text)
 

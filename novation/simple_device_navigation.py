@@ -1,4 +1,10 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/novation/simple_device_navigation.py
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/novation/simple_device_navigation.py
+# Compiled at: 2022-01-27 16:28:17
+# Size of source mod 2**32: 1342 bytes
 from __future__ import absolute_import, print_function, unicode_literals
 import Live
 from ableton.v2.control_surface import Component
@@ -6,13 +12,10 @@ from ableton.v2.control_surface.control import ButtonControl
 NavDirection = Live.Application.Application.View.NavDirection
 
 class SimpleDeviceNavigationComponent(Component):
-    u"""
-    Device navigation component for the case where
-    we only need to go to the next or previous device
-    on a track.
-    """
-    next_button = ButtonControl(color=u'Device.Navigation', pressed_color=u'Device.NavigationPressed')
-    prev_button = ButtonControl(color=u'Device.Navigation', pressed_color=u'Device.NavigationPressed')
+    next_button = ButtonControl(color='Device.Navigation',
+      pressed_color='Device.NavigationPressed')
+    prev_button = ButtonControl(color='Device.Navigation',
+      pressed_color='Device.NavigationPressed')
 
     @next_button.pressed
     def next_button(self, value):
@@ -24,8 +27,8 @@ class SimpleDeviceNavigationComponent(Component):
 
     def _scroll_device_chain(self, direction):
         view = self.application.view
-        if not view.is_view_visible(u'Detail') or not view.is_view_visible(u'Detail/DeviceChain'):
-            view.show_view(u'Detail')
-            view.show_view(u'Detail/DeviceChain')
+        if not (view.is_view_visible('Detail') and view.is_view_visible('Detail/DeviceChain')):
+            view.show_view('Detail')
+            view.show_view('Detail/DeviceChain')
         else:
-            view.scroll_view(direction, u'Detail/DeviceChain', False)
+            view.scroll_view(direction, 'Detail/DeviceChain', False)

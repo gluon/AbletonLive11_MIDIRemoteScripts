@@ -1,17 +1,23 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Push2/browser_list.py
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Push2/browser_list.py
+# Compiled at: 2022-01-27 16:28:16
+# Size of source mod 2**32: 3854 bytes
 from __future__ import absolute_import, print_function, unicode_literals
 from builtins import map
-import Live
 from itertools import islice
-from ableton.v2.base import EventObject, listenable_property, clamp, nop
-from .model.uniqueid import UniqueIdMixin
+import Live
+from ableton.v2.base import EventObject, clamp, listenable_property, nop
+from model.uniqueid import UniqueIdMixin
 
 class BrowserList(EventObject, UniqueIdMixin):
     LAZY_ACCESS_COUNT = 1000
     LAZY_ACCESS_THRESHOLD = LAZY_ACCESS_COUNT - 100
 
-    def __init__(self, item_iterator = None, item_wrapper = nop, limit = -1, *a, **k):
-        super(BrowserList, self).__init__(*a, **k)
+    def __init__(self, item_iterator=None, item_wrapper=nop, limit=-1, *a, **k):
+        (super(BrowserList, self).__init__)(*a, **k)
         self._selected_index = -1
         self._item_iterator = item_iterator
         self._item_wrapper = item_wrapper
@@ -19,7 +25,6 @@ class BrowserList(EventObject, UniqueIdMixin):
         self._access_all = False
         self._items = []
         self._update_items()
-        assert self.LAZY_ACCESS_COUNT > self.LAZY_ACCESS_THRESHOLD
 
     def _get_limit(self):
         return self._limit
@@ -59,7 +64,7 @@ class BrowserList(EventObject, UniqueIdMixin):
         if isinstance(self._item_iterator, Live.Browser.BrowserItemIterator):
             if self.limit > 0 and len(self._items) < self.limit:
                 next_slice = islice(self._item_iterator, self.limit)
-            elif not self._access_all and len(self._items) < self.LAZY_ACCESS_COUNT:
+            elif not self._access_all or len(self._items) < self.LAZY_ACCESS_COUNT:
                 next_slice = islice(self._item_iterator, self.LAZY_ACCESS_COUNT - len(self._items))
             else:
                 next_slice = self._item_iterator
@@ -70,7 +75,7 @@ class BrowserList(EventObject, UniqueIdMixin):
     @property
     def selected_item(self):
         if self.selected_index == -1:
-            return None
+            return
         return self.items[self.selected_index]
 
     @listenable_property
@@ -80,14 +85,14 @@ class BrowserList(EventObject, UniqueIdMixin):
     @selected_index.setter
     def selected_index(self, value):
         if value != self._selected_index:
-            assert value == -1 or self._limit == -1
             num_children = len(self._items)
-            if value < -1 or value >= num_children:
-                raise IndexError(u'Index %i must be in [-1..%i]' % (value, num_children - 1))
+            if value < -1 or (value >= num_children):
+                raise IndexError('Index %i must be in [-1..%i]' % (value, num_children - 1))
             self._selected_index = value
             self.notify_selected_index()
-            if self._selected_index >= self.LAZY_ACCESS_THRESHOLD and not self._access_all:
-                self.access_all = True
+            if self._selected_index >= self.LAZY_ACCESS_THRESHOLD:
+                if not self._access_all:
+                    self.access_all = True
 
     def select_index_with_offset(self, offset):
         self.selected_index = clamp(self._selected_index + offset, 0, len(self._items) - 1)

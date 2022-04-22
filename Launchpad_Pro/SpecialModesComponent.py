@@ -1,6 +1,12 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Launchpad_Pro/SpecialModesComponent.py
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Launchpad_Pro/SpecialModesComponent.py
+# Compiled at: 2022-01-27 16:28:16
+# Size of source mod 2**32: 2098 bytes
 from __future__ import absolute_import, print_function, unicode_literals
-from _Framework.ModesComponent import ReenterBehaviour, ModesComponent
+from _Framework.ModesComponent import ModesComponent, ReenterBehaviour
 
 class SpecialModesComponent(ModesComponent):
 
@@ -11,27 +17,25 @@ class SpecialModesComponent(ModesComponent):
 
 
 class SpecialReenterBehaviour(ReenterBehaviour):
-    u"""
-    When a mode with this behaviour is reentered, enters on_reenter_mode instead
-    """
 
-    def __init__(self, mode_name = None, *a, **k):
-        super(ReenterBehaviour, self).__init__(*a, **k)
+    def __init__(self, mode_name=None, *a, **k):
+        (super(ReenterBehaviour, self).__init__)(*a, **k)
         self._mode_name = mode_name
 
     def press_immediate(self, component, mode):
         was_active = component.selected_mode == mode
         super(ReenterBehaviour, self).press_immediate(component, mode)
         if was_active:
-            if self._mode_name is not None and component.get_mode(self._mode_name):
-                component.push_mode(self._mode_name)
-                component.pop_unselected_modes()
+            if self._mode_name is not None:
+                if component.get_mode(self._mode_name):
+                    component.push_mode(self._mode_name)
+                    component.pop_unselected_modes()
 
 
 class CancelingReenterBehaviour(SpecialReenterBehaviour):
 
     def __init__(self, *a, **k):
-        super(CancelingReenterBehaviour, self).__init__(*a, **k)
+        (super(CancelingReenterBehaviour, self).__init__)(*a, **k)
         self._reenter_mode_active = False
 
     def press_immediate(self, component, mode):

@@ -1,18 +1,25 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/novation/blinking_button.py
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/novation/blinking_button.py
+# Compiled at: 2022-01-27 16:28:17
+# Size of source mod 2**32: 2100 bytes
 from __future__ import absolute_import, print_function, unicode_literals
 from functools import partial
 from ableton.v2.base import lazy_attribute, task
-from ableton.v2.control_surface.control import ButtonControl as ButtonControlBase, control_color
+import ableton.v2.control_surface.control as ButtonControlBase
+from ableton.v2.control_surface.control import control_color
 DEFAULT_BLINK_PERIOD = 0.1
 
 class BlinkingButtonControl(ButtonControlBase):
 
     class State(ButtonControlBase.State):
-        blink_on_color = control_color(u'DefaultButton.On')
-        blink_off_color = control_color(u'DefaultButton.Off')
+        blink_on_color = control_color('DefaultButton.On')
+        blink_off_color = control_color('DefaultButton.Off')
 
-        def __init__(self, blink_on_color = u'DefaultButton.On', blink_off_color = u'DefaultButton.Off', blink_period = DEFAULT_BLINK_PERIOD, *a, **k):
-            super(BlinkingButtonControl.State, self).__init__(*a, **k)
+        def __init__(self, blink_on_color='DefaultButton.On', blink_off_color='DefaultButton.Off', blink_period=DEFAULT_BLINK_PERIOD, *a, **k):
+            (super(BlinkingButtonControl.State, self).__init__)(*a, **k)
             self.blink_on_color = blink_on_color
             self.blink_off_color = blink_off_color
             self._blink_period = blink_period

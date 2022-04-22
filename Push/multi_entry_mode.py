@@ -1,18 +1,17 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Push/multi_entry_mode.py
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Push/multi_entry_mode.py
+# Compiled at: 2022-01-27 16:28:16
+# Size of source mod 2**32: 1060 bytes
 from __future__ import absolute_import, print_function, unicode_literals
-from ableton.v2.control_surface.mode import tomode, Mode
+from ableton.v2.control_surface.mode import Mode, tomode
 
 class MultiEntryMode(Mode):
-    u"""
-    Mode wrapper that allows registration in multiple modes
-    components.  This wrapper can be entered multiple times and the
-    enter method will be called only once.  It will be left when the
-    number of times leave_mode is called matches the number of calls
-    to enter_mode.
-    """
 
-    def __init__(self, mode = None, *a, **k):
-        super(MultiEntryMode, self).__init__(*a, **k)
+    def __init__(self, mode=None, *a, **k):
+        (super(MultiEntryMode, self).__init__)(*a, **k)
         self._mode = tomode(mode)
         self._entry_count = 0
 
@@ -22,7 +21,6 @@ class MultiEntryMode(Mode):
         self._entry_count += 1
 
     def leave_mode(self):
-        assert self._entry_count > 0
         if self._entry_count == 1:
             self._mode.leave_mode()
         self._entry_count -= 1

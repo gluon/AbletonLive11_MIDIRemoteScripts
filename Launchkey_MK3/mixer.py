@@ -1,8 +1,14 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Launchkey_MK3/mixer.py
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Launchkey_MK3/mixer.py
+# Compiled at: 2021-06-29 09:33:48
+# Size of source mod 2**32: 3084 bytes
 from __future__ import absolute_import, print_function, unicode_literals
 from ableton.v2.base import liveobj_valid, nop
 from ableton.v2.control_surface.control import control_list
-from novation.mixer import MixerComponent as MixerComponentBase
+import novation.mixer as MixerComponentBase
 from .control import DisplayControl
 ASCII_A = 65
 
@@ -14,21 +20,13 @@ class MixerComponent(MixerComponentBase):
         self._pot_parameter_name = None
         self._fader_parameter_name = None
         self.set_send_controls = nop
-        super(MixerComponent, self).__init__(*a, **k)
+        (super(MixerComponent, self).__init__)(*a, **k)
 
     def set_pot_parameter_name(self, name):
-        u"""
-        Sets the name of the parameter the pots are controlling.  This requires some
-        management since the name should not be shown unless there is a track and
-        corresponding parameter to control.
-        """
         self._pot_parameter_name = name
         self._update_parameter_name_displays()
 
     def set_fader_parameter_name(self, name):
-        u"""
-        Same as set_pot_parameter_name, but for the faders.
-        """
         self._fader_parameter_name = name
         self._update_parameter_name_displays()
 
@@ -60,8 +58,9 @@ class MixerComponent(MixerComponentBase):
             fader_dsp.message = fader_param_name if track_is_valid else None
 
     def _get_parameter_name_to_display(self, desired_parameter_name):
-        if desired_parameter_name and u'Send' in desired_parameter_name:
-            send_index = ord(desired_parameter_name[-1]) - ASCII_A
-            if send_index >= self.num_sends:
-                return None
+        if desired_parameter_name:
+            if 'Send' in desired_parameter_name:
+                send_index = ord(desired_parameter_name[(-1)]) - ASCII_A
+                if send_index >= self.num_sends:
+                    return
         return desired_parameter_name

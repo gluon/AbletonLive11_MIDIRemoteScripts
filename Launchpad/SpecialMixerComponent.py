@@ -1,15 +1,20 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Launchpad/SpecialMixerComponent.py
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Launchpad/SpecialMixerComponent.py
+# Compiled at: 2022-01-27 16:28:16
+# Size of source mod 2**32: 4807 bytes
 from __future__ import absolute_import, print_function, unicode_literals
 from builtins import range
 import Live
-from _Framework.MixerComponent import MixerComponent
+import _Framework.ButtonElement as ButtonElement
+import _Framework.MixerComponent as MixerComponent
 from .DefChannelStripComponent import DefChannelStripComponent
-from _Framework.ButtonElement import ButtonElement
 
 class SpecialMixerComponent(MixerComponent):
-    u""" Class encompassing several defaultable channel strips to form a mixer """
 
-    def __init__(self, num_tracks, num_returns = 0):
+    def __init__(self, num_tracks, num_returns=0):
         MixerComponent.__init__(self, num_tracks, num_returns)
         self._unarm_all_button = None
         self._unsolo_all_button = None
@@ -28,9 +33,6 @@ class SpecialMixerComponent(MixerComponent):
         MixerComponent.disconnect(self)
 
     def set_global_buttons(self, unarm_all, unsolo_all, unmute_all):
-        assert isinstance(unarm_all, (ButtonElement, type(None)))
-        assert isinstance(unsolo_all, (ButtonElement, type(None)))
-        assert isinstance(unmute_all, (ButtonElement, type(None)))
         if self._unarm_all_button != None:
             self._unarm_all_button.remove_value_listener(self._unarm_all_value)
         self._unarm_all_button = unarm_all
@@ -54,28 +56,20 @@ class SpecialMixerComponent(MixerComponent):
         return DefChannelStripComponent()
 
     def _unarm_all_value(self, value):
-        assert self.is_enabled()
-        assert self._unarm_all_button != None
-        assert value in range(128)
-        if value != 0 or not self._unarm_all_button.is_momentary():
+        if not (value != 0 or self._unarm_all_button.is_momentary()):
             for track in self.song().tracks:
-                if track.can_be_armed and track.arm:
-                    track.arm = False
+                if track.can_be_armed:
+                    if track.arm:
+                        track.arm = False
 
     def _unsolo_all_value(self, value):
-        assert self.is_enabled()
-        assert self._unsolo_all_button != None
-        assert value in range(128)
-        if value != 0 or not self._unsolo_all_button.is_momentary():
+        if not (value != 0 or self._unsolo_all_button.is_momentary()):
             for track in tuple(self.song().tracks) + tuple(self.song().return_tracks):
                 if track.solo:
                     track.solo = False
 
     def _unmute_all_value(self, value):
-        assert self.is_enabled()
-        assert self._unmute_all_button != None
-        assert value in range(128)
-        if value != 0 or not self._unmute_all_button.is_momentary():
+        if not (value != 0 or self._unmute_all_button.is_momentary()):
             for track in tuple(self.song().tracks) + tuple(self.song().return_tracks):
                 if track.mute:
                     track.mute = False

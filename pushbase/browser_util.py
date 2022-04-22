@@ -1,13 +1,16 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/pushbase/browser_util.py
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/pushbase/browser_util.py
+# Compiled at: 2021-06-29 09:33:48
+# Size of source mod 2**32: 1797 bytes
 from __future__ import absolute_import, print_function, unicode_literals
 import Live
 FilterType = Live.Browser.FilterType
 DeviceType = Live.Device.DeviceType
 
-def filter_type_for_hotswap_target(target, default = FilterType.disabled):
-    u"""
-    Returns the appropriate browser filter type for a given hotswap target.
-    """
+def filter_type_for_hotswap_target(target, default=FilterType.disabled):
     if isinstance(target, Live.Device.Device):
         if target.type == DeviceType.instrument:
             return FilterType.instrument_hotswap
@@ -26,12 +29,7 @@ def filter_type_for_hotswap_target(target, default = FilterType.disabled):
     return default
 
 
-def get_selection_for_new_device(selection, insert_left = False):
-    u"""
-    Returns a device, depending on the type of object that is selected at this moment.
-    For drum pads, it returns the last device in the pads chain.
-    If the selected object is no device, it returns the selected deviec.
-    """
+def get_selection_for_new_device(selection, insert_left=False):
     selected = selection.selected_object
     if isinstance(selected, Live.DrumPad.DrumPad) and selected.chains and selected.chains[0].devices:
         index = 0 if insert_left else -1

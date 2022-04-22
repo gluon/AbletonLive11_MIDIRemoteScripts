@@ -1,13 +1,19 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Launchpad_Pro/DeviceNavigationComponent.py
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Launchpad_Pro/DeviceNavigationComponent.py
+# Compiled at: 2022-01-27 16:28:16
+# Size of source mod 2**32: 1218 bytes
 from __future__ import absolute_import, print_function, unicode_literals
 import Live
-from _Framework.ControlSurfaceComponent import ControlSurfaceComponent
 from _Framework.Control import ButtonControl
+import _Framework.ControlSurfaceComponent as ControlSurfaceComponent
 NavDirection = Live.Application.Application.View.NavDirection
 
 class DeviceNavigationComponent(ControlSurfaceComponent):
-    device_nav_left_button = ButtonControl(color=u'Device.Off', pressed_color=u'Device.On')
-    device_nav_right_button = ButtonControl(color=u'Device.Off', pressed_color=u'Device.On')
+    device_nav_left_button = ButtonControl(color='Device.Off', pressed_color='Device.On')
+    device_nav_right_button = ButtonControl(color='Device.Off', pressed_color='Device.On')
 
     @device_nav_left_button.pressed
     def device_nav_left_button(self, value):
@@ -19,8 +25,8 @@ class DeviceNavigationComponent(ControlSurfaceComponent):
 
     def _scroll_device_chain(self, direction):
         view = self.application().view
-        if not view.is_view_visible(u'Detail') or not view.is_view_visible(u'Detail/DeviceChain'):
-            view.show_view(u'Detail')
-            view.show_view(u'Detail/DeviceChain')
+        if not (view.is_view_visible('Detail') and view.is_view_visible('Detail/DeviceChain')):
+            view.show_view('Detail')
+            view.show_view('Detail/DeviceChain')
         else:
-            view.scroll_view(direction, u'Detail/DeviceChain', False)
+            view.scroll_view(direction, 'Detail/DeviceChain', False)

@@ -1,25 +1,27 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Launchpad_Pro/TranslationComponent.py
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Launchpad_Pro/TranslationComponent.py
+# Compiled at: 2022-01-27 16:28:16
+# Size of source mod 2**32: 1491 bytes
 from __future__ import absolute_import, print_function, unicode_literals
 from builtins import range
 from functools import partial
-from _Framework.ControlSurfaceComponent import ControlSurfaceComponent
+import _Framework.ControlSurfaceComponent as ControlSurfaceComponent
 
 class TranslationComponent(ControlSurfaceComponent):
-    u"""
-    Simple component that translates the MIDI channel of a one or more groups
-    of buttons and will also enable/disable the buttons.
-    """
 
-    def __init__(self, translated_channel, should_enable = True, should_reset = True, *a, **k):
-        assert translated_channel in range(16)
+    def __init__(self, translated_channel, should_enable=True, should_reset=True, *a, **k):
         self._translated_channel = translated_channel
         self._should_enable = bool(should_enable)
         self._should_reset = should_reset
-        super(TranslationComponent, self).__init__(*a, **k)
+        (super(TranslationComponent, self).__init__)(*a, **k)
 
     def __getattr__(self, name):
-        if len(name) > 4 and name[:4] == u'set_':
-            return partial(self._set_control_elements, name[4:])
+        if len(name) > 4:
+            if name[:4] == 'set_':
+                return partial(self._set_control_elements, name[4:])
         raise AttributeError(name)
 
     def _set_control_elements(self, name, control_elements):

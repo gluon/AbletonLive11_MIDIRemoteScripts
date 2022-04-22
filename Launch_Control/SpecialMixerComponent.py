@@ -1,37 +1,46 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Launch_Control/SpecialMixerComponent.py
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Launch_Control/SpecialMixerComponent.py
+# Compiled at: 2022-01-27 16:28:16
+# Size of source mod 2**32: 4129 bytes
 from __future__ import absolute_import, print_function, unicode_literals
 from builtins import range
 from future.moves.itertools import zip_longest
-from _Framework.MixerComponent import MixerComponent
-from _Framework.ModesComponent import ModesComponent, LayerMode, LatchingBehaviour
+import _Framework.MixerComponent as MixerComponent
+from _Framework.ModesComponent import LatchingBehaviour, LayerMode, ModesComponent
 from _Framework.SubjectSlot import subject_slot
 from _Framework.Util import clamp
 
 class SendSelectButtonBehaviour(LatchingBehaviour):
 
-    def __init__(self, mixer = None, *a, **k):
-        super(SendSelectButtonBehaviour, self).__init__(*a, **k)
+    def __init__(self, mixer=None, *a, **k):
+        (super(SendSelectButtonBehaviour, self).__init__)(*a, **k)
         self._mixer = mixer
 
     def press_immediate(self, component, mode):
-        if component.selected_mode == u'sends':
+        if component.selected_mode == 'sends':
             self._mixer.selected_send_index += 2
         else:
             super(SendSelectButtonBehaviour, self).press_immediate(component, mode)
 
 
 class SpecialMixerComponent(MixerComponent):
-    __subject_events__ = (u'selected_send_index', u'selected_mixer_mode')
+    __subject_events__ = ('selected_send_index', 'selected_mixer_mode')
 
-    def __init__(self, num_tracks, mode_layer = None, pan_volume_layer = None, sends_layer = None, *a, **k):
-        super(SpecialMixerComponent, self).__init__(num_tracks, *a, **k)
+    def __init__(self, num_tracks, mode_layer=None, pan_volume_layer=None, sends_layer=None, *a, **k):
+        (super(SpecialMixerComponent, self).__init__)(num_tracks, *a, **k)
         self.set_enabled(False)
         self._send_controls = None
         self._selected_send_index = 0
         self._modes = self.register_component(ModesComponent())
-        self._modes.add_mode(u'pan_volume', [LayerMode(self, pan_volume_layer)])
-        self._modes.add_mode(u'sends', [LayerMode(self, sends_layer)], behaviour=SendSelectButtonBehaviour(self))
-        self._modes.selected_mode = u'pan_volume'
+        self._modes.add_mode('pan_volume', [LayerMode(self, pan_volume_layer)])
+        self._modes.add_mode('sends',
+          [
+         LayerMode(self, sends_layer)],
+          behaviour=(SendSelectButtonBehaviour(self)))
+        self._modes.selected_mode = 'pan_volume'
         self._modes.layer = mode_layer
         self._on_visible_tracks.subject = self.song()
         self._on_selected_mixer_mode.subject = self._modes
@@ -76,15 +85,17 @@ class SpecialMixerComponent(MixerComponent):
 
     def _update_send_controls(self):
         for index, channel_strip in enumerate(self._channel_strips):
-            send_controls = [ self._send_controls.get_button(index, i) for i in (1, 0) ] if self._send_controls else [None]
-            skipped_sends = [ None for _ in range(self._selected_send_index) ]
+            send_controls = [self._send_controls.get_button(index, i) for i in (1,
+                                                                                0)] if self._send_controls else [
+             None]
+            skipped_sends = [None for _ in range(self._selected_send_index)]
             channel_strip.set_send_controls(skipped_sends + send_controls)
 
-    @subject_slot(u'visible_tracks')
+    @subject_slot('visible_tracks')
     def _on_visible_tracks(self):
         self._clamp_send_index()
         self._update_send_controls()
 
-    @subject_slot(u'selected_mode')
+    @subject_slot('selected_mode')
     def _on_selected_mixer_mode(self, mode):
         self.notify_selected_mixer_mode(mode)

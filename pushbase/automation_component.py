@@ -1,10 +1,15 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/pushbase/automation_component.py
-from __future__ import absolute_import, print_function, unicode_literals
-from __future__ import division
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/pushbase/automation_component.py
+# Compiled at: 2022-01-27 16:28:17
+# Size of source mod 2**32: 7109 bytes
+from __future__ import absolute_import, division, print_function, unicode_literals
 from builtins import map
 from past.utils import old_div
 import Live
-from ableton.v2.base import clamp, task, liveobj_valid
+from ableton.v2.base import clamp, liveobj_valid, task
 from ableton.v2.control_surface.control import EncoderControl, control_list
 from .device_parameter_component import DeviceParameterComponent
 from .setting import EnumerableSetting
@@ -20,7 +25,7 @@ class AutomationComponent(DeviceParameterComponent):
         return liveobj_valid(parameter) and isinstance(parameter, Live.DeviceParameter.DeviceParameter)
 
     def __init__(self, *a, **k):
-        super(AutomationComponent, self).__init__(*a, **k)
+        (super(AutomationComponent, self).__init__)(*a, **k)
         self._selected_time = []
         self._parameter_floats = []
         self._update_parameter_values_task = self._tasks.add(task.run(self._update_parameter_values))
@@ -47,14 +52,14 @@ class AutomationComponent(DeviceParameterComponent):
 
     @property
     def parameters(self):
-        return [ (info.parameter if info else None) for info in self._parameter_infos_to_use() ]
+        return [info.parameter if info else None for info in self._parameter_infos_to_use()]
 
     @property
     def parameter_infos(self):
         return self._parameter_infos_to_use()
 
     def _parameter_infos_to_use(self):
-        return list(map(lambda info: (info if self.parameter_is_automateable(info.parameter if info else None) else None), self._parameter_provider.parameters))
+        return list(map(lambda info: info if self.parameter_is_automateable(info.parameter if info else None) else None, self._parameter_provider.parameters))
 
     @property
     def can_automate_parameters(self):
@@ -75,18 +80,19 @@ class AutomationComponent(DeviceParameterComponent):
 
     def parameter_to_string(self, parameter):
         if not parameter:
-            return u''
+            return ''
         if len(self._selected_time) == 0:
-            return u'-'
+            return '-'
         return parameter.str_for_value(self.parameter_to_value(parameter))
 
     def parameter_to_value(self, parameter):
-        if self._clip and len(self.selected_time) > 0 and liveobj_valid(parameter):
-            envelope = self._clip.automation_envelope(parameter)
-            if liveobj_valid(envelope):
-                return self._value_at_time(envelope, self.selected_time[0])
-            else:
-                return parameter.value
+        if self._clip:
+            if len(self.selected_time) > 0:
+                if liveobj_valid(parameter):
+                    envelope = self._clip.automation_envelope(parameter)
+                    if liveobj_valid(envelope):
+                        return self._value_at_time(envelope, self.selected_time[0])
+                    return parameter.value
         return 0.0
 
     def _value_at_time(self, envelope, time_range):
@@ -126,23 +132,24 @@ class AutomationComponent(DeviceParameterComponent):
 
     def _update_parameter_floats(self):
         self._parameter_floats = []
-        if self._clip and self.is_enabled():
-            parameters = self.parameters
-            for step in self.selected_time:
-                step_parameter_floats = []
-                for index, param in enumerate(parameters):
-                    if param is None:
-                        value = 0.0
-                    else:
-                        parameter = self._parameter_for_index(parameters, index)
-                        envelope = self._clip.automation_envelope(parameter)
-                        if liveobj_valid(envelope):
-                            value = self._value_at_time(envelope, step)
+        if self._clip:
+            if self.is_enabled():
+                parameters = self.parameters
+                for step in self.selected_time:
+                    step_parameter_floats = []
+                    for index, param in enumerate(parameters):
+                        if param is None:
+                            value = 0.0
                         else:
-                            value = parameter.value
-                    step_parameter_floats.append(value)
+                            parameter = self._parameter_for_index(parameters, index)
+                            envelope = self._clip.automation_envelope(parameter)
+                            if liveobj_valid(envelope):
+                                value = self._value_at_time(envelope, step)
+                            else:
+                                value = parameter.value
+                        step_parameter_floats.append(value)
 
-                self._parameter_floats.append(step_parameter_floats)
+                    self._parameter_floats.append(step_parameter_floats)
 
     def _insert_step(self, time_range, time_index, param_index, envelope, value):
         param = self._parameter_for_index(self.parameters, param_index)

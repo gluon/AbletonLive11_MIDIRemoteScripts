@@ -1,18 +1,24 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/novation/track_recording.py
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/novation/track_recording.py
+# Compiled at: 2021-06-29 09:33:48
+# Size of source mod 2**32: 3217 bytes
 from __future__ import absolute_import, print_function, unicode_literals
 import Live
 from ableton.v2.base import const, depends, listens
-from ableton.v2.control_surface.components import SessionRecordingComponent as SessionRecordingComponentBase
+import ableton.v2.control_surface.components as SessionRecordingComponentBase
 from ableton.v2.control_surface.components import track_is_recording, track_playing_slot
 
 class TrackRecordingComponent(SessionRecordingComponentBase):
 
     def __init__(self, target_track_component, *a, **k):
-        super(TrackRecordingComponent, self).__init__(*a, **k)
+        (super(TrackRecordingComponent, self).__init__)(*a, **k)
         self._target_track_component = target_track_component
 
     def _trigger_recording(self):
-        self.__on_fired_slot_index_changed.subject = None
+        self._TrackRecordingComponent__on_fired_slot_index_changed.subject = None
         track = self._target_track_component.target_track
         if self._track_can_record(track):
             self._record_to_track(track)
@@ -21,15 +27,14 @@ class TrackRecordingComponent(SessionRecordingComponentBase):
 
     def _record_to_track(self, track):
         playing_slot = track_playing_slot(track)
-        if not track_is_recording(track) and playing_slot is not None:
+        if not track_is_recording(track) or playing_slot is not None:
             self.song.overdub = not self.song.overdub
-            if not self.song.is_playing:
-                self.song.is_playing = True
+            self.song.is_playing = self.song.is_playing or True
         elif not self._stop_recording():
             self._prepare_new_slot(track)
             self._start_recording()
         else:
-            self.__on_fired_slot_index_changed.subject = track
+            self._TrackRecordingComponent__on_fired_slot_index_changed.subject = track
 
     def _prepare_new_slot(self, track):
         try:
@@ -42,23 +47,19 @@ class TrackRecordingComponent(SessionRecordingComponentBase):
     def _track_can_record(self, track):
         return track in self.song.tracks and track.can_be_armed
 
-    @listens(u'fired_slot_index')
+    @listens('fired_slot_index')
     def __on_fired_slot_index_changed(self):
         if self._target_track_component.target_track.fired_slot_index >= 0:
-            self.record_button.color = u'Recording.Transition'
+            self.record_button.color = 'Recording.Transition'
 
 
 class FixedLengthTrackRecordingComponent(TrackRecordingComponent):
-    u"""
-    Fixed length track recording records a new clip on the selected
-    track with the length determined by the fixed length setting
-    """
 
-    @depends(fixed_length_recording=const(None))
+    @depends(fixed_length_recording=(const(None)))
     def __init__(self, target_track_component, fixed_length_recording, *a, **k):
-        assert fixed_length_recording is not None
         self._fixed_length_recording = fixed_length_recording
-        super(FixedLengthTrackRecordingComponent, self).__init__(target_track_component, *a, **k)
+        (super(FixedLengthTrackRecordingComponent, self).__init__)(
+ target_track_component, *a, **k)
 
     def _start_recording(self):
         track = self._target_track_component.target_track

@@ -1,23 +1,20 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/ableton/v2/control_surface/components/slide.py
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/ableton/v2/control_surface/components/slide.py
+# Compiled at: 2022-01-27 16:28:17
+# Size of source mod 2**32: 4111 bytes
 from __future__ import absolute_import, print_function, unicode_literals
 from builtins import range
-from ...base import clamp, listens, EventObject
+from ...base import EventObject, clamp, listens
 from ..component import Component
-from .scroll import ScrollComponent, Scrollable
+from .scroll import Scrollable, ScrollComponent
 
 class Slideable(EventObject):
-    u"""
-    Models of an entity that has a position in a 1-D discrete axis,
-    and that has some natural steps (called pages) of this axis.
-    """
-    __events__ = (u'page_offset', u'page_length', u'position', u'position_count', u'contents')
+    __events__ = ('page_offset', 'page_length', 'position', 'position_count', 'contents')
 
     def contents_range(self, pmin, pmax):
-        u"""
-        Tells whether there are any contents in the (min, max) range,
-        wherein min and max are floats in the (0, position_count)
-        range. Can be left unimplemented.
-        """
         pos_count = self.position_count
         first_pos = max(int(pmin), 0)
         last_pos = min(int(pmax), pos_count)
@@ -45,8 +42,8 @@ class Slideable(EventObject):
 
 class SlideComponent(Component, Scrollable):
 
-    def __init__(self, slideable = None, *a, **k):
-        super(SlideComponent, self).__init__(*a, **k)
+    def __init__(self, slideable=None, *a, **k):
+        (super(SlideComponent, self).__init__)(*a, **k)
         slideable = slideable or self
         self._slideable = slideable
         self._position_scroll = ScrollComponent(parent=self)
@@ -56,7 +53,7 @@ class SlideComponent(Component, Scrollable):
         self._page_scroll.can_scroll_down = self.can_scroll_page_down
         self._page_scroll.scroll_down = self.scroll_page_down
         self._page_scroll.scroll_up = self.scroll_page_up
-        self.__on_position_changed.subject = slideable
+        self._SlideComponent__on_position_changed.subject = slideable
 
     def set_scroll_up_button(self, button):
         self._position_scroll.set_scroll_up_button(button)
@@ -117,7 +114,7 @@ class SlideComponent(Component, Scrollable):
         self._position_scroll.update()
         self._page_scroll.update()
 
-    @listens(u'position')
+    @listens('position')
     def __on_position_changed(self):
         self._position_scroll.update()
         self._page_scroll.update()

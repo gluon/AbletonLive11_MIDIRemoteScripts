@@ -1,4 +1,10 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Komplete_Kontrol_S_Mk2/session_ring_navigation_component.py
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Komplete_Kontrol_S_Mk2/session_ring_navigation_component.py
+# Compiled at: 2021-06-29 09:33:48
+# Size of source mod 2**32: 1397 bytes
 from __future__ import absolute_import, print_function, unicode_literals
 from ableton.v2.base import listens
 from ableton.v2.control_surface import Component
@@ -9,10 +15,10 @@ class SessionRingNavigationComponent(Component):
     navigation_encoder = SendValueEncoderControl()
 
     def __init__(self, session_ring, *a, **k):
-        super(SessionRingNavigationComponent, self).__init__(*a, **k)
+        (super(SessionRingNavigationComponent, self).__init__)(*a, **k)
         self._track_pager = SessionRingTrackPager(session_ring)
-        self.__on_offset_changed.subject = session_ring
-        self.__on_tracks_changed.subject = session_ring
+        self._SessionRingNavigationComponent__on_offset_changed.subject = session_ring
+        self._SessionRingNavigationComponent__on_tracks_changed.subject = session_ring
         self._update_navigation_encoder()
 
     @navigation_encoder.value
@@ -22,11 +28,11 @@ class SessionRingNavigationComponent(Component):
         else:
             self._track_pager.scroll_down()
 
-    @listens(u'offset')
+    @listens('offset')
     def __on_offset_changed(self, *_):
         self._update_navigation_encoder()
 
-    @listens(u'tracks')
+    @listens('tracks')
     def __on_tracks_changed(self):
         self._update_navigation_encoder()
 

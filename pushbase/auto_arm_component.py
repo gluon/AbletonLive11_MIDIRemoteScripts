@@ -1,5 +1,12 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/pushbase/auto_arm_component.py
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/pushbase/auto_arm_component.py
+# Compiled at: 2022-01-27 16:28:17
+# Size of source mod 2**32: 5180 bytes
 from __future__ import absolute_import, print_function, unicode_literals
+from builtins import filter
 from functools import partial
 from ableton.v2.base import mixin, nop
 from ableton.v2.control_surface.components import AutoArmComponent
@@ -7,18 +14,9 @@ from ableton.v2.control_surface.mode import ModeButtonBehaviour
 from .message_box_component import Messenger
 
 class AutoArmRestoreBehaviour(ModeButtonBehaviour):
-    u"""
-    Mode button behaviour that auto-arm is enabled when the mode is
-    activated. If it is not, then it will make the button blink and
-    restore it in the second press.
-    
-    Note that this interface is passive, you have to manually call
-    update() to make sure the light is update when the auto-arm
-    condition changes.
-    """
 
-    def __init__(self, auto_arm = None, *a, **k):
-        super(AutoArmRestoreBehaviour, self).__init__(*a, **k)
+    def __init__(self, auto_arm=None, *a, **k):
+        (super(AutoArmRestoreBehaviour, self).__init__)(*a, **k)
         self._auto_arm = auto_arm
         self._last_update_params = None
         self._should_call_super = True
@@ -50,18 +48,18 @@ class AutoArmRestoreBehaviour(ModeButtonBehaviour):
     def update_button(self, component, mode, selected_mode):
         self._last_update_params = (component, mode, selected_mode)
         button = component.get_mode_button(mode)
-        button.mode_selected_color = u'DefaultButton.Alert' if self._auto_arm.needs_restore_auto_arm else u'DefaultButton.On'
+        button.mode_selected_color = 'DefaultButton.Alert' if self._auto_arm.needs_restore_auto_arm else 'DefaultButton.On'
 
     def update(self):
         if self._last_update_params:
-            self.update_button(*self._last_update_params)
+            (self.update_button)(*self._last_update_params)
 
 
 class RestoringAutoArmComponent(AutoArmComponent, Messenger):
 
     def __init__(self, *a, **k):
         AutoArmComponent.active_push_instances.append(self)
-        super(RestoringAutoArmComponent, self).__init__(*a, **k)
+        (super(RestoringAutoArmComponent, self).__init__)(*a, **k)
         self._auto_arm_restore_behaviour = None
         self._notification_reference = partial(nop, None)
 
@@ -75,6 +73,13 @@ class RestoringAutoArmComponent(AutoArmComponent, Messenger):
             self._auto_arm_restore_behaviour.update()
         self._update_notification()
 
+    @property
+    def needs_restore_auto_arm(self):
+        song = self.song
+        exclusive_arm = song.exclusive_arm
+        selected_track = song.view.selected_track
+        return self.is_enabled() and self.can_auto_arm_track(selected_track) and not selected_track.arm and any(filter(lambda track: exclusive_arm or self.can_auto_arm_track(track) and track.can_be_armed and track.arm, song.tracks))
+
     def can_auto_arm(self):
         return self.is_enabled() and not self.needs_restore_auto_arm
 
@@ -82,20 +87,24 @@ class RestoringAutoArmComponent(AutoArmComponent, Messenger):
         if not self._auto_arm_restore_behaviour:
             self._auto_arm_restore_behaviour = mixin(AutoArmRestoreBehaviour, *extra_classes)(auto_arm=self, **extra_params)
         else:
-            assert not extra_params and not extra_classes
+            pass
         return self._auto_arm_restore_behaviour
 
     def restore_auto_arm(self):
         song = self.song
         exclusive_arm = song.exclusive_arm
         for track in song.tracks:
-            if exclusive_arm or self.can_auto_arm_track(track):
-                if track.can_be_armed:
-                    track.arm = False
+            if not exclusive_arm:
+                if self.can_auto_arm_track(track):
+                    pass
+            if track.can_be_armed:
+                track.arm = False
 
     def _update_notification(self):
         if self.needs_restore_auto_arm:
-            self._notification_reference = self.show_notification(u'  Press [Note] to arm the track:    ' + self.song.view.selected_track.name, blink_text=u'  Press        to arm the track:    ' + self.song.view.selected_track.name, notification_time=10.0)
+            self._notification_reference = self.show_notification(('  Press [Note] to arm the track:    ' + self.song.view.selected_track.name),
+              blink_text=('  Press        to arm the track:    ' + self.song.view.selected_track.name),
+              notification_time=10.0)
         else:
             self._hide_notification()
 

@@ -1,45 +1,40 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/OpenLabs/OpenLabs.py
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/OpenLabs/OpenLabs.py
+# Compiled at: 2022-01-27 16:28:16
+# Size of source mod 2**32: 5533 bytes
 from __future__ import absolute_import, print_function, unicode_literals
 from builtins import range
 import Live
-from _Framework.ControlSurface import ControlSurface
+import _Framework.ButtonElement as ButtonElement
+import _Framework.ChannelStripComponent as ChannelStripComponent
+import _Framework.ClipSlotComponent as ClipSlotComponent
+import _Framework.ControlSurface as ControlSurface
+import _Framework.EncoderElement as EncoderElement
 from _Framework.InputControlElement import *
-from _Framework.SliderElement import SliderElement
-from _Framework.ButtonElement import ButtonElement
-from _Framework.EncoderElement import EncoderElement
-from _Framework.MixerComponent import MixerComponent
-from _Framework.ClipSlotComponent import ClipSlotComponent
-from _Framework.ChannelStripComponent import ChannelStripComponent
-from _Framework.SceneComponent import SceneComponent
-from _Framework.SessionComponent import SessionComponent
-from .SpecialTransportComponent import SpecialTransportComponent
+import _Framework.MixerComponent as MixerComponent
+import _Framework.SceneComponent as SceneComponent
+import _Framework.SessionComponent as SessionComponent
+import _Framework.SliderElement as SliderElement
 from .SpecialDeviceComponent import SpecialDeviceComponent
+from .SpecialTransportComponent import SpecialTransportComponent
 
 class OpenLabs(ControlSurface):
-    u""" Script for OpenLabs Controllers """
 
     def __init__(self, c_instance):
         ControlSurface.__init__(self, c_instance)
         with self.component_guard():
             self._suppress_session_highlight = True
-            self._suggested_input_port = u'Open Labs Midi Driver'
-            self._suggested_output_port = u''
-            self.set_pad_translations(((0, 0, 12, 15),
-             (1, 0, 13, 15),
-             (2, 0, 14, 15),
-             (3, 0, 15, 15),
-             (0, 1, 8, 15),
-             (1, 1, 9, 15),
-             (2, 1, 10, 15),
-             (3, 1, 11, 15),
-             (0, 2, 4, 15),
-             (1, 2, 5, 15),
-             (2, 2, 6, 15),
-             (3, 2, 7, 15),
-             (0, 3, 0, 15),
-             (1, 3, 1, 15),
-             (2, 3, 2, 15),
-             (3, 3, 3, 15)))
+            self._suggested_input_port = 'Open Labs Midi Driver'
+            self._suggested_output_port = ''
+            self.set_pad_translations(((0, 0, 12, 15), (1, 0, 13, 15), (2, 0, 14, 15),
+                                       (3, 0, 15, 15), (0, 1, 8, 15), (1, 1, 9, 15),
+                                       (2, 1, 10, 15), (3, 1, 11, 15), (0, 2, 4, 15),
+                                       (1, 2, 5, 15), (2, 2, 6, 15), (3, 2, 7, 15),
+                                       (0, 3, 0, 15), (1, 3, 1, 15), (2, 3, 2, 15),
+                                       (3, 3, 3, 15)))
             self._setup_mixer_control()
             self._setup_device_and_transport_control()
 

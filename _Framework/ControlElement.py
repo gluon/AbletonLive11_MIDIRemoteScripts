@@ -1,4 +1,10 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/_Framework/ControlElement.py
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/_Framework/ControlElement.py
+# Compiled at: 2022-01-27 16:28:16
+# Size of source mod 2**32: 5394 bytes
 from __future__ import absolute_import, print_function, unicode_literals
 from builtins import object
 import traceback
@@ -6,7 +12,7 @@ from . import Task
 from .Dependency import depends
 from .Disconnectable import Disconnectable
 from .Resource import StackingResource
-from .Util import lazy_attribute, nop, const, second, print_message
+from .Util import const, lazy_attribute, nop, print_message, second
 
 class ControlElementClient(object):
 
@@ -15,45 +21,37 @@ class ControlElementClient(object):
 
 
 class ElementOwnershipHandler(object):
-    u"""
-    A ControlElementOwnershipHandler deals with the actual delivery of
-    the control element to its clients.
-    """
 
     def handle_ownership_change(self, control, client, status):
         client.set_control_element(control, status)
 
 
 class OptimizedOwnershipHandler(ElementOwnershipHandler):
-    u"""
-    Control element ownership handler that delays notification of
-    ownership changes and minimizes the number of actual owernship
-    changes that are delivered.
-    """
 
     def __init__(self, *a, **k):
-        super(OptimizedOwnershipHandler, self).__init__(*a, **k)
+        (super(OptimizedOwnershipHandler, self).__init__)(*a, **k)
         self._ownership_changes = {}
         self._sequence_number = 0
 
     def handle_ownership_change(self, control, client, status):
-        if (control, client, not status) in self._ownership_changes:
-            del self._ownership_changes[control, client, not status]
+        if (
+         control, client, not status) in self._ownership_changes:
+            del self._ownership_changes[(control, client, not status)]
         else:
-            self._ownership_changes[control, client, status] = self._sequence_number
+            self._ownership_changes[(control, client, status)] = self._sequence_number
         self._sequence_number += 1
 
-    @depends(log_message=const(print_message), traceback=const(traceback))
-    def commit_ownership_changes(self, log_message = None, traceback = None):
+    @depends(log_message=(const(print_message)), traceback=(const(traceback)))
+    def commit_ownership_changes(self, log_message=None, traceback=None):
         notify = super(OptimizedOwnershipHandler, self).handle_ownership_change
         while self._ownership_changes:
-            notifications = sorted(iter(self._ownership_changes.items()), key=second)
+            notifications = sorted((iter(self._ownership_changes.items())), key=second)
             self._ownership_changes.clear()
             for (control, client, status), _ in notifications:
                 try:
                     notify(control, client, status)
                 except Exception:
-                    log_message(u'Error when trying to give control:', control.name)
+                    log_message('Error when trying to give control:', control.name)
                     traceback.print_exc()
 
         self._ownership_changes.clear()
@@ -61,21 +59,13 @@ class OptimizedOwnershipHandler(ElementOwnershipHandler):
 
 
 class ControlElement(Disconnectable):
-    u"""
-    Base class for all classes representing control elements on a
-    control surface
-    """
 
     class ProxiedInterface(object):
-        u"""
-        Declaration of the interface to be used when the
-        ControlElement is wrapped in any form of Proxy object.
-        """
         send_midi = nop
         reset_state = nop
 
-        def __init__(self, outer = None, *a, **k):
-            super(ControlElement.ProxiedInterface, self).__init__(*a, **k)
+        def __init__(self, outer=None, *a, **k):
+            (super(ControlElement.ProxiedInterface, self).__init__)(*a, **k)
             self._outer = outer
 
         @property
@@ -87,15 +77,15 @@ class ControlElement(Disconnectable):
         return self.ProxiedInterface(outer=self)
 
     canonical_parent = None
-    name = u''
+    name = ''
     optimized_send_midi = True
     _has_resource = False
     _resource_type = StackingResource
     _has_task_group = False
 
     @depends(send_midi=None, register_control=None)
-    def __init__(self, name = u'', resource_type = None, optimized_send_midi = None, send_midi = None, register_control = None, *a, **k):
-        super(ControlElement, self).__init__(*a, **k)
+    def __init__(self, name='', resource_type=None, optimized_send_midi=None, send_midi=None, register_control=None, *a, **k):
+        (super(ControlElement, self).__init__)(*a, **k)
         self._send_midi = send_midi
         self.name = name
         if resource_type is not None:
@@ -109,8 +99,7 @@ class ControlElement(Disconnectable):
         super(ControlElement, self).disconnect()
 
     def send_midi(self, message):
-        assert message != None
-        return self._send_midi(message, optimized=self.optimized_send_midi)
+        return self._send_midi(message, optimized=(self.optimized_send_midi))
 
     def clear_send_cache(self):
         pass
@@ -131,8 +120,8 @@ class ControlElement(Disconnectable):
         return self._resource_type(self._on_resource_received, self._on_resource_lost)
 
     @lazy_attribute
-    @depends(parent_task_group=Task.TaskGroup)
-    def _tasks(self, parent_task_group = None):
+    @depends(parent_task_group=(Task.TaskGroup))
+    def _tasks(self, parent_task_group=None):
         tasks = parent_task_group.add(Task.TaskGroup())
         self._has_task_group = True
         return tasks
@@ -143,6 +132,6 @@ class ControlElement(Disconnectable):
     def _on_resource_lost(self, client):
         self.notify_ownership_change(client, False)
 
-    @depends(element_ownership_handler=const(ElementOwnershipHandler()))
-    def notify_ownership_change(self, client, grabbed, element_ownership_handler = None):
+    @depends(element_ownership_handler=(const(ElementOwnershipHandler())))
+    def notify_ownership_change(self, client, grabbed, element_ownership_handler=None):
         element_ownership_handler.handle_ownership_change(self, client, grabbed)

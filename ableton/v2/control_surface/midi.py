@@ -1,4 +1,10 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/ableton/v2/control_surface/midi.py
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/ableton/v2/control_surface/midi.py
+# Compiled at: 2022-01-27 16:28:17
+# Size of source mod 2**32: 1553 bytes
 from __future__ import absolute_import, print_function, unicode_literals
 from builtins import map
 from numbers import Number
@@ -12,7 +18,8 @@ SYSEX_GENERAL_INFO = 6
 SYSEX_NON_REALTIME = 126
 SYSEX_IDENTITY_REQUEST_ID = 1
 SYSEX_IDENTITY_RESPONSE_ID = 2
-SYSEX_IDENTITY_REQUEST_MESSAGE = (SYSEX_START,
+SYSEX_IDENTITY_REQUEST_MESSAGE = (
+ SYSEX_START,
  SYSEX_NON_REALTIME,
  127,
  SYSEX_GENERAL_INFO,
@@ -42,7 +49,7 @@ def is_sysex(midi_bytes):
 
 
 def is_valid_sysex(midi_bytes):
-    return is_sysex(midi_bytes) and midi_bytes[0] == SYSEX_START and midi_bytes[-1] == SYSEX_END
+    return is_sysex(midi_bytes) and midi_bytes[0] == SYSEX_START and midi_bytes[(-1)] == SYSEX_END
 
 
 def is_pitchbend(midi_bytes):
@@ -57,4 +64,4 @@ def extract_value(midi_bytes):
 
 def pretty_print_bytes(midi_bytes):
     hex_values = list(map(hex, midi_bytes))
-    return u' '.join(hex_values)
+    return ' '.join(hex_values)

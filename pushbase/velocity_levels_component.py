@@ -1,8 +1,14 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/pushbase/velocity_levels_component.py
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/pushbase/velocity_levels_component.py
+# Compiled at: 2022-01-27 16:28:17
+# Size of source mod 2**32: 5630 bytes
 from __future__ import absolute_import, print_function, unicode_literals
 from builtins import range
 import Live
-from ableton.v2.base import listenable_property, listens, liveobj_valid, NamedTuple, EventObject, task
+from ableton.v2.base import EventObject, NamedTuple, listenable_property, listens, liveobj_valid, task
 from ableton.v2.control_surface.components import PlayableComponent
 from ableton.v2.control_surface.control import ButtonControl, control_matrix
 from .matrix_maps import NON_FEEDBACK_CHANNEL
@@ -15,7 +21,7 @@ class NullTargetNoteProvider(EventObject):
 
     @listenable_property
     def selected_target_note(self):
-        return NamedTuple(note=-1, channel=-1)
+        return NamedTuple(note=(-1), channel=(-1))
 
 
 class VelocityLevelsComponent(PlayableComponent):
@@ -24,12 +30,12 @@ class VelocityLevelsComponent(PlayableComponent):
     matrix = control_matrix(PadControl)
     select_button = ButtonControl()
 
-    def __init__(self, velocity_levels = None, target_note_provider = None, skin_base_key = None, *a, **k):
-        super(VelocityLevelsComponent, self).__init__(*a, **k)
+    def __init__(self, velocity_levels=None, target_note_provider=None, skin_base_key=None, *a, **k):
+        (super(VelocityLevelsComponent, self).__init__)(*a, **k)
         self._target_note_provider = target_note_provider or NullTargetNoteProvider()
-        self.__on_selected_target_note_changed.subject = self._target_note_provider
+        self._VelocityLevelsComponent__on_selected_target_note_changed.subject = self._target_note_provider
         self._played_level = INVALID_LEVEL
-        self.set_skin_base_key(skin_base_key or u'VelocityLevels')
+        self.set_skin_base_key(skin_base_key or 'VelocityLevels')
         self._notification_task = self._tasks.add(task.run(self._update_velocity))
         self._notification_task.kill()
         self.set_velocity_levels(velocity_levels)
@@ -46,7 +52,7 @@ class VelocityLevelsComponent(PlayableComponent):
 
     def set_velocity_levels(self, velocity_levels):
         self.velocity_levels = velocity_levels
-        self.__on_last_played_level.subject = velocity_levels
+        self._VelocityLevelsComponent__on_last_played_level.subject = velocity_levels
         self.update()
 
     def set_matrix(self, matrix):
@@ -58,7 +64,7 @@ class VelocityLevelsComponent(PlayableComponent):
         self._update_sensitivity_profile()
 
     def _update_sensitivity_profile(self):
-        profile = u'default' if self._takeover_pads else u'drums'
+        profile = 'default' if self._takeover_pads else 'drums'
         for button in self.matrix:
             button.sensitivity_profile = profile
 
@@ -94,11 +100,11 @@ class VelocityLevelsComponent(PlayableComponent):
         self._update_led_feedback()
         self.notify_velocity()
 
-    @listens(u'selected_target_note')
+    @listens('selected_target_note')
     def __on_selected_target_note_changed(self):
         self.update()
 
-    @listens(u'last_played_level')
+    @listens('last_played_level')
     def __on_last_played_level(self):
         if not self._takeover_pads:
             played = self.velocity_levels.last_played_level if liveobj_valid(self.velocity_levels) else INVALID_LEVEL
@@ -111,21 +117,22 @@ class VelocityLevelsComponent(PlayableComponent):
         return (self.height - 1 - y) * self.width + x
 
     def _note_translation_for_button(self, button):
-        return (self.SOURCE_NOTES[self._button_index(button)], NON_FEEDBACK_CHANNEL)
+        return (
+         self.SOURCE_NOTES[self._button_index(button)], NON_FEEDBACK_CHANNEL)
 
     def _update_button_color(self, button):
         index = self._button_index(button)
         levels = self.velocity_levels.levels if liveobj_valid(self.velocity_levels) else []
         if index < len(levels) and self._played_level == levels[index]:
-            color = u'SelectedLevel'
+            color = 'SelectedLevel'
         else:
             y, _ = button.coordinate
-            color = u'MidLevel'
+            color = 'MidLevel'
             if y == 0:
-                color = u'HighLevel'
+                color = 'HighLevel'
             elif y == self.height - 1:
-                color = u'LowLevel'
-        button.color = self._skin_base_key + u'.' + color
+                color = 'LowLevel'
+        button.color = self._skin_base_key + '.' + color
 
     def update(self):
         super(VelocityLevelsComponent, self).update()

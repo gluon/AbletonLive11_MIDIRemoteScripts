@@ -1,8 +1,14 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/novation/simple_device.py
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/novation/simple_device.py
+# Compiled at: 2022-01-27 16:28:17
+# Size of source mod 2**32: 6020 bytes
 from __future__ import absolute_import, print_function, unicode_literals
 from future.moves.itertools import zip_longest
 from _Generic.Devices import best_of_parameter_bank, parameter_banks
-from ableton.v2.base import clamp, depends, EventObject, listens, liveobj_valid, nop
+from ableton.v2.base import EventObject, clamp, depends, listens, liveobj_valid, nop
 from ableton.v2.control_surface import Component
 from ableton.v2.control_surface.control import ToggleButtonControl
 from .fixed_radio_button_group import FixedRadioButtonGroup
@@ -13,12 +19,14 @@ def release_control(control):
 
 
 class SimpleDeviceParameterComponent(Component):
-    bank_select_buttons = FixedRadioButtonGroup(control_count=8, unchecked_color=u'Mode.Device.Bank.Available', checked_color=u'Mode.Device.Bank.Selected')
+    bank_select_buttons = FixedRadioButtonGroup(control_count=8,
+      unchecked_color='Mode.Device.Bank.Available',
+      checked_color='Mode.Device.Bank.Selected')
     device_lock_button = ToggleButtonControl()
 
     @depends(device_provider=None)
-    def __init__(self, device_provider = None, device_bank_registry = None, toggle_lock = None, use_parameter_banks = False, *a, **k):
-        super(SimpleDeviceParameterComponent, self).__init__(*a, **k)
+    def __init__(self, device_provider=None, device_bank_registry=None, toggle_lock=None, use_parameter_banks=False, *a, **k):
+        (super(SimpleDeviceParameterComponent, self).__init__)(*a, **k)
         self._toggle_lock = toggle_lock
         self._use_parameter_banks = use_parameter_banks
         self._device = None
@@ -28,11 +36,11 @@ class SimpleDeviceParameterComponent(Component):
         self._empty_control_slots = self.register_disconnectable(EventObject())
         self._device_bank_registry = device_bank_registry
         self._device_provider = device_provider
-        self.__on_provided_device_changed.subject = device_provider
-        self.__on_provided_device_changed()
+        self._SimpleDeviceParameterComponent__on_provided_device_changed.subject = device_provider
+        self._SimpleDeviceParameterComponent__on_provided_device_changed()
         if toggle_lock:
-            self.__on_is_locked_to_device_changed.subject = self._device_provider
-            self.__on_is_locked_to_device_changed()
+            self._SimpleDeviceParameterComponent__on_is_locked_to_device_changed.subject = self._device_provider
+            self._SimpleDeviceParameterComponent__on_is_locked_to_device_changed()
 
     @bank_select_buttons.checked
     def bank_select_buttons(self, button):
@@ -76,7 +84,7 @@ class SimpleDeviceParameterComponent(Component):
     @property
     def selected_bank(self):
         if self.num_banks:
-            return self._banks[self._bank_index or 0]
+            return self._banks[(self._bank_index or 0)]
         return []
 
     @property
@@ -90,25 +98,25 @@ class SimpleDeviceParameterComponent(Component):
         self._parameter_controls = controls
         self.update()
 
-    @listens(u'device')
+    @listens('device')
     def __on_provided_device_changed(self):
         for control in self._parameter_controls or []:
             release_control(control)
 
         self._device = self._device_provider.device
-        self.__on_bank_changed.subject = self._device_bank_registry
+        self._SimpleDeviceParameterComponent__on_bank_changed.subject = self._device_bank_registry
         if self._device_bank_registry:
             self._bank_index = self._device_bank_registry.get_device_bank(self._device)
             self.update()
         else:
             self.bank_index = 0
 
-    @listens(u'device_bank')
+    @listens('device_bank')
     def __on_bank_changed(self, device, bank):
         if device == self._device:
             self.bank_index = bank
 
-    @listens(u'is_locked_to_device')
+    @listens('is_locked_to_device')
     def __on_is_locked_to_device_changed(self):
         self._update_device_lock_button()
 
@@ -128,7 +136,7 @@ class SimpleDeviceParameterComponent(Component):
     def _disconnect_parameters(self):
         for control in self._parameter_controls or []:
             release_control(control)
-            self._empty_control_slots.register_slot(control, nop, u'value')
+            self._empty_control_slots.register_slot(control, nop, 'value')
 
     def _connect_parameters(self):
         for control, parameter in zip_longest(self._parameter_controls or [], self.selected_bank):
@@ -137,14 +145,15 @@ class SimpleDeviceParameterComponent(Component):
                     control.connect_to(parameter)
                 else:
                     control.release_parameter()
-                    self._empty_control_slots.register_slot(control, nop, u'value')
+                    self._empty_control_slots.register_slot(control, nop, 'value')
 
     def _update_parameter_banks(self):
         if liveobj_valid(self._device):
             if self._use_parameter_banks:
                 self._banks = parameter_banks(self._device)
             else:
-                self._banks = [best_of_parameter_bank(self._device)]
+                self._banks = [
+                 best_of_parameter_bank(self._device)]
         else:
             self._banks = []
         self._bank_index = self._clamp_to_bank_size(self._bank_index)

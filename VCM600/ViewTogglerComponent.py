@@ -1,26 +1,30 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/VCM600/ViewTogglerComponent.py
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/VCM600/ViewTogglerComponent.py
+# Compiled at: 2022-01-27 16:28:16
+# Size of source mod 2**32: 8466 bytes
 from __future__ import absolute_import, print_function, unicode_literals
 from builtins import range
 import Live
-from _Framework.ControlSurfaceComponent import ControlSurfaceComponent
-from _Framework.ButtonElement import ButtonElement
+import _Framework.ButtonElement as ButtonElement
+import _Framework.ControlSurfaceComponent as ControlSurfaceComponent
 
 class ViewTogglerComponent(ControlSurfaceComponent):
-    u""" Component that can toggle the device chain- and clip view of a number of tracks """
 
     def __init__(self, num_tracks):
-        assert num_tracks > 0
         ControlSurfaceComponent.__init__(self)
         self._num_tracks = num_tracks
         self._chain_buttons = None
         self._clip_buttons = None
         self._ignore_track_selection = False
-        self.application().view.add_is_view_visible_listener(u'Detail', self._on_detail_view_changed)
-        self.application().view.add_is_view_visible_listener(u'Detail/Clip', self._on_views_changed)
+        self.application().view.add_is_view_visible_listener('Detail', self._on_detail_view_changed)
+        self.application().view.add_is_view_visible_listener('Detail/Clip', self._on_views_changed)
 
     def disconnect(self):
-        self.application().view.remove_is_view_visible_listener(u'Detail', self._on_detail_view_changed)
-        self.application().view.remove_is_view_visible_listener(u'Detail/Clip', self._on_views_changed)
+        self.application().view.remove_is_view_visible_listener('Detail', self._on_detail_view_changed)
+        self.application().view.remove_is_view_visible_listener('Detail/Clip', self._on_views_changed)
         if self._chain_buttons != None:
             for button in self._chain_buttons:
                 button.remove_value_listener(self._chain_value)
@@ -33,8 +37,6 @@ class ViewTogglerComponent(ControlSurfaceComponent):
             self._clip_buttons = None
 
     def set_buttons(self, chain_buttons, clip_buttons):
-        assert chain_buttons == None or isinstance(chain_buttons, tuple) and len(chain_buttons) == self._num_tracks
-        assert clip_buttons == None or isinstance(clip_buttons, tuple) and len(clip_buttons) == self._num_tracks
         if self._chain_buttons != None:
             for button in self._chain_buttons:
                 button.remove_value_listener(self._chain_value)
@@ -42,8 +44,7 @@ class ViewTogglerComponent(ControlSurfaceComponent):
         self._chain_buttons = chain_buttons
         if self._chain_buttons != None:
             for button in self._chain_buttons:
-                assert isinstance(button, ButtonElement)
-                button.add_value_listener(self._chain_value, identify_sender=True)
+                button.add_value_listener((self._chain_value), identify_sender=True)
 
         if self._clip_buttons != None:
             for button in self._clip_buttons:
@@ -52,8 +53,7 @@ class ViewTogglerComponent(ControlSurfaceComponent):
         self._clip_buttons = clip_buttons
         if self._clip_buttons != None:
             for button in self._clip_buttons:
-                assert isinstance(button, ButtonElement)
-                button.add_value_listener(self._clip_value, identify_sender=True)
+                button.add_value_listener((self._clip_value), identify_sender=True)
 
         self.on_selected_track_changed()
 
@@ -85,23 +85,23 @@ class ViewTogglerComponent(ControlSurfaceComponent):
     def _update_buttons(self):
         tracks = self.song().visible_tracks
         for index in range(self._num_tracks):
-            if len(tracks) > index and tracks[index] == self.song().view.selected_track and self.application().view.is_view_visible(u'Detail'):
-                if self.application().view.is_view_visible(u'Detail/DeviceChain'):
-                    self._chain_buttons[index].turn_on()
+            if len(tracks) > index:
+                if tracks[index] == self.song().view.selected_track and self.application().view.is_view_visible('Detail'):
+                    if self.application().view.is_view_visible('Detail/DeviceChain'):
+                        self._chain_buttons[index].turn_on()
+                    else:
+                        self._chain_buttons[index].turn_off()
+                    if self.application().view.is_view_visible('Detail/Clip'):
+                        self._clip_buttons[index].turn_on()
+                    else:
+                        self._clip_buttons[index].turn_off()
                 else:
-                    self._chain_buttons[index].turn_off()
-                if self.application().view.is_view_visible(u'Detail/Clip'):
-                    self._clip_buttons[index].turn_on()
-                else:
-                    self._clip_buttons[index].turn_off()
-            else:
-                if self._chain_buttons != None:
-                    self._chain_buttons[index].turn_off()
-                if self._clip_buttons != None:
-                    self._clip_buttons[index].turn_off()
+                    if self._chain_buttons != None:
+                        self._chain_buttons[index].turn_off()
+                    if self._clip_buttons != None:
+                        self._clip_buttons[index].turn_off()
 
     def _chain_value(self, value, sender):
-        assert sender in self._chain_buttons
         tracks = self.song().visible_tracks
         if not sender.is_momentary() or value != 0:
             index = list(self._chain_buttons).index(sender)
@@ -109,18 +109,17 @@ class ViewTogglerComponent(ControlSurfaceComponent):
             if len(tracks) > index:
                 if self.song().view.selected_track != tracks[index]:
                     self.song().view.selected_track = tracks[index]
-                    if not self.application().view.is_view_visible(u'Detail') or not self.application().view.is_view_visible(u'Detail/DeviceChain'):
-                        self.application().view.show_view(u'Detail')
-                        self.application().view.show_view(u'Detail/DeviceChain')
-                elif self.application().view.is_view_visible(u'Detail/DeviceChain') and self.application().view.is_view_visible(u'Detail'):
-                    self.application().view.hide_view(u'Detail')
+                    if not (self.application().view.is_view_visible('Detail') and self.application().view.is_view_visible('Detail/DeviceChain')):
+                        self.application().view.show_view('Detail')
+                        self.application().view.show_view('Detail/DeviceChain')
+                elif self.application().view.is_view_visible('Detail/DeviceChain') and self.application().view.is_view_visible('Detail'):
+                    self.application().view.hide_view('Detail')
                 else:
-                    self.application().view.show_view(u'Detail')
-                    self.application().view.show_view(u'Detail/DeviceChain')
+                    self.application().view.show_view('Detail')
+                    self.application().view.show_view('Detail/DeviceChain')
             self._ignore_track_selection = False
 
     def _clip_value(self, value, sender):
-        assert sender in self._clip_buttons
         tracks = self.song().visible_tracks
         if not sender.is_momentary() or value != 0:
             index = list(self._clip_buttons).index(sender)
@@ -128,12 +127,12 @@ class ViewTogglerComponent(ControlSurfaceComponent):
             if len(tracks) > index:
                 if self.song().view.selected_track != tracks[index]:
                     self.song().view.selected_track = tracks[index]
-                    if not self.application().view.is_view_visible(u'Detail') or not self.application().view.is_view_visible(u'Detail/Clip'):
-                        self.application().view.show_view(u'Detail')
-                        self.application().view.show_view(u'Detail/Clip')
-                elif self.application().view.is_view_visible(u'Detail/Clip') and self.application().view.is_view_visible(u'Detail'):
-                    self.application().view.hide_view(u'Detail')
+                    if not (self.application().view.is_view_visible('Detail') and self.application().view.is_view_visible('Detail/Clip')):
+                        self.application().view.show_view('Detail')
+                        self.application().view.show_view('Detail/Clip')
+                elif self.application().view.is_view_visible('Detail/Clip') and self.application().view.is_view_visible('Detail'):
+                    self.application().view.hide_view('Detail')
                 else:
-                    self.application().view.show_view(u'Detail')
-                    self.application().view.show_view(u'Detail/Clip')
+                    self.application().view.show_view('Detail')
+                    self.application().view.show_view('Detail/Clip')
             self._ignore_track_selection = False

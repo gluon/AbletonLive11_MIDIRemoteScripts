@@ -1,17 +1,25 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Launchpad_MK2/MixerComponent.py
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Launchpad_MK2/MixerComponent.py
+# Compiled at: 2022-01-27 16:28:16
+# Size of source mod 2**32: 6134 bytes
 from __future__ import absolute_import, print_function, unicode_literals
 from _Framework.Control import ButtonControl
-from _Framework.MixerComponent import MixerComponent as MixerComponentBase
-from .ChannelStripComponent import ChannelStripComponent
+import _Framework.MixerComponent as MixerComponentBase
 from . import consts
+from .ChannelStripComponent import ChannelStripComponent
 
 class MixerComponent(MixerComponentBase):
-    unmute_all_button = ButtonControl(color=u'Mixer.Mute.Off', pressed_color=u'Mixer.Mute.On')
-    unsolo_all_button = ButtonControl(color=u'Mixer.Solo.Off', pressed_color=u'Mixer.Solo.On')
-    unarm_all_button = ButtonControl(color=u'Mixer.Arm.Off', pressed_color=u'Mixer.Arm.On')
+    unmute_all_button = ButtonControl(color='Mixer.Mute.Off',
+      pressed_color='Mixer.Mute.On')
+    unsolo_all_button = ButtonControl(color='Mixer.Solo.Off',
+      pressed_color='Mixer.Solo.On')
+    unarm_all_button = ButtonControl(color='Mixer.Arm.Off', pressed_color='Mixer.Arm.On')
 
-    def __init__(self, enable_skinning = False, *a, **k):
-        super(MixerComponent, self).__init__(*a, **k)
+    def __init__(self, enable_skinning=False, *a, **k):
+        (super(MixerComponent, self).__init__)(*a, **k)
         self._volume_on_value = 127
         self._volume_off_value = 0
         self._pan_on_value = 127
@@ -23,13 +31,13 @@ class MixerComponent(MixerComponentBase):
         return ChannelStripComponent()
 
     def _enable_skinning(self):
-        self.set_volume_values(u'Mixer.Volume.On', u'Mixer.Volume.Off')
-        self.set_pan_values(u'Mixer.Pan.On', u'Mixer.Pan.Off')
+        self.set_volume_values('Mixer.Volume.On', 'Mixer.Volume.Off')
+        self.set_pan_values('Mixer.Pan.On', 'Mixer.Pan.Off')
         for strip in self._channel_strips:
-            strip.empty_color = u'Mixer.Disabled'
-            strip.set_arm_values(u'Mixer.Arm.On', u'Mixer.Arm.Off')
-            strip.set_solo_values(u'Mixer.Solo.On', u'Mixer.Solo.Off')
-            strip.set_mute_values(u'Mixer.Mute.On', u'Mixer.Mute.Off')
+            strip.empty_color = 'Mixer.Disabled'
+            strip.set_arm_values('Mixer.Arm.On', 'Mixer.Arm.Off')
+            strip.set_solo_values('Mixer.Solo.On', 'Mixer.Solo.Off')
+            strip.set_mute_values('Mixer.Mute.On', 'Mixer.Mute.Off')
 
     def set_volume_values(self, volume_on_value, volume_off_value):
         self._volume_on_value = volume_on_value
@@ -80,11 +88,11 @@ class MixerComponent(MixerComponentBase):
         if controls is not None:
             for index, control in enumerate(controls):
                 if control is not None:
-                    self.channel_strip(index).set_send_controls((None,) * send_index + (control,))
+                    self.channel_strip(index).set_send_controls((None, ) * send_index + (control,))
                     control.set_channel(translation_channel)
                     control.index = index
                     control.type = consts.FADER_STANDARD_TYPE
-                    control.color = u'Sends.Send%d.On' % send_index
+                    control.color = 'Sends.Send%d.On' % send_index
 
         else:
             for strip in self._channel_strips:

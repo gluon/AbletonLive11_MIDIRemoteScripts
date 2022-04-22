@@ -1,17 +1,18 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/_Framework/LogicalDisplaySegment.py
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/_Framework/LogicalDisplaySegment.py
+# Compiled at: 2022-01-27 16:28:16
+# Size of source mod 2**32: 2473 bytes
 from __future__ import absolute_import, print_function, unicode_literals
 from builtins import object
 
 class LogicalDisplaySegment(object):
-    u"""
-    Class representing a specific segment of a display on the controller
-    """
-    separator = u''
+    separator = ''
 
-    def __init__(self, width = None, update_callback = None, *a, **k):
-        super(LogicalDisplaySegment, self).__init__(*a, **k)
-        assert width is not None
-        assert callable(update_callback)
+    def __init__(self, width=None, update_callback=None, *a, **k):
+        (super(LogicalDisplaySegment, self).__init__)(*a, **k)
         self._update_callback = update_callback
         self._width = width
         self._position_identifier = ()
@@ -37,9 +38,6 @@ class LogicalDisplaySegment(object):
         return self._data_source
 
     def set_position_identifier(self, position_identifier):
-        u"""
-        Sets position identifier as a tuple of HW related data.
-        """
         self._position_identifier = position_identifier
 
     def position_identifier(self):
@@ -54,10 +52,8 @@ class LogicalDisplaySegment(object):
         if self._data_source != None:
             separator = self._data_source.separator + self.separator
             width = self._width - len(separator)
-            assert width >= 0
             return self._data_source.adjust_string(width) + separator
-        else:
-            return u' ' * int(self._width)
+        return ' ' * int(self._width)
 
     def display_string(self):
         if self._display_string is None:

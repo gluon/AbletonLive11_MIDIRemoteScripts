@@ -1,41 +1,21 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/ableton/v2/base/proxy.py
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/ableton/v2/base/proxy.py
+# Compiled at: 2022-01-27 16:28:17
+# Size of source mod 2**32: 3257 bytes
 from __future__ import absolute_import, print_function, unicode_literals
 from .util import BooleanContext, old_hasattr
 
 class ProxyBase(object):
-    u"""
-    Provides a general mechanism for building automatic proxy
-    objects. The access is determined between the proxied_object, the
-    proxied_interface and the proxy itself following the following rules:
-    
-    When getting an attribute:
-    
-       - If it is the proxy object, return that.
-       - Else if it is in the proxied_object and in the proxied_interface,
-         return that of the proxied_object.
-       - Else if it is in the proxied_interface, return that.
-       - Else, throw an attribute error.
-    
-    When setting an attribute, since it is more risky, the rules are stricter.
-    
-       - If the the attribute is present in the proxy_interface, but not
-         in the proxy, set in the proxy_object.
-       - Else if the attribute is not present in the proxy_interface, set it
-         in the proxy.
-       - If the attribute is present in both the proxy_interface and
-         the proxy_object, raise an AttributeError complaining about
-         ambiguity.
-    """
     _skip_wrapper_lookup = None
 
     def __init__(self, *a, **k):
-        super(ProxyBase, self).__init__(*a, **k)
+        (super(ProxyBase, self).__init__)(*a, **k)
         self._skip_wrapper_lookup = BooleanContext()
 
     def proxy_old_hasattr(self, attr):
-        u"""
-        Returns whether the proxy, not the proxied, has an attribute.
-        """
         with self._skip_wrapper_lookup():
             return old_hasattr(self, attr)
 
@@ -43,31 +23,34 @@ class ProxyBase(object):
         if not self._skip_wrapper_lookup:
             obj = self.proxied_object
             interface = self.proxied_interface
-            if obj and old_hasattr(interface, name):
-                return getattr(obj, name)
-            return getattr(interface, name)
-        raise AttributeError(u'Does not have attribute %s' % name)
+            if obj:
+                if old_hasattr(interface, name):
+                    return getattr(obj, name)
+            if interface:
+                if old_hasattr(interface, name):
+                    return getattr(interface, name)
+        raise AttributeError('Does not have attribute %s' % name)
 
     def __setattr__(self, name, value):
         obj = self.proxied_object
         interface = self.proxied_interface
         if obj and old_hasattr(interface, name):
             if self.proxy_old_hasattr(name):
-                raise AttributeError(u'Ambiguous set attribute: %s proxied: %s' % (name, obj))
+                raise AttributeError('Ambiguous set attribute: %s proxied: %s' % (name, obj))
             setattr(obj, name, value)
         else:
             if old_hasattr(interface, name):
-                raise AttributeError(u'Ambiguous set attribute: %s proxied: %s' % (name, obj))
+                raise AttributeError('Ambiguous set attribute: %s proxied: %s' % (name, obj))
             self.__dict__[name] = value
 
     @property
     def proxied_object(self):
-        return None
+        pass
 
     @property
     def proxied_interface(self):
         obj = self.proxied_object
-        return getattr(obj, u'proxied_interface', obj)
+        return getattr(obj, 'proxied_interface', obj)
 
 
 class Proxy(ProxyBase):
@@ -78,7 +61,7 @@ class Proxy(ProxyBase):
     def proxied_interface(self):
         return self._proxied_interface or super(Proxy, self).proxied_interface
 
-    def __init__(self, proxied_object = None, proxied_interface = None, *a, **k):
-        super(Proxy, self).__init__(*a, **k)
+    def __init__(self, proxied_object=None, proxied_interface=None, *a, **k):
+        (super(Proxy, self).__init__)(*a, **k)
         self.proxied_object = proxied_object
         self._proxied_interface = proxied_interface

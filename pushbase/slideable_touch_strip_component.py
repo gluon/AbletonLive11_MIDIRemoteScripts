@@ -1,20 +1,22 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/pushbase/slideable_touch_strip_component.py
-u"""
-Component that navigates a series of pages.
-"""
-from __future__ import absolute_import, print_function, unicode_literals
-from __future__ import division
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/pushbase/slideable_touch_strip_component.py
+# Compiled at: 2022-01-27 16:28:17
+# Size of source mod 2**32: 5893 bytes
+from __future__ import absolute_import, division, print_function, unicode_literals
 from builtins import range
 from past.utils import old_div
 from math import ceil
 from ableton.v2.base import clamp, listens
 from ableton.v2.control_surface import Component
-from .touch_strip_element import DraggingBehaviour, MAX_PITCHBEND, SelectingBehaviour, TouchStripStates, TouchStripHandle
+from .touch_strip_element import MAX_PITCHBEND, DraggingBehaviour, SelectingBehaviour, TouchStripHandle, TouchStripStates
 
 class SlideableTouchStripComponent(Component):
 
-    def __init__(self, touch_slideable = None, dragging_enabled = False, *a, **k):
-        super(SlideableTouchStripComponent, self).__init__(*a, **k)
+    def __init__(self, touch_slideable=None, dragging_enabled=False, *a, **k):
+        (super(SlideableTouchStripComponent, self).__init__)(*a, **k)
         self._behaviour = DraggingBehaviour() if dragging_enabled else SelectingBehaviour()
         self._touch_strip_array = []
         self._on_page_length_changed.subject = touch_slideable
@@ -65,19 +67,23 @@ class SlideableTouchStripComponent(Component):
         return int(ceil(old_div(float(self._slideable.page_length), self._slideable.position_count) * num_leds))
 
     def _update_touch_strip_state(self, strip):
-        if strip and self.is_enabled():
-            strip.behaviour = self._behaviour
-            if len(self._touch_strip_array) != strip.state_count:
-                self._update_touch_strip_array(strip.state_count)
-            model_pos = self._slideable.position
-            led_pos = self._scroll_to_led_position(model_pos, strip.state_count)
-            strip_pos = self._scroll_to_touch_strip_position(model_pos)
-            array = list(self._touch_strip_array)
-            led_page_length = self._touch_strip_led_page_length(strip.state_count)
-            array[led_pos:led_pos + led_page_length] = [TouchStripStates.STATE_FULL] * led_page_length
-            led_size = old_div(MAX_PITCHBEND, strip.state_count)
-            self._behaviour.handle = TouchStripHandle(range=(-led_size, led_size * led_page_length), position=strip_pos)
-            strip.send_state(array[:strip.state_count])
+        if strip:
+            if self.is_enabled():
+                strip.behaviour = self._behaviour
+                if len(self._touch_strip_array) != strip.state_count:
+                    self._update_touch_strip_array(strip.state_count)
+                model_pos = self._slideable.position
+                led_pos = self._scroll_to_led_position(model_pos, strip.state_count)
+                strip_pos = self._scroll_to_touch_strip_position(model_pos)
+                array = list(self._touch_strip_array)
+                led_page_length = self._touch_strip_led_page_length(strip.state_count)
+                array[led_pos:led_pos + led_page_length] = [
+                 TouchStripStates.STATE_FULL] * led_page_length
+                led_size = old_div(MAX_PITCHBEND, strip.state_count)
+                self._behaviour.handle = TouchStripHandle(range=(
+                 -led_size, led_size * led_page_length),
+                  position=strip_pos)
+                strip.send_state(array[:strip.state_count])
 
     def _update_touch_strip_array(self, num_leds):
         if self.is_enabled():
@@ -88,30 +94,30 @@ class SlideableTouchStripComponent(Component):
                 pmax = pmin + old_div(float(model.position_count), num_leds)
                 return any(map(model.contents, model.contents_range(pmin, pmax)))
 
-            array = [ (TouchStripStates.STATE_HALF if led_contents(i) else TouchStripStates.STATE_OFF) for i in range(num_leds) ]
+            array = [TouchStripStates.STATE_HALF if led_contents(i) else TouchStripStates.STATE_OFF for i in range(num_leds)]
             self._touch_strip_array = array
 
-    @listens(u'value')
+    @listens('value')
     def _on_touch_strip_value(self, value):
         if self.is_enabled():
             position = self._touch_strip_to_scroll_position(value)
             self._slideable.position = position
 
-    @listens(u'value')
+    @listens('value')
     def _on_page_touch_strip_value(self, value):
         if self.is_enabled():
             position = self._touch_strip_to_page_position(value)
             self._slideable.position = position
 
-    @listens(u'page_length')
+    @listens('page_length')
     def _on_page_length_changed(self):
         self._update_touch_strips()
 
-    @listens(u'position')
+    @listens('position')
     def _on_position_changed(self):
         self._update_touch_strips()
 
-    @listens(u'contents')
+    @listens('contents')
     def _on_contents_changed(self):
         self._touch_strip_array = []
         self._update_touch_strips()

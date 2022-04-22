@@ -1,4 +1,10 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/SL_MkIII/util.py
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/SL_MkIII/util.py
+# Compiled at: 2022-01-27 16:28:16
+# Size of source mod 2**32: 1118 bytes
 from __future__ import absolute_import, print_function, unicode_literals
 from past.utils import old_div
 from ableton.v2.base import clamp, liveobj_valid
@@ -30,4 +36,4 @@ def color_for_track(track):
         except (KeyError, IndexError):
             color_value = find_nearest_color(RGB_COLOR_TABLE, track.color)
 
-    return Color(color_value)
+        return Color(color_value)

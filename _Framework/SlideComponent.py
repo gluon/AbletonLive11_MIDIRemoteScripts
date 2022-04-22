@@ -1,24 +1,22 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/_Framework/SlideComponent.py
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/_Framework/SlideComponent.py
+# Compiled at: 2022-01-27 16:28:16
+# Size of source mod 2**32: 4192 bytes
 from __future__ import absolute_import, print_function, unicode_literals
 from builtins import range
-from .SubjectSlot import subject_slot, Subject
 from .CompoundComponent import CompoundComponent
-from .ScrollComponent import ScrollComponent, Scrollable
+from .ScrollComponent import Scrollable, ScrollComponent
+from .SubjectSlot import Subject, subject_slot
 from .Util import clamp
 
 class Slideable(Subject):
-    u"""
-    Models of an entity that has a position in a 1-D discrete axis,
-    and that has some natural steps (called pages) of this axis.
-    """
-    __subject_events__ = (u'page_offset', u'page_length', u'position', u'position_count', u'contents')
+    __subject_events__ = ('page_offset', 'page_length', 'position', 'position_count',
+                          'contents')
 
     def contents_range(self, pmin, pmax):
-        u"""
-        Tells whether there are any contents in the (min, max) range,
-        wheren min and max are floats in the (0, position_count)
-        range. Can be left unimplemented.
-        """
         pos_count = self.position_count
         first_pos = max(int(pmin), 0)
         last_pos = min(int(pmax), pos_count)
@@ -46,8 +44,8 @@ class Slideable(Subject):
 
 class SlideComponent(CompoundComponent, Scrollable):
 
-    def __init__(self, slideable = None, *a, **k):
-        super(SlideComponent, self).__init__(*a, **k)
+    def __init__(self, slideable=None, *a, **k):
+        (super(SlideComponent, self).__init__)(*a, **k)
         slideable = slideable or self
         self._slideable = slideable
         self._position_scroll, self._page_scroll = self.register_components(ScrollComponent(), ScrollComponent())
@@ -116,7 +114,7 @@ class SlideComponent(CompoundComponent, Scrollable):
         self._position_scroll.update()
         self._page_scroll.update()
 
-    @subject_slot(u'position')
+    @subject_slot('position')
     def _on_position_changed(self):
         self._position_scroll.update()
         self._page_scroll.update()

@@ -1,10 +1,17 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/novation/sysex.py
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/novation/sysex.py
+# Compiled at: 2021-06-29 09:33:48
+# Size of source mod 2**32: 1036 bytes
 from __future__ import absolute_import, print_function, unicode_literals
 SYSEX_START_BYTE = 240
 SYSEX_END_BYTE = 247
 NOVATION_MANUFACTURER_ID = (0, 32, 41)
 DEVICE_FAMILY_MEMBER_CODE = (0, 0)
-STD_MSG_HEADER = (SYSEX_START_BYTE,) + NOVATION_MANUFACTURER_ID + (2,)
+STD_MSG_HEADER = (
+ SYSEX_START_BYTE,) + NOVATION_MANUFACTURER_ID + (2, )
 LAYOUT_COMMAND_BYTE = 0
 FADER_COMMAND_BYTE = 1
 PRINT_COMMAND_BYTE = 3

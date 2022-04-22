@@ -1,10 +1,16 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Launchpad_MK2/ModeUtils.py
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Launchpad_MK2/ModeUtils.py
+# Compiled at: 2022-01-27 16:28:16
+# Size of source mod 2**32: 3402 bytes
 from __future__ import absolute_import, print_function, unicode_literals
 from _Framework.Dependency import depends
-from _Framework.ModesComponent import ModesComponent, ModeButtonBehaviour, ImmediateBehaviour
+from _Framework.ModesComponent import ImmediateBehaviour, ModeButtonBehaviour, ModesComponent
 
 def to_class_name(mode_name):
-    return u''.join([ s.capitalize() for s in mode_name.split(u'_') ])
+    return ''.join([s.capitalize() for s in mode_name.split('_')])
 
 
 class SkinableBehaviourMixin(ModeButtonBehaviour):
@@ -16,22 +22,18 @@ class SkinableBehaviourMixin(ModeButtonBehaviour):
         is_selected = mode == selected_mode
         is_in_group = bool(groups & selected_groups)
         mode_color = to_class_name(mode)
-        value_status = u'Off'
+        value_status = 'Off'
         if is_selected:
-            value_status = u'On'
+            value_status = 'On'
         elif is_in_group:
-            value_status = u'GroupOn'
-        button.set_light(u'Mode.%s.%s' % (mode_color, value_status))
+            value_status = 'GroupOn'
+        button.set_light('Mode.%s.%s' % (mode_color, value_status))
 
 
 class EnablingReenterBehaviour(SkinableBehaviourMixin, ImmediateBehaviour):
-    u"""
-    Behaviour that enabled its component on reenter and
-    disables it afterward
-    """
 
-    def __init__(self, component = None, *a, **k):
-        super(EnablingReenterBehaviour, self).__init__(*a, **k)
+    def __init__(self, component=None, *a, **k):
+        (super(EnablingReenterBehaviour, self).__init__)(*a, **k)
         self._component = component
 
     def press_immediate(self, component, mode):
@@ -54,19 +56,14 @@ class EnablingReenterBehaviour(SkinableBehaviourMixin, ImmediateBehaviour):
 
 
 class NotifyingModesComponent(ModesComponent):
-    u"""
-    ModesComponent that receives a switch_layout method
-    via a dependency injection, in order to physically switch
-    layouts on the hardware unit whenever a mode changes
-    """
 
     @depends(switch_layout=None)
-    def __init__(self, switch_layout = None, *a, **k):
-        super(NotifyingModesComponent, self).__init__(*a, **k)
+    def __init__(self, switch_layout=None, *a, **k):
+        (super(NotifyingModesComponent, self).__init__)(*a, **k)
         self._modes_to_layout_bytes = {}
         self._switch_layout = switch_layout
 
-    def add_mode(self, name, mode_or_component, layout_byte = None, toggle_value = False, groups = set(), behaviour = None):
+    def add_mode(self, name, mode_or_component, layout_byte=None, toggle_value=False, groups=set(), behaviour=None):
         super(NotifyingModesComponent, self).add_mode(name, mode_or_component, toggle_value, groups, behaviour)
         if layout_byte is not None:
             self._modes_to_layout_bytes[name] = layout_byte
@@ -75,10 +72,10 @@ class NotifyingModesComponent(ModesComponent):
         self.send_switch_layout_message(mode)
         super(NotifyingModesComponent, self).push_mode(mode)
 
-    def send_switch_layout_message(self, mode = None):
+    def send_switch_layout_message(self, mode=None):
         mode = mode or self.selected_mode
         try:
             layout_byte = self._modes_to_layout_bytes[mode]
             self._switch_layout(layout_byte)
         except KeyError:
-            print(u"Couldn't switch layout on hardware")
+            print("Couldn't switch layout on hardware")

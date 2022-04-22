@@ -1,6 +1,11 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/_Framework/TransportComponent.py
-from __future__ import absolute_import, print_function, unicode_literals
-from __future__ import division
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/_Framework/TransportComponent.py
+# Compiled at: 2022-01-27 16:28:16
+# Size of source mod 2**32: 9538 bytes
+from __future__ import absolute_import, division, print_function, unicode_literals
 from past.utils import old_div
 from functools import partial
 import Live
@@ -8,19 +13,16 @@ from . import Task
 from .CompoundComponent import CompoundComponent
 from .SubjectSlot import subject_slot
 from .ToggleComponent import ToggleComponent
-from .Util import const, in_range, clamp
+from .Util import clamp, const, in_range
 TEMPO_TOP = 200.0
 TEMPO_BOTTOM = 60.0
 TEMPO_FINE_RANGE = 2.56
 SEEK_SPEED = 10.0
 
 class TransportComponent(CompoundComponent):
-    u"""
-    Class encapsulating all functions in Live's transport section.
-    """
 
-    def __init__(self, play_toggle_model_transform = const(True), *a, **k):
-        super(TransportComponent, self).__init__(*a, **k)
+    def __init__(self, play_toggle_model_transform=const(True), *a, **k):
+        (super(TransportComponent, self).__init__)(*a, **k)
         self._ffwd_button = None
         self._rwd_button = None
         self._tap_tempo_button = None
@@ -34,7 +36,11 @@ class TransportComponent(CompoundComponent):
         self._end_undo_step_task = self._tasks.add(Task.sequence(Task.wait(1.5), Task.run(self.song().end_undo_step)))
         self._end_undo_step_task.kill()
         song = self.song()
-        self._loop_toggle, self._punch_in_toggle, self._punch_out_toggle, self._record_toggle, self._play_toggle, self._stop_toggle, self._nudge_down_toggle, self._nudge_up_toggle, self._metronome_toggle, self._arrangement_overdub_toggle, self._overdub_toggle = self.register_components(ToggleComponent(u'loop', song), ToggleComponent(u'punch_in', song, is_momentary=True), ToggleComponent(u'punch_out', song, is_momentary=True), ToggleComponent(u'record_mode', song), ToggleComponent(u'is_playing', song, model_transform=play_toggle_model_transform), ToggleComponent(u'is_playing', song, model_transform=const(False), view_transform=const(False)), ToggleComponent(u'nudge_down', song, is_momentary=True), ToggleComponent(u'nudge_up', song, is_momentary=True), ToggleComponent(u'metronome', song), ToggleComponent(u'arrangement_overdub', song), ToggleComponent(u'overdub', song))
+        self._loop_toggle, self._punch_in_toggle, self._punch_out_toggle, self._record_toggle, self._play_toggle, self._stop_toggle, self._nudge_down_toggle, self._nudge_up_toggle, self._metronome_toggle, self._arrangement_overdub_toggle, self._overdub_toggle = self.register_components(ToggleComponent('loop', song), ToggleComponent('punch_in', song, is_momentary=True), ToggleComponent('punch_out', song, is_momentary=True), ToggleComponent('record_mode', song), ToggleComponent('is_playing',
+          song, model_transform=play_toggle_model_transform), ToggleComponent('is_playing',
+          song,
+          model_transform=(const(False)),
+          view_transform=(const(False))), ToggleComponent('nudge_down', song, is_momentary=True), ToggleComponent('nudge_up', song, is_momentary=True), ToggleComponent('metronome', song), ToggleComponent('arrangement_overdub', song), ToggleComponent('overdub', song))
 
     def set_stop_button(self, button):
         self._stop_toggle.set_toggle_button(button)
@@ -105,9 +111,7 @@ class TransportComponent(CompoundComponent):
     def set_overdub_button(self, button):
         self._overdub_toggle.set_toggle_button(button)
 
-    def set_tempo_control(self, control, fine_control = None):
-        assert not control or control.message_map_mode() is Live.MidiMap.MapMode.absolute
-        assert not fine_control or fine_control.message_map_mode() is Live.MidiMap.MapMode.absolute
+    def set_tempo_control(self, control, fine_control=None):
         if self._tempo_control != control:
             self._tempo_control = control
             self._tempo_value.subject = control
@@ -118,7 +122,6 @@ class TransportComponent(CompoundComponent):
             self._prior_fine_tempo_value = -1
 
     def set_tempo_fine_control(self, fine_control):
-        assert not fine_control or fine_control.message_map_mode() is Live.MidiMap.MapMode.absolute
         if self._tempo_fine_control != fine_control:
             self._tempo_fine_control = fine_control
             self._tempo_fine_value.subject = fine_control
@@ -135,7 +138,7 @@ class TransportComponent(CompoundComponent):
         if self.is_enabled():
             self._update_tap_tempo_button()
 
-    @subject_slot(u'value')
+    @subject_slot('value')
     def _ffwd_value_slot(self, value):
         self._ffwd_value(value)
 
@@ -147,7 +150,7 @@ class TransportComponent(CompoundComponent):
         elif self.is_enabled():
             self.song().current_song_time += 1
 
-    @subject_slot(u'value')
+    @subject_slot('value')
     def _rwd_value_slot(self, value):
         self._rwd_value(value)
 
@@ -165,10 +168,10 @@ class TransportComponent(CompoundComponent):
         song.current_song_time = max(0.0, song.current_song_time + speed * delta)
         return Task.RUNNING
 
-    @subject_slot(u'value')
+    @subject_slot('value')
     def _tap_tempo_value(self, value):
         if self.is_enabled():
-            if value or not self._tap_tempo_button.is_momentary():
+            if not (value or self._tap_tempo_button.is_momentary()):
                 if not self._end_undo_step_task.is_running:
                     self.song().begin_undo_step()
                 self._end_undo_step_task.restart()
@@ -176,16 +179,17 @@ class TransportComponent(CompoundComponent):
             self._update_tap_tempo_button()
 
     def _update_tap_tempo_button(self):
-        if self.is_enabled() and self._tap_tempo_button:
-            self._tap_tempo_button.set_light(True)
+        if self.is_enabled():
+            if self._tap_tempo_button:
+                self._tap_tempo_button.set_light(True)
 
-    @subject_slot(u'value')
+    @subject_slot('value')
     def _tempo_value(self, value):
         if self.is_enabled():
             fraction = (TEMPO_TOP - TEMPO_BOTTOM) / 127.0
             self.song().tempo = fraction * value + TEMPO_BOTTOM
 
-    @subject_slot(u'value')
+    @subject_slot('value')
     def _tempo_fine_value(self, value):
         if self.is_enabled():
             if self._fine_tempo_needs_pickup:
@@ -195,13 +199,12 @@ class TransportComponent(CompoundComponent):
                     if in_range(64, range_min, range_max + 1):
                         self._fine_tempo_needs_pickup = False
             else:
-                assert in_range(self._prior_fine_tempo_value, 0, 128)
                 difference = value - self._prior_fine_tempo_value
                 ratio = 127.0 / TEMPO_FINE_RANGE
                 new_tempo = clamp(self.song().tempo + old_div(difference, ratio), TEMPO_BOTTOM, TEMPO_TOP)
                 self.song().tempo = new_tempo
         self._prior_fine_tempo_value = value
 
-    @subject_slot(u'value')
+    @subject_slot('value')
     def _song_position_value(self, value):
         raise NotImplementedError

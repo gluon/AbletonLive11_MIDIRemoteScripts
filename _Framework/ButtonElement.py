@@ -1,20 +1,22 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/_Framework/ButtonElement.py
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/_Framework/ButtonElement.py
+# Compiled at: 2022-01-27 16:28:16
+# Size of source mod 2**32: 3778 bytes
 from __future__ import absolute_import, print_function, unicode_literals
 from builtins import object
 import Live
-from .InputControlElement import InputControlElement, MIDI_CC_TYPE
+from .InputControlElement import MIDI_CC_TYPE, InputControlElement
 from .Skin import Skin, SkinColorMissingError
 from .Util import nop
 
 class ButtonValue(object):
-    u"""
-    Basic type for button values, so global constants are symbolically
-    different from integers.
-    """
     midi_value = 0
 
-    def __init__(self, midi_value = None, *a, **k):
-        super(ButtonValue, self).__init__(*a, **k)
+    def __init__(self, midi_value=None, *a, **k):
+        (super(ButtonValue, self).__init__)(*a, **k)
         if midi_value is not None:
             self.midi_value = midi_value
 
@@ -38,15 +40,8 @@ ON_VALUE = ButtonValue(127)
 OFF_VALUE = ButtonValue(0)
 
 class Color(ButtonValue):
-    u"""
-    Basic interface for showing a color.
-    """
 
     def draw(self, interface):
-        u"""
-        Draws the color into the interface.  Depending on the color
-        type, interface might be required special capabilities.
-        """
         interface.send_value(self.midi_value)
 
 
@@ -60,9 +55,6 @@ class DummyUndoStepHandler(object):
 
 
 class ButtonElementMixin(object):
-    u"""
-    Mixin for sending values to button-like control-elements elements.
-    """
 
     def set_light(self, is_turned_on):
         if is_turned_on:
@@ -78,31 +70,26 @@ class ButtonElementMixin(object):
 
 
 class ButtonElement(InputControlElement, ButtonElementMixin):
-    u"""
-    Class representing a button a the controller
-    """
 
     class ProxiedInterface(InputControlElement.ProxiedInterface, ButtonElementMixin):
         is_momentary = nop
         is_pressed = nop
 
-    def __init__(self, is_momentary, msg_type, channel, identifier, skin = Skin(), undo_step_handler = DummyUndoStepHandler(), *a, **k):
-        super(ButtonElement, self).__init__(msg_type, channel, identifier, *a, **k)
-        self.__is_momentary = bool(is_momentary)
+    def __init__(self, is_momentary, msg_type, channel, identifier, skin=Skin(), undo_step_handler=DummyUndoStepHandler(), *a, **k):
+        (super(ButtonElement, self).__init__)(msg_type, channel, identifier, *a, **k)
+        self._ButtonElement__is_momentary = bool(is_momentary)
         self._last_received_value = -1
         self._undo_step_handler = undo_step_handler
         self._skin = skin
 
     def is_momentary(self):
-        u""" returns true if the buttons sends a message on being released """
-        return self.__is_momentary
+        return self._ButtonElement__is_momentary
 
     def message_map_mode(self):
-        assert self.message_type() is MIDI_CC_TYPE
         return Live.MidiMap.MapMode.absolute
 
     def is_pressed(self):
-        return self.__is_momentary and int(self._last_received_value) > 0
+        return self._ButtonElement__is_momentary and int(self._last_received_value) > 0
 
     def set_light(self, value):
         self._set_skin_light(value)
@@ -117,11 +104,13 @@ class ButtonElement(InputControlElement, ButtonElementMixin):
     def receive_value(self, value):
         pressed_before = self.is_pressed()
         self._last_received_value = value
-        if not pressed_before and self.is_pressed():
-            self._undo_step_handler.begin_undo_step()
+        if not pressed_before:
+            if self.is_pressed():
+                self._undo_step_handler.begin_undo_step()
         super(ButtonElement, self).receive_value(value)
-        if pressed_before and not self.is_pressed():
-            self._undo_step_handler.end_undo_step()
+        if pressed_before:
+            if not self.is_pressed():
+                self._undo_step_handler.end_undo_step()
 
     def disconnect(self):
         super(ButtonElement, self).disconnect()

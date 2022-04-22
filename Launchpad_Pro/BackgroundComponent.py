@@ -1,7 +1,13 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Launchpad_Pro/BackgroundComponent.py
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Launchpad_Pro/BackgroundComponent.py
+# Compiled at: 2022-01-27 16:28:16
+# Size of source mod 2**32: 1679 bytes
 from __future__ import absolute_import, print_function, unicode_literals
+import _Framework.BackgroundComponent as BackgroundComponentBase
 from _Framework.SubjectSlot import SubjectSlotError
-from _Framework.BackgroundComponent import BackgroundComponent as BackgroundComponentBase
 
 class BackgroundComponent(BackgroundComponentBase):
 
@@ -20,13 +26,13 @@ class BackgroundComponent(BackgroundComponentBase):
 class ModifierBackgroundComponent(BackgroundComponentBase):
 
     def __init__(self, *a, **k):
-        super(ModifierBackgroundComponent, self).__init__(*a, **k)
+        (super(ModifierBackgroundComponent, self).__init__)(*a, **k)
 
     def _clear_control(self, name, control):
         super(ModifierBackgroundComponent, self)._clear_control(name, control)
         if control:
             try:
-                self._control_slots[name] = self.register_slot(control, lambda *a, **k: self._on_value_listener(control, *a, **k), u'value')
+                self._control_slots[name] = self.register_slot(control, lambda *a, **k: (self._on_value_listener)(control, *a, **k), 'value')
             except SubjectSlotError:
                 pass
 

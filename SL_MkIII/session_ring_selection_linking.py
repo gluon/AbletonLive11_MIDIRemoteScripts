@@ -1,23 +1,29 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/SL_MkIII/session_ring_selection_linking.py
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/SL_MkIII/session_ring_selection_linking.py
+# Compiled at: 2021-06-29 09:33:48
+# Size of source mod 2**32: 3278 bytes
 from __future__ import absolute_import, print_function, unicode_literals
 from ableton.v2.base import clamp, index_if, listens, liveobj_changed, liveobj_valid
-from ableton.v2.control_surface import SessionRingSelectionLinking as SessionRingSelectionLinkingBase
+import ableton.v2.control_surface as SessionRingSelectionLinkingBase
 
 class SessionRingSelectionLinking(SessionRingSelectionLinkingBase):
 
-    def __init__(self, selection_changed_notifier = None, *a, **k):
-        super(SessionRingSelectionLinking, self).__init__(selection_changed_notifier=selection_changed_notifier, *a, **k)
+    def __init__(self, selection_changed_notifier=None, *a, **k):
+        (super(SessionRingSelectionLinking, self).__init__)(a, selection_changed_notifier=selection_changed_notifier, **k)
         self._previously_selected_track = None
         self._currently_selected_track = None
-        self.__on_selected_track_changed.subject = self._song.view
-        self.__on_selected_track_changed()
-        self.__on_selection_paged.subject = selection_changed_notifier
+        self._SessionRingSelectionLinking__on_selected_track_changed.subject = self._song.view
+        self._SessionRingSelectionLinking__on_selected_track_changed()
+        self._SessionRingSelectionLinking__on_selection_paged.subject = selection_changed_notifier
 
-    @listens(u'selected_track')
+    @listens('selected_track')
     def __on_selected_track_changed(self):
         self._ensure_track_selection_history_is_synced()
 
-    @listens(u'selection_paged')
+    @listens('selection_paged')
     def __on_selection_paged(self):
         self._link_session_ring_by_paging()
 
@@ -41,8 +47,6 @@ class SessionRingSelectionLinking(SessionRingSelectionLinkingBase):
             return index_if(lambda t: t == track, controlled_tracks) < len(controlled_tracks)
 
         self._ensure_track_selection_history_is_synced()
-        assert liveobj_valid(self._previously_selected_track)
-        assert liveobj_valid(self._currently_selected_track)
         return is_track_in_session_ring(self._previously_selected_track) and not is_track_in_session_ring(self._song.view.selected_track)
 
     def _ensure_track_selection_history_is_synced(self):
@@ -52,8 +56,9 @@ class SessionRingSelectionLinking(SessionRingSelectionLinkingBase):
 
     def _selection_delta(self):
         delta = 0
-        if liveobj_valid(self._currently_selected_track) and liveobj_valid(self._previously_selected_track):
-            delta = self._track_index(self._currently_selected_track) - self._track_index(self._previously_selected_track)
+        if liveobj_valid(self._currently_selected_track):
+            if liveobj_valid(self._previously_selected_track):
+                delta = self._track_index(self._currently_selected_track) - self._track_index(self._previously_selected_track)
         return delta
 
     def _track_index(self, track):

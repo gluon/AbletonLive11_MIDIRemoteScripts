@@ -1,18 +1,22 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Push/firmware_handling.py
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Push/firmware_handling.py
+# Compiled at: 2022-01-27 16:28:16
+# Size of source mod 2**32: 1307 bytes
 from __future__ import absolute_import, print_function, unicode_literals
-from builtins import str
-from builtins import open
-from builtins import range
+from builtins import open, range, str
 from os import path
-VERSION_PREFIX = '10F4000041444139204E69636F6C6C73'
+VERSION_PREFIX = b'10F4000041444139204E69636F6C6C73'
 NUM_VERSION_BYTES = 8
-PRESET_FILE_NAME = u'Preset.syx'
+PRESET_FILE_NAME = 'Preset.syx'
 
 def get_version_number_from_string(version_string):
     result = 0.0
     if version_string:
-        figures = [ version_string[i:i + 2] for i in range(0, len(version_string), 2) ]
-        result = sum([ int(fig) * 10 ** (1 - i) for i, fig in enumerate(figures) ])
+        figures = [version_string[i:i + 2] for i in range(0, len(version_string), 2)]
+        result = sum([int(fig) * 10 ** (1 - i) for i, fig in enumerate(figures)])
     return result
 
 
@@ -29,7 +33,7 @@ def get_provided_firmware_version():
     result = 0.0
     try:
         mod_path = path.dirname(path.realpath(__file__))
-        with open(path.join(mod_path, PRESET_FILE_NAME), u'rb') as f:
+        with open(path.join(mod_path, PRESET_FILE_NAME), 'rb') as f:
             version_string = get_version_string_from_file_content(f.read())
             result = get_version_number_from_string(version_string)
     except IOError:

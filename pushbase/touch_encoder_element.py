@@ -1,10 +1,15 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/pushbase/touch_encoder_element.py
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/pushbase/touch_encoder_element.py
+# Compiled at: 2022-01-27 16:28:17
+# Size of source mod 2**32: 2908 bytes
 from __future__ import absolute_import, print_function, unicode_literals
 from builtins import object
-from ableton.v2.control_surface.elements import TouchEncoderElement as TouchEncoderElementBase
+import ableton.v2.control_surface.elements as TouchEncoderElementBase
 
 class TouchEncoderObserver(object):
-    u""" Interface for observing the state of one or more TouchEncoderElements """
 
     def on_encoder_touch(self, encoder):
         pass
@@ -14,14 +19,12 @@ class TouchEncoderObserver(object):
 
 
 class TouchEncoderElement(TouchEncoderElementBase):
-    u""" Class representing an encoder that is touch sensitive """
 
-    def __init__(self, undo_step_handler = None, undo_group = None, delete_handler = None, *a, **k):
-        super(TouchEncoderElement, self).__init__(*a, **k)
+    def __init__(self, undo_step_handler=None, delete_handler=None, *a, **k):
+        (super(TouchEncoderElement, self).__init__)(*a, **k)
         self._trigger_undo_step = False
         self._undo_step_open = False
         self._undo_step_handler = undo_step_handler
-        self._undo_group = undo_group
         self._delete_handler = delete_handler
         self.set_observer(None)
 
@@ -67,11 +70,13 @@ class TouchEncoderElement(TouchEncoderElementBase):
         self._undo_step_handler = None
 
     def _begin_undo_step(self):
-        if self._undo_step_handler and self._trigger_undo_step:
-            self._undo_step_handler.begin_undo_step(client=self._undo_group)
-            self._trigger_undo_step = False
-            self._undo_step_open = True
+        if self._undo_step_handler:
+            if self._trigger_undo_step:
+                self._undo_step_handler.begin_undo_step(client=self)
+                self._trigger_undo_step = False
+                self._undo_step_open = True
 
     def _end_undo_step(self):
-        if self._undo_step_handler and self._undo_step_open:
-            self._undo_step_handler.end_undo_step(client=self._undo_group)
+        if self._undo_step_handler:
+            if self._undo_step_open:
+                self._undo_step_handler.end_undo_step(client=self)

@@ -1,4 +1,10 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/SL_MkIII/mode.py
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/SL_MkIII/mode.py
+# Compiled at: 2022-01-27 16:28:16
+# Size of source mod 2**32: 4384 bytes
 from __future__ import absolute_import, print_function, unicode_literals
 from future.moves.itertools import zip_longest
 from ableton.v2.base import clamp, listens
@@ -12,8 +18,8 @@ class NavigatableModesComponent(ModesComponent):
     next_mode_button = ButtonControl()
 
     def __init__(self, *a, **k):
-        super(NavigatableModesComponent, self).__init__(*a, **k)
-        self.__on_selected_mode_changed.subject = self
+        (super(NavigatableModesComponent, self).__init__)(*a, **k)
+        self._NavigatableModesComponent__on_selected_mode_changed.subject = self
 
     @prev_mode_button.pressed
     def prev_mode_button(self, _):
@@ -25,7 +31,7 @@ class NavigatableModesComponent(ModesComponent):
 
     def _update_mode_nav_buttons(self):
         self.prev_mode_button.enabled = self._mode_list and self.selected_mode != self._mode_list[0]
-        self.next_mode_button.enabled = self._mode_list and self.selected_mode != self._mode_list[-1]
+        self.next_mode_button.enabled = self._mode_list and self.selected_mode != self._mode_list[(-1)]
 
     def _navigate_mode(self, direction):
         new_index = 0
@@ -35,7 +41,7 @@ class NavigatableModesComponent(ModesComponent):
         self.selected_mode = self._mode_list[new_index]
         self._update_mode_nav_buttons()
 
-    @listens(u'selected_mode')
+    @listens('selected_mode')
     def __on_selected_mode_changed(self, _):
         self._update_selected_mode()
 
@@ -44,8 +50,8 @@ class NavigatableModesComponent(ModesComponent):
 
 
 class DisplayingNavigatableModesComponent(NavigatableModesComponent):
-    display_1 = TextDisplayControl(segments=(u'',))
-    display_2 = TextDisplayControl(segments=(u'',))
+    display_1 = TextDisplayControl(segments=('', ))
+    display_2 = TextDisplayControl(segments=('', ))
     color_field_1 = ColorSysexControl()
     color_field_2 = ColorSysexControl()
 
@@ -55,27 +61,29 @@ class DisplayingNavigatableModesComponent(NavigatableModesComponent):
 
     def _update_mode_displays(self):
         if self.selected_mode:
-            for display, color_field, name in zip_longest((self.display_1, self.display_2), (self.color_field_1, self.color_field_2), self.selected_mode.split(u'_')[:2]):
-                display[0] = name.capitalize() if name else u''
-                color_field.color = u'Mode.{}.On'.format(name.capitalize()) if name else u'DefaultButton.Disabled'
+            for display, color_field, name in zip_longest((self.display_1, self.display_2), (
+             self.color_field_1, self.color_field_2), self.selected_mode.split('_')[:2]):
+                display[0] = name.capitalize() if name else ''
+                color_field.color = 'Mode.{}.On'.format(name.capitalize()) if name else 'DefaultButton.Disabled'
 
 
 class DisplayingSkinableModesComponent(ModesComponent):
-    mode_display = TextDisplayControl(segments=(u'',) * MAX_MODE_NUMBER)
+    mode_display = TextDisplayControl(segments=(('', ) * MAX_MODE_NUMBER))
     mode_color_fields = control_list(ColorSysexControl, MAX_MODE_NUMBER)
     mode_selection_fields = control_list(BinaryControl, MAX_MODE_NUMBER)
     selected_mode_color_field = ColorSysexControl()
 
     def __init__(self, *a, **k):
-        super(DisplayingSkinableModesComponent, self).__init__(enable_skinning=True, *a, **k)
-        self.__on_selected_mode_changed.subject = self
+        (super(DisplayingSkinableModesComponent, self).__init__)(a, enable_skinning=True, **k)
+        self._DisplayingSkinableModesComponent__on_selected_mode_changed.subject = self
 
     def add_mode_button_control(self, mode_name, behaviour):
         super(DisplayingSkinableModesComponent, self).add_mode_button_control(mode_name, behaviour)
-        self.mode_display[len(self._mode_list) - 1] = to_camel_case_name(mode_name, separator=u' ')
-        self.mode_color_fields[len(self._mode_list) - 1].color = u'Mode.' + to_camel_case_name(mode_name) + u'.On'
+        self.mode_display[len(self._mode_list) - 1] = to_camel_case_name(mode_name,
+          separator=' ')
+        self.mode_color_fields[(len(self._mode_list) - 1)].color = 'Mode.' + to_camel_case_name(mode_name) + '.On'
 
-    @listens(u'selected_mode')
+    @listens('selected_mode')
     def __on_selected_mode_changed(self, _):
         self._update_selection_fields()
         self._update_selected_mode_color_field()
@@ -85,4 +93,4 @@ class DisplayingSkinableModesComponent(ModesComponent):
             field.is_on = mode == self.selected_mode
 
     def _update_selected_mode_color_field(self):
-        self.selected_mode_color_field.color = u'Mode.{}.On'.format(to_camel_case_name(self.selected_mode)) if self.selected_mode else u'DefaultButton.Disabled'
+        self.selected_mode_color_field.color = 'Mode.{}.On'.format(to_camel_case_name(self.selected_mode)) if self.selected_mode else 'DefaultButton.Disabled'

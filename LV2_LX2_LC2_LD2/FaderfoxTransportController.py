@@ -1,14 +1,20 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/LV2_LX2_LC2_LD2/FaderfoxTransportController.py
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/LV2_LX2_LC2_LD2/FaderfoxTransportController.py
+# Compiled at: 2022-01-27 16:28:16
+# Size of source mod 2**32: 6803 bytes
 from __future__ import absolute_import, print_function, unicode_literals
 from builtins import range
 import Live
-from .FaderfoxComponent import FaderfoxComponent
 from .consts import *
+from .FaderfoxComponent import FaderfoxComponent
 
 class FaderfoxTransportController(FaderfoxComponent):
     __module__ = __name__
-    __doc__ = u'Class representing the transport section of faderfox controllers'
-    __filter_funcs__ = [u'update_display', u'log']
+    __doc__ = 'Class representing the transport section of faderfox controllers'
+    __filter_funcs__ = ['update_display', 'log']
 
     def __init__(self, parent):
         FaderfoxTransportController.realinit(self, parent)
@@ -17,15 +23,16 @@ class FaderfoxTransportController(FaderfoxComponent):
         FaderfoxComponent.realinit(self, parent)
 
     def receive_midi_cc(self, channel, cc_no, cc_value):
-        if channel == CHANNEL_SETUP2 and cc_no == SCENE_SCROLL_CC:
-            val = 0
-            if cc_value >= 64:
-                val = cc_value - 128
-            else:
-                val = cc_value
-            idx = self.helper.selected_scene_idx() - val
-            new_scene_idx = min(len(self.parent.song().scenes) - 1, max(0, idx))
-            self.parent.song().view.selected_scene = self.parent.song().scenes[new_scene_idx]
+        if channel == CHANNEL_SETUP2:
+            if cc_no == SCENE_SCROLL_CC:
+                val = 0
+                if cc_value >= 64:
+                    val = cc_value - 128
+                else:
+                    val = cc_value
+                idx = self.helper.selected_scene_idx() - val
+                new_scene_idx = min(len(self.parent.song().scenes) - 1, max(0, idx))
+                self.parent.song().view.selected_scene = self.parent.song().scenes[new_scene_idx]
 
     def receive_midi_note(self, channel, status, note_no, note_vel):
 
@@ -54,22 +61,22 @@ class FaderfoxTransportController(FaderfoxComponent):
                     self.parent.song().stop_playing()
                 elif note_no == SESSION_ARRANGE_SWITCH_NOTE:
                     view = self.parent.application().view
-                    if view.is_view_visible(u'Session'):
-                        view.show_view(u'Arranger')
+                    if view.is_view_visible('Session'):
+                        view.show_view('Arranger')
                     else:
-                        view.show_view(u'Session')
+                        view.show_view('Session')
                 elif note_no == CLIP_TRACK_SWITCH_NOTE:
                     view = self.parent.application().view
-                    if view.is_view_visible(u'Detail/Clip'):
-                        view.show_view(u'Detail/DeviceChain')
+                    if view.is_view_visible('Detail/Clip'):
+                        view.show_view('Detail/DeviceChain')
                     else:
-                        view.show_view(u'Detail/Clip')
+                        view.show_view('Detail/Clip')
                 elif note_no == CLIP_SELECT_NOTE:
                     view = self.parent.application().view
-                    if view.is_view_visible(u'Detail'):
-                        view.hide_view(u'Detail')
+                    if view.is_view_visible('Detail'):
+                        view.hide_view('Detail')
                     else:
-                        view.show_view(u'Detail')
+                        view.show_view('Detail')
                 elif note_no in SCENE_LAUNCH_NOTES:
                     scene_idx = index_of(SCENE_LAUNCH_NOTES, note_no)
                     if scene_idx < len(self.parent.song().scenes):
@@ -80,7 +87,8 @@ class FaderfoxTransportController(FaderfoxComponent):
                         if note_no in notes[2:]:
                             clip_idx = index_of(notes, note_no) + 6
                             self.trigger_track_clip(track_idx, clip_idx)
-                        track_idx += 1
+                        else:
+                            track_idx += 1
 
             elif channel == TRACK_CHANNEL_SETUP2:
                 if note_no in LAUNCH_NOTES:
@@ -98,13 +106,15 @@ class FaderfoxTransportController(FaderfoxComponent):
                 for notes in SLOT_LAUNCH_NOTES1:
                     if note_no in notes:
                         self.trigger_track_clip(track_idx, index_of(notes, note_no))
-                    track_idx += 1
+                    else:
+                        track_idx += 1
 
                 track_idx = 0
                 for notes in SLOT_LAUNCH_NOTES2:
                     if note_no in notes[0:2]:
                         self.trigger_track_clip(track_idx, index_of(notes, note_no) + 6)
-                    track_idx += 1
+                    else:
+                        track_idx += 1
 
     def trigger_track_clip(self, track_idx, clip_idx):
         self.helper.trigger_track_clip(track_idx, clip_idx)
@@ -131,7 +141,8 @@ class FaderfoxTransportController(FaderfoxComponent):
 
         forward_note(CHANNEL_SETUP2, SCENE_LAUNCH_NOTE)
         forward_note(CHANNEL_SETUP2, SCENE_STOP_NOTE)
-        for note in [CLIP_SELECT_NOTE,
+        for note in [
+         CLIP_SELECT_NOTE,
          GLOBAL_STOP_NOTE,
          GLOBAL_PLAY_NOTE,
          SESSION_ARRANGE_SWITCH_NOTE,

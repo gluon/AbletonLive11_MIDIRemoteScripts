@@ -1,7 +1,12 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/ableton/v2/control_surface/components/mixer.py
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/ableton/v2/control_surface/components/mixer.py
+# Compiled at: 2022-01-28 05:06:24
+# Size of source mod 2**32: 9430 bytes
 from __future__ import absolute_import, print_function, unicode_literals
-from builtins import range
-from builtins import zip
+from builtins import range, zip
 from future.moves.itertools import zip_longest
 from ...base import clamp, listens, liveobj_valid
 from ..component import Component
@@ -24,14 +29,9 @@ class SimpleTrackAssigner(TrackAssigner):
 
 
 class RightAlignTracksTrackAssigner(TrackAssigner):
-    u"""
-    Track assigner which aligns certain tracks to the right, leaving a gap
-    between regular and right-aligned tracks (if applicable). Useful for
-    e.g. right-aligning return tracks.
-    """
 
-    def __init__(self, song = None, include_master_track = False, *a, **k):
-        super(RightAlignTracksTrackAssigner, self).__init__(*a, **k)
+    def __init__(self, song=None, include_master_track=False, *a, **k):
+        (super(RightAlignTracksTrackAssigner, self).__init__)(*a, **k)
         self._song = song
         self._include_master_track = include_master_track
 
@@ -53,15 +53,13 @@ class RightAlignTracksTrackAssigner(TrackAssigner):
 
 
 class MixerComponent(Component):
-    u""" Class encompassing several channel strips to form a mixer """
 
-    def __init__(self, tracks_provider = None, track_assigner = None, auto_name = False, invert_mute_feedback = False, channel_strip_component_type = None, *a, **k):
-        assert tracks_provider is not None
-        super(MixerComponent, self).__init__(*a, **k)
+    def __init__(self, tracks_provider=None, track_assigner=None, auto_name=False, invert_mute_feedback=False, channel_strip_component_type=None, *a, **k):
+        (super(MixerComponent, self).__init__)(*a, **k)
         self._channel_strip_component_type = channel_strip_component_type or ChannelStripComponent
-        self._track_assigner = track_assigner if track_assigner is not None else RightAlignTracksTrackAssigner(song=self.song)
+        self._track_assigner = track_assigner if track_assigner is not None else RightAlignTracksTrackAssigner(song=(self.song))
         self._provider = tracks_provider
-        self.__on_offset_changed.subject = tracks_provider
+        self._MixerComponent__on_offset_changed.subject = tracks_provider
         self._send_index = 0
         self._prehear_volume_control = None
         self._crossfader_control = None
@@ -77,14 +75,14 @@ class MixerComponent(Component):
         self._master_strip = self._channel_strip_component_type(parent=self)
         self._master_strip.set_track(self.song.master_track)
         self._selected_strip = self._channel_strip_component_type(parent=self)
-        self.__on_selected_track_changed.subject = self.song.view
-        self.__on_selected_track_changed()
+        self._MixerComponent__on_selected_track_changed.subject = self.song.view
+        self._MixerComponent__on_selected_track_changed()
         self._reassign_tracks()
         if auto_name:
             self._auto_name()
-        self.__on_track_list_changed.subject = self.song
-        self.__on_return_tracks_changed.subject = self.song
-        self.__on_return_tracks_changed()
+        self._MixerComponent__on_track_list_changed.subject = self.song
+        self._MixerComponent__on_return_tracks_changed.subject = self.song
+        self._MixerComponent__on_return_tracks_changed()
 
     def disconnect(self):
         super(MixerComponent, self).disconnect()
@@ -115,7 +113,6 @@ class MixerComponent(Component):
         return len(self.song.return_tracks)
 
     def channel_strip(self, index):
-        assert index in range(len(self._channel_strips))
         return self._channel_strips[index]
 
     def master_strip(self):
@@ -148,7 +145,7 @@ class MixerComponent(Component):
             if self._send_index is None:
                 strip.set_send_controls(None)
             else:
-                strip.set_send_controls((None,) * self._send_index + (control,))
+                strip.set_send_controls((None, ) * self._send_index + (control,))
 
     def set_arm_buttons(self, buttons):
         for strip, button in zip_longest(self._channel_strips, buttons or []):
@@ -170,15 +167,15 @@ class MixerComponent(Component):
         for strip in self._channel_strips or []:
             strip.set_shift_button(button)
 
-    @listens(u'offset')
+    @listens('offset')
     def __on_offset_changed(self, *a):
         self._reassign_tracks()
 
-    @listens(u'visible_tracks')
+    @listens('visible_tracks')
     def __on_track_list_changed(self):
         self._reassign_tracks()
 
-    @listens(u'selected_track')
+    @listens('selected_track')
     def __on_selected_track_changed(self):
         self._update_selected_strip()
         self._on_selected_track_changed()
@@ -194,7 +191,7 @@ class MixerComponent(Component):
     def _on_selected_track_changed(self):
         pass
 
-    @listens(u'return_tracks')
+    @listens('return_tracks')
     def __on_return_tracks_changed(self):
         self._update_send_index()
         self.on_num_sends_changed()
@@ -227,8 +224,8 @@ class MixerComponent(Component):
             channel_strip.set_track(track)
 
     def _auto_name(self):
-        self.name = u'Mixer'
-        self.master_strip().name = u'Master_Channel_Strip'
-        self.selected_strip().name = u'Selected_Channel_Strip'
+        self.name = 'Mixer'
+        self.master_strip().name = 'Master_Channel_Strip'
+        self.selected_strip().name = 'Selected_Channel_Strip'
         for index, strip in enumerate(self._channel_strips):
-            strip.name = u'Channel_Strip_%d' % index
+            strip.name = 'Channel_Strip_%d' % index

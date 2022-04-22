@@ -1,4 +1,10 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Launchkey_MK3/simple_display.py
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Launchkey_MK3/simple_display.py
+# Compiled at: 2022-01-27 16:28:16
+# Size of source mod 2**32: 2243 bytes
 from __future__ import absolute_import, print_function, unicode_literals
 from ableton.v2.base import task
 from ableton.v2.control_surface import NotifyingControlElement
@@ -25,7 +31,7 @@ def as_ascii(message):
 class SimpleDisplayElement(NotifyingControlElement):
 
     def __init__(self, header, tail, *a, **k):
-        super(SimpleDisplayElement, self).__init__(*a, **k)
+        (super(SimpleDisplayElement, self).__init__)(*a, **k)
         self._message_header = header
         self._message_tail = tail
         self._message_to_send = None
@@ -47,7 +53,7 @@ class SimpleDisplayElement(NotifyingControlElement):
         self._request_send_message()
 
     def reset(self):
-        self.display_message(u' ')
+        self.display_message(' ')
 
     def send_midi(self, midi_bytes):
         if midi_bytes != self._last_sent_message:

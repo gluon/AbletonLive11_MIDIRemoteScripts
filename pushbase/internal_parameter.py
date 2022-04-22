@@ -1,29 +1,34 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/pushbase/internal_parameter.py
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/pushbase/internal_parameter.py
+# Compiled at: 2022-01-27 16:28:17
+# Size of source mod 2**32: 3200 bytes
 from __future__ import absolute_import, print_function, unicode_literals
 from builtins import str
-from ableton.v2.base import clamp, listenable_property, liveobj_valid, nop, EventError, EventObject, forward_property, Proxy, Slot
+from ableton.v2.base import EventError, EventObject, Proxy, Slot, clamp, forward_property, listenable_property, liveobj_valid, nop
 from ableton.v2.control_surface import EnumWrappingParameter, InternalParameter, InternalParameterBase, RelativeInternalParameter, WrappingParameter, to_percentage_display
 
 class ConstantParameter(InternalParameterBase):
-    forward_from_original = forward_property(u'_original_parameter')
+    forward_from_original = forward_property('_original_parameter')
 
-    def __init__(self, original_parameter = None, *a, **k):
-        assert original_parameter is not None
-        super(InternalParameterBase, self).__init__(*a, **k)
+    def __init__(self, original_parameter=None, *a, **k):
+        (super(InternalParameterBase, self).__init__)(*a, **k)
         self._original_parameter = original_parameter
 
-    add_value_listener = forward_from_original(u'add_value_listener')
-    remove_value_listener = forward_from_original(u'remove_value_listener')
-    value_has_listener = forward_from_original(u'value_has_listener')
-    canonical_parent = forward_from_original(u'canonical_parent')
-    min = forward_from_original(u'min')
-    max = forward_from_original(u'max')
-    name = forward_from_original(u'name')
-    original_name = forward_from_original(u'original_name')
-    default_value = forward_from_original(u'default_value')
-    automation_state = forward_from_original(u'automation_state')
-    state = forward_from_original(u'state')
-    _live_ptr = forward_from_original(u'_live_ptr')
+    add_value_listener = forward_from_original('add_value_listener')
+    remove_value_listener = forward_from_original('remove_value_listener')
+    value_has_listener = forward_from_original('value_has_listener')
+    canonical_parent = forward_from_original('canonical_parent')
+    min = forward_from_original('min')
+    max = forward_from_original('max')
+    name = forward_from_original('name')
+    original_name = forward_from_original('original_name')
+    default_value = forward_from_original('default_value')
+    automation_state = forward_from_original('automation_state')
+    state = forward_from_original('state')
+    _live_ptr = forward_from_original('_live_ptr')
 
     @property
     def display_value(self):
@@ -43,17 +48,12 @@ class ConstantParameter(InternalParameterBase):
 
 
 class ProxyParameter(Proxy):
-    u"""
-    Behaves like Proxy, but with inverted logic of getting arguments from the passed
-    interface / proxied object. It means the proxied interface can override
-    proxied object's attributes.
-    """
 
     def __getattr__(self, name):
         if not self._skip_wrapper_lookup:
             obj = self.proxied_object
             return getattr(self.proxied_interface, name, getattr(obj, name))
-        raise AttributeError(u'Does not have attribute %s' % name)
+        raise AttributeError('Does not have attribute %s' % name)
 
     def __unicode__(self):
         return str(self.proxied_object)

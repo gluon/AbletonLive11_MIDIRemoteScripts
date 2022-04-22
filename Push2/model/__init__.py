@@ -1,13 +1,20 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Push2/model/__init__.py
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Push2/model/__init__.py
+# Compiled at: 2022-01-27 16:28:16
+# Size of source mod 2**32: 25746 bytes
 from __future__ import absolute_import, print_function, unicode_literals
 from past.builtins import unicode
-from .declaration import Binding, custom_property, id_property, listmodel, listof, view_property, ViewModel, ModelVisitor
+from .declaration import Binding, ModelVisitor, ViewModel, custom_property, id_property, listmodel, listof, view_property
 from .repr import BrowserItemAdapter, BrowserListWrapper, ClipAdapter, DeviceAdapter, DeviceParameterAdapter, EditModeOptionAdapter, ItemListAdapter, ItemSlotAdapter, LiveDialogAdapter, OptionsListAdapter, RoutingAdapter, SimplerDeviceAdapter, TrackAdapter, TrackControlAdapter, TrackListAdapter, TrackMixAdapter, VisibleAdapter
-__all__ = (ModelVisitor,)
+__all__ = (
+ ModelVisitor,)
 
 class RealTimeChannel(Binding):
-    channel_id = view_property(unicode, u'')
-    object_id = view_property(unicode, u'')
+    channel_id = view_property(unicode, '')
+    object_id = view_property(unicode, '')
 
 
 class VisibleModel(ViewModel):
@@ -26,7 +33,7 @@ class ClipPositions(Binding):
 class ClipModel(Binding):
     ADAPTER = ClipAdapter
     id = id_property()
-    name = view_property(unicode, u'')
+    name = view_property(unicode, '')
     color_index = view_property(int, -1)
     is_recording = view_property(bool, False)
     warping = view_property(bool, False)
@@ -39,7 +46,7 @@ class ClipModel(Binding):
 
 class Track(Binding):
     ADAPTER = TrackAdapter
-    name = view_property(unicode, u'')
+    name = view_property(unicode, '')
     colorIndex = view_property(int, -1)
     isFoldable = view_property(bool, False)
     containsDrumRack = view_property(bool, False)
@@ -55,7 +62,7 @@ class Track(Binding):
     isReturn = view_property(bool, False)
     hasPlayingClip = view_property(bool, False)
     playingClip = view_property(ClipModel)
-    outputRouting = view_property(unicode, u'')
+    outputRouting = view_property(unicode, '')
     id = id_property()
 
 
@@ -70,13 +77,13 @@ class TrackListModel(Binding):
 
 class Device(Binding):
     ADAPTER = DeviceAdapter
-    name = view_property(unicode, u'')
-    navigation_name = view_property(unicode, u'')
+    name = view_property(unicode, '')
+    navigation_name = view_property(unicode, '')
     nestingLevel = view_property(int, 0)
     is_active = view_property(bool, False)
     id = id_property()
-    class_name = view_property(unicode, u'')
-    icon = view_property(unicode, u'')
+    class_name = view_property(unicode, '')
+    icon = view_property(unicode, '')
     chain_color_index = view_property(int, -1)
     rack_color_index = view_property(int, -1)
 
@@ -91,8 +98,8 @@ class DeviceListModel(Binding):
 
 class ItemSlotModel(Binding):
     ADAPTER = ItemSlotAdapter
-    name = view_property(unicode, u'')
-    icon = view_property(unicode, u'')
+    name = view_property(unicode, '')
+    icon = view_property(unicode, '')
 
 
 class ParameterBankListModel(Binding):
@@ -118,7 +125,7 @@ class EditModeOptionsModel(Binding):
 
 class TransportState(Binding):
     count_in_duration = view_property(int, 0)
-    count_in_real_time_channel_id = view_property(unicode, u'')
+    count_in_real_time_channel_id = view_property(unicode, '')
     is_counting_in = view_property(bool, False)
     signature_numerator = view_property(int, 4)
     signature_denominator = view_property(int, 4)
@@ -127,9 +134,9 @@ class TransportState(Binding):
 
 class Chain(Binding):
     ADAPTER = ItemSlotAdapter
-    name = view_property(unicode, u'')
+    name = view_property(unicode, '')
     id = id_property()
-    icon = view_property(unicode, u'')
+    icon = view_property(unicode, '')
     color_index = view_property(int, -1)
 
 
@@ -144,7 +151,7 @@ class MixerSelectionListModel(Binding):
     ADAPTER = OptionsListAdapter
     visible = view_property(bool, False)
     items = view_property(listof(ItemSlotModel))
-    selectedItem = view_property(unicode, u'')
+    selectedItem = view_property(unicode, '')
 
 
 class TrackMixerSelectionListModel(Binding):
@@ -155,16 +162,16 @@ class TrackMixerSelectionListModel(Binding):
 
 class DeviceParameter(Binding):
     ADAPTER = DeviceParameterAdapter
-    name = view_property(unicode, u'')
-    original_name = view_property(unicode, u'')
+    name = view_property(unicode, '')
+    original_name = view_property(unicode, '')
     min = view_property(float, 0.0)
     max = view_property(float, 0.0)
     value = view_property(float, 0.0)
     valueItems = view_property(listof(unicode))
     valueItemImages = view_property(listof(unicode))
     valueItemSmallImages = view_property(listof(unicode))
-    displayValue = view_property(unicode, u'')
-    unit = view_property(unicode, u'')
+    displayValue = view_property(unicode, '')
+    unit = view_property(unicode, '')
     id = id_property()
     is_enabled = view_property(bool, True)
     hasAutomation = view_property(bool, False)
@@ -203,7 +210,7 @@ class SimplerPositions(Binding):
 
 
 class TimelineNavigationFocusMarker(Binding):
-    name = view_property(unicode, u'')
+    name = view_property(unicode, '')
     position = view_property(float, -1)
 
 
@@ -215,7 +222,8 @@ class TimelineRegion(Binding):
 class WaveformNavigation(Binding):
     animate_visible_region = view_property(bool, False)
     visible_region = view_property(TimelineRegion, depends=animate_visible_region)
-    visible_region_in_samples = view_property(TimelineRegion, depends=animate_visible_region)
+    visible_region_in_samples = view_property(TimelineRegion,
+      depends=animate_visible_region)
     show_focus = view_property(bool, False)
     focus_marker = view_property(TimelineNavigationFocusMarker)
 
@@ -240,8 +248,8 @@ class SimplerProperties(Binding):
     current_playback_mode = view_property(int, 0)
     slices = view_property(listmodel(Slice))
     selected_slice = view_property(Slice)
-    playhead_real_time_channel_id = view_property(unicode, u'')
-    waveform_real_time_channel_id = view_property(unicode, u'')
+    playhead_real_time_channel_id = view_property(unicode, '')
+    waveform_real_time_channel_id = view_property(unicode, '')
     warping = view_property(bool, False)
     positions = view_property(SimplerPositions)
     waveform_navigation = view_property(WaveformNavigation)
@@ -249,23 +257,23 @@ class SimplerProperties(Binding):
 
 class DeviceParameterListModel(ViewModel):
     visible = view_property(bool, False)
-    deviceType = view_property(unicode, u'')
+    deviceType = view_property(unicode, '')
     device = view_property(Device)
     parameters = view_property(listof(DeviceParameter))
 
 
 class DeviceVisualisationModel(Binding):
     shrink_parameters = view_property(listof(bool))
-    visualisation_real_time_channel_id = view_property(unicode, u'')
+    visualisation_real_time_channel_id = view_property(unicode, '')
 
 
 class SimplerDeviceViewModel(ViewModel):
     visible = view_property(bool, False)
-    deviceType = view_property(unicode, u'')
+    deviceType = view_property(unicode, '')
     device = view_property(Device)
     parameters = view_property(listof(DeviceParameter))
     properties = view_property(SimplerProperties)
-    bank_view_description = view_property(unicode, u'')
+    bank_view_description = view_property(unicode, '')
 
 
 class TrackMixModel(Binding):
@@ -278,13 +286,13 @@ class TrackMixModel(Binding):
 
 class RoutingType(Binding):
     id = id_property()
-    name = view_property(unicode, u'')
+    name = view_property(unicode, '')
 
 
 class RoutingChannel(Binding):
     id = id_property()
-    name = view_property(unicode, u'')
-    layout = view_property(unicode, u'')
+    name = view_property(unicode, '')
+    layout = view_property(unicode, '')
     realtime_channel = view_property(RealTimeChannel)
 
 
@@ -292,7 +300,7 @@ class RoutingTypeList(Binding):
     id = id_property()
     targets = view_property(listof(RoutingType))
     selected_target = view_property(RoutingType)
-    selected_index = view_property(int, -1, depends=targets)
+    selected_index = view_property(int, (-1), depends=targets)
     selected_track = view_property(Track)
 
 
@@ -300,13 +308,13 @@ class RoutingChannelList(Binding):
     id = id_property()
     targets = view_property(listof(RoutingChannel))
     selected_target = view_property(RoutingChannel)
-    selected_index = view_property(int, -1, depends=targets)
+    selected_index = view_property(int, (-1), depends=targets)
 
 
 class RoutingChannelPositionList(Binding):
     id = id_property()
     targets = view_property(listof(unicode))
-    selected_index = view_property(int, -1, depends=targets)
+    selected_index = view_property(int, (-1), depends=targets)
 
 
 class RoutingControlModel(Binding):
@@ -322,10 +330,10 @@ class RoutingControlModel(Binding):
 
 class CompressorDeviceViewModel(ViewModel):
     visible = view_property(bool, False)
-    deviceType = view_property(unicode, u'')
+    deviceType = view_property(unicode, '')
     device = view_property(Device)
     parameters = view_property(listof(DeviceParameter))
-    bank_view_description = view_property(unicode, u'')
+    bank_view_description = view_property(unicode, '')
     routing_type_list = view_property(RoutingTypeList)
     routing_channel_list = view_property(RoutingChannelList)
     routing_channel_position_list = view_property(RoutingChannelPositionList)
@@ -333,7 +341,7 @@ class CompressorDeviceViewModel(ViewModel):
 
 class TrackControlModel(Binding):
     ADAPTER = TrackControlAdapter
-    track_control_mode = view_property(unicode, u'')
+    track_control_mode = view_property(unicode, '')
     routing_mode_available = view_property(bool, False)
     track_mix = view_property(TrackMixModel)
     routing = view_property(RoutingControlModel)
@@ -347,8 +355,8 @@ class BrowserListView(Binding):
 class BrowserItem(Binding):
     ADAPTER = BrowserItemAdapter
     id = id_property()
-    name = view_property(unicode, u'')
-    icon = view_property(unicode, u'')
+    name = view_property(unicode, '')
+    icon = view_property(unicode, '')
     is_loadable = view_property(bool, False)
     is_device = view_property(bool, False)
     color_label_index = view_property(int, -1)
@@ -374,16 +382,16 @@ class BrowserModel(Binding):
     can_exit = view_property(bool, False)
     expanded = view_property(bool, False)
     prehear_enabled = view_property(bool, False)
-    context_text = view_property(unicode, u'')
+    context_text = view_property(unicode, '')
     context_color_index = view_property(int, -1)
-    context_display_type = view_property(unicode, u'')
+    context_display_type = view_property(unicode, '')
     load_neighbour_overlay = view_property(BrowserLoadNeighbourOverlay)
     should_widen_focused_item = view_property(bool, False)
 
 
 class BrowserList(Binding):
     id = id_property()
-    items = custom_property(listmodel(BrowserItem), wrapper_class=BrowserListWrapper)
+    items = custom_property((listmodel(BrowserItem)), wrapper_class=BrowserListWrapper)
 
 
 class BrowserData(Binding):
@@ -392,17 +400,17 @@ class BrowserData(Binding):
 
 class Notification(Binding):
     visible = view_property(bool, False)
-    message = view_property(unicode, u'')
+    message = view_property(unicode, '')
 
 
 class RealTimeClient(Binding):
-    clientId = view_property(unicode, u'')
+    clientId = view_property(unicode, '')
 
 
 class ConvertModel(Binding):
     ADAPTER = VisibleAdapter
     source_color_index = view_property(int, -1)
-    source_name = view_property(unicode, u'')
+    source_name = view_property(unicode, '')
     visible = view_property(bool, False)
     available_conversions = view_property(listof(unicode))
 
@@ -416,11 +424,11 @@ class NoteLayout(Binding):
 class ScalesModel(Binding):
     ADAPTER = VisibleAdapter
     visible = view_property(bool, False)
-    scale_names = view_property(listof(unicode), u'')
+    scale_names = view_property(listof(unicode), '')
     selected_scale_index = view_property(int, -1)
-    layout_names = view_property(listof(unicode), u'')
+    layout_names = view_property(listof(unicode), '')
     selected_layout_index = view_property(int, 0)
-    root_note_names = view_property(listof(unicode), u'')
+    root_note_names = view_property(listof(unicode), '')
     selected_root_note_index = view_property(int, -1)
     note_layout = view_property(NoteLayout)
     horizontal_navigation = view_property(bool, False)
@@ -445,7 +453,7 @@ class StepSettingsModel(Binding):
 class StepAutomationSettingsModel(Binding):
     ADAPTER = VisibleAdapter
     visible = view_property(bool, False)
-    deviceType = view_property(unicode, u'')
+    deviceType = view_property(unicode, '')
     parameters = view_property(listof(DeviceParameter))
     device = view_property(Device)
     can_automate_parameters = view_property(bool, False)
@@ -499,19 +507,19 @@ class AudioClipSettingsModel(Binding):
     warping = view_property(bool, False)
     gain = view_property(float, 0.0)
     audio_parameters = view_property(listof(DeviceParameter))
-    waveform_real_time_channel_id = view_property(unicode, u'')
-    playhead_real_time_channel_id = view_property(unicode, u'')
+    waveform_real_time_channel_id = view_property(unicode, '')
+    playhead_real_time_channel_id = view_property(unicode, '')
 
 
 class MidiClipVisualisationModel(Binding):
-    visualisation_real_time_channel_id = view_property(unicode, u'')
+    visualisation_real_time_channel_id = view_property(unicode, '')
 
 
 class ModeState(Binding):
-    main_mode = view_property(unicode, u'')
-    mix_mode = view_property(unicode, u'')
-    global_mix_mode = view_property(unicode, u'')
-    device_mode = view_property(unicode, u'')
+    main_mode = view_property(unicode, '')
+    mix_mode = view_property(unicode, '')
+    global_mix_mode = view_property(unicode, '')
+    device_mode = view_property(unicode, '')
 
 
 class MixerViewModel(ViewModel):
@@ -523,8 +531,8 @@ class MixerViewModel(ViewModel):
 
 
 class GeneralSettingsModel(Binding):
-    workflow = view_property(unicode, u'scene')
-    aftertouch_mode = view_property(unicode, u'mono')
+    workflow = view_property(unicode, 'scene')
+    aftertouch_mode = view_property(unicode, 'mono')
 
 
 class PadSettingsModel(Binding):
@@ -572,7 +580,7 @@ class SetupModel(Binding):
     ADAPTER = VisibleAdapter
     visible = view_property(bool, False)
     settings = view_property(SettingsModel)
-    selected_mode = view_property(unicode, u'')
+    selected_mode = view_property(unicode, '')
     modes = view_property(listof(unicode))
     velocity_curve = view_property(VelocityCurveModel)
     make_it_go_boom = view_property(bool, False)
@@ -581,7 +589,7 @@ class SetupModel(Binding):
 class ValueModel(Binding):
     ADAPTER = VisibleAdapter
     visible = view_property(bool, False)
-    value_string = view_property(unicode, u'')
+    value_string = view_property(unicode, '')
 
 
 class ImportantGlobals(ViewModel):
@@ -595,7 +603,7 @@ class FirmwareVersion(Binding):
     major = view_property(int, 0)
     minor = view_property(int, 0)
     build = view_property(int, 0)
-    release_type = view_property(unicode, u'')
+    release_type = view_property(unicode, '')
 
 
 class HardwareInfo(ViewModel):
@@ -606,9 +614,9 @@ class HardwareInfo(ViewModel):
 class FirmwareUpdateModel(Binding):
     ADAPTER = VisibleAdapter
     visible = view_property(bool, False)
-    firmware_file = view_property(unicode, u'')
-    data_file = view_property(unicode, u'')
-    state = view_property(unicode, u'')
+    firmware_file = view_property(unicode, '')
+    data_file = view_property(unicode, '')
+    state = view_property(unicode, '')
 
 
 class FirmwareSwitcher(Binding):
@@ -619,7 +627,7 @@ class FirmwareSwitcher(Binding):
 class LiveDialogViewModel(Binding):
     ADAPTER = LiveDialogAdapter
     visible = view_property(bool, False)
-    text = view_property(unicode, u'')
+    text = view_property(unicode, '')
     can_cancel = view_property(bool, False)
 
 

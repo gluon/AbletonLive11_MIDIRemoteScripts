@@ -1,13 +1,18 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Launchpad/DefChannelStripComponent.py
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Launchpad/DefChannelStripComponent.py
+# Compiled at: 2022-01-27 16:28:16
+# Size of source mod 2**32: 15923 bytes
 from __future__ import absolute_import, print_function, unicode_literals
 from builtins import range
-import Live
-from _Framework.ChannelStripComponent import ChannelStripComponent
-from .ConfigurableButtonElement import ConfigurableButtonElement
 from itertools import chain
+import Live
+import _Framework.ChannelStripComponent as ChannelStripComponent
+from .ConfigurableButtonElement import ConfigurableButtonElement
 
 class DefChannelStripComponent(ChannelStripComponent):
-    u""" Subclass of channel strip component offering defaultbuttons for the timeables """
 
     def __init__(self):
         ChannelStripComponent.__init__(self)
@@ -18,7 +23,6 @@ class DefChannelStripComponent(ChannelStripComponent):
         self._invert_mute_feedback = True
 
     def disconnect(self):
-        u""" releasing references and removing listeners"""
         if self._track != None:
             volume = self._track.mixer_device.volume
             panning = self._track.mixer_device.panning
@@ -27,10 +31,12 @@ class DefChannelStripComponent(ChannelStripComponent):
                 volume.remove_value_listener(self._on_volume_changed)
             if panning.value_has_listener(self._on_panning_changed):
                 panning.remove_value_listener(self._on_panning_changed)
-            if len(sends) > 0 and sends[0].value_has_listener(self._on_send1_changed):
-                sends[0].remove_value_listener(self._on_send1_changed)
-            if len(sends) > 1 and sends[1].value_has_listener(self._on_send2_changed):
-                sends[1].remove_value_listener(self._on_send2_changed)
+            if len(sends) > 0:
+                if sends[0].value_has_listener(self._on_send1_changed):
+                    sends[0].remove_value_listener(self._on_send1_changed)
+            if len(sends) > 1:
+                if sends[1].value_has_listener(self._on_send2_changed):
+                    sends[1].remove_value_listener(self._on_send2_changed)
         if self._default_volume_button != None:
             self._default_volume_button.remove_value_listener(self._default_volume_value)
             self._default_volume_button = None
@@ -46,7 +52,6 @@ class DefChannelStripComponent(ChannelStripComponent):
         ChannelStripComponent.disconnect(self)
 
     def set_track(self, track):
-        assert track == None or isinstance(track, Live.Track.Track)
         if track != self._track:
             if self._track != None:
                 volume = self._track.mixer_device.volume
@@ -56,19 +61,17 @@ class DefChannelStripComponent(ChannelStripComponent):
                     volume.remove_value_listener(self._on_volume_changed)
                 if panning.value_has_listener(self._on_panning_changed):
                     panning.remove_value_listener(self._on_panning_changed)
-                if len(sends) > 0 and sends[0].value_has_listener(self._on_send1_changed):
-                    sends[0].remove_value_listener(self._on_send1_changed)
-                if len(sends) > 1 and sends[1].value_has_listener(self._on_send2_changed):
-                    sends[1].remove_value_listener(self._on_send2_changed)
+                if len(sends) > 0:
+                    if sends[0].value_has_listener(self._on_send1_changed):
+                        sends[0].remove_value_listener(self._on_send1_changed)
+                if len(sends) > 1:
+                    if sends[1].value_has_listener(self._on_send2_changed):
+                        sends[1].remove_value_listener(self._on_send2_changed)
             ChannelStripComponent.set_track(self, track)
         else:
             self.update()
 
     def set_default_buttons(self, volume, panning, send1, send2):
-        assert volume == None or isinstance(volume, ConfigurableButtonElement)
-        assert panning == None or isinstance(panning, ConfigurableButtonElement)
-        assert send1 == None or isinstance(send1, ConfigurableButtonElement)
-        assert send2 == None or isinstance(send2, ConfigurableButtonElement)
         if volume != self._default_volume_button:
             if self._default_volume_button != None:
                 self._default_volume_button.remove_value_listener(self._default_volume_value)
@@ -96,7 +99,6 @@ class DefChannelStripComponent(ChannelStripComponent):
         self.update()
 
     def set_send_controls(self, controls):
-        assert controls == None or isinstance(controls, tuple)
         if controls != self._send_controls:
             self._send_controls = controls
             if self._send_controls != None:
@@ -157,107 +159,100 @@ class DefChannelStripComponent(ChannelStripComponent):
                                 send_control.reset()
 
     def _default_volume_value(self, value):
-        assert self._default_volume_button != None
-        assert value in range(128)
-        if self.is_enabled() and self._track != None:
-            if value != 0 or not self._default_volume_button.is_momentary():
+        if not self.is_enabled() or self._track != None:
+            if not (value != 0 or self._default_volume_button.is_momentary()):
                 volume = self._track.mixer_device.volume
                 if volume.is_enabled:
                     volume.value = volume.default_value
 
     def _default_panning_value(self, value):
-        assert self._default_panning_button != None
-        assert value in range(128)
-        if self.is_enabled() and self._track != None:
-            if value != 0 or not self._default_panning_button.is_momentary():
+        if not self.is_enabled() or self._track != None:
+            if not (value != 0 or self._default_panning_button.is_momentary()):
                 panning = self._track.mixer_device.panning
                 if panning.is_enabled:
                     panning.value = panning.default_value
 
     def _default_send1_value(self, value):
-        assert self._default_send1_button != None
-        assert value in range(128)
-        if self.is_enabled() and self._track != None and len(self._track.mixer_device.sends) > 0:
-            if value != 0 or not self._default_send1_button.is_momentary():
+        if not self.is_enabled() and self._track != None or len(self._track.mixer_device.sends) > 0:
+            if not (value != 0 or self._default_send1_button.is_momentary()):
                 send1 = self._track.mixer_device.sends[0]
                 if send1.is_enabled:
                     send1.value = send1.default_value
 
     def _default_send2_value(self, value):
-        assert self._default_send2_button != None
-        assert value in range(128)
-        if self.is_enabled() and self._track != None and len(self._track.mixer_device.sends) > 1:
-            if value != 0 or not self._default_send2_button.is_momentary():
+        if not self.is_enabled() and self._track != None or len(self._track.mixer_device.sends) > 1:
+            if not (value != 0 or self._default_send2_button.is_momentary()):
                 send2 = self._track.mixer_device.sends[1]
                 if send2.is_enabled:
                     send2.value = send2.default_value
 
     def _on_mute_changed(self):
-        if self.is_enabled() and self._mute_button != None:
-            if self._track != None:
-                if self._track in chain(self.song().tracks, self.song().return_tracks) and self._track.mute != self._invert_mute_feedback:
-                    self._mute_button.turn_on()
+        if self.is_enabled():
+            if self._mute_button != None:
+                if self._track != None:
+                    if self._track in chain(self.song().tracks, self.song().return_tracks) and self._track.mute != self._invert_mute_feedback:
+                        self._mute_button.turn_on()
+                    else:
+                        self._mute_button.turn_off()
                 else:
-                    self._mute_button.turn_off()
-            else:
-                self._mute_button.send_value(0)
+                    self._mute_button.send_value(0)
 
     def _on_solo_changed(self):
-        if self.is_enabled() and self._solo_button != None:
-            if self._track != None:
-                if self._track in chain(self.song().tracks, self.song().return_tracks) and self._track.solo:
-                    self._solo_button.turn_on()
+        if self.is_enabled():
+            if self._solo_button != None:
+                if self._track != None:
+                    if self._track in chain(self.song().tracks, self.song().return_tracks) and self._track.solo:
+                        self._solo_button.turn_on()
+                    else:
+                        self._solo_button.turn_off()
                 else:
-                    self._solo_button.turn_off()
-            else:
-                self._solo_button.send_value(0)
+                    self._solo_button.send_value(0)
 
     def _on_arm_changed(self):
-        if self.is_enabled() and self._arm_button != None:
-            if self._track != None:
-                if self._track in self.song().tracks and self._track.can_be_armed and self._track.arm:
-                    self._arm_button.turn_on()
+        if self.is_enabled():
+            if self._arm_button != None:
+                if self._track != None:
+                    if self._track in self.song().tracks and self._track.can_be_armed and self._track.arm:
+                        self._arm_button.turn_on()
+                    else:
+                        self._arm_button.turn_off()
                 else:
-                    self._arm_button.turn_off()
-            else:
-                self._arm_button.send_value(0)
+                    self._arm_button.send_value(0)
 
     def _on_volume_changed(self):
-        assert self._track != None
-        if self.is_enabled() and self._default_volume_button != None:
-            volume = self._track.mixer_device.volume
-            if volume.value == volume.default_value:
-                self._default_volume_button.turn_on()
-            else:
-                self._default_volume_button.turn_off()
+        if self.is_enabled():
+            if self._default_volume_button != None:
+                volume = self._track.mixer_device.volume
+                if volume.value == volume.default_value:
+                    self._default_volume_button.turn_on()
+                else:
+                    self._default_volume_button.turn_off()
 
     def _on_panning_changed(self):
-        assert self._track != None
-        if self.is_enabled() and self._default_panning_button != None:
-            panning = self._track.mixer_device.panning
-            if panning.value == panning.default_value:
-                self._default_panning_button.turn_on()
-            else:
-                self._default_panning_button.turn_off()
+        if self.is_enabled():
+            if self._default_panning_button != None:
+                panning = self._track.mixer_device.panning
+                if panning.value == panning.default_value:
+                    self._default_panning_button.turn_on()
+                else:
+                    self._default_panning_button.turn_off()
 
     def _on_send1_changed(self):
-        assert self._track != None
         sends = self._track.mixer_device.sends
-        assert len(sends) > 0
-        if self.is_enabled() and self._default_send1_button != None:
-            send1 = sends[0]
-            if send1.value == send1.default_value:
-                self._default_send1_button.turn_on()
-            else:
-                self._default_send1_button.turn_off()
+        if self.is_enabled():
+            if self._default_send1_button != None:
+                send1 = sends[0]
+                if send1.value == send1.default_value:
+                    self._default_send1_button.turn_on()
+                else:
+                    self._default_send1_button.turn_off()
 
     def _on_send2_changed(self):
-        assert self._track != None
         sends = self._track.mixer_device.sends
-        assert len(sends) > 1
-        if self.is_enabled() and self._default_send2_button != None:
-            send2 = sends[1]
-            if send2.value == send2.default_value:
-                self._default_send2_button.turn_on()
-            else:
-                self._default_send2_button.turn_off()
+        if self.is_enabled():
+            if self._default_send2_button != None:
+                send2 = sends[1]
+                if send2.value == send2.default_value:
+                    self._default_send2_button.turn_on()
+                else:
+                    self._default_send2_button.turn_off()

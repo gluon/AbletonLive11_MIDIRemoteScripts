@@ -1,11 +1,17 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/pushbase/action_with_options_component.py
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/pushbase/action_with_options_component.py
+# Compiled at: 2022-01-27 16:28:17
+# Size of source mod 2**32: 7618 bytes
 from __future__ import absolute_import, print_function, unicode_literals
 from builtins import range
 from future.moves.itertools import zip_longest
-from ableton.v2.base import in_range, clamp, task
+from ableton.v2.base import clamp, in_range, task
 from ableton.v2.control_surface import Component, defaults
-from ableton.v2.control_surface.elements import DisplayDataSource
 from ableton.v2.control_surface.control import ButtonControl, control_list
+from ableton.v2.control_surface.elements import DisplayDataSource
 from . import consts
 
 class ActionWithSettingsComponent(Component):
@@ -13,25 +19,20 @@ class ActionWithSettingsComponent(Component):
     SETTINGS_DELAY = defaults.MOMENTARY_DELAY
 
     def __init__(self, *a, **k):
-        super(ActionWithSettingsComponent, self).__init__(*a, **k)
+        (super(ActionWithSettingsComponent, self).__init__)(*a, **k)
         self._is_showing_settings = False
         self._settings_task = task.Task()
 
     def show_settings(self):
-        u""" Please override. Returns True if succeeded to show settings """
         return True
 
     def hide_settings(self):
-        u""" Please override """
         pass
 
     def trigger_action(self):
-        u""" Called whenever action button is pressed. """
         pass
 
     def post_trigger_action(self):
-        u""" Called whenever action button is released. Unless settings
-        are shown."""
         pass
 
     def _do_show_settings(self):
@@ -58,17 +59,17 @@ class ActionWithSettingsComponent(Component):
 
 
 class OptionsComponent(Component):
-    __events__ = (u'selected_option',)
-    unselected_color = u'Option.Unselected'
-    selected_color = u'Option.Selected'
+    __events__ = ('selected_option', )
+    unselected_color = 'Option.Unselected'
+    selected_color = 'Option.Selected'
     _selected_option = None
     select_buttons = control_list(ButtonControl, control_count=0)
 
-    def __init__(self, num_options = 8, num_labels = 4, num_display_segments = None, *a, **k):
-        super(OptionsComponent, self).__init__(*a, **k)
+    def __init__(self, num_options=8, num_labels=4, num_display_segments=None, *a, **k):
+        (super(OptionsComponent, self).__init__)(*a, **k)
         num_display_segments = num_display_segments or num_options
-        self._label_data_sources = [ DisplayDataSource() for _ in range(num_labels) ]
-        self._data_sources = [ DisplayDataSource() for _ in range(num_display_segments) ]
+        self._label_data_sources = [DisplayDataSource() for _ in range(num_labels)]
+        self._data_sources = [DisplayDataSource() for _ in range(num_display_segments)]
         self._option_names = []
 
     def _get_option_names(self):
@@ -91,7 +92,6 @@ class OptionsComponent(Component):
         return self._selected_option
 
     def _set_selected_option(self, selected_option):
-        assert in_range(selected_option, 0, len(self.option_names)) or selected_option is None
         self._selected_option = selected_option
         self._update_select_buttons()
         self._update_data_sources()
@@ -112,7 +112,7 @@ class OptionsComponent(Component):
                 line.segment(segment).set_data_source(self._label_data_sources[segment])
 
     def _get_labels(self):
-        return [ segment.display_string() for segment in self._label_data_sources ]
+        return [segment.display_string() for segment in self._label_data_sources]
 
     def _set_labels(self, labels):
         for segment, label in zip_longest(self._label_data_sources, labels or []):
@@ -146,15 +146,15 @@ class OptionsComponent(Component):
     def _update_data_sources(self):
         for index, (source, name) in enumerate(zip_longest(self._data_sources, self.option_names)):
             if name:
-                source.set_display_string((consts.CHAR_SELECT if index == self._selected_option else u' ') + name)
+                source.set_display_string((consts.CHAR_SELECT if index == self._selected_option else ' ') + name)
             else:
-                source.set_display_string(u'')
+                source.set_display_string('')
 
 
 class ActionWithOptionsComponent(ActionWithSettingsComponent):
 
-    def __init__(self, num_options = 8, *a, **k):
-        super(ActionWithOptionsComponent, self).__init__(*a, **k)
+    def __init__(self, num_options=8, *a, **k):
+        (super(ActionWithOptionsComponent, self).__init__)(*a, **k)
         self._options = OptionsComponent(parent=self, num_options=num_options)
         self._options.set_enabled(False)
 
@@ -171,13 +171,13 @@ class ActionWithOptionsComponent(ActionWithSettingsComponent):
 
 
 class ToggleWithOptionsComponent(ActionWithOptionsComponent):
-    __events__ = (u'toggle_option', u'is_active')
+    __events__ = ('toggle_option', 'is_active')
     _is_active = False
     _just_activated = False
 
     def __init__(self, *a, **k):
-        super(ToggleWithOptionsComponent, self).__init__(*a, **k)
-        self.action_button.color = u'DefaultButton.Off'
+        (super(ToggleWithOptionsComponent, self).__init__)(*a, **k)
+        self.action_button.color = 'DefaultButton.Off'
 
     def _get_is_active(self):
         return self._is_active
@@ -186,7 +186,7 @@ class ToggleWithOptionsComponent(ActionWithOptionsComponent):
         if value != self._is_active:
             self._is_active = value
             self.notify_is_active(value)
-            self.action_button.color = u'DefaultButton.On' if value else u'DefaultButton.Off'
+            self.action_button.color = 'DefaultButton.On' if value else 'DefaultButton.Off'
 
     is_active = property(_get_is_active, _set_is_active)
 

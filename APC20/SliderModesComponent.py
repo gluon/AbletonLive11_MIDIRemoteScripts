@@ -1,15 +1,19 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/APC20/SliderModesComponent.py
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/APC20/SliderModesComponent.py
+# Compiled at: 2022-01-27 16:28:16
+# Size of source mod 2**32: 2700 bytes
 from __future__ import absolute_import, print_function, unicode_literals
 from builtins import range
-from _Framework.ButtonElement import ButtonElement
-from _Framework.ModeSelectorComponent import ModeSelectorComponent
+import _Framework.ButtonElement as ButtonElement
+import _Framework.ModeSelectorComponent as ModeSelectorComponent
 
 class SliderModesComponent(ModeSelectorComponent):
-    u""" SelectorComponent that assigns sliders to different functions """
 
     def __init__(self, mixer, sliders, *a, **k):
-        assert len(sliders) == 8
-        super(SliderModesComponent, self).__init__(*a, **k)
+        (super(SliderModesComponent, self).__init__)(*a, **k)
         self._mixer = mixer
         self._sliders = sliders
         self._mode_index = 0
@@ -20,14 +24,12 @@ class SliderModesComponent(ModeSelectorComponent):
         self._sliders = None
 
     def set_mode_buttons(self, buttons):
-        assert isinstance(buttons, (tuple, type(None)))
         for button in self._modes_buttons:
             button.remove_value_listener(self._mode_value)
 
         self._modes_buttons = []
         if buttons != None:
             for button in buttons:
-                assert isinstance(button, ButtonElement)
                 identify_sender = True
                 button.add_value_listener(self._mode_value, identify_sender)
                 self._modes_buttons.append(button)
@@ -40,7 +42,6 @@ class SliderModesComponent(ModeSelectorComponent):
     def update(self):
         super(SliderModesComponent, self).update()
         if self.is_enabled():
-            assert self._mode_index in range(self.number_of_modes())
             for index in range(len(self._modes_buttons)):
                 if index == self._mode_index:
                     self._modes_buttons[index].turn_on()
@@ -58,9 +59,11 @@ class SliderModesComponent(ModeSelectorComponent):
                 slider.release_parameter()
                 if self._mode_index == 0:
                     strip.set_volume_control(slider)
-                elif self._mode_index == 1:
-                    strip.set_pan_control(slider)
-                elif self._mode_index < 5:
-                    send_controls = [None, None, None]
+                else:
+                    if self._mode_index == 1:
+                        strip.set_pan_control(slider)
+                if self._mode_index < 5:
+                    send_controls = [
+                     None, None, None]
                     send_controls[self._mode_index - 2] = slider
                     strip.set_send_controls(tuple(send_controls))

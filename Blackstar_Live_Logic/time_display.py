@@ -1,4 +1,10 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Blackstar_Live_Logic/time_display.py
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Blackstar_Live_Logic/time_display.py
+# Compiled at: 2022-01-27 16:28:16
+# Size of source mod 2**32: 3007 bytes
 from __future__ import absolute_import, print_function, unicode_literals
 from past.utils import old_div
 import math
@@ -6,15 +12,10 @@ from ableton.v2.base import clamp, const, depends, listens, task
 from ableton.v2.control_surface import NotifyingControlElement
 from ableton.v2.control_surface.control import Control
 MAX_DISPLAY_DIGITS = 3
-NUM_DIGITS_TO_BYTE = {3: (7,),
- 2: (6,),
- 1: (4,)}
+NUM_DIGITS_TO_BYTE = {3:(7, ), 
+ 2:(6, ),  1:(4, )}
 
 def truncate_to_n_least_significant_digits(num, n):
-    u"""
-    Return a list of the `n` least significant
-    digits of `num`
-    """
     if n <= 0:
         return []
     digits = []
@@ -30,7 +31,7 @@ def truncate_to_n_least_significant_digits(num, n):
 class TimeDisplayElement(NotifyingControlElement):
 
     def __init__(self, header, tail, *a, **k):
-        super(TimeDisplayElement, self).__init__(*a, **k)
+        (super(TimeDisplayElement, self).__init__)(*a, **k)
         self._header = header
         self._tail = tail
 
@@ -46,7 +47,7 @@ class TimeDisplayControl(Control):
     class State(Control.State):
 
         def __init__(self, *a, **k):
-            super(TimeDisplayControl.State, self).__init__(*a, **k)
+            (super(TimeDisplayControl.State, self).__init__)(*a, **k)
             self._last_time = None
 
         def update(self):
@@ -54,9 +55,11 @@ class TimeDisplayControl(Control):
             self._display_time(0, 0)
 
         def update_time(self, bars, beats):
-            new_time = (bars, beats)
-            if self._last_time and self._last_time != new_time:
-                self._display_time(bars, beats)
+            new_time = (
+             bars, beats)
+            if self._last_time:
+                if self._last_time != new_time:
+                    self._display_time(bars, beats)
             self._last_time = new_time
 
         def _display_time(self, bars, beats):
@@ -66,13 +69,13 @@ class TimeDisplayControl(Control):
                 num_bar_digits = MAX_DISPLAY_DIGITS - num_beat_digits
                 digits = tuple(truncate_to_n_least_significant_digits(bars, num_bar_digits) + truncate_to_n_least_significant_digits(beats, num_beat_digits))
                 if display_bars:
-                    num_digits = 3 if digits[0] != 0 or num_beat_digits > 1 else 2
+                    num_digits = 3 if (digits[0] != 0 or num_beat_digits > 1) else 2
                 else:
                     num_digits = num_beat_digits
                 if not display_bars:
-                    dots = (0,)
+                    dots = (0, )
                 elif num_beat_digits >= 2:
-                    dots = (1,)
+                    dots = (1, )
                 else:
-                    dots = (2,)
+                    dots = (2, )
                 self._control_element.display_time(digits, NUM_DIGITS_TO_BYTE[num_digits], dots)

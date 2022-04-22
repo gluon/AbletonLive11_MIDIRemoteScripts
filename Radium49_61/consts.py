@@ -1,4 +1,10 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Radium49_61/consts.py
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Radium49_61/consts.py
+# Compiled at: 2022-01-27 16:28:16
+# Size of source mod 2**32: 2400 bytes
 from __future__ import absolute_import, print_function, unicode_literals
 ID_REQUEST = 0
 ID_RESP = 0
@@ -8,7 +14,8 @@ GENERIC_REC = -1
 GENERIC_LOOP = -1
 GENERIC_RWD = -1
 GENERIC_FFWD = -1
-GENERIC_TRANSPORT = (GENERIC_STOP,
+GENERIC_TRANSPORT = (
+ GENERIC_STOP,
  GENERIC_PLAY,
  GENERIC_REC,
  GENERIC_LOOP,
@@ -22,7 +29,8 @@ GENERIC_ENC5 = 2
 GENERIC_ENC6 = 10
 GENERIC_ENC7 = 5
 GENERIC_ENC8 = 21
-GENERIC_ENCODERS = (GENERIC_ENC1,
+GENERIC_ENCODERS = (
+ GENERIC_ENC1,
  GENERIC_ENC2,
  GENERIC_ENC3,
  GENERIC_ENC4,
@@ -38,7 +46,8 @@ GENERIC_SLI5 = 16
 GENERIC_SLI6 = 80
 GENERIC_SLI7 = 18
 GENERIC_SLI8 = 19
-GENERIC_SLIDERS = (GENERIC_SLI1,
+GENERIC_SLIDERS = (
+ GENERIC_SLI1,
  GENERIC_SLI2,
  GENERIC_SLI3,
  GENERIC_SLI4,
@@ -55,7 +64,8 @@ GENERIC_BUT6 = -1
 GENERIC_BUT7 = -1
 GENERIC_BUT8 = -1
 GENERIC_BUT9 = -1
-GENERIC_BUTTONS = (GENERIC_BUT1,
+GENERIC_BUTTONS = (
+ GENERIC_BUT1,
  GENERIC_BUT2,
  GENERIC_BUT3,
  GENERIC_BUT4,
@@ -71,7 +81,8 @@ GENERIC_PAD5 = -1
 GENERIC_PAD6 = -1
 GENERIC_PAD7 = -1
 GENERIC_PAD8 = -1
-GENERIC_PADS = (GENERIC_PAD1,
+GENERIC_PADS = (
+ GENERIC_PAD1,
  GENERIC_PAD2,
  GENERIC_PAD3,
  GENERIC_PAD4,

@@ -1,11 +1,17 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Launchkey_MK2/DeviceComponent.py
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Launchkey_MK2/DeviceComponent.py
+# Compiled at: 2022-01-27 16:28:16
+# Size of source mod 2**32: 3716 bytes
 from __future__ import absolute_import, print_function, unicode_literals
 from builtins import range
 import Live
-from _Generic.Devices import DEVICE_DICT, BANK_NAME_DICT, DEVICE_BOB_DICT, parameter_banks, parameter_bank_names
+from _Generic.Devices import BANK_NAME_DICT, DEVICE_BOB_DICT, DEVICE_DICT, parameter_bank_names, parameter_banks
 from _Framework.Control import ButtonControl
-from _Framework.DeviceComponent import DeviceComponent as DeviceComponentBase
-BOB_BANK_NAME = u'Best of Parameters'
+import _Framework.DeviceComponent as DeviceComponentBase
+BOB_BANK_NAME = 'Best of Parameters'
 NavDirection = Live.Application.Application.View.NavDirection
 
 class DeviceComponent(DeviceComponentBase):
@@ -13,7 +19,7 @@ class DeviceComponent(DeviceComponentBase):
     device_nav_right_button = ButtonControl()
 
     def __init__(self, *a, **k):
-        super(DeviceComponent, self).__init__(*a, **k)
+        (super(DeviceComponent, self).__init__)(*a, **k)
         new_banks = {}
         new_bank_names = {}
         self._device_banks = DEVICE_DICT
@@ -21,11 +27,10 @@ class DeviceComponent(DeviceComponentBase):
         self._device_best_banks = DEVICE_BOB_DICT
         for device_name, current_banks in self._device_banks.items():
             if len(current_banks) > 1:
-                assert device_name in list(self._device_best_banks.keys()), u"Could not find best-of-banks for '%s'" % device_name
-                assert device_name in list(self._device_bank_names.keys()), u"Could not find bank names for '%s'" % device_name
                 current_banks = self._device_best_banks[device_name] + current_banks
                 new_bank_names[device_name] = (BOB_BANK_NAME,) + self._device_bank_names[device_name]
-            new_banks[device_name] = current_banks
+            else:
+                new_banks[device_name] = current_banks
 
         self._device_banks = new_banks
         self._device_bank_names = new_bank_names
@@ -40,11 +45,11 @@ class DeviceComponent(DeviceComponentBase):
 
     def _scroll_device_chain(self, direction):
         view = self.application().view
-        if not view.is_view_visible(u'Detail') or not view.is_view_visible(u'Detail/DeviceChain'):
-            view.show_view(u'Detail')
-            view.show_view(u'Detail/DeviceChain')
+        if not (view.is_view_visible('Detail') and view.is_view_visible('Detail/DeviceChain')):
+            view.show_view('Detail')
+            view.show_view('Detail/DeviceChain')
         else:
-            view.scroll_view(direction, u'Detail/DeviceChain', False)
+            view.scroll_view(direction, 'Detail/DeviceChain', False)
 
     def _is_banking_enabled(self):
         return True
@@ -71,9 +76,9 @@ class DeviceComponent(DeviceComponentBase):
                 if button:
                     value_to_send = False
                     if index == self._bank_index and self._device:
-                        value_to_send = u'Device.BankSelected'
+                        value_to_send = 'Device.BankSelected'
                     elif index == 0:
-                        value_to_send = u'Device.BestOfBank'
+                        value_to_send = 'Device.BestOfBank'
                     elif index in range(bank_length):
-                        value_to_send = u'Device.Bank'
+                        value_to_send = 'Device.Bank'
                     button.set_light(value_to_send)

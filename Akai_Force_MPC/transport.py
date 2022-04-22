@@ -1,15 +1,22 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Akai_Force_MPC/transport.py
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Akai_Force_MPC/transport.py
+# Compiled at: 2022-01-27 16:28:16
+# Size of source mod 2**32: 9938 bytes
 from __future__ import absolute_import, print_function, unicode_literals
 from past.utils import old_div
 import Live
 from ableton.v2.base import clamp, listens, sign
-from ableton.v2.control_surface.components import TransportComponent as TransportComponentBase
+import ableton.v2.control_surface.components as TransportComponentBase
 from ableton.v2.control_surface.control import ButtonControl, ColorSysexControl, EncoderControl, InputControl, RadioButtonControl, TextDisplayControl, ToggleButtonControl, control_list
 from .control import SendReceiveValueControl
 TEMPO_MIN = 20.0
 TEMPO_MAX = 999.0
 Quantization = Live.Song.Quantization
-RADIO_BUTTON_GROUP_QUANTIZATION_VALUES = [Quantization.q_no_q,
+RADIO_BUTTON_GROUP_QUANTIZATION_VALUES = [
+ Quantization.q_no_q,
  Quantization.q_8_bars,
  Quantization.q_4_bars,
  Quantization.q_2_bars,
@@ -27,7 +34,7 @@ def num_beats_in_bar(song):
 
 
 def format_beat_time(beat_time):
-    return u'{}:{}:{}'.format(beat_time.bars, beat_time.beats, beat_time.sub_division)
+    return '{}:{}:{}'.format(beat_time.bars, beat_time.beats, beat_time.sub_division)
 
 
 class TransportComponent(TransportComponentBase):
@@ -53,38 +60,38 @@ class TransportComponent(TransportComponentBase):
     tui_arrangement_record_button = ToggleButtonControl()
 
     def __init__(self, *a, **k):
-        super(TransportComponent, self).__init__(*a, **k)
+        (super(TransportComponent, self).__init__)(*a, **k)
         song = self.song
         self._cached_num_beats_in_bar = num_beats_in_bar(song)
-        self.__on_song_tempo_changed.subject = song
-        self.__on_song_tempo_changed()
-        self.__on_metronome_changed.subject = song
-        self.__on_metronome_changed()
-        self.__on_clip_trigger_quantization_changed.subject = song
-        self.__on_clip_trigger_quantization_changed()
-        self.__on_follow_song_changed.subject = song.view
-        self.__on_follow_song_changed()
-        self.__on_signature_numerator_changed.subject = song
-        self.__on_signature_denominator_changed.subject = song
-        self.__on_loop_start_changed.subject = song
-        self.__on_loop_start_changed()
-        self.__on_loop_length_changed.subject = song
-        self.__on_loop_length_changed()
-        self.__on_arrangement_position_changed.subject = song
-        self.__on_arrangement_position_changed()
-        self.__on_record_mode_changed.subject = song
-        self.__on_record_mode_changed()
+        self._TransportComponent__on_song_tempo_changed.subject = song
+        self._TransportComponent__on_song_tempo_changed()
+        self._TransportComponent__on_metronome_changed.subject = song
+        self._TransportComponent__on_metronome_changed()
+        self._TransportComponent__on_clip_trigger_quantization_changed.subject = song
+        self._TransportComponent__on_clip_trigger_quantization_changed()
+        self._TransportComponent__on_follow_song_changed.subject = song.view
+        self._TransportComponent__on_follow_song_changed()
+        self._TransportComponent__on_signature_numerator_changed.subject = song
+        self._TransportComponent__on_signature_denominator_changed.subject = song
+        self._TransportComponent__on_loop_start_changed.subject = song
+        self._TransportComponent__on_loop_start_changed()
+        self._TransportComponent__on_loop_length_changed.subject = song
+        self._TransportComponent__on_loop_length_changed()
+        self._TransportComponent__on_arrangement_position_changed.subject = song
+        self._TransportComponent__on_arrangement_position_changed()
+        self._TransportComponent__on_record_mode_changed.subject = song
+        self._TransportComponent__on_record_mode_changed()
 
     def set_tempo_control(self, control):
         self.tempo_control.set_control_element(control)
 
-    @listens(u'tempo')
+    @listens('tempo')
     def __on_song_tempo_changed(self):
-        self.tempo_display[0] = u'{0:.2f}'.format(self.song.tempo)
+        self.tempo_display[0] = '{0:.2f}'.format(self.song.tempo)
 
     @tempo_control.value
     def tempo_control(self, value, _):
-        self.song.tempo = clamp(float(u''.join(map(chr, value[2:]))), TEMPO_MIN, TEMPO_MAX)
+        self.song.tempo = clamp(float(''.join(map(chr, value[2:]))), TEMPO_MIN, TEMPO_MAX)
 
     @play_button.pressed
     def play_button(self, _):
@@ -123,15 +130,15 @@ class TransportComponent(TransportComponentBase):
 
     @arrangement_position_control.value
     def arrangement_position_control(self, value, _):
-        self._apply_value_to_arrangement_property(u'current_song_time', value)
+        self._apply_value_to_arrangement_property('current_song_time', value)
 
     @loop_start_control.value
     def loop_start_control(self, value, _):
-        self._apply_value_to_arrangement_property(u'loop_start', value)
+        self._apply_value_to_arrangement_property('loop_start', value)
 
     @loop_length_control.value
     def loop_length_control(self, value, _):
-        self._apply_value_to_arrangement_property(u'loop_length', value)
+        self._apply_value_to_arrangement_property('loop_length', value)
 
     @jump_backward_button.pressed
     def jump_backward_button(self, _):
@@ -154,30 +161,30 @@ class TransportComponent(TransportComponentBase):
         raise NotImplementedError
 
     def _update_continue_playing_button_color(self):
-        self.continue_playing_button.color = u'Transport.PlayOn' if self.song.is_playing else u'Transport.PlayOff'
+        self.continue_playing_button.color = 'Transport.PlayOn' if self.song.is_playing else 'Transport.PlayOff'
 
     def _update_stop_button_color(self):
-        self.stop_button.color = u'Transport.StopOff' if self.song.is_playing else u'Transport.StopOn'
+        self.stop_button.color = 'Transport.StopOff' if self.song.is_playing else 'Transport.StopOn'
 
-    @listens(u'metronome')
+    @listens('metronome')
     def __on_metronome_changed(self):
         self._update_tui_metronome_button()
         self._update_metronome_color_control()
 
-    @listens(u'follow_song')
+    @listens('follow_song')
     def __on_follow_song_changed(self):
-        self.follow_song_button.color = u'DefaultButton.On' if self.song.view.follow_song else u'DefaultButton.Off'
+        self.follow_song_button.color = 'DefaultButton.On' if self.song.view.follow_song else 'DefaultButton.Off'
 
-    @listens(u'clip_trigger_quantization')
+    @listens('clip_trigger_quantization')
     def __on_clip_trigger_quantization_changed(self):
         self._update_clip_trigger_quantization_control()
         self._update_clip_trigger_quantization_color_controls()
 
-    @listens(u'signature_numerator')
+    @listens('signature_numerator')
     def __on_signature_numerator_changed(self):
         self._cached_num_beats_in_bar = num_beats_in_bar(self.song)
 
-    @listens(u'signature_denominator')
+    @listens('signature_denominator')
     def __on_signature_denominator_changed(self):
         self._cached_num_beats_in_bar = num_beats_in_bar(self.song)
 
@@ -187,33 +194,33 @@ class TransportComponent(TransportComponentBase):
     def _update_clip_trigger_quantization_color_controls(self):
         quantization = self.song.clip_trigger_quantization
         for index, control in enumerate(self.clip_trigger_quantization_color_controls):
-            control.color = u'DefaultButton.On' if RADIO_BUTTON_GROUP_QUANTIZATION_VALUES[index] == quantization else u'DefaultButton.Off'
+            control.color = 'DefaultButton.On' if RADIO_BUTTON_GROUP_QUANTIZATION_VALUES[index] == quantization else 'DefaultButton.Off'
 
     def _update_tui_metronome_button(self):
         self.tui_metronome_button.is_toggled = self.song.metronome
 
     def _update_metronome_color_control(self):
-        self.metronome_color_control.color = u'Transport.MetronomeOn' if self.song.metronome else u'Transport.MetronomeOff'
+        self.metronome_color_control.color = 'Transport.MetronomeOn' if self.song.metronome else 'Transport.MetronomeOff'
 
     def _update_tui_arrangement_record_button(self):
         self.tui_arrangement_record_button.is_toggled = self.song.record_mode
 
-    @listens(u'loop_start')
+    @listens('loop_start')
     def __on_loop_start_changed(self):
         loop_start_time = self.song.get_beats_loop_start()
         self.loop_start_display[0] = format_beat_time(loop_start_time)
 
-    @listens(u'loop_length')
+    @listens('loop_length')
     def __on_loop_length_changed(self):
         loop_length_time = self.song.get_beats_loop_length()
         self.loop_length_display[0] = format_beat_time(loop_length_time)
 
-    @listens(u'current_song_time')
+    @listens('current_song_time')
     def __on_arrangement_position_changed(self):
         song_time = self.song.get_current_beats_song_time()
         self.arrangement_position_display[0] = format_beat_time(song_time)
 
-    @listens(u'record_mode')
+    @listens('record_mode')
     def __on_record_mode_changed(self):
         self._update_tui_arrangement_record_button()
 
@@ -221,15 +228,15 @@ class TransportComponent(TransportComponentBase):
 class ForceTransportComponent(TransportComponent):
 
     def _update_play_button_color(self):
-        self.play_button.color = u'Transport.PlayOn' if self.song.is_playing else u'Transport.PlayOff'
+        self.play_button.color = 'Transport.PlayOn' if self.song.is_playing else 'Transport.PlayOff'
 
 
 class MPCTransportComponent(TransportComponent):
 
     def __init__(self, *a, **k):
-        super(MPCTransportComponent, self).__init__(*a, **k)
-        self.play_button.color = u'Transport.PlayOff'
-        self.play_button.pressed_color = u'Transport.PlayOn'
+        (super(MPCTransportComponent, self).__init__)(*a, **k)
+        self.play_button.color = 'Transport.PlayOff'
+        self.play_button.pressed_color = 'Transport.PlayOn'
 
     def _update_play_button_color(self):
         pass

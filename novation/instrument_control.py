@@ -1,4 +1,10 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/novation/instrument_control.py
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/novation/instrument_control.py
+# Compiled at: 2022-01-27 16:28:17
+# Size of source mod 2**32: 3065 bytes
 from __future__ import absolute_import, print_function, unicode_literals
 from builtins import object
 from ableton.v2.base import listens
@@ -16,15 +22,15 @@ class InstrumentControlMixin(object):
 
     def _create_components(self):
         super(InstrumentControlMixin, self)._create_components()
-        self._target_track = self.target_track_class(name=u'Target_Track')
-        self._drum_group_finder = self.register_disconnectable(PercussionInstrumentFinder(device_parent=self._target_track.target_track))
-        self.__on_drum_group_changed.subject = self._drum_group_finder
-        self.__on_target_track_changed.subject = self._target_track
-        self.__on_session_record_changed.subject = self.song
-        self.__on_record_mode_changed.subject = self.song
+        self._target_track = self.target_track_class(name='Target_Track')
+        self._drum_group_finder = self.register_disconnectable(PercussionInstrumentFinder(device_parent=(self._target_track.target_track)))
+        self._InstrumentControlMixin__on_drum_group_changed.subject = self._drum_group_finder
+        self._InstrumentControlMixin__on_target_track_changed.subject = self._target_track
+        self._InstrumentControlMixin__on_session_record_changed.subject = self.song
+        self._InstrumentControlMixin__on_record_mode_changed.subject = self.song
         self._set_feedback_velocity()
 
-    @listens(u'target_track')
+    @listens('target_track')
     def __on_target_track_changed(self):
         self._target_track_changed()
 
@@ -32,30 +38,30 @@ class InstrumentControlMixin(object):
         track = self._target_track.target_track
         self._drum_group_finder.device_parent = track
         self._drum_group.set_parent_track(track)
-        self.__on_target_track_arm_changed.subject = track
-        self.__on_target_track_implicit_arm_changed.subject = track
+        self._InstrumentControlMixin__on_target_track_arm_changed.subject = track
+        self._InstrumentControlMixin__on_target_track_implicit_arm_changed.subject = track
         self._update_controlled_track()
 
-    @listens(u'instrument')
+    @listens('instrument')
     def __on_drum_group_changed(self):
         self._drum_group_changed()
 
     def _drum_group_changed(self):
         raise NotImplementedError
 
-    @listens(u'session_record')
+    @listens('session_record')
     def __on_session_record_changed(self):
         self._set_feedback_velocity()
 
-    @listens(u'record_mode')
+    @listens('record_mode')
     def __on_record_mode_changed(self):
         self._set_feedback_velocity()
 
-    @listens(u'arm')
+    @listens('arm')
     def __on_target_track_arm_changed(self):
         self._set_feedback_velocity()
 
-    @listens(u'implicit_arm')
+    @listens('implicit_arm')
     def __on_target_track_implicit_arm_changed(self):
         self._set_feedback_velocity()
 

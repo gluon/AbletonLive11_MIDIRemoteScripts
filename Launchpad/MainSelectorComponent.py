@@ -1,7 +1,12 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Launchpad/MainSelectorComponent.py
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Launchpad/MainSelectorComponent.py
+# Compiled at: 2022-01-27 16:28:16
+# Size of source mod 2**32: 12070 bytes
 from __future__ import absolute_import, print_function, unicode_literals
-from builtins import str
-from builtins import range
+from builtins import range, str
 from _Framework.SessionZoomingComponent import DeprecatedSessionZoomingComponent
 from .SpecialSessionComponent import SpecialSessionComponent
 from .SubSelectorComponent import *
@@ -11,21 +16,13 @@ USER_2_MODE = 2
 MIXER_MODE = 3
 
 class MainSelectorComponent(ModeSelectorComponent):
-    u""" Class that reassigns the button on the launchpad to different functions """
 
     def __init__(self, matrix, top_buttons, side_buttons, config_button):
-        assert isinstance(matrix, ButtonMatrixElement)
-        assert matrix.width() == 8 and matrix.height() == 8
-        assert isinstance(top_buttons, tuple)
-        assert len(top_buttons) == 8
-        assert isinstance(side_buttons, tuple)
-        assert len(side_buttons) == 8
-        assert isinstance(config_button, ButtonElement)
         ModeSelectorComponent.__init__(self)
         self._session = SpecialSessionComponent(matrix.width(), matrix.height())
         self._zooming = DeprecatedSessionZoomingComponent(self._session)
-        self._session.name = u'Session_Control'
-        self._zooming.name = u'Session_Overview'
+        self._session.name = 'Session_Control'
+        self._zooming.name = 'Session_Overview'
         self._matrix = matrix
         self._side_buttons = side_buttons
         self._nav_buttons = top_buttons[:4]
@@ -36,7 +33,7 @@ class MainSelectorComponent(ModeSelectorComponent):
             self._all_buttons.append(button)
 
         self._sub_modes = SubSelectorComponent(matrix, side_buttons, self._session)
-        self._sub_modes.name = u'Mixer_Modes'
+        self._sub_modes.name = 'Mixer_Modes'
         self._sub_modes.set_update_callback(self._update_control_channels)
         self._init_session()
         self._all_buttons = tuple(self._all_buttons)
@@ -62,7 +59,6 @@ class MainSelectorComponent(ModeSelectorComponent):
         return self._session
 
     def set_modes_buttons(self, buttons):
-        assert buttons == None or isinstance(buttons, tuple) or len(buttons) == self.number_of_modes()
         identify_sender = True
         for button in self._modes_buttons:
             button.remove_value_listener(self._mode_value)
@@ -70,7 +66,6 @@ class MainSelectorComponent(ModeSelectorComponent):
         self._modes_buttons = []
         if buttons != None:
             for button in buttons:
-                assert isinstance(button, ButtonElement)
                 self._modes_buttons.append(button)
                 button.add_value_listener(self._mode_value, identify_sender)
 
@@ -83,8 +78,7 @@ class MainSelectorComponent(ModeSelectorComponent):
         self.update()
 
     def set_mode(self, mode):
-        assert mode in range(self.number_of_modes())
-        if self._mode_index != mode or mode == MIXER_MODE:
+        if self._mode_index != mode or (mode == MIXER_MODE):
             self._mode_index = mode
             self.update()
 
@@ -96,7 +90,6 @@ class MainSelectorComponent(ModeSelectorComponent):
 
     def update(self):
         super(MainSelectorComponent, self).update()
-        assert self._modes_buttons != None
         if self.is_enabled():
             for index in range(len(self._modes_buttons)):
                 self._modes_buttons[index].set_force_next_value()
@@ -123,7 +116,9 @@ class MainSelectorComponent(ModeSelectorComponent):
             if self._mode_index == SESSION_MODE:
                 self._setup_mixer(not as_active)
                 self._setup_session(as_active, as_enabled)
-            elif self._mode_index == USER_1_MODE:
+            else:
+                pass
+            if self._mode_index == USER_1_MODE:
                 self._setup_session(not as_active, not as_enabled)
                 self._setup_mixer(not as_active)
                 self._setup_user(release_buttons)
@@ -135,7 +130,7 @@ class MainSelectorComponent(ModeSelectorComponent):
                 self._setup_session(not as_active, as_enabled)
                 self._setup_mixer(as_active)
             else:
-                assert False
+                pass
             self._session.set_allow_update(True)
             self._zooming.set_allow_update(True)
             self._update_control_channels()
@@ -147,7 +142,6 @@ class MainSelectorComponent(ModeSelectorComponent):
             button.set_force_next_value()
 
     def _setup_session(self, as_active, as_enabled):
-        assert isinstance(as_active, type(False))
         for button in self._nav_buttons:
             if as_enabled:
                 button.set_on_off_values(GREEN_FULL, GREEN_THIRD)
@@ -189,9 +183,9 @@ class MainSelectorComponent(ModeSelectorComponent):
             self._session.set_scene_bank_buttons(None, None)
 
     def _setup_mixer(self, as_active):
-        assert isinstance(as_active, type(False))
-        if as_active and self._sub_modes.is_enabled():
-            self._sub_modes.set_mode(-1)
+        if as_active:
+            if self._sub_modes.is_enabled():
+                self._sub_modes.set_mode(-1)
         self._sub_modes.set_enabled(as_active)
 
     def _setup_user(self, release_buttons):
@@ -221,7 +215,7 @@ class MainSelectorComponent(ModeSelectorComponent):
         for scene_index in range(self._matrix.height()):
             scene = self._session.scene(scene_index)
             scene.set_triggered_value(GREEN_BLINK)
-            scene.name = u'Scene_' + str(scene_index)
+            scene.name = 'Scene_' + str(scene_index)
             for track_index in range(self._matrix.width()):
                 clip_slot = scene.clip_slot(track_index)
                 clip_slot.set_triggered_to_play_value(GREEN_BLINK)
@@ -229,7 +223,7 @@ class MainSelectorComponent(ModeSelectorComponent):
                 clip_slot.set_stopped_value(AMBER_FULL)
                 clip_slot.set_started_value(GREEN_FULL)
                 clip_slot.set_recording_value(RED_FULL)
-                clip_slot.name = str(track_index) + u'_Clip_Slot_' + str(scene_index)
+                clip_slot.name = str(track_index) + '_Clip_Slot_' + str(scene_index)
                 self._all_buttons.append(self._matrix.get_button(track_index, scene_index))
 
         self._zooming.set_stopped_value(RED_FULL)

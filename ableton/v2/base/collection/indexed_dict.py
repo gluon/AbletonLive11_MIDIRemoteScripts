@@ -1,47 +1,49 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/ableton/v2/base/collection/indexed_dict.py
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/ableton/v2/base/collection/indexed_dict.py
+# Compiled at: 2021-06-29 09:33:48
+# Size of source mod 2**32: 1523 bytes
 from __future__ import absolute_import, print_function, unicode_literals
 from collections import OrderedDict
 
 class IndexedDict(OrderedDict):
-    u""" Dictionary whose values are accessible by indices """
 
     def __init__(self, *args, **kwds):
-        self.__keys = []
-        super(IndexedDict, self).__init__(*args, **kwds)
+        self._IndexedDict__keys = []
+        (super(IndexedDict, self).__init__)(*args, **kwds)
 
     def __setitem__(self, key, value, *args, **kwds):
-        super(IndexedDict, self).__setitem__(key, value, *args, **kwds)
-        self.__keys.append(key)
+        (super(IndexedDict, self).__setitem__)(key, value, *args, **kwds)
+        self._IndexedDict__keys.append(key)
 
     def __delitem__(self, key, *args, **kwds):
-        super(IndexedDict, self).__delitem__(key, *args, **kwds)
-        self.__keys.remove(key)
+        (super(IndexedDict, self).__delitem__)(key, *args, **kwds)
+        self._IndexedDict__keys.remove(key)
 
     def clear(self):
         super(IndexedDict, self).clear()
-        self.__keys = []
+        self._IndexedDict__keys = []
 
-    def popitem(self, last = True):
+    def popitem(self, last=True):
         item = super(IndexedDict, self).popitem(last)
-        self.__keys.pop(-1 if last else 0)
+        self._IndexedDict__keys.pop(-1 if last else 0)
         return item
 
     def keys(self):
-        return self.__keys
+        return self._IndexedDict__keys
 
     def item_by_index(self, ix):
-        u""" Returns (key, value) pair for given index """
-        key = self.__keys[ix]
-        return (key, self[key])
+        key = self._IndexedDict__keys[ix]
+        return (
+         key, self[key])
 
     def key_by_index(self, ix):
-        u""" Returns key for given index """
-        return self.__keys[ix]
+        return self._IndexedDict__keys[ix]
 
     def value_by_index(self, ix):
-        u""" Returns value for given index """
-        return self[self.__keys[ix]]
+        return self[self._IndexedDict__keys[ix]]
 
     def index_by_key(self, key):
-        u""" Returns index of the given key """
-        return self.__keys.index(key)
+        return self._IndexedDict__keys.index(key)

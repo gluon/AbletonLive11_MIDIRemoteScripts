@@ -1,20 +1,37 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/LV2_LX2_LC2_LD2/Devices.py
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/LV2_LX2_LC2_LD2/Devices.py
+# Compiled at: 2022-01-28 05:06:23
+# Size of source mod 2**32: 22531 bytes
 from __future__ import absolute_import, print_function, unicode_literals
 import Live
-RCK_BANK1 = (u'Macro 1', u'Macro 2', u'Macro 3', u'Macro 4', u'Macro 5', u'Macro 6', u'Macro 7', u'Macro 8')
+RCK_BANK1 = ('Macro 1', 'Macro 2', 'Macro 3', 'Macro 4', 'Macro 5', 'Macro 6', 'Macro 7',
+             'Macro 8')
 RCK_BANKS = RCK_BANK1
 RCK_BOBS = RCK_BANK1
-RCK_BNK_NAMES = u'Macros'
-IMP_BANK1 = (u'1 Start', u'1 Transpose', u'1 Stretch Factor', u'1 Saturator Drive', u'1 Filter Freq', u'1 Filter Res', u'1 Pan', u'1 Volume')
-IMP_BANK2 = (u'2 Start', u'2 Transpose', u'2 Stretch Factor', u'2 Saturator Drive', u'2 Filter Freq', u'2 Filter Res', u'2 Pan', u'2 Volume')
-IMP_BANK3 = (u'3 Start', u'3 Transpose', u'3 Stretch Factor', u'3 Saturator Drive', u'3 Filter Freq', u'3 Filter Res', u'3 Pan', u'3 Volume')
-IMP_BANK4 = (u'4 Start', u'4 Transpose', u'4 Stretch Factor', u'4 Saturator Drive', u'4 Filter Freq', u'4 Filter Res', u'4 Pan', u'4 Volume')
-IMP_BANK5 = (u'5 Start', u'5 Transpose', u'5 Stretch Factor', u'5 Saturator Drive', u'5 Filter Freq', u'5 Filter Res', u'5 Pan', u'5 Volume')
-IMP_BANK6 = (u'6 Start', u'6 Transpose', u'6 Stretch Factor', u'6 Saturator Drive', u'6 Filter Freq', u'6 Filter Res', u'6 Pan', u'6 Volume')
-IMP_BANK7 = (u'7 Start', u'7 Transpose', u'7 Stretch Factor', u'7 Saturator Drive', u'7 Filter Freq', u'7 Filter Res', u'7 Pan', u'7 Volume')
-IMP_BANK8 = (u'8 Start', u'8 Transpose', u'8 Stretch Factor', u'8 Saturator Drive', u'8 Filter Freq', u'8 Filter Res', u'8 Pan', u'8 Volume')
-IMP_BOB = (u'Global Time', u'Global Transpose', u'1 Transpose', u'2 Transpose', u'3 Transpose', u'4 Transpose', u'5 Transpose', u'6 Transpose')
-IMP_BANKS = (IMP_BANK1,
+RCK_BNK_NAMES = 'Macros'
+IMP_BANK1 = ('1 Start', '1 Transpose', '1 Stretch Factor', '1 Saturator Drive', '1 Filter Freq',
+             '1 Filter Res', '1 Pan', '1 Volume')
+IMP_BANK2 = ('2 Start', '2 Transpose', '2 Stretch Factor', '2 Saturator Drive', '2 Filter Freq',
+             '2 Filter Res', '2 Pan', '2 Volume')
+IMP_BANK3 = ('3 Start', '3 Transpose', '3 Stretch Factor', '3 Saturator Drive', '3 Filter Freq',
+             '3 Filter Res', '3 Pan', '3 Volume')
+IMP_BANK4 = ('4 Start', '4 Transpose', '4 Stretch Factor', '4 Saturator Drive', '4 Filter Freq',
+             '4 Filter Res', '4 Pan', '4 Volume')
+IMP_BANK5 = ('5 Start', '5 Transpose', '5 Stretch Factor', '5 Saturator Drive', '5 Filter Freq',
+             '5 Filter Res', '5 Pan', '5 Volume')
+IMP_BANK6 = ('6 Start', '6 Transpose', '6 Stretch Factor', '6 Saturator Drive', '6 Filter Freq',
+             '6 Filter Res', '6 Pan', '6 Volume')
+IMP_BANK7 = ('7 Start', '7 Transpose', '7 Stretch Factor', '7 Saturator Drive', '7 Filter Freq',
+             '7 Filter Res', '7 Pan', '7 Volume')
+IMP_BANK8 = ('8 Start', '8 Transpose', '8 Stretch Factor', '8 Saturator Drive', '8 Filter Freq',
+             '8 Filter Res', '8 Pan', '8 Volume')
+IMP_BOB = ('Global Time', 'Global Transpose', '1 Transpose', '2 Transpose', '3 Transpose',
+           '4 Transpose', '5 Transpose', '6 Transpose')
+IMP_BANKS = (
+ IMP_BANK1,
  IMP_BANK2,
  IMP_BANK3,
  IMP_BANK4,
@@ -23,17 +40,27 @@ IMP_BANKS = (IMP_BANK1,
  IMP_BANK7,
  IMP_BANK8)
 IMP_BOBS = IMP_BOB
-IMP_BNK_NAMES = (u'Pad 1', u'Pad 2', u'Pad 3', u'Pad 4', u'Pad 5', u'Pad 6', u'Pad 7', u'Pad 8')
-OPR_BANK1 = (u'Ae Attack', u'Ae Decay', u'Ae Sustain', u'Ae Release', u'A Coarse', u'A Fine', u'Osc-A Lev < Vel', u'Osc-A Level')
-OPR_BANK2 = (u'Be Attack', u'Be Decay', u'Be Sustain', u'Be Release', u'B Coarse', u'B Fine', u'Osc-B Lev < Vel', u'Osc-B Level')
-OPR_BANK3 = (u'Ce Attack', u'Ce Decay', u'Ce Sustain', u'Ce Release', u'C Coarse', u'C Fine', u'Osc-C Lev < Vel', u'Osc-C Level')
-OPR_BANK4 = (u'De Attack', u'De Decay', u'De Sustain', u'De Release', u'D Coarse', u'D Fine', u'Osc-D Lev < Vel', u'Osc-D Level')
-OPR_BANK5 = (u'Le Attack', u'Le Decay', u'Le Sustain', u'Le Release', u'LFO Rate', u'LFO Amt', u'LFO Type', u'LFO R < K')
-OPR_BANK6 = (u'Fe Attack', u'Fe Decay', u'Fe Sustain', u'Fe Release', u'Filter Freq', u'Filter Res', u'Fe R < Vel', u'Fe Amount')
-OPR_BANK7 = (u'Pe Attack', u'Pe Decay', u'Pe Sustain', u'Pe Release', u'Pe Init', u'Glide Time', u'Pe Amount', u'Spread')
-OPR_BANK8 = (u'Time < Key', u'Panorama', u'Pan < Key', u'Pan < Rnd', u'Algorithm', u'Time', u'Tone', u'Volume')
-OPR_BOB = (u'A Coarse', u'Osc-B Level', u'B Coarse', u'B Fine', u'Filter Freq', u'Filter Res', u'Time', u'Tone')
-OPR_BANKS = (OPR_BANK1,
+IMP_BNK_NAMES = ('Pad 1', 'Pad 2', 'Pad 3', 'Pad 4', 'Pad 5', 'Pad 6', 'Pad 7', 'Pad 8')
+OPR_BANK1 = ('Ae Attack', 'Ae Decay', 'Ae Sustain', 'Ae Release', 'A Coarse', 'A Fine',
+             'Osc-A Lev < Vel', 'Osc-A Level')
+OPR_BANK2 = ('Be Attack', 'Be Decay', 'Be Sustain', 'Be Release', 'B Coarse', 'B Fine',
+             'Osc-B Lev < Vel', 'Osc-B Level')
+OPR_BANK3 = ('Ce Attack', 'Ce Decay', 'Ce Sustain', 'Ce Release', 'C Coarse', 'C Fine',
+             'Osc-C Lev < Vel', 'Osc-C Level')
+OPR_BANK4 = ('De Attack', 'De Decay', 'De Sustain', 'De Release', 'D Coarse', 'D Fine',
+             'Osc-D Lev < Vel', 'Osc-D Level')
+OPR_BANK5 = ('Le Attack', 'Le Decay', 'Le Sustain', 'Le Release', 'LFO Rate', 'LFO Amt',
+             'LFO Type', 'LFO R < K')
+OPR_BANK6 = ('Fe Attack', 'Fe Decay', 'Fe Sustain', 'Fe Release', 'Filter Freq', 'Filter Res',
+             'Fe R < Vel', 'Fe Amount')
+OPR_BANK7 = ('Pe Attack', 'Pe Decay', 'Pe Sustain', 'Pe Release', 'Pe Init', 'Glide Time',
+             'Pe Amount', 'Spread')
+OPR_BANK8 = ('Time < Key', 'Panorama', 'Pan < Key', 'Pan < Rnd', 'Algorithm', 'Time',
+             'Tone', 'Volume')
+OPR_BOB = ('A Coarse', 'Osc-B Level', 'B Coarse', 'B Fine', 'Filter Freq', 'Filter Res',
+           'Time', 'Tone')
+OPR_BANKS = (
+ OPR_BANK1,
  OPR_BANK2,
  OPR_BANK3,
  OPR_BANK4,
@@ -42,34 +69,51 @@ OPR_BANKS = (OPR_BANK1,
  OPR_BANK7,
  OPR_BANK8)
 OPR_BOBS = OPR_BOB
-OPR_BNK_NAMES = (u'Oscillator A', u'Oscillator B', u'Oscillator C', u'Oscillator D', u'LFO', u'Filter', u'Pitch Modulation', u'Routing')
-TEN_BOB = (u'Excitator Type', u'Exc ForceMassProt', u'String Decay', u'Str Damping', u'Vib Amount', u'Filter Freq', u'Filter Reso', u'Volume')
+OPR_BNK_NAMES = ('Oscillator A', 'Oscillator B', 'Oscillator C', 'Oscillator D', 'LFO',
+                 'Filter', 'Pitch Modulation', 'Routing')
+TEN_BOB = ('Excitator Type', 'Exc ForceMassProt', 'String Decay', 'Str Damping', 'Vib Amount',
+           'Filter Freq', 'Filter Reso', 'Volume')
 TEN_BOBS = TEN_BOB
-ANA_BOB = (u'F1 Freq', u'F1 Resonance', u'OSC1 Octave', u'Vib On/Off', u'AEG1 Attack', u'AEG1 Rel', u'Unison On/Off', u'Volume')
+ANA_BOB = ('F1 Freq', 'F1 Resonance', 'OSC1 Octave', 'Vib On/Off', 'AEG1 Attack', 'AEG1 Rel',
+           'Unison On/Off', 'Volume')
 ANA_BOBS = ANA_BOB
-ELEC_BOB = (u'M Stiffness', u'M Force', u'Noise Amount', u'F Tine Vol', u'F Tone Vol', u'F Release', u'Damp Amount', u'Volume')
+ELEC_BOB = ('M Stiffness', 'M Force', 'Noise Amount', 'F Tine Vol', 'F Tone Vol', 'F Release',
+            'Damp Amount', 'Volume')
 ELEC_BOBS = ELEC_BOB
-SIM_BANK1 = (u'Ve Attack', u'Ve Decay', u'Ve Sustain', u'Ve Release', u'S Start', u'S Loop Length', u'S Length', u'S Loop Fade')
-SIM_BANK2 = (u'Fe Attack', u'Fe Decay', u'Fe Sustain', u'Fe Release', u'Filter Freq', u'Filter Res', u'Filt < Vel', u'Fe < Env')
-SIM_BANK3 = (u'L Attack', u'L Rate', u'L R < Key', u'L Wave', u'Vol < LFO', u'Filt < LFO', u'Pitch < LFO', u'Pan < LFO')
-SIM_BANK4 = (u'Pe Attack', u'Pe Decay', u'Pe Sustain', u'Pe Release', u'Glide Time', u'Spread', u'Pan', u'Volume')
-SIM_BOB = (u'S Start', u'S Loop Length', u'S Length', u'Ve Attack', u'Ve Decay', u'Ve Release', u'Filter Freq', u'Filter Res')
-SIM_BANKS = (SIM_BANK1,
- SIM_BANK2,
- SIM_BANK3,
- SIM_BANK4)
+SIM_BANK1 = ('Ve Attack', 'Ve Decay', 'Ve Sustain', 'Ve Release', 'S Start', 'S Loop Length',
+             'S Length', 'S Loop Fade')
+SIM_BANK2 = ('Fe Attack', 'Fe Decay', 'Fe Sustain', 'Fe Release', 'Filter Freq', 'Filter Res',
+             'Filt < Vel', 'Fe < Env')
+SIM_BANK3 = ('L Attack', 'L Rate', 'L R < Key', 'L Wave', 'Vol < LFO', 'Filt < LFO',
+             'Pitch < LFO', 'Pan < LFO')
+SIM_BANK4 = ('Pe Attack', 'Pe Decay', 'Pe Sustain', 'Pe Release', 'Glide Time', 'Spread',
+             'Pan', 'Volume')
+SIM_BOB = ('S Start', 'S Loop Length', 'S Length', 'Ve Attack', 'Ve Decay', 'Ve Release',
+           'Filter Freq', 'Filter Res')
+SIM_BANKS = (
+ SIM_BANK1, SIM_BANK2, SIM_BANK3, SIM_BANK4)
 SIM_BOBS = SIM_BOB
-SIM_BNK_NAMES = (u'Amplitude', u'Filter', u'LFO', u'Pitch Modifiers')
-SAM_BANK1 = (u'Volume', u'Ve Attack', u'Ve Decay', u'Ve Sustain', u'Ve Release', u'Vol < Vel', u'Ve R < Vel', u'Time')
-SAM_BANK2 = (u'Filter Type', u'Filter Morph', u'Filter Freq', u'Filter Res', u'Filt < Vel', u'Filt < Key', u'Fe < Env', u'Shaper Amt')
-SAM_BANK3 = (u'Fe Attack', u'Fe Decay', u'Fe Sustain', u'Fe Release', u'Fe End', u'Fe Mode', u'Fe Loop', u'Fe Retrig')
-SAM_BANK4 = (u'L 1 Wave', u'L 1 Sync', u'L 1 Sync Rate', u'L 1 Rate', u'Vol < LFO', u'Filt < LFO', u'Pan < LFO', u'Pitch < LFO')
-SAM_BANK5 = (u'L 2 Wave', u'L 2 Sync', u'L 2 Sync Rate', u'L 2 Rate', u'L 2 R < Key', u'L 2 St Mode', u'L 2 Spin', u'L 2 Phase')
-SAM_BANK6 = (u'L 3 Wave', u'L 3 Sync', u'L 3 Sync Rate', u'L 3 Rate', u'L 3 R < Key', u'L 3 St Mode', u'L 3 Spin', u'L 3 Phase')
-SAM_BANK7 = (u'O Mode', u'O Volume', u'O Coarse', u'O Fine', u'Oe Attack', u'Oe Decay', u'Oe Sustain', u'Oe Release')
-SAM_BANK8 = (u'Transpose', u'Spread', u'Pe < Env', u'Pe Attack', u'Pe Peak', u'Pe Decay', u'Pe Sustain', u'Pe Release')
-SAM_BOB = (u'Ve Attack', u'Ve Decay', u'Ve Release', u'Filter Freq', u'Filter Res', u'Filter Morph', u'O Volume', u'O Coarse')
-SAM_BANKS = (SAM_BANK1,
+SIM_BNK_NAMES = ('Amplitude', 'Filter', 'LFO', 'Pitch Modifiers')
+SAM_BANK1 = ('Volume', 'Ve Attack', 'Ve Decay', 'Ve Sustain', 'Ve Release', 'Vol < Vel',
+             'Ve R < Vel', 'Time')
+SAM_BANK2 = ('Filter Type', 'Filter Morph', 'Filter Freq', 'Filter Res', 'Filt < Vel',
+             'Filt < Key', 'Fe < Env', 'Shaper Amt')
+SAM_BANK3 = ('Fe Attack', 'Fe Decay', 'Fe Sustain', 'Fe Release', 'Fe End', 'Fe Mode',
+             'Fe Loop', 'Fe Retrig')
+SAM_BANK4 = ('L 1 Wave', 'L 1 Sync', 'L 1 Sync Rate', 'L 1 Rate', 'Vol < LFO', 'Filt < LFO',
+             'Pan < LFO', 'Pitch < LFO')
+SAM_BANK5 = ('L 2 Wave', 'L 2 Sync', 'L 2 Sync Rate', 'L 2 Rate', 'L 2 R < Key', 'L 2 St Mode',
+             'L 2 Spin', 'L 2 Phase')
+SAM_BANK6 = ('L 3 Wave', 'L 3 Sync', 'L 3 Sync Rate', 'L 3 Rate', 'L 3 R < Key', 'L 3 St Mode',
+             'L 3 Spin', 'L 3 Phase')
+SAM_BANK7 = ('O Mode', 'O Volume', 'O Coarse', 'O Fine', 'Oe Attack', 'Oe Decay', 'Oe Sustain',
+             'Oe Release')
+SAM_BANK8 = ('Transpose', 'Spread', 'Pe < Env', 'Pe Attack', 'Pe Peak', 'Pe Decay',
+             'Pe Sustain', 'Pe Release')
+SAM_BOB = ('Ve Attack', 'Ve Decay', 'Ve Release', 'Filter Freq', 'Filter Res', 'Filter Morph',
+           'O Volume', 'O Coarse')
+SAM_BANKS = (
+ SAM_BANK1,
  SAM_BANK2,
  SAM_BANK3,
  SAM_BANK4,
@@ -78,307 +122,358 @@ SAM_BANKS = (SAM_BANK1,
  SAM_BANK7,
  SAM_BANK8)
 SAM_BOBS = SAM_BOB
-SAM_BNK_NAMES = (u'Volume', u'Filter', u'Filter Envelope', u'LFO 1', u'LFO 2', u'LFO 3', u'Oscillator', u'Pitch')
-EXTINST_BOB = (u'Input Gain', u'', u'', u'', u'', u'', u'', u'')
+SAM_BNK_NAMES = ('Volume', 'Filter', 'Filter Envelope', 'LFO 1', 'LFO 2', 'LFO 3',
+                 'Oscillator', 'Pitch')
+EXTINST_BOB = ('Input Gain', '', '', '', '', '', '', '')
 EXTINST_BOBS = EXTINST_BOB
-ARP_BANK1 = (u'Style', u'Groove', u'Offset', u'Synced Rate', u'Retrigger Mode', u'Ret. Interval', u'Repeats', u'Gate')
-ARP_BANK2 = (u'Tranpose Mode', u'Tranpose Key', u'Transp. Steps', u'Transp. Dist.', u'Velocity Decay', u'Velocity Target', u'Velocity On', u'Vel. Retrigger')
-ARP_BOB = (u'Synced Rate', u'Free Rate', u'Transp. Steps', u'Transp. Dist.', u'Gate', u'Tranpose Key', u'Velocity Decay', u'Velocity Target')
-ARP_BANKS = (ARP_BANK1, ARP_BANK2)
+ARP_BANK1 = ('Style', 'Groove', 'Offset', 'Synced Rate', 'Retrigger Mode', 'Ret. Interval',
+             'Repeats', 'Gate')
+ARP_BANK2 = ('Tranpose Mode', 'Tranpose Key', 'Transp. Steps', 'Transp. Dist.', 'Velocity Decay',
+             'Velocity Target', 'Velocity On', 'Vel. Retrigger')
+ARP_BOB = ('Synced Rate', 'Free Rate', 'Transp. Steps', 'Transp. Dist.', 'Gate', 'Tranpose Key',
+           'Velocity Decay', 'Velocity Target')
+ARP_BANKS = (
+ ARP_BANK1, ARP_BANK2)
 ARP_BOBS = ARP_BOB
-ARP_BNK_NAMES = (u'Style', u'Pitch/Velocity')
-CRD_BANK1 = (u'Shift1', u'Shift2', u'Shift3', u'Shift4', u'Shift5', u'Shift6', u'', u'')
-CRD_BANK2 = (u'Velocity1', u'Velocity2', u'Velocity3', u'Velocity4', u'Velocity5', u'Velocity6', u'', u'')
-CRD_BOB = (u'Shift1', u'Shift2', u'Shift3', u'Shift4', u'Shift5', u'Velocity5', u'Shift6', u'Velocity6')
-CRD_BANKS = (CRD_BANK1, CRD_BANK2)
+ARP_BNK_NAMES = ('Style', 'Pitch/Velocity')
+CRD_BANK1 = ('Shift1', 'Shift2', 'Shift3', 'Shift4', 'Shift5', 'Shift6', '', '')
+CRD_BANK2 = ('Velocity1', 'Velocity2', 'Velocity3', 'Velocity4', 'Velocity5', 'Velocity6',
+             '', '')
+CRD_BOB = ('Shift1', 'Shift2', 'Shift3', 'Shift4', 'Shift5', 'Velocity5', 'Shift6',
+           'Velocity6')
+CRD_BANKS = (
+ CRD_BANK1, CRD_BANK2)
 CRD_BOBS = CRD_BOB
-CRD_BNK_NAMES = (u'Shift', u'Shift %')
-NTL_BANK1 = (u'Trigger Mode', u'Time Length', u'Synced Length', u'Gate', u'Decay Time', u'On/Off-Balance', u'Decay Key Scale', u'')
+CRD_BNK_NAMES = ('Shift', 'Shift %')
+NTL_BANK1 = ('Trigger Mode', 'Time Length', 'Synced Length', 'Gate', 'Decay Time',
+             'On/Off-Balance', 'Decay Key Scale', '')
 NTL_BANKS = NTL_BANK1
 NTL_BOBS = NTL_BANK1
-PIT_BANK1 = (u'Pitch', u'Range', u'Lowest', u'', u'', u'', u'', u'')
+PIT_BANK1 = ('Pitch', 'Range', 'Lowest', '', '', '', '', '')
 PIT_BANKS = PIT_BANK1
 PIT_BOBS = PIT_BANK1
-RND_BANK1 = (u'Chance', u'Choices', u'Scale', u'Sign', u'', u'', u'', u'')
+RND_BANK1 = ('Chance', 'Choices', 'Scale', 'Sign', '', '', '', '')
 RND_BANKS = RND_BANK1
 RND_BOBS = RND_BANK1
-SCL_BANK1 = (u'Base', u'Transpose', u'Range', u'Lowest', u'', u'', u'', u'')
+SCL_BANK1 = ('Base', 'Transpose', 'Range', 'Lowest', '', '', '', '')
 SCL_BANKS = SCL_BANK1
 SCL_BOBS = SCL_BANK1
-VEL_BANK1 = (u'Drive', u'Compand', u'Random', u'Mode', u'Out Hi', u'Out Low', u'Range', u'Lowest')
+VEL_BANK1 = ('Drive', 'Compand', 'Random', 'Mode', 'Out Hi', 'Out Low', 'Range', 'Lowest')
 VEL_BANKS = VEL_BANK1
 VEL_BOBS = VEL_BANK1
-AFL_BANK1 = (u'Frequency', u'Resonance', u'Env. Attack', u'Env. Release', u'Env. Modulation', u'LFO Amount', u'LFO Frequency', u'LFO Phase')
+AFL_BANK1 = ('Frequency', 'Resonance', 'Env. Attack', 'Env. Release', 'Env. Modulation',
+             'LFO Amount', 'LFO Frequency', 'LFO Phase')
 AFL_BANKS = AFL_BANK1
 AFL_BOBS = AFL_BANK1
-APN_BANK1 = (u'Amount', u'Frequency', u'Phase', u'Shape', u'Waveform', u'Sync Rate', u'Offset', u'Width (Random)')
+APN_BANK1 = ('Amount', 'Frequency', 'Phase', 'Shape', 'Waveform', 'Sync Rate', 'Offset',
+             'Width (Random)')
 APN_BANKS = APN_BANK1
 APN_BOBS = APN_BANK1
-BRP_BANK1 = (u'Interval', u'Offset', u'Grid', u'Variation', u'Filter Freq', u'Filter Width', u'Volume', u'Decay')
-BRP_BANK2 = (u'Chance', u'Gate', u'Pitch', u'Pitch Decay', u'Filter Freq', u'Filter Width', u'Volume', u'Decay')
-BRP_BOB = (u'Interval', u'Offset', u'Gate', u'Chance', u'Grid', u'Variation', u'Pitch', u'Filter Freq')
-BRP_BANKS = (BRP_BANK1, BRP_BANK2)
+BRP_BANK1 = ('Interval', 'Offset', 'Grid', 'Variation', 'Filter Freq', 'Filter Width',
+             'Volume', 'Decay')
+BRP_BANK2 = ('Chance', 'Gate', 'Pitch', 'Pitch Decay', 'Filter Freq', 'Filter Width',
+             'Volume', 'Decay')
+BRP_BOB = ('Interval', 'Offset', 'Gate', 'Chance', 'Grid', 'Variation', 'Pitch', 'Filter Freq')
+BRP_BANKS = (
+ BRP_BANK1, BRP_BANK2)
 BRP_BOBS = BRP_BOB
-BRP_BNK_NAMES = (u'Repeat Rate', u'Gate/Pitch')
-CHR_BANK1 = (u'Delay 1 Time', u'Delay 2 Time', u'LFO Amount', u'Dry/Wet', u'Delay 1 HiPass', u'Delay 2 Mode', u'LFO Rate', u'Feedback')
+BRP_BNK_NAMES = ('Repeat Rate', 'Gate/Pitch')
+CHR_BANK1 = ('Delay 1 Time', 'Delay 2 Time', 'LFO Amount', 'Dry/Wet', 'Delay 1 HiPass',
+             'Delay 2 Mode', 'LFO Rate', 'Feedback')
 CHR_BANKS = CHR_BANK1
 CHR_BOBS = CHR_BANK1
-CP1_BANK1 = (u'Threshold', u'Ratio', u'Attack', u'Release', u'Output Gain', u'', u'', u'')
+CP1_BANK1 = ('Threshold', 'Ratio', 'Attack', 'Release', 'Output Gain', '', '', '')
 CP1_BANKS = CP1_BANK1
 CP1_BOBS = CP1_BANK1
-CP2_BANK1 = (u'Threshold', u'Ratio', u'Attack', u'Release', u'Output Gain', u'SideGain', u'Freq', u'PeakOn')
-CP2_BANK1_LIVE7 = (u'Threshold', u'Ratio', u'Attack', u'Release', u'S/C Gain', u'S/C Mix', u'S/C EQ Freq', u'Output Gain')
+CP2_BANK1 = ('Threshold', 'Ratio', 'Attack', 'Release', 'Output Gain', 'SideGain',
+             'Freq', 'PeakOn')
+CP2_BANK1_LIVE7 = ('Threshold', 'Ratio', 'Attack', 'Release', 'S/C Gain', 'S/C Mix',
+                   'S/C EQ Freq', 'Output Gain')
 CP2_BANKS = CP2_BANK1_LIVE7
 CP2_BOBS = CP2_BANK1_LIVE7
-DTB_BANK1 = (u'Drive', u'Bias', u'Tone', u'Envelope', u'Attack', u'Release', u'Dry/Wet', u'Output')
+DTB_BANK1 = ('Drive', 'Bias', 'Tone', 'Envelope', 'Attack', 'Release', 'Dry/Wet', 'Output')
 DTB_BANKS = DTB_BANK1
 DTB_BOBS = DTB_BANK1
-EQ8_BOB = (u'3 Frequency A', u'3 Gain A', u'4 Frequency A', u'4 Gain A', u'5 Frequency A', u'5 Gain A', u'6 Frequency A', u'6 Gain A')
-EQ8_BANK1 = (u'1 Filter On A', u'2 Filter On A', u'3 Filter On A', u'4 Filter On A', u'5 Filter On A', u'6 Filter On A', u'7 Filter On A', u'8 Filter On A')
-EQ8_BANK2 = (u'1 Frequency A', u'2 Frequency A', u'3 Frequency A', u'4 Frequency A', u'5 Frequency A', u'6 Frequency A', u'7 Frequency A', u'8 Frequency A')
-EQ8_BANK3 = (u'1 Gain A', u'2 Gain A', u'3 Gain A', u'4 Gain A', u'5 Gain A', u'6 Gain A', u'7 Gain A', u'8 Gain A')
-EQ8_BANK4 = (u'1 Resonance A', u'2 Resonance A', u'3 Resonance A', u'4 Resonance A', u'5 Resonance A', u'6 Resonance A', u'7 Resonance A', u'8 Resonance A')
-EQ8_BANK5 = (u'1 Filter Type A', u'2 Filter Type A', u'3 Filter Type A', u'4 Filter Type A', u'5 Filter Type A', u'6 Filter Type A', u'7 Filter Type A', u'8 Filter Type A')
-EQ8_BANK6 = (u'Output Gain', u'Scale', u'', u'', u'', u'', u'', u'')
-EQ8_BANK7 = (u'1 Gain A', u'1 Frequency A', u'1 Resonance A', u'2 Gain A', u'2 Frequency A', u'2 Resonance A', u'3 Gain A', u'3 Frequency A')
-EQ8_BANKS = (EQ8_BANK1,
- EQ8_BANK2,
- EQ8_BANK3,
- EQ8_BANK4,
- EQ8_BANK5,
- EQ8_BANK6,
- EQ8_BANK7)
+EQ8_BOB = ('3 Frequency A', '3 Gain A', '4 Frequency A', '4 Gain A', '5 Frequency A',
+           '5 Gain A', '6 Frequency A', '6 Gain A')
+EQ8_BANK1 = ('1 Filter On A', '2 Filter On A', '3 Filter On A', '4 Filter On A', '5 Filter On A',
+             '6 Filter On A', '7 Filter On A', '8 Filter On A')
+EQ8_BANK2 = ('1 Frequency A', '2 Frequency A', '3 Frequency A', '4 Frequency A', '5 Frequency A',
+             '6 Frequency A', '7 Frequency A', '8 Frequency A')
+EQ8_BANK3 = ('1 Gain A', '2 Gain A', '3 Gain A', '4 Gain A', '5 Gain A', '6 Gain A',
+             '7 Gain A', '8 Gain A')
+EQ8_BANK4 = ('1 Resonance A', '2 Resonance A', '3 Resonance A', '4 Resonance A', '5 Resonance A',
+             '6 Resonance A', '7 Resonance A', '8 Resonance A')
+EQ8_BANK5 = ('1 Filter Type A', '2 Filter Type A', '3 Filter Type A', '4 Filter Type A',
+             '5 Filter Type A', '6 Filter Type A', '7 Filter Type A', '8 Filter Type A')
+EQ8_BANK6 = ('Output Gain', 'Scale', '', '', '', '', '', '')
+EQ8_BANK7 = ('1 Gain A', '1 Frequency A', '1 Resonance A', '2 Gain A', '2 Frequency A',
+             '2 Resonance A', '3 Gain A', '3 Frequency A')
+EQ8_BANKS = (
+ EQ8_BANK1, EQ8_BANK2, EQ8_BANK3, EQ8_BANK4, EQ8_BANK5, EQ8_BANK6, EQ8_BANK7)
 EQ8_BOBS = EQ8_BOB
-EQ8_BNK_NAMES = (u'Band On/Off', u'Frequency', u'Gain', u'Resonance', u'Filter Type', u'General', u'EQs 1-3')
-EQ3_BANK1 = (u'GainLo', u'GainMid', u'GainHi', u'', u'FreqLo', u'FreqHi', u'Slope', u'')
+EQ8_BNK_NAMES = ('Band On/Off', 'Frequency', 'Gain', 'Resonance', 'Filter Type', 'General',
+                 'EQs 1-3')
+EQ3_BANK1 = ('GainLo', 'GainMid', 'GainHi', '', 'FreqLo', 'FreqHi', 'Slope', '')
 EQ3_BANKS = EQ3_BANK1
 EQ3_BOBS = EQ3_BANK1
-ERO_BANK1 = (u'Frequency', u'Width', u'Amount', u'Mode', u'', u'', u'', u'')
+ERO_BANK1 = ('Frequency', 'Width', 'Amount', 'Mode', '', '', '', '')
 ERO_BANKS = ERO_BANK1
 ERO_BOBS = ERO_BANK1
-FLD_BANK1 = (u'1 Filter Freq', u'1 Filter Width', u'1 Beat Delay', u'1 Beat Swing', u'1 Feedback', u'1 Pan', u'1 Volume', u'Dry')
-FLD_BANK2 = (u'2 Filter Freq', u'2 Filter Width', u'2 Beat Delay', u'2 Beat Swing', u'2 Feedback', u'2 Pan', u'2 Volume', u'Dry')
-FLD_BANK3 = (u'3 Filter Freq', u'3 Filter Width', u'3 Beat Delay', u'3 Beat Swing', u'3 Feedback', u'3 Pan', u'3 Volume', u'Dry')
-FLD_BOB = (u'1 Filter Freq', u'1 Beat Delay', u'1 Feedback', u'1 Volume', u'3 Filter Freq', u'3 Beat Delay', u'3 Feedback', u'3 Volume')
-FLD_BANKS = (FLD_BANK1, FLD_BANK2, FLD_BANK3)
+FLD_BANK1 = ('1 Filter Freq', '1 Filter Width', '1 Beat Delay', '1 Beat Swing', '1 Feedback',
+             '1 Pan', '1 Volume', 'Dry')
+FLD_BANK2 = ('2 Filter Freq', '2 Filter Width', '2 Beat Delay', '2 Beat Swing', '2 Feedback',
+             '2 Pan', '2 Volume', 'Dry')
+FLD_BANK3 = ('3 Filter Freq', '3 Filter Width', '3 Beat Delay', '3 Beat Swing', '3 Feedback',
+             '3 Pan', '3 Volume', 'Dry')
+FLD_BOB = ('1 Filter Freq', '1 Beat Delay', '1 Feedback', '1 Volume', '3 Filter Freq',
+           '3 Beat Delay', '3 Feedback', '3 Volume')
+FLD_BANKS = (
+ FLD_BANK1, FLD_BANK2, FLD_BANK3)
 FLD_BOBS = FLD_BOB
-FLD_BNK_NAMES = (u'Input L Filter', u'Input L+R Filter', u'Input R Filter')
-FLG_BANK1 = (u'Hi Pass', u'Dry/Wet', u'Delay Time', u'Feedback', u'Env. Modulation', u'Env. Attack', u'Env. Release', u'')
-FLG_BANK2 = (u'LFO Amount', u'Frequency', u'LFO Phase', u'Sync', u'LFO Offset', u'Sync Rate', u'LFO Width (Random)', u'LFO Waveform')
-FLG_BOB = (u'Hi Pass', u'Delay Time', u'Feedback', u'LFO Amount', u'Frequency', u'Sync Rate', u'Env. Modulation', u'Dry/Wet')
-FLG_BANKS = (FLG_BANK1, FLG_BANK2)
+FLD_BNK_NAMES = ('Input L Filter', 'Input L+R Filter', 'Input R Filter')
+FLG_BANK1 = ('Hi Pass', 'Dry/Wet', 'Delay Time', 'Feedback', 'Env. Modulation', 'Env. Attack',
+             'Env. Release', '')
+FLG_BANK2 = ('LFO Amount', 'Frequency', 'LFO Phase', 'Sync', 'LFO Offset', 'Sync Rate',
+             'LFO Width (Random)', 'LFO Waveform')
+FLG_BOB = ('Hi Pass', 'Delay Time', 'Feedback', 'LFO Amount', 'Frequency', 'Sync Rate',
+           'Env. Modulation', 'Dry/Wet')
+FLG_BANKS = (
+ FLG_BANK1, FLG_BANK2)
 FLG_BOBS = FLG_BOB
-FLG_BNK_NAMES = (u'Frequency Controls', u'LFO / S&H')
-GRD_BANK1 = (u'Spray', u'Frequency', u'Pitch', u'Random', u'Feedback', u'DryWet', u'Beat Swing', u'Time Delay')
+FLG_BNK_NAMES = ('Frequency Controls', 'LFO / S&H')
+GRD_BANK1 = ('Spray', 'Frequency', 'Pitch', 'Random', 'Feedback', 'DryWet', 'Beat Swing',
+             'Time Delay')
 GRD_BANKS = GRD_BANK1
 GRD_BOBS = GRD_BANK1
-PHS_BANK1 = (u'Poles', u'Color', u'Dry/Wet', u'Frequency', u'Env. Modulation', u'Env. Attack', u'Env. Release', u'Feedback')
-PHS_BANK2 = (u'LFO Amount', u'LFO Frequency', u'LFO Phase', u'LFO Sync', u'LFO Offset', u'LFO Sync Rate', u'LFO Spin', u'LFO Waveform')
-PHS_BOB = (u'Poles', u'Color', u'Frequency', u'Feedback', u'LFO Amount', u'LFO Frequency', u'Env. Modulation', u'Dry/Wet')
-PHS_BANKS = (PHS_BANK1, PHS_BANK2)
+PHS_BANK1 = ('Poles', 'Color', 'Dry/Wet', 'Frequency', 'Env. Modulation', 'Env. Attack',
+             'Env. Release', 'Feedback')
+PHS_BANK2 = ('LFO Amount', 'LFO Frequency', 'LFO Phase', 'LFO Sync', 'LFO Offset',
+             'LFO Sync Rate', 'LFO Spin', 'LFO Waveform')
+PHS_BOB = ('Poles', 'Color', 'Frequency', 'Feedback', 'LFO Amount', 'LFO Frequency',
+           'Env. Modulation', 'Dry/Wet')
+PHS_BANKS = (
+ PHS_BANK1, PHS_BANK2)
 PHS_BOBS = PHS_BOB
-PHS_BNK_NAMES = (u'Frequency Controls', u'LFO / S&H')
-RDX_BANK1 = (u'Bit Depth', u'Sample Mode', u'Sample Hard', u'Sample Soft', u'Bit On', u'', u'', u'')
+PHS_BNK_NAMES = ('Frequency Controls', 'LFO / S&H')
+RDX_BANK1 = ('Bit Depth', 'Sample Mode', 'Sample Hard', 'Sample Soft', 'Bit On', '',
+             '', '')
 RDX_BANKS = RDX_BANK1
 RDX_BOBS = RDX_BANK1
-EXTEFFECT_BOB = (u'Dry/Wet', u'Output Gain', u'Input Gain', u'', u'', u'', u'', u'')
+EXTEFFECT_BOB = ('Dry/Wet', 'Output Gain', 'Input Gain', '', '', '', '', '')
 EXTEFFECT_BOBS = EXTEFFECT_BOB
-SAT_BANK1 = (u'Drive', u'Base', u'Frequency', u'Width', u'Depth', u'Output', u'Dry/Wet', u'Type')
-SAT_BANK2 = (u'WS Drive', u'WS Lin', u'WS Curve', u'WS Damp', u'WS Depth', u'WS Period', u'Dry/Wet', u'')
-SAT_BOB = (u'Drive', u'Base', u'Frequency', u'Depth', u'WS Curve', u'WS Depth', u'WS Period', u'WS Damp')
-SAT_BANKS = (SAT_BANK1, SAT_BANK2)
+SAT_BANK1 = ('Drive', 'Base', 'Frequency', 'Width', 'Depth', 'Output', 'Dry/Wet', 'Type')
+SAT_BANK2 = ('WS Drive', 'WS Lin', 'WS Curve', 'WS Damp', 'WS Depth', 'WS Period',
+             'Dry/Wet', '')
+SAT_BOB = ('Drive', 'Base', 'Frequency', 'Depth', 'WS Curve', 'WS Depth', 'WS Period',
+           'WS Damp')
+SAT_BANKS = (
+ SAT_BANK1, SAT_BANK2)
 SAT_BOBS = SAT_BOB
-SAT_BNK_NAMES = (u'General Controls', u'Waveshaper Controls')
-RSN_BANK1 = (u'Frequency', u'Width', u'Global Gain', u'Dry/Wet', u'Decay', u'I Note', u'Color', u'I Gain')
-RSN_BANK2 = (u'II Gain', u'III Gain', u'IV Gain', u'V Gain', u'II Pitch', u'III Pitch', u'IV Pitch', u'V Pitch')
-RSN_BOB = (u'Decay', u'I Note', u'II Pitch', u'III Pitch', u'IV Pitch', u'V Pitch', u'Global Gain', u'Dry/Wet')
-RSN_BANKS = (RSN_BANK1, RSN_BANK2)
+SAT_BNK_NAMES = ('General Controls', 'Waveshaper Controls')
+RSN_BANK1 = ('Frequency', 'Width', 'Global Gain', 'Dry/Wet', 'Decay', 'I Note', 'Color',
+             'I Gain')
+RSN_BANK2 = ('II Gain', 'III Gain', 'IV Gain', 'V Gain', 'II Pitch', 'III Pitch', 'IV Pitch',
+             'V Pitch')
+RSN_BOB = ('Decay', 'I Note', 'II Pitch', 'III Pitch', 'IV Pitch', 'V Pitch', 'Global Gain',
+           'Dry/Wet')
+RSN_BANKS = (
+ RSN_BANK1, RSN_BANK2)
 RSN_BOBS = RSN_BOB
-RSN_BNK_NAMES = (u'General / Mode I', u'Modes II-IV')
-SMD_BANK1 = (u'L Beat Delay', u'L Beat Swing', u'L Time Delay', u'Dry/Wet', u'R Beat Delay', u'R Beat Swing', u'R Time Delay', u'Feedback')
+RSN_BNK_NAMES = ('General / Mode I', 'Modes II-IV')
+SMD_BANK1 = ('L Beat Delay', 'L Beat Swing', 'L Time Delay', 'Dry/Wet', 'R Beat Delay',
+             'R Beat Swing', 'R Time Delay', 'Feedback')
 SMD_BANKS = SMD_BANK1
 SMD_BOBS = SMD_BANK1
-UTL_BANK1 = (u'Left Inv', u'Right Inv', u'Channel Mode', u'Stereo Width', u'Mono', u'Balance', u'Gain', u'Mute')
-UTL_BANK2 = (u'Bass Mono', u'Bass Freq', u'DC Filter', u'', u'', u'', u'', u'')
+UTL_BANK1 = ('Left Inv', 'Right Inv', 'Channel Mode', 'Stereo Width', 'Mono', 'Balance',
+             'Gain', 'Mute')
+UTL_BANK2 = ('Bass Mono', 'Bass Freq', 'DC Filter', '', '', '', '', '')
 UTL_BANKS = (UTL_BANK1, UTL_BANK2)
 UTL_BOBS = (UTL_BANK1,)
-UTL_BANK_NAMES = (u'General Controls', u'Low Frequency')
-RVB_BANK1 = (u'In Filter Freq', u'In Filter Width', u'PreDelay', u'ER Spin On', u'ER Spin Rate', u'ER Spin Amount', u'ER Shape', u'DecayTime')
-RVB_BANK2 = (u'HiShelf Freq', u'LowShelf Freq', u'Chorus Rate', u'Density', u'HiShelf Gain', u'LowShelf Gain', u'Chorus Amount', u'Scale')
-RVB_BANK3 = (u'DecayTime', u'Freeze On', u'Room Size', u'Stereo Image', u'ER Level', u'Diffuse Level', u'Dry/Wet', u'Quality')
-RVB_BOB = (u'DecayTime', u'Room Size', u'Chorus Amount', u'In Filter Freq', u'HiShelf Freq', u'HiShelf Gain', u'Stereo Image', u'Dry/Wet')
-RVB_BANKS = (RVB_BANK1, RVB_BANK2, RVB_BANK3)
+UTL_BANK_NAMES = ('General Controls', 'Low Frequency')
+RVB_BANK1 = ('In Filter Freq', 'In Filter Width', 'PreDelay', 'ER Spin On', 'ER Spin Rate',
+             'ER Spin Amount', 'ER Shape', 'DecayTime')
+RVB_BANK2 = ('HiShelf Freq', 'LowShelf Freq', 'Chorus Rate', 'Density', 'HiShelf Gain',
+             'LowShelf Gain', 'Chorus Amount', 'Scale')
+RVB_BANK3 = ('DecayTime', 'Freeze On', 'Room Size', 'Stereo Image', 'ER Level', 'Diffuse Level',
+             'Dry/Wet', 'Quality')
+RVB_BOB = ('DecayTime', 'Room Size', 'Chorus Amount', 'In Filter Freq', 'HiShelf Freq',
+           'HiShelf Gain', 'Stereo Image', 'Dry/Wet')
+RVB_BANKS = (
+ RVB_BANK1, RVB_BANK2, RVB_BANK3)
 RVB_BOBS = RVB_BOB
-RVB_BNK_NAMES = (u'Reflections', u'Diffusion Network', u'Global')
-VDS_BANK1 = (u'Tracing Freq.', u'Tracing Width', u'Tracing Drive', u'Crackle Density', u'Pinch Freq.', u'Pinch Width', u'Pinch Drive', u'Crackle Volume')
+RVB_BNK_NAMES = ('Reflections', 'Diffusion Network', 'Global')
+VDS_BANK1 = ('Tracing Freq.', 'Tracing Width', 'Tracing Drive', 'Crackle Density',
+             'Pinch Freq.', 'Pinch Width', 'Pinch Drive', 'Crackle Volume')
 VDS_BANKS = VDS_BANK1
 VDS_BOBS = VDS_BANK1
-GTE_BANK1 = (u'Threshold', u'Floor', u'', u'', u'Attack', u'Hold', u'Release', u'')
+GTE_BANK1 = ('Threshold', 'Floor', '', '', 'Attack', 'Hold', 'Release', '')
 GTE_BANKS = GTE_BANK1
 GTE_BOBS = GTE_BANK1
-PPG_BANK1 = (u'Filter Freq', u'Filter Width', u'Time Delay', u'Beat Delay', u'Beat Swing', u'Delay Mode', u'Feedback', u'Dry/Wet')
+PPG_BANK1 = ('Filter Freq', 'Filter Width', 'Time Delay', 'Beat Delay', 'Beat Swing',
+             'Delay Mode', 'Feedback', 'Dry/Wet')
 PPG_BANKS = PPG_BANK1
 PPG_BOBS = PPG_BANK1
-DEVICE_DICT = {u'AudioEffectGroupDevice': RCK_BANKS,
- u'MidiEffectGroupDevice': RCK_BANKS,
- u'DrumGroupDevice': RCK_BANKS,
- u'InstrumentGroupDevice': RCK_BANKS,
- u'InstrumentImpulse': IMP_BANKS,
- u'Operator': OPR_BANKS,
- u'OriginalSimpler': SIM_BANKS,
- u'MultiSampler': SAM_BANKS,
- u'MidiArpeggiator': ARP_BANKS,
- u'MidiChord': CRD_BANKS,
- u'MidiNoteLength': NTL_BANKS,
- u'MidiPitcher': PIT_BANKS,
- u'MidiRandom': RND_BANKS,
- u'MidiScale': SCL_BANKS,
- u'MidiVelocity': VEL_BANKS,
- u'AutoFilter': AFL_BANKS,
- u'AutoPan': APN_BANKS,
- u'BeatRepeat': BRP_BANKS,
- u'Chorus': CHR_BANKS,
- u'Compressor2': CP2_BANKS,
- u'Tube': DTB_BANKS,
- u'Eq8': EQ8_BANKS,
- u'FilterEQ3': EQ3_BANKS,
- u'Erosion': ERO_BANKS,
- u'FilterDelay': FLD_BANKS,
- u'Flanger': FLG_BANKS,
- u'GrainDelay': GRD_BANKS,
- u'Phaser': PHS_BANKS,
- u'Redux': RDX_BANKS,
- u'Saturator': SAT_BANKS,
- u'Resonator': RSN_BANKS,
- u'StereoGain': UTL_BANKS,
- u'Tube': DTB_BANKS,
- u'Reverb': RVB_BANKS,
- u'Vinyl': VDS_BANKS,
- u'Gate': GTE_BANKS}
-DEVICE_BOB_DICT = {u'AudioEffectGroupDevice': RCK_BOBS,
- u'MidiEffectGroupDevice': RCK_BOBS,
- u'InstrumentGroupDevice': RCK_BOBS,
- u'DrumGroupDevice': RCK_BOBS,
- u'InstrumentImpulse': IMP_BOBS,
- u'Operator': OPR_BOBS,
- u'OriginalSimpler': SIM_BOBS,
- u'MultiSampler': SAM_BOBS,
- u'UltraAnalog': ANA_BOBS,
- u'StringStudio': TEN_BOBS,
- u'LoungeLizard': ELEC_BOBS,
- u'ProxyInstrumentDevice': EXTINST_BOBS,
- u'MidiArpeggiator': ARP_BOBS,
- u'MidiChord': CRD_BOBS,
- u'MidiNoteLength': NTL_BOBS,
- u'MidiPitcher': PIT_BOBS,
- u'MidiRandom': RND_BOBS,
- u'MidiScale': SCL_BOBS,
- u'MidiVelocity': VEL_BOBS,
- u'AutoFilter': AFL_BOBS,
- u'AutoPan': APN_BOBS,
- u'BeatRepeat': BRP_BOBS,
- u'Chorus': CHR_BOBS,
- u'Compressor2': CP2_BOBS,
- u'Tube': DTB_BOBS,
- u'Eq8': EQ8_BOBS,
- u'FilterEQ3': EQ3_BOBS,
- u'Erosion': ERO_BOBS,
- u'FilterDelay': FLD_BOBS,
- u'Flanger': FLG_BOBS,
- u'GrainDelay': GRD_BOBS,
- u'Phaser': PHS_BOBS,
- u'Redux': RDX_BOBS,
- u'Saturator': SAT_BOBS,
- u'ProxyAudioEffectDevice': EXTEFFECT_BOBS,
- u'Resonator': RSN_BOBS,
- u'StereoGain': UTL_BOBS,
- u'Tube': DTB_BOBS,
- u'Reverb': RVB_BOBS,
- u'Vinyl': VDS_BOBS,
- u'Gate': GTE_BOBS}
-BANK_NAME_DICT = {u'AudioEffectGroupDevice': RCK_BNK_NAMES,
- u'MidiEffectGroupDevice': RCK_BNK_NAMES,
- u'InstrumentGroupDevice': RCK_BNK_NAMES,
- u'DrumGroupDevice': RCK_BNK_NAMES,
- u'InstrumentImpulse': IMP_BNK_NAMES,
- u'Operator': OPR_BNK_NAMES,
- u'OriginalSimpler': SIM_BNK_NAMES,
- u'MultiSampler': SAM_BNK_NAMES,
- u'MidiArpeggiator': ARP_BNK_NAMES,
- u'MidiChord': CRD_BNK_NAMES,
- u'BeatRepeat': BRP_BNK_NAMES,
- u'Eq8': EQ8_BNK_NAMES,
- u'FilterDelay': FLD_BNK_NAMES,
- u'Flanger': FLG_BNK_NAMES,
- u'Phaser': PHS_BNK_NAMES,
- u'Saturator': SAT_BNK_NAMES,
- u'Resonator': RSN_BNK_NAMES,
- u'Reverb': RVB_BNK_NAMES,
- u'StereoGain': UTL_BANK_NAMES}
-DEVICE_DICT = {u'AudioEffectGroupDevice': RCK_BANKS,
- u'MidiEffectGroupDevice': RCK_BANKS,
- u'InstrumentGroupDevice': RCK_BANKS,
- u'InstrumentImpulse': IMP_BANKS,
- u'Operator': OPR_BANKS,
- u'OriginalSimpler': SIM_BANKS,
- u'MultiSampler': SAM_BANKS,
- u'MidiArpeggiator': ARP_BANKS,
- u'MidiChord': CRD_BANKS,
- u'MidiNoteLength': NTL_BANKS,
- u'MidiPitcher': PIT_BANKS,
- u'MidiRandom': RND_BANKS,
- u'MidiScale': SCL_BANKS,
- u'MidiVelocity': VEL_BANKS,
- u'AutoFilter': AFL_BANKS,
- u'AutoPan': APN_BANKS,
- u'BeatRepeat': BRP_BANKS,
- u'Chorus': CHR_BANKS,
- u'Compressor2': CP2_BANKS,
- u'Tube': DTB_BANKS,
- u'Eq8': EQ8_BANKS,
- u'FilterEQ3': EQ3_BANKS,
- u'Erosion': ERO_BANKS,
- u'FilterDelay': FLD_BANKS,
- u'Flanger': FLG_BANKS,
- u'GrainDelay': GRD_BANKS,
- u'Phaser': PHS_BANKS,
- u'Redux': RDX_BANKS,
- u'Saturator': SAT_BANKS,
- u'Resonator': RSN_BANKS,
- u'StereoGain': UTL_BANKS,
- u'Tube': DTB_BANKS,
- u'Reverb': RVB_BANKS,
- u'Vinyl': VDS_BANKS,
- u'Gate': GTE_BANKS}
-FIVETOSIX_DICT = {u'Auto Filter': u'AutoFilter',
- u'Auto Pan': u'AutoPan',
- u'Beat Repeat': u'BeatRepeat',
- u'Chorus': u'Chorus',
- u'Compressor I': u'Compressor',
- u'Compressor II': u'Compressor2',
- u'EQ Four': u'Eq8',
- u'EQ Three': u'FilterEQ3',
- u'Erosion': u'Erosion',
- u'Filter Delay': u'FilterDelay',
- u'Flanger': u'Flanger',
- u'Gate': u'Gate',
- u'Grain Delay': u'GrainDelay',
- u'Phaser': u'Phaser',
- u'Redux': u'Redux',
- u'Resonators': u'Resonator',
- u'Reverb': u'Reverb',
- u'Saturator': u'Saturator',
- u'Utility': u'StereoGain',
- u'Vinyl Distortion': u'Vinyl',
- u'Arpeggiator': u'MidiArpeggiator',
- u'Chord': u'MidiChord',
- u'Pitch': u'MidiPitcher',
- u'Random': u'MidiRandom',
- u'Scale': u'MidiScale',
- u'Velocity': u'MidiVelocity',
- u'Simpler': u'OriginalSimpler',
- u'Impulse': u'InstrumentImpulse',
- u'Operator': u'Operator'}
-INVERT_QUANT_PARAM = {u'FilterDelay.1 Beat Delay': 1,
- u'FilterDelay.2 Beat Delay': 1,
- u'FilterDelay.3 Beat Delay': 1}
+DEVICE_DICT = {'AudioEffectGroupDevice':RCK_BANKS, 
+ 'MidiEffectGroupDevice':RCK_BANKS, 
+ 'DrumGroupDevice':RCK_BANKS, 
+ 'InstrumentGroupDevice':RCK_BANKS, 
+ 'InstrumentImpulse':IMP_BANKS, 
+ 'Operator':OPR_BANKS, 
+ 'OriginalSimpler':SIM_BANKS, 
+ 'MultiSampler':SAM_BANKS, 
+ 'MidiArpeggiator':ARP_BANKS, 
+ 'MidiChord':CRD_BANKS, 
+ 'MidiNoteLength':NTL_BANKS, 
+ 'MidiPitcher':PIT_BANKS, 
+ 'MidiRandom':RND_BANKS, 
+ 'MidiScale':SCL_BANKS, 
+ 'MidiVelocity':VEL_BANKS, 
+ 'AutoFilter':AFL_BANKS, 
+ 'AutoPan':APN_BANKS, 
+ 'BeatRepeat':BRP_BANKS, 
+ 'Chorus':CHR_BANKS, 
+ 'Compressor2':CP2_BANKS, 
+ 'Tube':DTB_BANKS, 
+ 'Eq8':EQ8_BANKS, 
+ 'FilterEQ3':EQ3_BANKS, 
+ 'Erosion':ERO_BANKS, 
+ 'FilterDelay':FLD_BANKS, 
+ 'Flanger':FLG_BANKS, 
+ 'GrainDelay':GRD_BANKS, 
+ 'Phaser':PHS_BANKS, 
+ 'Redux':RDX_BANKS, 
+ 'Saturator':SAT_BANKS, 
+ 'Resonator':RSN_BANKS, 
+ 'StereoGain':UTL_BANKS, 
+ 'Tube':DTB_BANKS, 
+ 'Reverb':RVB_BANKS, 
+ 'Vinyl':VDS_BANKS, 
+ 'Gate':GTE_BANKS}
+DEVICE_BOB_DICT = {'AudioEffectGroupDevice':RCK_BOBS, 
+ 'MidiEffectGroupDevice':RCK_BOBS, 
+ 'InstrumentGroupDevice':RCK_BOBS, 
+ 'DrumGroupDevice':RCK_BOBS, 
+ 'InstrumentImpulse':IMP_BOBS, 
+ 'Operator':OPR_BOBS, 
+ 'OriginalSimpler':SIM_BOBS, 
+ 'MultiSampler':SAM_BOBS, 
+ 'UltraAnalog':ANA_BOBS, 
+ 'StringStudio':TEN_BOBS, 
+ 'LoungeLizard':ELEC_BOBS, 
+ 'ProxyInstrumentDevice':EXTINST_BOBS, 
+ 'MidiArpeggiator':ARP_BOBS, 
+ 'MidiChord':CRD_BOBS, 
+ 'MidiNoteLength':NTL_BOBS, 
+ 'MidiPitcher':PIT_BOBS, 
+ 'MidiRandom':RND_BOBS, 
+ 'MidiScale':SCL_BOBS, 
+ 'MidiVelocity':VEL_BOBS, 
+ 'AutoFilter':AFL_BOBS, 
+ 'AutoPan':APN_BOBS, 
+ 'BeatRepeat':BRP_BOBS, 
+ 'Chorus':CHR_BOBS, 
+ 'Compressor2':CP2_BOBS, 
+ 'Tube':DTB_BOBS, 
+ 'Eq8':EQ8_BOBS, 
+ 'FilterEQ3':EQ3_BOBS, 
+ 'Erosion':ERO_BOBS, 
+ 'FilterDelay':FLD_BOBS, 
+ 'Flanger':FLG_BOBS, 
+ 'GrainDelay':GRD_BOBS, 
+ 'Phaser':PHS_BOBS, 
+ 'Redux':RDX_BOBS, 
+ 'Saturator':SAT_BOBS, 
+ 'ProxyAudioEffectDevice':EXTEFFECT_BOBS, 
+ 'Resonator':RSN_BOBS, 
+ 'StereoGain':UTL_BOBS, 
+ 'Tube':DTB_BOBS, 
+ 'Reverb':RVB_BOBS, 
+ 'Vinyl':VDS_BOBS, 
+ 'Gate':GTE_BOBS}
+BANK_NAME_DICT = {'AudioEffectGroupDevice':RCK_BNK_NAMES, 
+ 'MidiEffectGroupDevice':RCK_BNK_NAMES, 
+ 'InstrumentGroupDevice':RCK_BNK_NAMES, 
+ 'DrumGroupDevice':RCK_BNK_NAMES, 
+ 'InstrumentImpulse':IMP_BNK_NAMES, 
+ 'Operator':OPR_BNK_NAMES, 
+ 'OriginalSimpler':SIM_BNK_NAMES, 
+ 'MultiSampler':SAM_BNK_NAMES, 
+ 'MidiArpeggiator':ARP_BNK_NAMES, 
+ 'MidiChord':CRD_BNK_NAMES, 
+ 'BeatRepeat':BRP_BNK_NAMES, 
+ 'Eq8':EQ8_BNK_NAMES, 
+ 'FilterDelay':FLD_BNK_NAMES, 
+ 'Flanger':FLG_BNK_NAMES, 
+ 'Phaser':PHS_BNK_NAMES, 
+ 'Saturator':SAT_BNK_NAMES, 
+ 'Resonator':RSN_BNK_NAMES, 
+ 'Reverb':RVB_BNK_NAMES, 
+ 'StereoGain':UTL_BANK_NAMES}
+DEVICE_DICT = {'AudioEffectGroupDevice':RCK_BANKS, 
+ 'MidiEffectGroupDevice':RCK_BANKS, 
+ 'InstrumentGroupDevice':RCK_BANKS, 
+ 'InstrumentImpulse':IMP_BANKS, 
+ 'Operator':OPR_BANKS, 
+ 'OriginalSimpler':SIM_BANKS, 
+ 'MultiSampler':SAM_BANKS, 
+ 'MidiArpeggiator':ARP_BANKS, 
+ 'MidiChord':CRD_BANKS, 
+ 'MidiNoteLength':NTL_BANKS, 
+ 'MidiPitcher':PIT_BANKS, 
+ 'MidiRandom':RND_BANKS, 
+ 'MidiScale':SCL_BANKS, 
+ 'MidiVelocity':VEL_BANKS, 
+ 'AutoFilter':AFL_BANKS, 
+ 'AutoPan':APN_BANKS, 
+ 'BeatRepeat':BRP_BANKS, 
+ 'Chorus':CHR_BANKS, 
+ 'Compressor2':CP2_BANKS, 
+ 'Tube':DTB_BANKS, 
+ 'Eq8':EQ8_BANKS, 
+ 'FilterEQ3':EQ3_BANKS, 
+ 'Erosion':ERO_BANKS, 
+ 'FilterDelay':FLD_BANKS, 
+ 'Flanger':FLG_BANKS, 
+ 'GrainDelay':GRD_BANKS, 
+ 'Phaser':PHS_BANKS, 
+ 'Redux':RDX_BANKS, 
+ 'Saturator':SAT_BANKS, 
+ 'Resonator':RSN_BANKS, 
+ 'StereoGain':UTL_BANKS, 
+ 'Tube':DTB_BANKS, 
+ 'Reverb':RVB_BANKS, 
+ 'Vinyl':VDS_BANKS, 
+ 'Gate':GTE_BANKS}
+FIVETOSIX_DICT = {'Auto Filter':'AutoFilter', 
+ 'Auto Pan':'AutoPan', 
+ 'Beat Repeat':'BeatRepeat', 
+ 'Chorus':'Chorus', 
+ 'Compressor I':'Compressor', 
+ 'Compressor II':'Compressor2', 
+ 'EQ Four':'Eq8', 
+ 'EQ Three':'FilterEQ3', 
+ 'Erosion':'Erosion', 
+ 'Filter Delay':'FilterDelay', 
+ 'Flanger':'Flanger', 
+ 'Gate':'Gate', 
+ 'Grain Delay':'GrainDelay', 
+ 'Phaser':'Phaser', 
+ 'Redux':'Redux', 
+ 'Resonators':'Resonator', 
+ 'Reverb':'Reverb', 
+ 'Saturator':'Saturator', 
+ 'Utility':'StereoGain', 
+ 'Vinyl Distortion':'Vinyl', 
+ 'Arpeggiator':'MidiArpeggiator', 
+ 'Chord':'MidiChord', 
+ 'Pitch':'MidiPitcher', 
+ 'Random':'MidiRandom', 
+ 'Scale':'MidiScale', 
+ 'Velocity':'MidiVelocity', 
+ 'Simpler':'OriginalSimpler', 
+ 'Impulse':'InstrumentImpulse', 
+ 'Operator':'Operator'}
+INVERT_QUANT_PARAM = {'FilterDelay.1 Beat Delay':1, 
+ 'FilterDelay.2 Beat Delay':1, 
+ 'FilterDelay.3 Beat Delay':1}

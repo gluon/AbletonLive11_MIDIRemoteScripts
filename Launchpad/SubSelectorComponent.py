@@ -1,13 +1,18 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Launchpad/SubSelectorComponent.py
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Launchpad/SubSelectorComponent.py
+# Compiled at: 2022-01-27 16:28:16
+# Size of source mod 2**32: 14187 bytes
 from __future__ import absolute_import, print_function, unicode_literals
-from builtins import str
-from builtins import range
-from _Framework.ModeSelectorComponent import ModeSelectorComponent
-from _Framework.ButtonElement import ButtonElement
-from _Framework.ButtonMatrixElement import ButtonMatrixElement
-from _Framework.SessionComponent import SessionComponent
-from .SpecialMixerComponent import SpecialMixerComponent
+from builtins import range, str
+import _Framework.ButtonElement as ButtonElement
+import _Framework.ButtonMatrixElement as ButtonMatrixElement
+import _Framework.ModeSelectorComponent as ModeSelectorComponent
+import _Framework.SessionComponent as SessionComponent
 from .PreciseButtonSliderElement import *
+from .SpecialMixerComponent import SpecialMixerComponent
 LED_OFF = 4
 RED_FULL = 7
 RED_HALF = 6
@@ -26,26 +31,20 @@ VOL_VALUE_MAP = (0.0, 0.142882, 0.302414, 0.4, 0.55, 0.7, 0.85, 1.0)
 SEND_VALUE_MAP = (0.0, 0.103536, 0.164219, 0.238439, 0.343664, 0.55, 0.774942, 1.0)
 
 class SubSelectorComponent(ModeSelectorComponent):
-    u""" Class that handles different mixer modes """
 
     def __init__(self, matrix, side_buttons, session):
-        assert isinstance(matrix, ButtonMatrixElement)
-        assert matrix.width() == 8 and matrix.height() == 8
-        assert isinstance(side_buttons, tuple)
-        assert len(side_buttons) == 8
-        assert isinstance(session, SessionComponent)
         ModeSelectorComponent.__init__(self)
         self._session = session
         self._mixer = SpecialMixerComponent(matrix.width())
         self._matrix = matrix
         self._sliders = []
-        self._mixer.name = u'Mixer'
-        self._mixer.master_strip().name = u'Master_Channel_strip'
-        self._mixer.selected_strip().name = u'Selected_Channel_strip'
+        self._mixer.name = 'Mixer'
+        self._mixer.master_strip().name = 'Master_Channel_strip'
+        self._mixer.selected_strip().name = 'Selected_Channel_strip'
         for column in range(matrix.width()):
-            self._mixer.channel_strip(column).name = u'Channel_Strip_' + str(column)
-            self._sliders.append(PreciseButtonSliderElement(tuple([ matrix.get_button(column, 7 - row) for row in range(8) ])))
-            self._sliders[-1].name = u'Button_Slider_' + str(column)
+            self._mixer.channel_strip(column).name = 'Channel_Strip_' + str(column)
+            self._sliders.append(PreciseButtonSliderElement(tuple([matrix.get_button(column, 7 - row) for row in range(8)])))
+            self._sliders[(-1)].name = 'Button_Slider_' + str(column)
 
         self._side_buttons = side_buttons[4:]
         self._update_callback = None
@@ -69,11 +68,9 @@ class SubSelectorComponent(ModeSelectorComponent):
         ModeSelectorComponent.disconnect(self)
 
     def set_update_callback(self, callback):
-        assert dir(callback).count(u'im_func') is 1 or dir(callback).count(u'__func__') is 1
         self._update_callback = callback
 
     def set_modes_buttons(self, buttons):
-        assert buttons == None or isinstance(buttons, tuple) or len(buttons) == self.number_of_modes()
         identify_sender = True
         for button in self._modes_buttons:
             button.remove_value_listener(self._mode_value)
@@ -81,14 +78,11 @@ class SubSelectorComponent(ModeSelectorComponent):
         self._modes_buttons = []
         if buttons != None:
             for button in buttons:
-                assert isinstance(button, ButtonElement)
                 self._modes_buttons.append(button)
                 button.add_value_listener(self._mode_value, identify_sender)
 
     def set_mode(self, mode):
-        assert isinstance(mode, int)
-        assert mode in range(-1, self.number_of_modes())
-        if self._mode_index != mode or mode == -1:
+        if self._mode_index != mode or (mode == -1):
             self._mode_index = mode
             self.update()
 
@@ -129,7 +123,6 @@ class SubSelectorComponent(ModeSelectorComponent):
 
     def update(self):
         super(SubSelectorComponent, self).update()
-        assert self._modes_buttons != None
         if self.is_enabled():
             if self._modes_buttons != None:
                 for index in range(len(self._modes_buttons)):
@@ -150,7 +143,9 @@ class SubSelectorComponent(ModeSelectorComponent):
             self._session.set_allow_update(False)
             if self._mode_index == -1:
                 self._setup_mixer_overview()
-            elif self._mode_index == 0:
+            else:
+                pass
+            if self._mode_index == 0:
                 self._setup_volume_mode()
             elif self._mode_index == 1:
                 self._setup_pan_mode()
@@ -159,7 +154,7 @@ class SubSelectorComponent(ModeSelectorComponent):
             elif self._mode_index == 3:
                 self._setup_send2_mode()
             else:
-                assert False
+                pass
             if self._update_callback != None:
                 self._update_callback()
             self._mixer.set_allow_update(True)
