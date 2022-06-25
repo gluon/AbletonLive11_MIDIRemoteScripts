@@ -722,6 +722,11 @@ class ChannelStripController(MackieControlComponent):
             self._ChannelStripController__reassign_channel_strip_parameters(for_display_only=False)
             self._ChannelStripController__update_assignment_display()
             self.request_rebuild_midi_map()
+        
+        # Next 3 line s added by Maus3r so that banks move to selected track
+        all_tracks = ((self.song().tracks + self.song().return_tracks) + (self.song().master_track,))
+        index = (int(list(all_tracks).index(st)/8))*8
+        self._ChannelStripController__set_channel_offset(index)
 
     def __on_flip_changed(self):
         self._ChannelStripController__update_flip_led()
