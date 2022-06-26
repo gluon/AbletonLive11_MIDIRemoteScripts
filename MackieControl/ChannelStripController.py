@@ -146,6 +146,7 @@ class ChannelStripController(MackieControlComponent):
         self._ChannelStripController__apply_meter_mode(meter_state_changed=True)
 
     def handle_assignment_switch_ids(self, switch_id, value):
+        # Maus3r
         MackieControlComponent.log(self, f'[assignment] swith id [{switch_id}] value: {value}')
 
         if switch_id == SID_ASSIGNMENT_IO:
@@ -183,6 +184,7 @@ class ChannelStripController(MackieControlComponent):
                     self._ChannelStripController__set_channel_offset(self._ChannelStripController__strip_offset() + len(self._ChannelStripController__channel_strips))
         elif switch_id == SID_FADERBANK_PREV_CH:
             if value == BUTTON_PRESSED:
+                # Maus3r
                 self.application().view.scroll_view(NavDirection.left, '', False)
                 # if self.shift_is_pressed():
                 #     self._ChannelStripController__set_channel_offset(0)
@@ -190,6 +192,7 @@ class ChannelStripController(MackieControlComponent):
                 #     self._ChannelStripController__set_channel_offset(self._ChannelStripController__strip_offset() - 1)
         elif switch_id == SID_FADERBANK_NEXT_CH:
             if value == BUTTON_PRESSED:
+                # Maus3r
                 self.application().view.scroll_view(NavDirection.right, '', False)
                 # if self.shift_is_pressed():
                 #     self._ChannelStripController__set_channel_offset(self._ChannelStripController__controlled_num_of_tracks() - len(self._ChannelStripController__channel_strips))
@@ -729,10 +732,15 @@ class ChannelStripController(MackieControlComponent):
             self._ChannelStripController__update_assignment_display()
             self.request_rebuild_midi_map()
         
-        # Next 3 line s added by Maus3r so that banks move to selected track
-        all_tracks = ((self.song().tracks + self.song().return_tracks) + (self.song().master_track,))
-        index = (int(list(all_tracks).index(st)/8))*8
-        self._ChannelStripController__set_channel_offset(index)
+        # Maus3r next 3 lines ensure banks move to selected track.  NB only apply auto-banking when not in "returns" mode
+        if self._ChannelStripController__view_returns == False:
+            all_tracks = self.song().visible_tracks
+            trackIndex = list(all_tracks).index(st)
+            assignmentMode = self._ChannelStripController__assignment_mode
+            MackieControlComponent.log(self, f'track index [{trackIndex}] - mode [{assignmentMode}]')
+
+            index = int(trackIndex/8)*8
+            self._ChannelStripController__set_channel_offset(index)
 
     def __on_flip_changed(self):
         self._ChannelStripController__update_flip_led()
