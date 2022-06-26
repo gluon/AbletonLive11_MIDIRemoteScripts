@@ -11,6 +11,8 @@ from past.utils import old_div
 from itertools import chain
 from _Generic.Devices import *
 from .MackieControlComponent import *
+
+NavDirection = Live.Application.Application.View.NavDirection
 flatten_target = lambda routing_target: routing_target.display_name
 
 def flatten_target_list(target_list):
@@ -144,6 +146,8 @@ class ChannelStripController(MackieControlComponent):
         self._ChannelStripController__apply_meter_mode(meter_state_changed=True)
 
     def handle_assignment_switch_ids(self, switch_id, value):
+        MackieControlComponent.log(self, f'[assignment] swith id [{switch_id}] value: {value}')
+
         if switch_id == SID_ASSIGNMENT_IO:
             if value == BUTTON_PRESSED:
                 self._ChannelStripController__set_assignment_mode(CSM_IO)
@@ -179,16 +183,18 @@ class ChannelStripController(MackieControlComponent):
                     self._ChannelStripController__set_channel_offset(self._ChannelStripController__strip_offset() + len(self._ChannelStripController__channel_strips))
         elif switch_id == SID_FADERBANK_PREV_CH:
             if value == BUTTON_PRESSED:
-                if self.shift_is_pressed():
-                    self._ChannelStripController__set_channel_offset(0)
-                else:
-                    self._ChannelStripController__set_channel_offset(self._ChannelStripController__strip_offset() - 1)
+                self.application().view.scroll_view(NavDirection.left, '', False)
+                # if self.shift_is_pressed():
+                #     self._ChannelStripController__set_channel_offset(0)
+                # else:
+                #     self._ChannelStripController__set_channel_offset(self._ChannelStripController__strip_offset() - 1)
         elif switch_id == SID_FADERBANK_NEXT_CH:
             if value == BUTTON_PRESSED:
-                if self.shift_is_pressed():
-                    self._ChannelStripController__set_channel_offset(self._ChannelStripController__controlled_num_of_tracks() - len(self._ChannelStripController__channel_strips))
-                elif self._ChannelStripController__strip_offset() < self._ChannelStripController__controlled_num_of_tracks() - len(self._ChannelStripController__channel_strips):
-                    self._ChannelStripController__set_channel_offset(self._ChannelStripController__strip_offset() + 1)
+                self.application().view.scroll_view(NavDirection.right, '', False)
+                # if self.shift_is_pressed():
+                #     self._ChannelStripController__set_channel_offset(self._ChannelStripController__controlled_num_of_tracks() - len(self._ChannelStripController__channel_strips))
+                # elif self._ChannelStripController__strip_offset() < self._ChannelStripController__controlled_num_of_tracks() - len(self._ChannelStripController__channel_strips):
+                #     self._ChannelStripController__set_channel_offset(self._ChannelStripController__strip_offset() + 1)
         elif switch_id == SID_FADERBANK_FLIP:
             if value == BUTTON_PRESSED:
                 self._ChannelStripController__toggle_flip()

@@ -47,3 +47,6 @@ class MackieControlComponent(object):
 
     def request_rebuild_midi_map(self):
         self._MackieControlComponent__main_script.request_rebuild_midi_map()
+    
+    def log(self, msg):
+        self._MackieControlComponent__main_script.show_message(msg)

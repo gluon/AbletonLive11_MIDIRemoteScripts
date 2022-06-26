@@ -160,6 +160,8 @@ class Transport(MackieControlComponent):
                 self._Transport__goto_end()
 
     def handle_transport_switch_ids(self, switch_id, value):
+        MackieControlComponent.log(self, f'transport swith id [{switch_id}] value: {value}')
+
         if switch_id == SID_TRANSPORT_REWIND:
             if value == BUTTON_PRESSED:
                 self._Transport__rewind()
@@ -239,6 +241,8 @@ class Transport(MackieControlComponent):
                 self.song().jump_by(step)
 
     def handle_jog_wheel_switch_ids(self, switch_id, value):
+        MackieControlComponent.log(self, f'[jog-wheel] swith id [{switch_id}] value: {value}')
+
         if switch_id == SID_JOG_CURSOR_UP:
             if value == BUTTON_PRESSED:
                 self._Transport__cursor_up_is_down = True
