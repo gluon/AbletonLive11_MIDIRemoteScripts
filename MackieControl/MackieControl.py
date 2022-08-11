@@ -214,4 +214,6 @@ class MackieControl(object):
                     
     # Maus3r
     def show_message(self, msg):
-        self._MackieControl__c_instance.show_message(f'[Maus3r] {msg}')
+        print(msg)
+        # uncomment line to enable debug messages
+        # self._MackieControl__c_instance.show_message(f'[Maus3r] {msg}')
