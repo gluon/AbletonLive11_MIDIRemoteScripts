@@ -12,7 +12,7 @@ AND FOR FRENCH PEOPLE:
 
 SI VOUS VOULEZ MAÎTRISER TOTALEMENT ABLETON LIVE SUITE 11
 NOUS PROPOSONS DES FORMATIONS FINANÇABLES À MARSEILLE OU EN LIGNE :
-[ABLETON LIVE SUITE 11](https://structure-void.com/formations/ableton-live)  ET  [MAX FOR LIVE](https://structure-void.com/formations/max-for-live]
+[ABLETON LIVE SUITE 11](https://structure-void.com/formations/ableton-live)  ET  [MAX FOR LIVE](https://structure-void.com/formations/max-for-live)
 
 ## UPDATED on 22/04/2022
 
