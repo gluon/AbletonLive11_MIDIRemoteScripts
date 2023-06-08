@@ -1,20 +1,18 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/ableton/v2/control_surface/components/item_lister.py
 from __future__ import absolute_import, print_function, unicode_literals
-from builtins import map
-from builtins import zip
-from ...base import forward_property, listenable_property, listens, EventObject
+from builtins import map, zip
+from ...base import EventObject, forward_property, listenable_property, listens, liveobj_valid
 from .. import Component
-from ..control import control_list, ButtonControl
+from ..control import ButtonControl, control_list
 
 class SimpleItemSlot(EventObject):
 
-    def __init__(self, item = None, name = u'', nesting_level = -1, *a, **k):
-        super(SimpleItemSlot, self).__init__(*a, **k)
+    def __init__(self, item=None, name='', nesting_level=-1, *a, **k):
+        (super(SimpleItemSlot, self).__init__)(*a, **k)
         self._item = item
         self._name = name
         self._nesting_level = nesting_level
-        self.__on_name_changed.subject = self._item if getattr(self._item, u'name_has_listener', None) else None
-        self.__on_color_index_changed.subject = self._item if getattr(self._item, u'color_index_has_listener', None) else None
+        self._SimpleItemSlot__on_name_changed.subject = self._item if getattr(self._item, 'name_has_listener', None) else None
+        self._SimpleItemSlot__on_color_index_changed.subject = self._item if getattr(self._item, 'color_index_has_listener', None) else None
 
     @listenable_property
     def name(self):
@@ -30,23 +28,23 @@ class SimpleItemSlot(EventObject):
 
     @listenable_property
     def color_index(self):
-        return getattr(self._item, u'color_index', -1)
+        return getattr(self._item, 'color_index', -1)
 
-    @listens(u'name')
+    @listens('name')
     def __on_name_changed(self):
         self.notify_name()
         self._name = self._item.name
 
-    @listens(u'color_index')
+    @listens('color_index')
     def __on_color_index_changed(self):
         self.notify_color_index()
 
 
 class ItemSlot(SimpleItemSlot):
 
-    def __init__(self, item = None, nesting_level = 0, **k):
-        assert item != None
-        super(ItemSlot, self).__init__(item=item, name=item.name, nesting_level=nesting_level, **k)
+    def __init__(self, item=None, nesting_level=0, **k):
+        (super(ItemSlot, self).__init__)(item=item, 
+         name=item.name, nesting_level=nesting_level, **k)
 
     def __eq__(self, other):
         return id(self) == id(other) or self._item == other
@@ -57,36 +55,31 @@ class ItemSlot(SimpleItemSlot):
     def __hash__(self):
         return hash(self._item)
 
-    _live_ptr = forward_property(u'_item')(u'_live_ptr')
+    _live_ptr = forward_property('_item')('_live_ptr')
 
 
 class ItemProvider(EventObject):
-    u""" General interface to implement for providers used in ItemListerComponent """
-    __events__ = (u'items', u'selected_item')
+    __events__ = ('items', 'selected_item')
 
     @property
     def items(self):
-        u"""
-        Returns a list of tuples, each of which contains an item
-        followed by its nesting level
-        """
         return []
 
     @property
     def selected_item(self):
-        return None
+        pass
 
 
 class ItemListerComponentBase(Component):
-    __events__ = (u'items',)
+    __events__ = ('items', )
 
-    def __init__(self, item_provider = ItemProvider(), num_visible_items = 8, *a, **k):
-        super(ItemListerComponentBase, self).__init__(*a, **k)
+    def __init__(self, item_provider=ItemProvider(), num_visible_items=8, *a, **k):
+        (super(ItemListerComponentBase, self).__init__)(*a, **k)
         self._item_offset = 0
         self._item_provider = item_provider
         self._items = []
         self._num_visible_items = num_visible_items
-        self.__on_items_changed.subject = item_provider
+        self._ItemListerComponentBase__on_items_changed.subject = item_provider
         self.update_items()
 
     def reset_offset(self):
@@ -141,13 +134,13 @@ class ItemListerComponentBase(Component):
         num_slots = min(self._num_visible_items, len(items))
         new_items = []
         if num_slots > 0:
-            new_items = [ self._create_slot(index, *item) for index, item in enumerate(items[:num_slots]) if item[0] != None ]
+            new_items = [(self._create_slot)(index, *item) for index, item in enumerate(items[:num_slots]) if liveobj_valid(item[0])]
         return new_items
 
     def _create_slot(self, index, item, nesting_level):
         return ItemSlot(item=item, nesting_level=nesting_level)
 
-    @listens(u'items')
+    @listens('items')
     def __on_items_changed(self):
         self.update_items()
         self._on_items_changed()
@@ -157,8 +150,8 @@ class ItemListerComponentBase(Component):
 
 
 class ScrollComponent(Component):
-    __events__ = (u'scroll',)
-    button = ButtonControl(color=u'ItemNavigation.ItemNotSelected', repeat=True)
+    __events__ = ('scroll', )
+    button = ButtonControl(color='ItemNavigation.ItemNotSelected', repeat=True)
 
     @button.pressed
     def button(self, button):
@@ -168,13 +161,13 @@ class ScrollComponent(Component):
 class ScrollOverlayComponent(Component):
 
     def __init__(self, *a, **k):
-        super(ScrollOverlayComponent, self).__init__(*a, **k)
+        (super(ScrollOverlayComponent, self).__init__)(*a, **k)
         self._scroll_left_component, self._scroll_right_component = self.add_children(ScrollComponent(is_enabled=False), ScrollComponent(is_enabled=False))
-        self.__on_scroll_left.subject = self._scroll_left_component
-        self.__on_scroll_right.subject = self._scroll_right_component
+        self._ScrollOverlayComponent__on_scroll_left.subject = self._scroll_left_component
+        self._ScrollOverlayComponent__on_scroll_right.subject = self._scroll_right_component
 
-    scroll_left_layer = forward_property(u'_scroll_left_component')(u'layer')
-    scroll_right_layer = forward_property(u'_scroll_right_component')(u'layer')
+    scroll_left_layer = forward_property('_scroll_left_component')('layer')
+    scroll_right_layer = forward_property('_scroll_right_component')('layer')
 
     def can_scroll_left(self):
         raise NotImplementedError
@@ -193,11 +186,11 @@ class ScrollOverlayComponent(Component):
             self._scroll_left_component.set_enabled(self.can_scroll_left())
             self._scroll_right_component.set_enabled(self.can_scroll_right())
 
-    @listens(u'scroll')
+    @listens('scroll')
     def __on_scroll_left(self):
         self.scroll_left()
 
-    @listens(u'scroll')
+    @listens('scroll')
     def __on_scroll_right(self):
         self.scroll_right()
 
@@ -208,29 +201,30 @@ class ScrollOverlayComponent(Component):
 
 
 class ItemListerComponent(ItemListerComponentBase):
-    color_class_name = u'ItemNavigation'
-    select_buttons = control_list(ButtonControl, unavailable_color=color_class_name + u'.NoItem')
+    color_class_name = 'ItemNavigation'
+    select_buttons = control_list(ButtonControl,
+      unavailable_color=(color_class_name + '.NoItem'))
 
     def __init__(self, *a, **k):
-        super(ItemListerComponent, self).__init__(*a, **k)
+        (super(ItemListerComponent, self).__init__)(*a, **k)
         self._scroll_overlay = self.add_children(ScrollOverlayComponent(is_enabled=True))
         self._scroll_overlay.can_scroll_left = self.can_scroll_left
         self._scroll_overlay.can_scroll_right = self.can_scroll_right
         self._scroll_overlay.scroll_left = self.scroll_left
         self._scroll_overlay.scroll_right = self.scroll_right
-        self.__on_items_changed.subject = self
-        self.__on_selection_changed.subject = self._item_provider
+        self._ItemListerComponent__on_items_changed.subject = self
+        self._ItemListerComponent__on_selection_changed.subject = self._item_provider
 
-    scroll_left_layer = forward_property(u'_scroll_overlay')(u'scroll_left_layer')
-    scroll_right_layer = forward_property(u'_scroll_overlay')(u'scroll_right_layer')
+    scroll_left_layer = forward_property('_scroll_overlay')('scroll_left_layer')
+    scroll_right_layer = forward_property('_scroll_overlay')('scroll_right_layer')
 
-    @listens(u'items')
+    @listens('items')
     def __on_items_changed(self):
         self.select_buttons.control_count = len(self.items)
         self._update_button_colors()
         self._scroll_overlay.update_scroll_buttons()
 
-    @listens(u'selected_item')
+    @listens('selected_item')
     def __on_selection_changed(self):
         self._on_selection_changed()
 
@@ -247,8 +241,8 @@ class ItemListerComponent(ItemListerComponentBase):
 
     def _color_for_button(self, button_index, is_selected):
         if is_selected:
-            return self.color_class_name + u'.ItemSelected'
-        return self.color_class_name + u'.ItemNotSelected'
+            return self.color_class_name + '.ItemSelected'
+        return self.color_class_name + '.ItemNotSelected'
 
     @select_buttons.pressed
     def select_buttons(self, button):

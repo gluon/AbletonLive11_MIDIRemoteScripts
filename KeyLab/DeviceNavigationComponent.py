@@ -1,8 +1,7 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/KeyLab/DeviceNavigationComponent.py
 from __future__ import absolute_import, print_function, unicode_literals
 import Live
-from _Framework.ControlSurfaceComponent import ControlSurfaceComponent
 from _Framework.Control import ButtonControl
+import _Framework.ControlSurfaceComponent as ControlSurfaceComponent
 NavDirection = Live.Application.Application.View.NavDirection
 
 class DeviceNavigationComponent(ControlSurfaceComponent):
@@ -19,8 +18,8 @@ class DeviceNavigationComponent(ControlSurfaceComponent):
 
     def _scroll_device_chain(self, direction):
         view = self.application().view
-        if not view.is_view_visible(u'Detail') or not view.is_view_visible(u'Detail/DeviceChain'):
-            view.show_view(u'Detail')
-            view.show_view(u'Detail/DeviceChain')
+        if not (view.is_view_visible('Detail') and view.is_view_visible('Detail/DeviceChain')):
+            view.show_view('Detail')
+            view.show_view('Detail/DeviceChain')
         else:
-            view.scroll_view(direction, u'Detail/DeviceChain', False)
+            view.scroll_view(direction, 'Detail/DeviceChain', False)

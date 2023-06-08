@@ -1,14 +1,12 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/_Framework/MixerComponent.py
 from __future__ import absolute_import, print_function, unicode_literals
-from builtins import map
-from builtins import range
+from builtins import map, range
 from future.moves.itertools import zip_longest
 from .ChannelStripComponent import ChannelStripComponent, release_control
 from .CompoundComponent import CompoundComponent
 from .SubjectSlot import subject_slot
 from .Util import clamp
 
-def turn_button_on_off(button, on = True):
+def turn_button_on_off(button, on=True):
     if button != None:
         if on:
             button.turn_on()
@@ -17,12 +15,9 @@ def turn_button_on_off(button, on = True):
 
 
 class MixerComponent(CompoundComponent):
-    u""" Class encompassing several channel strips to form a mixer """
 
-    def __init__(self, num_tracks = 0, num_returns = 0, auto_name = False, invert_mute_feedback = False, *a, **k):
-        assert num_tracks >= 0
-        assert num_returns >= 0
-        super(MixerComponent, self).__init__(*a, **k)
+    def __init__(self, num_tracks=0, num_returns=0, auto_name=False, invert_mute_feedback=False, *a, **k):
+        (super(MixerComponent, self).__init__)(*a, **k)
         self._track_offset = -1
         self._send_index = 0
         self._bank_up_button = None
@@ -59,12 +54,12 @@ class MixerComponent(CompoundComponent):
         self._on_return_tracks_changed()
 
         def make_button_slot(name):
-            return self.register_slot(None, getattr(self, u'_%s_value' % name), u'value')
+            return self.register_slot(None, getattr(self, '_%s_value' % name), 'value')
 
-        self._bank_up_button_slot = make_button_slot(u'bank_up')
-        self._bank_down_button_slot = make_button_slot(u'bank_down')
-        self._next_track_button_slot = make_button_slot(u'next_track')
-        self._prev_track_button_slot = make_button_slot(u'prev_track')
+        self._bank_up_button_slot = make_button_slot('bank_up')
+        self._bank_down_button_slot = make_button_slot('bank_down')
+        self._next_track_button_slot = make_button_slot('next_track')
+        self._prev_track_button_slot = make_button_slot('prev_track')
 
     def disconnect(self):
         super(MixerComponent, self).disconnect()
@@ -81,7 +76,7 @@ class MixerComponent(CompoundComponent):
         return self._send_index
 
     def _set_send_index(self, index):
-        if index is None or 0 <= index < self.num_sends:
+        if index is None or 0<= index < self.num_sends:
             if self._send_index != index:
                 self._send_index = index
                 self.set_send_controls(self._send_controls)
@@ -99,11 +94,9 @@ class MixerComponent(CompoundComponent):
         return len(self.song().return_tracks)
 
     def channel_strip(self, index):
-        assert index in range(len(self._channel_strips))
         return self._channel_strips[index]
 
     def return_strip(self, index):
-        assert index in range(len(self._return_strips))
         return self._return_strips[index]
 
     def master_strip(self):
@@ -136,7 +129,7 @@ class MixerComponent(CompoundComponent):
             if self._send_index is None:
                 strip.set_send_controls(None)
             else:
-                strip.set_send_controls((None,) * self._send_index + (control,))
+                strip.set_send_controls((None, ) * self._send_index + (control,))
 
     def set_arm_buttons(self, buttons):
         for strip, button in zip_longest(self._channel_strips, buttons or []):
@@ -185,8 +178,6 @@ class MixerComponent(CompoundComponent):
             self.on_selected_track_changed()
 
     def set_track_offset(self, new_offset):
-        assert isinstance(new_offset, int)
-        assert new_offset >= 0
         if new_offset != self._track_offset:
             self._offset_can_start_after_tracks |= new_offset > len(self.tracks_to_use()) - 1
             self._track_offset = new_offset
@@ -205,10 +196,12 @@ class MixerComponent(CompoundComponent):
         if self._selected_strip != None:
             self._selected_strip.set_track(selected_track)
         if self.is_enabled():
-            turn_button_on_off(self._next_track_button, on=selected_track != self.song().master_track)
-            turn_button_on_off(self._prev_track_button, on=selected_track != self.song().visible_tracks[0])
+            turn_button_on_off((self._next_track_button),
+              on=(selected_track != self.song().master_track))
+            turn_button_on_off((self._prev_track_button),
+              on=(selected_track != self.song().visible_tracks[0]))
 
-    @subject_slot(u'return_tracks')
+    @subject_slot('return_tracks')
     def _on_return_tracks_changed(self):
         num_sends = self.num_sends
         if self._send_index is not None:
@@ -235,7 +228,9 @@ class MixerComponent(CompoundComponent):
             else:
                 release_control(self._prehear_volume_control)
                 release_control(self._crossfader_control)
-                list(map(lambda x: turn_button_on_off(x, on=False), [self._bank_up_button,
+                list(map(lambda x: turn_button_on_off(x, on=False)
+, [
+                 self._bank_up_button,
                  self._bank_down_button,
                  self._next_track_button,
                  self._prev_track_button]))
@@ -257,57 +252,46 @@ class MixerComponent(CompoundComponent):
             else:
                 self._return_strips[index].set_track(None)
 
-        turn_button_on_off(self._bank_down_button, on=self._track_offset > 0)
-        turn_button_on_off(self._bank_up_button, on=len(tracks) > self._track_offset + num_strips)
+        turn_button_on_off((self._bank_down_button), on=(self._track_offset > 0))
+        turn_button_on_off((self._bank_up_button),
+          on=(len(tracks) > self._track_offset + num_strips))
 
     def _create_strip(self):
         return ChannelStripComponent()
 
     def _bank_up_value(self, value):
-        assert isinstance(value, int)
-        assert self._bank_up_button != None
         if self.is_enabled():
-            if value is not 0 or not self._bank_up_button.is_momentary():
+            if not (value is not 0 or self._bank_up_button.is_momentary()):
                 new_offset = self._track_offset + len(self._channel_strips)
                 if len(self.tracks_to_use()) > new_offset:
                     self.set_track_offset(new_offset)
 
     def _bank_down_value(self, value):
-        assert isinstance(value, int)
-        assert self._bank_down_button != None
         if self.is_enabled():
-            if value is not 0 or not self._bank_down_button.is_momentary():
+            if not (value is not 0 or self._bank_down_button.is_momentary()):
                 self.set_track_offset(max(0, self._track_offset - len(self._channel_strips)))
 
     def _next_track_value(self, value):
-        assert self._next_track_button != None
-        assert value != None
-        assert isinstance(value, int)
         if self.is_enabled():
-            if value is not 0 or not self._next_track_button.is_momentary():
+            if not (value is not 0 or self._next_track_button.is_momentary()):
                 selected_track = self.song().view.selected_track
                 all_tracks = tuple(self.song().visible_tracks) + tuple(self.song().return_tracks) + (self.song().master_track,)
-                assert selected_track in all_tracks
                 if selected_track != all_tracks[-1]:
                     index = list(all_tracks).index(selected_track)
                     self.song().view.selected_track = all_tracks[index + 1]
 
     def _prev_track_value(self, value):
-        assert self._prev_track_button != None
-        assert value != None
-        assert isinstance(value, int)
         if self.is_enabled():
-            if value is not 0 or not self._prev_track_button.is_momentary():
+            if not (value is not 0 or self._prev_track_button.is_momentary()):
                 selected_track = self.song().view.selected_track
                 all_tracks = tuple(self.song().visible_tracks) + tuple(self.song().return_tracks) + (self.song().master_track,)
-                assert selected_track in all_tracks
                 if selected_track != all_tracks[0]:
                     index = list(all_tracks).index(selected_track)
                     self.song().view.selected_track = all_tracks[index - 1]
 
     def _auto_name(self):
-        self.name = u'Mixer'
-        self.master_strip().name = u'Master_Channel_Strip'
-        self.selected_strip().name = u'Selected_Channel_Strip'
+        self.name = 'Mixer'
+        self.master_strip().name = 'Master_Channel_Strip'
+        self.selected_strip().name = 'Selected_Channel_Strip'
         for index, strip in enumerate(self._channel_strips):
-            strip.name = u'Channel_Strip_%d' % index
+            strip.name = 'Channel_Strip_%d' % index

@@ -1,10 +1,10 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/novation/sysex.py
 from __future__ import absolute_import, print_function, unicode_literals
 SYSEX_START_BYTE = 240
 SYSEX_END_BYTE = 247
 NOVATION_MANUFACTURER_ID = (0, 32, 41)
 DEVICE_FAMILY_MEMBER_CODE = (0, 0)
-STD_MSG_HEADER = (SYSEX_START_BYTE,) + NOVATION_MANUFACTURER_ID + (2,)
+STD_MSG_HEADER = (
+ SYSEX_START_BYTE,) + NOVATION_MANUFACTURER_ID + (2, )
 LAYOUT_COMMAND_BYTE = 0
 FADER_COMMAND_BYTE = 1
 PRINT_COMMAND_BYTE = 3

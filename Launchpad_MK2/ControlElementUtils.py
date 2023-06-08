@@ -1,14 +1,20 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Launchpad_MK2/ControlElementUtils.py
 from __future__ import absolute_import, print_function, unicode_literals
+import _Framework.ButtonElement as ButtonElement
+import _Framework.ComboElement as ComboElement
+from _Framework.ComboElement import MultiElement as MultiElementBase
 from _Framework.Dependency import depends
-from _Framework.Resource import PrioritizedResource
 from _Framework.InputControlElement import MIDI_NOTE_TYPE
-from _Framework.ComboElement import ComboElement, MultiElement as MultiElementBase
-from _Framework.ButtonElement import ButtonElement
+from _Framework.Resource import PrioritizedResource
 
 @depends(skin=None)
-def make_button(identifier, channel, name, msg_type = MIDI_NOTE_TYPE, skin = None, is_modifier = False):
-    return ButtonElement(True, msg_type, channel, identifier, skin=skin, name=name, resource_type=PrioritizedResource if is_modifier else None)
+def make_button(identifier, channel, name, msg_type=MIDI_NOTE_TYPE, skin=None, is_modifier=False):
+    return ButtonElement(True,
+      msg_type,
+      channel,
+      identifier,
+      skin=skin,
+      name=name,
+      resource_type=(PrioritizedResource if is_modifier else None))
 
 
 def with_modifier(modifier, button):
@@ -18,7 +24,7 @@ def with_modifier(modifier, button):
 class MultiElement(MultiElementBase):
 
     def __init__(self, *a, **k):
-        super(MultiElement, self).__init__(*a, **k)
+        (super(MultiElement, self).__init__)(*a, **k)
         self._is_pressed = False
 
     def is_pressed(self):
@@ -31,8 +37,8 @@ class MultiElement(MultiElementBase):
 
 class FilteringMultiElement(MultiElement):
 
-    def __init__(self, controls, feedback_channels = None, **k):
-        super(MultiElement, self).__init__(*controls, **k)
+    def __init__(self, controls, feedback_channels=None, **k):
+        (super(MultiElement, self).__init__)(*controls, **k)
         self._feedback_channels = feedback_channels
 
     def send_value(self, value):

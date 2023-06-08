@@ -1,18 +1,13 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/ableton/v2/base/util.py
-u"""
-Various utilities.
-"""
 from __future__ import absolute_import, print_function, unicode_literals
-from future.builtins import range
+from future.builtins import map, range
 from future.moves.itertools import zip_longest
 from future.utils import iteritems
-from future.builtins import map
-from math import ceil, floor
-from contextlib import contextmanager
-from functools import wraps, partial, reduce
-from itertools import chain
-from numbers import Number
 import sys
+from contextlib import contextmanager
+from functools import partial, reduce, wraps
+from itertools import chain
+from math import ceil, floor
+from numbers import Number
 PY2 = sys.version_info[0] < 3
 PY3 = sys.version_info[0] >= 3
 
@@ -34,9 +29,6 @@ def negate(value):
 
 
 def old_round(value):
-    u"""
-    Mimics the behavior of `round` in python 2
-    """
     if round(value + 1) - round(value) != 1:
         return value + abs(value) / value * 0.5
     return round(value)
@@ -70,46 +62,16 @@ def slice_size(slice, width):
     return len(range(width)[slice])
 
 
-def chunks(l, chunk_size):
-    for i in range(0, len(l), chunk_size):
-        yield l[i:i + chunk_size]
+def chunks(lst, chunk_size):
+    for i in range(0, len(lst), chunk_size):
+        yield lst[i:i + chunk_size]
 
 
 def maybe(fn):
-    return lambda x: (fn(x) if x is not None else None)
+    return lambda x: fn(x) if x is not None else None
 
 
 def memoize(function):
-    u"""
-    Decorator to use automatic memoization on a given function, such
-    that results are cached and, if called a second time, the
-    function will return the cached value. Example::
-    
-        @memoize
-        def fibonacci(n):
-            print "Computing fibonacci of:", n
-            if n == 0:
-                return 0
-            if n == 1:
-                return 1
-            return fibonacci(n-1) + fibonacci(n-2)
-    
-        fibonacci(5)
-    
-    If we removed the @memoize decorator, it would print O(2^n) lines
-    instead showing a exponential degeneration due to the binary
-    recursion.  However, already computed values will not recurse,
-    thus this program will print on the console:
-    
-        Computing fibonacci of: 5
-        Computing fibonacci of: 4
-        Computing fibonacci of: 3
-        Computing fibonacci of: 2
-        Computing fibonacci of: 1
-    
-    Note that every computed value is cached in global state, so this
-    can be inappropriate when the function domain is very big.
-    """
     memoized = {}
 
     @wraps(function)
@@ -126,53 +88,19 @@ def memoize(function):
 
 @memoize
 def mixin(*args):
-    u"""
-    Dynamically creates a class that inherits from all the classes
-    passed as parameters. Example::
-    
-        class A(object):
-            pass
-        class B(object):
-            pass
-    
-        a_and_b_instance = mixin(A, B)()
-    
-    Also, this statement holds for every A and B::
-    
-        assert mixin(A, B) == mixin(A, B)
-    """
     if len(args) == 1:
         return args[0]
-    name = u'Mixin_%s' % u'_'.join((cls.__name__ for cls in args))
+    name = 'Mixin_%s' % '_'.join((cls.__name__ for cls in args))
     return type(str(name), args, {})
 
 
-def monkeypatch(target, name = None, override = False, doc = None):
-    u"""
-    Decorator that injects the decorated function into the 'target'
-    class. If no name is given the decorated function name will be
-    used for the injected method name. If the class already has a
-    method with a given name it raises an error unless 'override' is
-    set to True.
-    
-    Example::
-        class MyClass(object):
-            pass
-    
-        @monkeypatch(MyClass)
-        def patched_method(self):
-            print "Lalala"
-    
-        MyClass().patched_method()
-    
-    Output::
-        Lalala
-    """
+def monkeypatch(target, name=None, override=False, doc=None):
 
     def patcher(func):
         patchname = func.__name__ if name is None else name
-        if not override and old_hasattr(target, patchname):
-            raise TypeError(u'Class %s already has method %s' % (target.__name__, patchname))
+        if not override:
+            if old_hasattr(target, patchname):
+                raise TypeError('Class %s already has method %s' % (target.__name__, patchname))
         setattr(target, patchname, func)
         try:
             func.__name__ = str(patchname)
@@ -186,38 +114,7 @@ def monkeypatch(target, name = None, override = False, doc = None):
     return patcher
 
 
-def monkeypatch_extend(target, name = None):
-    u"""
-    Decorator that injects the decorated function as an extension of a
-    method of the 'target' class. If no 'name' is passed, the
-    decorated function name will be the name of the method.
-    
-    Example::
-       class MyClass(object):
-           def some_method(self):
-               print "Original"
-    
-        @monkeypatch_extend(MyClass)
-        def some_method(self):
-            print "Patch"
-    
-        MyClass().some_method()
-    
-    Output::
-        Original
-        Patch
-    
-    Known issues: if you are extending a method of class Deriv,
-    when the method is only defined in its super-class Base (i.e. not
-    overridden by Deriv but is inherited from Base), can break the
-    ability of the method to properly cooperate (i.e. propagate calls
-    to super in a diamond-shaped hierarchy [1]).  If
-    monkeypatch_extend in a metaclass, this can be worked around by
-    injecting a cooperative definition of the method in Deriv's
-    dictionary. An example of this can be seen in slot.EventObjectMeta
-    
-    [1] A definition of cooperative method http://sinusoid.es/jpblib/coop.html
-    """
+def monkeypatch_extend(target, name=None):
 
     def patcher(func):
         newfunc = func
@@ -225,7 +122,7 @@ def monkeypatch_extend(target, name = None):
         if old_hasattr(target, patchname):
             oldfunc = getattr(target, patchname)
             if not callable(oldfunc):
-                raise TypeError(u'Can not extend non callable attribute')
+                raise TypeError('Can not extend non callable attribute')
 
             @wraps(oldfunc)
             def extended(*a, **k):
@@ -235,7 +132,7 @@ def monkeypatch_extend(target, name = None):
 
             newfunc = extended
         else:
-            assert False, u'Must have something to extend'
+            pass
         setattr(target, patchname, newfunc)
         return func
 
@@ -243,34 +140,25 @@ def monkeypatch_extend(target, name = None):
 
 
 def instance_decorator(decorator):
-    u"""
-    Meta-decorator to define decorators that decorate a method in a
-    concrete instance. The decorator method will be passed the
-    object instance as first argument and the unbound decorated method
-    as second argument. The decorator method will be called lazily the
-    first time the method is accessed.
-    
-    For an example see @listens in the slot module.
-    """
 
     class Decorator(object):
 
-        def __init__(self, func = nop, *args, **kws):
+        def __init__(self, func=nop, *args, **kws):
             self.__name__ = func.__name__
             self.__doc__ = func.__doc__
-            self._data_name = u'%s_%d_decorated_instance' % (func.__name__, id(self))
+            self._data_name = '%s_%d_decorated_instance' % (func.__name__, id(self))
             self._func = func
             self._args = args
             self._kws = kws
 
-        def __get__(self, obj, cls = None):
+        def __get__(self, obj, cls=None):
             if obj is None:
                 return
             data_name = self._data_name
             try:
                 return obj.__dict__[data_name]
             except KeyError:
-                decorated = decorator(obj, self._func, *self._args, **self._kws)
+                decorated = decorator(obj, self._func, *(self._args), **self._kws)
                 obj.__dict__[data_name] = decorated
                 return decorated
 
@@ -278,36 +166,13 @@ def instance_decorator(decorator):
 
 
 def forward_property(member):
-    u"""
-    Property that forwards access to a nested object. You can use it
-    as a decorator, where the function will be used only to extract
-    the name of the property. It is useful when exposing some property
-    of a subobject...
-    
-    Example::
-        class NestedClass(object):
-            parameter = 0
-    
-        class SomeClass(object):
-            def __init__(self, *a, **k):
-                super(SomeClass, self).__init__(*a, **k)
-                self._nested_object = NestedClass()
-    
-            @forward_property('_nested_object')
-            def parameter(): pass
-    
-        print SomeClass().parameter
-    
-    Output::
-        0
-    """
 
     class Descriptor(object):
 
         def __init__(self, func_or_name):
             self._property_name = func_or_name.__name__ if callable(func_or_name) else func_or_name
 
-        def __get__(self, obj, cls = None):
+        def __get__(self, obj, cls=None):
             return getattr(getattr(obj, member), self._property_name)
 
         def __set__(self, obj, value):
@@ -317,36 +182,14 @@ def forward_property(member):
 
 
 class lazy_attribute(object):
-    u"""
-    Decorator that will turn a method in a lazy attribute. The first
-    time the attribute is accessed its value will be computed using
-    the decorated method and then cached.
-    
-    Example::
-        class MyClass(object):
-    
-            @lazy_attribute
-            def my_attribute(self):
-                print "Computing"
-                return 0
-    
-        obj = MyClass()
-        print obj.my_attribute
-        print obj.my_attribute
-    
-    Output::
-        Computing
-        0
-        0
-    """
 
-    def __init__(self, func, name = None):
+    def __init__(self, func, name=None):
         wraps(func)(self)
         self._func = func
         if name:
             self.__name__ = name
 
-    def __get__(self, obj, cls = None):
+    def __get__(self, obj, cls=None):
         if obj is None:
             return self
         result = obj.__dict__[self.__name__] = self._func(obj)
@@ -354,86 +197,53 @@ class lazy_attribute(object):
 
 
 def remove_if(predicate, lst):
-    u"""
-    Returns a new list with elements of the iterable 'lst' excepting
-    those satisfying 'predicate'.
-    """
-    return [ elem for elem in lst if not predicate(elem) ]
+    return [elem for elem in lst if not predicate(elem)]
 
 
 def flatten(list):
-    u"""
-    Flattens a list of lists into a new list. It does not do that
-    recursively, only one level.
-    """
     return chain(*list)
 
 
 def group(lst, n):
-    u"""
-    Returns a list of lists with elements from 'lst' grouped in blocks
-    of 'n' elements.
-    """
     n = int(n)
-    return list(zip_longest(*[ lst[i::n] for i in range(n) ]))
+    return list(zip_longest(*[lst[i::n] for i in range(n)]))
 
 
 def find_if(predicate, seq):
-    u"""
-    Returns the first element in sequence 'seq' satisfying 'predicate'
-    or 'None' if no such element exists.
-    """
     for x in seq:
         if predicate(x):
             return x
 
 
 def index_if(predicate, seq):
-    u"""
-    Returns the index of the first element in sequence 'seq'
-    satisfying predicate. If no such element exists returns the length
-    of the sequence.
-    """
     idx = 0
     for x in seq:
         if predicate(x):
             return idx
-        idx += 1
+        else:
+            idx += 1
 
     return idx
 
 
 def union(a, b):
-    u"""
-    Returns a new dictionary with all the entries in dictionaries 'a'
-    and 'b'. In case of conflict the entry from 'b' is taken.
-    """
     a = dict(a)
     a.update(b)
     return a
 
 
 def product(iter_a, iter_b):
-    u"""
-    Generator that generates all possible tuples combining elements
-    from sequence 'iter_a' and 'iter_b'.
-    """
     for a in iter_a:
         for b in iter_b:
-            yield (a, b)
+            yield (
+             a, b)
 
 
 def next(iter):
-    u"""
-    Equivalent to iter.next()
-    """
     return iter.next()
 
 
 def is_iterable(value):
-    u"""
-    Returns True if 'value' is iterable and False otherwise.
-    """
     try:
         it = iter(value)
         return bool(it)
@@ -441,36 +251,21 @@ def is_iterable(value):
         return False
 
 
-def recursive_map(fn, element, sequence_type = None):
-    u"""
-    Maps a tree-like data structure built by composing sequences of
-    type iterable_type. if no iterable_type is given, it is assumed to
-    be the type of the root element.
-    
-    Example::
-        print recurse_map(lambda t: t + (0,),
-                          [[(0,), (1,)], [(3,), (4,)]])
-    
-    Output::
-        [[(0,0), (1,0)], [(3,0), (4,0)]]
-    """
+def recursive_map(fn, element, sequence_type=None):
     if sequence_type is None:
         return recursive_map(fn, element, type(element))
-    elif isinstance(element, sequence_type):
-        return list(map(lambda x: recursive_map(fn, x, sequence_type), element))
-    else:
-        return fn(element)
+    if isinstance(element, sequence_type):
+        return list(map(lambda x: recursive_map(fn, x, sequence_type)
+, element))
+    return fn(element)
 
 
 def is_matrix(iterable):
-    u"""
-    Returns True if 'iterable' is a two dimensional iterable where each iterable is
-    not empty
-    """
-    if is_iterable(iterable) and len(iterable) > 0:
-        return all(map(lambda x: is_iterable(x) and len(iterable[0]) == len(x) and len(x) > 0, iterable))
-    else:
-        return False
+    if is_iterable(iterable):
+        if len(iterable) > 0:
+            return all(map(lambda x: is_iterable(x) and len(iterable[0]) == len(x) and len(x) > 0
+, iterable))
+    return False
 
 
 def first(seq):
@@ -486,33 +281,15 @@ def third(seq):
 
 
 def compose(*funcs):
-    u"""
-    Returns the composition of all passed functions, similar to the
-    mathematical dot.
-    
-    Example::
-        f = lambda x: x + 2
-        g = lambda x: x * 2
-        h = compose(f, g)
-        print h(3)
-    
-    Output::
-       8 # (3 * 2) + 2
-    """
-    return lambda x: reduce(lambda x, f: f(x), funcs[::-1], x)
+    return lambda x: reduce(lambda x, f: f(x)
+, funcs[::-1], x)
 
 
 def is_contextmanager(value):
-    return callable(getattr(value, u'__enter__', None)) and callable(getattr(value, u'__exit__', None))
+    return callable(getattr(value, '__enter__', None)) and callable(getattr(value, '__exit__', None))
 
 
 def infinite_context_manager(generator):
-    u"""
-    contextlib.contextmanager have the consumes the generator, so most
-    of the time they can only be used one.  This variant will always
-    re-instantiate the generator, such that the context manager can be
-    reused.
-    """
     make_context_manager = contextmanager(generator)
 
     class InfiniteContextManager(object):
@@ -538,11 +315,15 @@ def aggregate_contexts(handlers):
     try:
         yield
     except BaseException as e:
-        exc_info = sys.exc_info()
-        err = e
+        try:
+            exc_info = sys.exc_info()
+            err = e
+        finally:
+            e = None
+            del e
 
     for handler in reversed(handlers):
-        if handler.__exit__(*exc_info):
+        if (handler.__exit__)(*exc_info):
             err = False
             exc_info = (None, None, None)
 
@@ -551,30 +332,10 @@ def aggregate_contexts(handlers):
 
 
 class BooleanContext(object):
-    u"""
-    This class represents an boolean variable with RAII setting within
-    a scope.  It is useful to break recursions in an exception-safe
-    way.  The boolean context can be used in nested fashion, as long
-    as you request a new context manager for every 'with' statement
-    using the call operator. Example::
-    
-      in_notification = BooleanContext()
-    
-      assert not in_notification
-      with in_notification():
-          assert in_notification
-          with in_notification():
-              assert in_notification
-          assert in_notification
-      assert not in_notification
-    
-    The 'default_value' parameter indicates the initial value. It will
-    be negated when you enter the context.
-    """
     default_value = False
 
-    def __init__(self, default_value = None, *a, **k):
-        super(BooleanContext, self).__init__(*a, **k)
+    def __init__(self, default_value=None, *a, **k):
+        (super(BooleanContext, self).__init__)(*a, **k)
         if default_value is not None:
             self.default_value = default_value
         self._current_value = self.default_value
@@ -585,10 +346,7 @@ class BooleanContext(object):
     def __bool__(self):
         return self.__nonzero__()
 
-    def __call__(self, update_value = None):
-        u"""
-        Makes a context manager for the boolean context
-        """
+    def __call__(self, update_value=None):
         return self.Manager(self, update_value)
 
     @property
@@ -597,8 +355,8 @@ class BooleanContext(object):
 
     class Manager(object):
 
-        def __init__(self, managed = None, update_value = None, *a, **k):
-            super(BooleanContext.Manager, self).__init__(*a, **k)
+        def __init__(self, managed=None, update_value=None, *a, **k):
+            (super(BooleanContext.Manager, self).__init__)(*a, **k)
             self._managed = managed
             self._update_value = update_value if update_value is not None else not managed.default_value
 
@@ -613,10 +371,6 @@ class BooleanContext(object):
 
 
 class OutermostOnlyContext(object):
-    u"""
-    This context manager only enters the outermost context it is given in
-    a nested series of when clauses.
-    """
 
     def __init__(self, *a, **k):
         self._entered_count = 0
@@ -633,25 +387,12 @@ class OutermostOnlyContext(object):
 
 
 def dict_diff(left, right):
-    u"""
-    Computes a dictionary with the elements that are in the right but
-    not or different in the left.
-    """
     dummy = object()
-    return dict(filter(lambda kv: left.get(kv[0], dummy) != kv[1], iteritems(right)))
+    return dict(filter(lambda kv: left.get(kv[0], dummy) != kv[1]
+, iteritems(right)))
 
 
 class NamedTuple(object):
-    u"""
-    Immutable object that acts like a dictionary whose members can
-    also be set via attribute access.  Derivatives can give and
-    override default values in the class definition, for example::
-    
-      class MyNamedTuple(NamedTuple):
-          some_value = 3
-    
-      assert MyNamedTuple == NamedTuple(some_value = 3)
-    """
 
     def __init__(self, *others, **k):
         super(NamedTuple, self).__init__()
@@ -661,14 +402,14 @@ class NamedTuple(object):
             self.__dict__.update(diff)
 
         self.__dict__.update(k)
-        if u'_eq_dict' in self.__dict__:
+        if '_eq_dict' in self.__dict__:
             self._eq_dict.update(k)
 
     def __setattr__(self, name, value):
-        raise AttributeError(u'Named tuple is constant')
+        raise AttributeError('Named tuple is constant')
 
     def __delattr__(self, name):
-        raise AttributeError(u'Named tuple is constant')
+        raise AttributeError('Named tuple is constant')
 
     def __getitem__(self, name):
         return self.__dict__[name]
@@ -677,9 +418,12 @@ class NamedTuple(object):
     def _eq_dict(self):
 
         def public(objdict):
-            return dict(filter(lambda kv: not kv[0].startswith(u'_'), iteritems(objdict)))
+            return dict(filter(lambda kv: not kv[0].startswith('_')
+, iteritems(objdict)))
 
-        return reduce(lambda a, b: union(b, a), map(lambda c: public(c.__dict__), self.__class__.__mro__), public(self.__dict__))
+        return reduce(lambda a, b: union(b, a)
+, map(lambda c: public(c.__dict__)
+, self.__class__.__mro__), public(self.__dict__))
 
     def __eq__(self, other):
         return isinstance(other, NamedTuple) and self._eq_dict == other._eq_dict
@@ -690,7 +434,7 @@ class NamedTuple(object):
     def __getstate__(self):
         res = dict(self.__dict__)
         try:
-            del res[u'_eq_dict']
+            del res['_eq_dict']
         except KeyError:
             pass
 
@@ -698,29 +442,9 @@ class NamedTuple(object):
 
 
 class Slicer(object):
-    u"""
-    A slicer object can be used to easily write a multi-dimensional
-    __getitem__ that use the normal slicing syntax.  An example of
-    usage is implementing flexible matrix types, as this example shows
-    (note that we create the Slicer object via the slicer decorator)::
-    
-      class Matrix(object):
-    
-          def __init__(self, rows=(,), *a, **k):
-              super(Matrix, self).__init__(*a, **k)
-              self._rows = rows
-    
-          @property
-          @slicer(2)
-          def submatrix(self, row_slice, col_slice):
-              return Matrix([row[col_slice] for row in self._rows[row_slice]])
-    
-    Future improvements could include __setitem__ implementation.
-    """
 
-    def __init__(self, dimensions = 1, extractor = nop, keys = tuple(), *a, **k):
-        super(Slicer, self).__init__(*a, **k)
-        assert len(keys) < dimensions
+    def __init__(self, dimensions=1, extractor=nop, keys=tuple(), *a, **k):
+        (super(Slicer, self).__init__)(*a, **k)
         self._keys = keys
         self._dimensions = dimensions
         self._extractor = extractor
@@ -728,11 +452,11 @@ class Slicer(object):
     def __getitem__(self, key):
         new = key if isinstance(key, tuple) else (key,)
         keys = self._keys + new
-        assert len(keys) <= self._dimensions, u'Too many dimensions'
         if len(keys) == self._dimensions:
-            return self._extractor(*keys)
-        else:
-            return Slicer(dimensions=self._dimensions, extractor=self._extractor, keys=keys)
+            return (self._extractor)(*keys)
+        return Slicer(dimensions=(self._dimensions),
+          extractor=(self._extractor),
+          keys=keys)
 
     def __call__(self):
         return self
@@ -741,10 +465,6 @@ class Slicer(object):
 get_slice = Slicer()
 
 def slicer(dimensions):
-    u"""
-    Slicer decorator.  Returns a decorator that will decorate a
-    function into a Slicer object of a given dimension.
-    """
 
     def decorator(extractor):
 
@@ -758,30 +478,18 @@ def slicer(dimensions):
 
 
 def print_message(*messages):
-    print(u' '.join(list(map(str, messages))))
+    print(' '.join(list(map(str, messages))))
 
 
 def old_hasattr(obj, attr):
-    u"""
-    Mimic the behavior of python 2 `old_hasattr` by returning `False`
-    if a  `RuntimeError` is raised
-    """
     try:
-        return hasattr(obj, attr)
-    except RuntimeError:
+        getattr(obj, attr)
+        return True
+    except Exception:
         return False
 
 
 class overlaymap(object):
-    u"""
-    A map-like object which takes a list of maps and
-    overlays them from left to right.
-    
-    Thus if a key occurs in a map with higher precedence,
-    it's value will appear to be in the overlaymap.
-    
-    The overlaymap is obviously read-only.
-    """
 
     def __init__(self, *maps):
         self._maps = maps
@@ -801,30 +509,22 @@ class overlaymap(object):
         return list(res)
 
     def values(self):
-        return [ self[key] for key in self.keys() ]
+        return [self[key] for key in self.keys()]
 
     def iteritems(self):
         for key in self.keys():
             yield (key, self[key])
 
 
-def trace_value(value, msg = u'Value: '):
-    u"""
-    Prints value and returns value. Useful when debugging the results
-    of sub-expressions.
-    """
+def trace_value(value, msg='Value: '):
     print(msg, value)
     return value
 
 
 class Bindable(object):
-    u"""
-    Utility base class for general bindable function objects.
-    Specializations should define the bind()
-    """
     _bound_instances = None
 
-    def __get__(self, obj, cls = None):
+    def __get__(self, obj, cls=None):
         import weakref
         if obj is None:
             return self

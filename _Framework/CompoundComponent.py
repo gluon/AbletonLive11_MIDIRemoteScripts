@@ -1,13 +1,11 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/_Framework/CompoundComponent.py
 from __future__ import absolute_import, print_function, unicode_literals
 from builtins import map
 from .ControlSurfaceComponent import ControlSurfaceComponent
 
 class CompoundComponent(ControlSurfaceComponent):
-    u""" Base class for classes encompasing other components to form complex components """
 
     def __init__(self, *a, **k):
-        super(CompoundComponent, self).__init__(*a, **k)
+        (super(CompoundComponent, self).__init__)(*a, **k)
         self._sub_components = []
 
     def update_all(self):
@@ -16,8 +14,6 @@ class CompoundComponent(ControlSurfaceComponent):
             component.update_all()
 
     def register_component(self, component):
-        assert component != None
-        assert component not in self._sub_components
         component._set_enabled_recursive(self.is_enabled())
         self._sub_components.append(component)
         return component
@@ -29,11 +25,6 @@ class CompoundComponent(ControlSurfaceComponent):
         return component in self._sub_components
 
     def set_enabled(self, enable):
-        u"""
-        When disabling a compound component, its children are disabled. When
-        enabled, these children are restored to whatever state they were
-        explicitly set to.
-        """
         super(CompoundComponent, self).set_enabled(enable)
         for component in self._sub_components:
             component._set_enabled_recursive(self.is_enabled())

@@ -1,8 +1,7 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Akai_Force_MPC/mixer.py
 from __future__ import absolute_import, print_function, unicode_literals
-from functools import partial
 from future.moves.itertools import zip_longest
-from ableton.v2.base import clamp, listens, liveobj_valid, forward_property
+from functools import partial
+from ableton.v2.base import clamp, forward_property, listens, liveobj_valid
 from ableton.v2.control_surface.components import MixerComponent as MixerComponentBase
 from ableton.v2.control_surface.control import ButtonControl, SendValueControl
 from .elements import MAX_NUM_SENDS
@@ -12,15 +11,16 @@ class MixerComponent(MixerComponentBase):
     master_button = ButtonControl()
 
     def __init__(self, *a, **k):
-        super(MixerComponent, self).__init__(*a, **k)
+        (super(MixerComponent, self).__init__)(*a, **k)
         self._last_selected_track = None
         self._last_track_offset = None
-        self.__on_offsets_changed.subject = self._provider
-        self.__on_offsets_changed(self._provider.track_offset, self._provider.scene_offset)
+        self._MixerComponent__on_offsets_changed.subject = self._provider
+        self._MixerComponent__on_offsets_changed(self._provider.track_offset, self._provider.scene_offset)
 
     def __getattr__(self, name):
-        if name.startswith(u'set_') and name.endswith(u's'):
-            return partial(self._set_channel_strip_controls, name[4:-1])
+        if name.startswith('set_'):
+            if name.endswith('s'):
+                return partial(self._set_channel_strip_controls, name[4:-1])
         raise AttributeError
 
     def on_num_sends_changed(self):
@@ -32,13 +32,13 @@ class MixerComponent(MixerComponentBase):
 
     def _on_selected_track_changed(self):
         selected_track = self.song.view.selected_track
-        button_color = u'DefaultButton.On'
+        button_color = 'DefaultButton.On'
         if selected_track != self.song.master_track:
             self._last_selected_track = selected_track
-            button_color = u'DefaultButton.Off'
+            button_color = 'DefaultButton.Off'
         self.master_button.color = button_color
 
-    @listens(u'offset')
+    @listens('offset')
     def __on_offsets_changed(self, track_offset, _):
         max_track_offset = self.max_track_offset
         if max_track_offset == 0 or track_offset < max_track_offset:
@@ -56,8 +56,8 @@ class MixerComponent(MixerComponentBase):
     def set_selected_track_mute_button(self, button):
         self._selected_strip.mpc_mute_button.set_control_element(button)
 
-    set_selected_track_arm_button = forward_property(u'_selected_strip')(u'set_arm_button')
-    set_selected_track_solo_button = forward_property(u'_selected_strip')(u'set_solo_button')
+    set_selected_track_arm_button = forward_property('_selected_strip')('set_arm_button')
+    set_selected_track_solo_button = forward_property('_selected_strip')('set_solo_button')
 
     def set_track_type_controls(self, controls):
         for strip, control in zip_longest(self._channel_strips, controls or []):
@@ -65,10 +65,11 @@ class MixerComponent(MixerComponentBase):
 
     def _set_channel_strip_controls(self, name, controls):
         for strip, control in zip_longest(self._channel_strips, controls or []):
-            set_method = getattr(strip, u'set_{}'.format(name), None)
+            set_method = getattr(strip, 'set_{}'.format(name), None)
             if not set_method:
                 set_method = getattr(strip, name, None).set_control_element
-            set_method(control)
+            else:
+                set_method(control)
 
     def set_solo_mute_buttons(self, buttons):
         for strip, button in zip_longest(self._channel_strips, buttons or []):

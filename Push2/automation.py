@@ -1,17 +1,14 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Push2/automation.py
 from __future__ import absolute_import, print_function, unicode_literals
-from builtins import map
-from builtins import filter
+from builtins import filter, map
 from Live import DeviceParameter
-from ableton.v2.base import liveobj_valid, listenable_property, listens, old_hasattr
+from ableton.v2.base import listenable_property, listens, liveobj_valid, old_hasattr
 from ableton.v2.control_surface import InternalParameterBase, ParameterInfo, PitchParameter
 from pushbase.automation_component import AutomationComponent as AutomationComponentBase
 
 class StepAutomationParameter(InternalParameterBase):
 
-    def __init__(self, parameter = None, *a, **k):
-        assert liveobj_valid(parameter)
-        super(StepAutomationParameter, self).__init__(name=parameter.name, *a, **k)
+    def __init__(self, parameter=None, *a, **k):
+        (super(StepAutomationParameter, self).__init__)(a, name=parameter.name, **k)
         self._parameter = parameter
         self._value = self._parameter.value
 
@@ -52,17 +49,25 @@ class StepAutomationParameter(InternalParameterBase):
         return self._parameter.value_items
 
     @property
+    def short_value_items(self):
+        return self.value_items
+
+    @property
     def automation_state(self):
         return self._parameter.automation_state
 
 
 def make_automation_parameter(parameter_info):
     wrapped_parameter = None
-    if parameter_info and liveobj_valid(parameter_info.parameter):
-        parameter = parameter_info.parameter
-        if isinstance(parameter, PitchParameter):
-            parameter = parameter.integer_value_host
-        wrapped_parameter = ParameterInfo(parameter=StepAutomationParameter(parameter=parameter), name=parameter_info.name, default_encoder_sensitivity=parameter_info.default_encoder_sensitivity, fine_grain_encoder_sensitivity=parameter_info.fine_grain_encoder_sensitivity)
+    if parameter_info:
+        if liveobj_valid(parameter_info.parameter):
+            parameter = parameter_info.parameter
+            if isinstance(parameter, PitchParameter):
+                parameter = parameter.integer_value_host
+            wrapped_parameter = ParameterInfo(parameter=StepAutomationParameter(parameter=parameter),
+              name=(parameter_info.name),
+              default_encoder_sensitivity=(parameter_info.default_encoder_sensitivity),
+              fine_grain_encoder_sensitivity=(parameter_info.fine_grain_encoder_sensitivity))
     return wrapped_parameter
 
 
@@ -71,7 +76,7 @@ class AutomationComponent(AutomationComponentBase):
 
     def __init__(self, *a, **k):
         self._parameter_infos = []
-        super(AutomationComponent, self).__init__(*a, **k)
+        (super(AutomationComponent, self).__init__)(*a, **k)
         self._drum_pad_selected = False
 
     @staticmethod
@@ -80,7 +85,7 @@ class AutomationComponent(AutomationComponentBase):
 
     @property
     def deviceType(self):
-        device_type = u'default'
+        device_type = 'default'
         device = self.device
         if liveobj_valid(device):
             device = self.parameter_provider.device()
@@ -90,17 +95,17 @@ class AutomationComponent(AutomationComponentBase):
     @listenable_property
     def device(self):
         device = None
-        if old_hasattr(self.parameter_provider, u'device'):
+        if old_hasattr(self.parameter_provider, 'device'):
             device = self.parameter_provider.device()
         return device
 
     def _on_parameter_provider_changed(self, provider):
         self.notify_device()
-        self.__on_device_changed.subject = provider if getattr(self.parameter_provider, u'device', None) is not None else None
+        self._AutomationComponent__on_device_changed.subject = provider if getattr(self.parameter_provider, 'device', None) is not None else None
 
     @listenable_property
     def parameters(self):
-        return [ (info.parameter if info else None) for info in self._parameter_infos ]
+        return [info.parameter if info else None for info in self._parameter_infos]
 
     @property
     def parameter_infos(self):
@@ -129,7 +134,8 @@ class AutomationComponent(AutomationComponentBase):
         self._parameter_infos = list(map(make_automation_parameter, self._parameter_infos_to_use())) if self.is_enabled() else []
 
     def _update_parameter_values(self):
-        for info in filter(lambda p: p is not None, self._parameter_infos):
+        for info in filter(lambda p: p is not None
+, self._parameter_infos):
             if len(self._selected_time) > 0:
                 wrapped_parameter = info.parameter
                 wrapped_parameter.value = self.parameter_to_value(wrapped_parameter.original_parameter)
@@ -140,6 +146,6 @@ class AutomationComponent(AutomationComponentBase):
         if parameters[index]:
             return parameters[index].original_parameter
 
-    @listens(u'device')
+    @listens('device')
     def __on_device_changed(self):
         self.notify_device()

@@ -1,18 +1,14 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Push/pad_sensitivity.py
 from __future__ import absolute_import, print_function, unicode_literals
-from ableton.v2.base import lazy_attribute, NamedTuple
+from ableton.v2.base import NamedTuple, lazy_attribute
 from .sysex import to_bytes
 
 class PadParameters(NamedTuple):
-    u"""
-    Describes the properties of pad parameters.
-    """
     off_threshold = 0
     on_threshold = 0
     gain = 0
     curve1 = 0
     curve2 = 0
-    name = u''
+    name = ''
 
     def __str__(self):
         return self.name
@@ -23,12 +19,8 @@ class PadParameters(NamedTuple):
 
 
 def pad_parameter_sender(global_control, pad_control):
-    u"""
-    Sends the sensitivity parameters for a given pad, or all pads (pad
-    == None) over the given ValueControl.
-    """
 
-    def do_send(parameters, pad = None):
+    def do_send(parameters, pad=None):
         if pad != None:
             pad_control.send_value((pad,) + parameters.sysex_bytes)
         else:

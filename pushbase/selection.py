@@ -1,68 +1,34 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/pushbase/selection.py
-u"""
-Object that encapsulates selection in the Push controller.
-"""
 from __future__ import absolute_import, print_function, unicode_literals
 from builtins import object
 import Live
 
 class Selection(object):
-    u"""
-    Object that encapsulates selection.
-    
-    [jbo] The intent of this object is to grow its interface until no
-    'view.selected_*' access are done in any part of the script.  This
-    way, it should be easy to change our selection model such that
-    multiple-Push controllers can play together properly.  Also, feel
-    free to make these properties listenables when neccesary.
-    """
 
     @property
     def selected_device(self):
-        u"""
-        Device with the blue hand.
-        """
         raise NotImplementedError
 
     @property
     def selected_object(self):
-        u"""
-        Current object that is selected.
-        """
         raise NotImplementedError
 
     @property
     def selected_track(self):
-        u"""
-        Current track that is selected.
-        """
         raise NotImplementedError
 
     @property
     def selected_scene(self):
-        u"""
-        Current scene that is selected.
-        """
         raise NotImplementedError
 
     @property
     def hotswap_target(self):
-        u"""
-        Current object that is selected.
-        """
         raise NotImplementedError
 
 
 class PushSelection(Selection):
-    u"""
-    Push selection object.  So far it is read-only and just accesses
-    the appropiate components.  Ideally we should refactor a bit and
-    make all components set and query the selection via this object
-    and not otherwise.
-    """
 
-    def __init__(self, application = None, device_component = None, navigation_component = None, *a, **k):
-        super(PushSelection, self).__init__(*a, **k)
+    def __init__(self, application=None, device_component=None, navigation_component=None, *a, **k):
+        (super(PushSelection, self).__init__)(*a, **k)
         self._device_component = device_component
         self._navigation_component = navigation_component
         self._application = application
@@ -91,7 +57,4 @@ class PushSelection(Selection):
 
     @property
     def hotswap_target(self):
-        u"""
-        Current object that is selected.
-        """
         return self._browser.hotswap_target

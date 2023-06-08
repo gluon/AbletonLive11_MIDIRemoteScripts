@@ -1,47 +1,8 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/ATOMSQ/skin.py
 from __future__ import absolute_import, print_function, unicode_literals
-from ableton.v2.control_surface import Skin
-from .colors import Mono, Rgb
+from functools import partial
+from .colors import Rgb, create_color_for_liveobj
 
-class Colors:
-
-    class DefaultButton:
-        On = Mono.ON
-        Off = Mono.OFF
-        Disabled = Mono.OFF
-
-    class Transport:
-        PlayOn = Mono.ON
-        PlayOff = Mono.OFF
-
-    class Recording:
-        On = Mono.ON
-        Transition = Mono.ON
-        Off = Mono.OFF
-
-    class Mixer:
-        ArmOn = Mono.ON
-        ArmOff = Mono.OFF
-        SoloOn = Mono.ON
-        SoloOff = Mono.OFF
-        MuteOn = Mono.ON
-        MuteOff = Mono.OFF
-
-    class Device:
-        Navigation = Mono.OFF
-        NavigationPressed = Mono.ON
-
-    class Session:
-        ClipEmpty = Mono.OFF
-        ClipTriggeredPlay = Mono.ON
-        ClipTriggeredRecord = Mono.ON
-        ClipStopped = Mono.ON
-        ClipStarted = Mono.ON
-        ClipRecording = Mono.ON
-        RecordButton = Mono.OFF
-
-
-class RgbColors:
+class Skin:
 
     class DefaultButton:
         On = Rgb.ON
@@ -51,31 +12,43 @@ class RgbColors:
     class Transport:
         PlayOn = Rgb.GREEN
         PlayOff = Rgb.GREEN_DIM
+        LoopOn = Rgb.GREEN
+        LoopOff = Rgb.GREEN_DIM
+
+    class Mixer:
+        Selected = Rgb.ON
+        NotSelected = Rgb.OFF
 
     class Session:
-        ClipEmpty = Rgb.OFF
+        Slot = Rgb.OFF
+        SlotRecordButton = Rgb.RED_HALF
+        NoSlot = Rgb.OFF
+        ClipStopped = create_color_for_liveobj
         ClipTriggeredPlay = Rgb.GREEN_BLINK
         ClipTriggeredRecord = Rgb.RED_BLINK
-        ClipStarted = Rgb.GREEN_PULSE
+        ClipPlaying = Rgb.GREEN_PULSE
         ClipRecording = Rgb.RED_PULSE
-        RecordButton = Rgb.RED_HALF
-        Scene = Rgb.GREEN_HALF
-        NoScene = Rgb.OFF
+        Scene = partial(create_color_for_liveobj, is_scene=True)
         SceneTriggered = Rgb.GREEN_BLINK
+        NoScene = Rgb.OFF
         StopClipTriggered = Rgb.RED_BLINK
         StopClip = Rgb.RED
         StopClipDisabled = Rgb.RED_HALF
 
-    class View:
+    class ViewToggle:
         DetailOn = Rgb.YELLOW
         DetailOff = Rgb.YELLOW_HALF
-        MainOn = Rgb.BLUE
-        MainOff = Rgb.BLUE_HALF
+        SessionOn = Rgb.BLUE
+        SessionOff = Rgb.BLUE_HALF
         ClipOn = Rgb.PURPLE
         ClipOff = Rgb.PURPLE_HALF
         BrowserOn = Rgb.GREEN
         BrowserOff = Rgb.GREEN_HALF
 
+    class LowerPadModes:
 
-skin = Skin(Colors)
-rgb_skin = Skin(RgbColors)
+        class Select:
+            On = Rgb.RED_HALF
+
+        class Stop:
+            On = Rgb.RED

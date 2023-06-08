@@ -1,4 +1,3 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/novation/util.py
 from __future__ import absolute_import, print_function, unicode_literals
 from ableton.v2.base import liveobj_valid
 from ableton.v2.control_surface.components import find_nearest_color
@@ -16,10 +15,6 @@ def is_song_recording(song):
 
 
 def get_midi_color_value_for_track(track):
-    u"""
-    Returns midi value corresponding to track color for a valid track,
-    otherwise return Rgb.BLACK (the off color)
-    """
     if liveobj_valid(track):
         color = CLIP_COLOR_TABLE.get(track.color, None)
         if color is None:

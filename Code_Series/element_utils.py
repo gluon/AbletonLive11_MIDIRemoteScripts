@@ -1,4 +1,3 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Code_Series/element_utils.py
 from __future__ import absolute_import, print_function, unicode_literals
 import Live
 from ableton.v2.base import depends
@@ -9,7 +8,8 @@ CHANNEL = 0
 
 @depends(skin=None)
 def make_button(identifier, name, **k):
-    return ButtonElement(IS_MOMENTARY, MIDI_NOTE_TYPE, CHANNEL, identifier, name=name, **k)
+    return ButtonElement(
+ IS_MOMENTARY, MIDI_NOTE_TYPE, CHANNEL, identifier, name=name, **k)
 
 
 def make_slider(channel, name):
@@ -17,4 +17,8 @@ def make_slider(channel, name):
 
 
 def make_encoder(identifier, name):
-    return EncoderElement(MIDI_CC_TYPE, 0, identifier, Live.MidiMap.MapMode.relative_smooth_signed_bit, name=name)
+    return EncoderElement(MIDI_CC_TYPE,
+      0,
+      identifier,
+      (Live.MidiMap.MapMode.relative_smooth_signed_bit),
+      name=name)

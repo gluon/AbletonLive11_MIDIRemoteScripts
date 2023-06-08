@@ -1,13 +1,13 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/_MPDMkIIBase/ControlElementUtils.py
 from __future__ import absolute_import, print_function, unicode_literals
 import Live
+import _Framework.ButtonElement as ButtonElement
+import _Framework.EncoderElement as EncoderElement
 from _Framework.InputControlElement import MIDI_CC_TYPE
-from _Framework.EncoderElement import EncoderElement
-from _Framework.SliderElement import SliderElement
-from _Framework.ButtonElement import ButtonElement
+import _Framework.SliderElement as SliderElement
 
 def make_encoder(identifier, channel, name):
-    return EncoderElement(MIDI_CC_TYPE, channel, identifier, Live.MidiMap.MapMode.absolute, name=name)
+    return EncoderElement(MIDI_CC_TYPE,
+      channel, identifier, (Live.MidiMap.MapMode.absolute), name=name)
 
 
 def make_slider(identifier, channel, name):

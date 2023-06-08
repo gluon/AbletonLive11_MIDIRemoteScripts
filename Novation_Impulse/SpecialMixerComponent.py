@@ -1,11 +1,9 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Novation_Impulse/SpecialMixerComponent.py
 from __future__ import absolute_import, print_function, unicode_literals
 from builtins import range
-from _Framework.MixerComponent import MixerComponent
-from _Framework.ButtonElement import ButtonElement
+import _Framework.ButtonElement as ButtonElement
+import _Framework.MixerComponent as MixerComponent
 
 class SpecialMixerComponent(MixerComponent):
-    u""" Special mixer class that reassigns buttons to mute or solo based on a toggle """
 
     def __init__(self, num_tracks):
         self._shift_button = None
@@ -30,7 +28,6 @@ class SpecialMixerComponent(MixerComponent):
         self._strip_mute_solo_buttons = None
 
     def set_shift_button(self, shift_button):
-        assert shift_button == None or shift_button.is_momentary()
         if self._shift_button != None:
             self._shift_button.remove_value_listener(self._shift_value)
         self._shift_button = shift_button
@@ -38,14 +35,11 @@ class SpecialMixerComponent(MixerComponent):
             self._shift_button.add_value_listener(self._shift_value)
 
     def set_selected_mute_solo_button(self, button):
-        assert isinstance(button, (type(None), ButtonElement))
         self._selected_mute_solo_button = button
         self.selected_strip().set_mute_button(self._selected_mute_solo_button)
         self.selected_strip().set_solo_button(None)
 
     def set_strip_mute_solo_buttons(self, buttons, flip_button):
-        assert buttons is None or isinstance(buttons, tuple) and len(buttons) == len(self._channel_strips)
-        assert isinstance(flip_button, (type(None), ButtonElement))
         if self._mute_solo_flip_button != None:
             self._mute_solo_flip_button.remove_value_listener(self._mute_solo_flip_value)
         self._mute_solo_flip_button = flip_button
@@ -57,15 +51,14 @@ class SpecialMixerComponent(MixerComponent):
             button = None
             if self._strip_mute_solo_buttons != None:
                 button = self._strip_mute_solo_buttons[index]
-            strip.set_mute_button(button)
-            strip.set_solo_button(None)
+            else:
+                strip.set_mute_button(button)
+                strip.set_solo_button(None)
 
     def tracks_to_use(self):
         return tuple(self.song().visible_tracks) + tuple(self.song().return_tracks)
 
     def _shift_value(self, value):
-        assert self._shift_button != None
-        assert value in range(128)
         if value > 0:
             self.selected_strip().set_mute_button(None)
             self.selected_strip().set_solo_button(self._selected_mute_solo_button)
@@ -74,8 +67,6 @@ class SpecialMixerComponent(MixerComponent):
             self.selected_strip().set_mute_button(self._selected_mute_solo_button)
 
     def _mute_solo_flip_value(self, value):
-        assert self._mute_solo_flip_button != None
-        assert value in range(128)
         if self._strip_mute_solo_buttons != None:
             for index in range(len(self._strip_mute_solo_buttons)):
                 strip = self.channel_strip(index)
@@ -90,10 +81,13 @@ class SpecialMixerComponent(MixerComponent):
         sel_track = None
         while len(self._selected_tracks) > 0:
             track = self._selected_tracks[-1]
-            if track != None and track.has_midi_input and track.can_be_armed and not track.arm:
-                sel_track = track
-                break
-            del self._selected_tracks[-1]
+            if track != None:
+                if track.has_midi_input:
+                    if track.can_be_armed:
+                        if not track.arm:
+                            sel_track = track
+                            break
+                        del self._selected_tracks[-1]
 
         if sel_track != None:
             found_recording_clip = False
@@ -101,23 +95,27 @@ class SpecialMixerComponent(MixerComponent):
             tracks = song.tracks
             check_arrangement = song.is_playing and song.record_mode
             for track in tracks:
-                if track.can_be_armed and track.arm:
-                    if check_arrangement:
-                        found_recording_clip = True
-                        break
-                    else:
-                        playing_slot_index = track.playing_slot_index
+                if track.can_be_armed:
+                    if track.arm:
+                        if check_arrangement:
+                            found_recording_clip = True
+                            break
+                        else:
+                            playing_slot_index = track.playing_slot_index
                         if playing_slot_index in range(len(track.clip_slots)):
                             slot = track.clip_slots[playing_slot_index]
-                            if slot.has_clip and slot.clip.is_recording:
-                                found_recording_clip = True
-                                break
+                            if slot.has_clip:
+                                if slot.clip.is_recording:
+                                    found_recording_clip = True
+                                    break
 
             if not found_recording_clip:
                 if song.exclusive_arm:
                     for track in tracks:
-                        if track.can_be_armed and track.arm and track != sel_track:
-                            track.arm = False
+                        if track.can_be_armed:
+                            if track.arm:
+                                if track != sel_track:
+                                    track.arm = False
 
                 sel_track.arm = True
                 sel_track.view.select_instrument()

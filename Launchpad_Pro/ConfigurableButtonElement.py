@@ -1,23 +1,15 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Launchpad_Pro/ConfigurableButtonElement.py
 from __future__ import absolute_import, print_function, unicode_literals
+from _Framework.ButtonElement import OFF_VALUE, ON_VALUE, ButtonElement
 from _Framework.Skin import SkinColorMissingError
-from _Framework.ButtonElement import ButtonElement, ON_VALUE, OFF_VALUE
 
 class ConfigurableButtonElement(ButtonElement):
-    u"""
-    Special button class (adapted from Push script for LP Pro)
-    that can be configured with custom on- and off-values.
-    
-    A ConfigurableButtonElement can have states other than True or
-    False, which can be defined by setting the 'states' property.
-    Thus 'set_light' can take any state or skin color.
-    """
-    default_states = {True: u'DefaultButton.On',
-     False: u'DefaultButton.Disabled'}
+    default_states = {True:'DefaultButton.On', 
+     False:'DefaultButton.Disabled'}
     send_depends_on_forwarding = False
 
-    def __init__(self, is_momentary, msg_type, channel, identifier, skin = None, default_states = None, *a, **k):
-        super(ConfigurableButtonElement, self).__init__(is_momentary, msg_type, channel, identifier, skin=skin, **k)
+    def __init__(self, is_momentary, msg_type, channel, identifier, skin=None, default_states=None, *a, **k):
+        (super(ConfigurableButtonElement, self).__init__)(
+ is_momentary, msg_type, channel, identifier, skin=skin, **k)
         if default_states is not None:
             self.default_states = default_states
         self.states = dict(self.default_states)
@@ -45,7 +37,7 @@ class ConfigurableButtonElement(ButtonElement):
             return value
 
     def reset(self):
-        self.set_light(u'DefaultButton.Disabled')
+        self.set_light('DefaultButton.Disabled')
         self.reset_state()
 
     def reset_state(self):
@@ -69,10 +61,11 @@ class ConfigurableButtonElement(ButtonElement):
     def send_value(self, value, **k):
         if value is ON_VALUE:
             self._do_send_on_value()
-        elif value is OFF_VALUE:
-            self._do_send_off_value()
         else:
-            super(ConfigurableButtonElement, self).send_value(value, **k)
+            if value is OFF_VALUE:
+                self._do_send_off_value()
+            else:
+                (super(ConfigurableButtonElement, self).send_value)(value, **k)
 
     def _do_send_on_value(self):
         self._skin[self._on_value].draw(self)

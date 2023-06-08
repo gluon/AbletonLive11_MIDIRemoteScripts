@@ -1,7 +1,5 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/LV2_LX2_LC2_LD2/ParamMap.py
 from __future__ import absolute_import, print_function, unicode_literals
-from builtins import range
-from builtins import object
+from builtins import object, range
 import Live
 
 class Callable(object):
@@ -10,12 +8,12 @@ class Callable(object):
         self.fn = anycallable
 
     def __call__(self, *a, **k):
-        self.fn(*a, **k)
+        (self.fn)(*a, **k)
 
 
 class ParamMap(object):
     __module__ = __name__
-    __doc__ = u'Class to help with device mapping'
+    __doc__ = 'Class to help with device mapping'
 
     def __init__(self, parent):
         ParamMap.realinit(self, parent)
@@ -37,7 +35,7 @@ class ParamMap(object):
         return self.log(str)
 
     def param_add_callback(self, script_handle, midi_map_handle, param, min, max, cc, channel):
-        callback = lambda : self.on_param_value_changed(param, min, max, cc, channel)
+        callback = lambda: self.on_param_value_changed(param, min, max, cc, channel)
         param.add_value_listener(callback)
         self.params_with_listener += [param]
         self.param_callbacks += [callback]

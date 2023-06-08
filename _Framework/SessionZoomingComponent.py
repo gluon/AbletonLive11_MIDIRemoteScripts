@@ -1,6 +1,4 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/_Framework/SessionZoomingComponent.py
-from __future__ import absolute_import, print_function, unicode_literals
-from __future__ import division
+from __future__ import absolute_import, division, print_function, unicode_literals
 from builtins import range
 from past.utils import old_div
 from .CompoundComponent import CompoundComponent
@@ -9,14 +7,9 @@ from .SubjectSlot import subject_slot, subject_slot_group
 from .Util import in_range
 
 class SessionZoomingComponent(CompoundComponent):
-    u"""
-    Class using a matrix of buttons to choose blocks of clips in the
-    session, as if you had zoomed out from session.
-    """
 
-    def __init__(self, session = None, enable_skinning = False, *a, **k):
-        super(SessionZoomingComponent, self).__init__(*a, **k)
-        assert session
+    def __init__(self, session=None, enable_skinning=False, *a, **k):
+        (super(SessionZoomingComponent, self).__init__)(*a, **k)
         self._buttons = None
         self._scene_bank_buttons = None
         self._scene_bank_button_slots = self.register_slot_manager()
@@ -34,15 +27,15 @@ class SessionZoomingComponent(CompoundComponent):
         self._horizontal_scroll.can_scroll_down = self._can_scroll_right
         self._horizontal_scroll.scroll_up = self._scroll_left
         self._horizontal_scroll.scroll_down = self._scroll_right
-        self.register_slot(self._session, self._on_session_offset_changes, u'offset')
+        self.register_slot(self._session, self._on_session_offset_changes, 'offset')
         if enable_skinning:
             self._enable_skinning()
 
     def _enable_skinning(self):
-        self.set_stopped_value(u'Zooming.Stopped')
-        self.set_selected_value(u'Zooming.Selected')
-        self.set_playing_value(u'Zooming.Playing')
-        self.set_empty_value(u'Zooming.Empty')
+        self.set_stopped_value('Zooming.Stopped')
+        self.set_selected_value('Zooming.Selected')
+        self.set_playing_value('Zooming.Playing')
+        self.set_empty_value('Zooming.Empty')
 
     def on_scene_list_changed(self):
         self.update()
@@ -108,7 +101,7 @@ class SessionZoomingComponent(CompoundComponent):
         if self._buttons != None:
             tracks = self._session.tracks_to_use()
             scenes = self.song().scenes
-            slots_registry = [ None for index in range(len(scenes)) ]
+            slots_registry = [None for index in range(len(scenes))]
             width = self._session.width()
             height = self._session.height()
             for x in range(self._buttons.width()):
@@ -117,25 +110,30 @@ class SessionZoomingComponent(CompoundComponent):
                     scene_bank_offset = self._scene_bank_index * self._buttons.height() * height
                     track_offset = x * width
                     scene_offset = y * height + scene_bank_offset
-                    if track_offset in range(len(tracks)) and scene_offset in range(len(scenes)):
-                        value_to_send = self._stopped_value
-                        if self._session.track_offset() in range(width * (x - 1) + 1, width * (x + 1)) and self._session.scene_offset() - scene_bank_offset in range(height * (y - 1) + 1, height * (y + 1)):
-                            value_to_send = self._selected_value
-                        else:
-                            playing = False
-                            for track in range(track_offset, track_offset + width):
-                                for scene in range(scene_offset, scene_offset + height):
-                                    if track in range(len(tracks)) and scene in range(len(scenes)):
-                                        if slots_registry[scene] == None:
-                                            slots_registry[scene] = scenes[scene].clip_slots
-                                        slot = slots_registry[scene][track] if len(slots_registry[scene]) > track else None
-                                        if slot != None and slot.has_clip and slot.clip.is_playing:
-                                            value_to_send = self._playing_value
-                                            playing = True
-                                            break
+                    if track_offset in range(len(tracks)):
+                        if scene_offset in range(len(scenes)):
+                            value_to_send = self._stopped_value
+                            if self._session.track_offset() in range(width * (x - 1) + 1, width * (x + 1)) and self._session.scene_offset() - scene_bank_offset in range(height * (y - 1) + 1, height * (y + 1)):
+                                value_to_send = self._selected_value
+                            else:
+                                playing = False
+                                for track in range(track_offset, track_offset + width):
+                                    for scene in range(scene_offset, scene_offset + height):
+                                        if track in range(len(tracks)):
+                                            if scene in range(len(scenes)):
+                                                if slots_registry[scene] == None:
+                                                    slots_registry[scene] = scenes[scene].clip_slots
+                                                else:
+                                                    slot = slots_registry[scene][track] if len(slots_registry[scene]) > track else None
+                                                if slot != None:
+                                                    if slot.has_clip:
+                                                        if slot.clip.is_playing:
+                                                            value_to_send = self._playing_value
+                                                            playing = True
+                                                            break
 
-                                if playing:
-                                    break
+                                    if playing:
+                                        break
 
                     if in_range(value_to_send, 0, 128):
                         self._buttons.send_value(x, y, value_to_send)
@@ -153,19 +151,20 @@ class SessionZoomingComponent(CompoundComponent):
             self._scene_bank_index = int(old_div(old_div(self._session.scene_offset(), self._session.height()), self._buttons.height()))
         self.update()
 
-    @subject_slot(u'value')
+    @subject_slot('value')
     def _on_matrix_value(self, value, x, y, is_momentary):
         if self.is_enabled():
-            if value != 0 or not is_momentary:
+            if not (value != 0 or is_momentary):
                 track_offset = x * self._session.width()
                 scene_offset = (y + self._scene_bank_index * self._buttons.height()) * self._session.height()
-                if track_offset in range(len(self._session.tracks_to_use())) and scene_offset in range(len(self.song().scenes)):
-                    self._session.set_offsets(track_offset, scene_offset)
+                if track_offset in range(len(self._session.tracks_to_use())):
+                    if scene_offset in range(len(self.song().scenes)):
+                        self._session.set_offsets(track_offset, scene_offset)
 
-    @subject_slot_group(u'value')
+    @subject_slot_group('value')
     def _on_scene_bank_value(self, value, sender):
-        if self.is_enabled() and self._buttons:
-            if value != 0 or not sender.is_momentary():
+        if not self.is_enabled() or self._buttons:
+            if not (value != 0 or sender.is_momentary()):
                 button_offset = list(self._scene_bank_buttons).index(sender)
                 scene_offset = button_offset * self._buttons.height() * self._session.height()
                 if scene_offset in range(len(self.song().scenes)):
@@ -224,21 +223,13 @@ class SessionZoomingComponent(CompoundComponent):
 
 
 class DeprecatedSessionZoomingComponent(SessionZoomingComponent):
-    u"""
-    Zooming component, that is controlling the sessions enabled state while holding the
-    zoom button
-    """
 
     def __init__(self, *a, **k):
-        super(DeprecatedSessionZoomingComponent, self).__init__(*a, **k)
+        (super(DeprecatedSessionZoomingComponent, self).__init__)(*a, **k)
         self._zoom_button = None
         self._is_zoomed_out = False
 
     def set_button_matrix(self, buttons):
-        u"""
-        Overwrite to prevent resetting the buttons, as some old components
-        don't like it.
-        """
         self._buttons = buttons
         self._on_matrix_value.subject = self._buttons
         self.update()
@@ -254,7 +245,7 @@ class DeprecatedSessionZoomingComponent(SessionZoomingComponent):
     def _session_set_enabled(self, is_enabled):
         self._session.set_enabled(is_enabled)
 
-    @subject_slot(u'value')
+    @subject_slot('value')
     def _on_zoom_value(self, value):
         if self.is_enabled():
             if self._zoom_button.is_momentary():
@@ -285,15 +276,15 @@ class DeprecatedSessionZoomingComponent(SessionZoomingComponent):
         if self._is_zoomed_out:
             super(DeprecatedSessionZoomingComponent, self)._on_session_offset_changes()
 
-    @subject_slot(u'value')
+    @subject_slot('value')
     def _on_matrix_value(self, *a, **k):
         if self._is_zoomed_out:
-            super(DeprecatedSessionZoomingComponent, self)._on_matrix_value(*a, **k)
+            (super(DeprecatedSessionZoomingComponent, self)._on_matrix_value)(*a, **k)
 
-    @subject_slot_group(u'value')
+    @subject_slot_group('value')
     def _on_scene_bank_value(self, *a, **k):
         if self._is_zoomed_out:
-            super(DeprecatedSessionZoomingComponent, self)._on_scene_bank_value(*a, **k)
+            (super(DeprecatedSessionZoomingComponent, self)._on_scene_bank_value)(*a, **k)
 
     def _scroll_up(self):
         if self._is_zoomed_out:

@@ -1,14 +1,8 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Push2/real_time_channel.py
 from __future__ import absolute_import, print_function, unicode_literals
-from ableton.v2.control_surface import Component
 from ableton.v2.base import depends, listenable_property, liveobj_changed, liveobj_valid
+from ableton.v2.control_surface import Component
 
 def update_real_time_attachments(real_time_data_components):
-    u"""
-    Updates all the real-time channels. We need to explicitly detach all
-    channels before attaching them again, otherwise we could end up in a situation
-    where we try to attach to a channel that's already occupied.
-    """
     for d in real_time_data_components:
         d.detach()
 
@@ -17,16 +11,14 @@ def update_real_time_attachments(real_time_data_components):
 
 
 class RealTimeDataComponent(Component):
-    __events__ = (u'attached',)
+    __events__ = ('attached', )
 
     @depends(real_time_mapper=None, register_real_time_data=None)
-    def __init__(self, real_time_mapper = None, register_real_time_data = None, channel_type = None, *a, **k):
-        assert channel_type is not None
-        assert liveobj_valid(real_time_mapper)
-        super(RealTimeDataComponent, self).__init__(*a, **k)
+    def __init__(self, real_time_mapper=None, register_real_time_data=None, channel_type=None, *a, **k):
+        (super(RealTimeDataComponent, self).__init__)(*a, **k)
         self._channel_type = channel_type
-        self._real_time_channel_id = u''
-        self._object_id = u''
+        self._real_time_channel_id = ''
+        self._object_id = ''
         self._real_time_mapper = real_time_mapper
         self._data = None
         self._valid = True
@@ -66,9 +58,10 @@ class RealTimeDataComponent(Component):
         self._valid = False
 
     def detach(self):
-        if not self._valid and self._real_time_channel_id != u'':
-            self._real_time_mapper.detach_channel(self._real_time_channel_id)
-            self._real_time_channel_id = u''
+        if not self._valid:
+            if self._real_time_channel_id != '':
+                self._real_time_mapper.detach_channel(self._real_time_channel_id)
+                self._real_time_channel_id = ''
 
     def device_visualisation(self):
         return self._real_time_mapper.device_visualisation

@@ -1,13 +1,12 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/_APC/DeviceComponent.py
 from __future__ import absolute_import, print_function, unicode_literals
 from builtins import range
-from _Framework.CompoundComponent import CompoundComponent
+import _Framework.CompoundComponent as CompoundComponent
 from _Framework.DeviceComponent import DeviceComponent as DeviceComponentBase
 
 class DeviceComponent(DeviceComponentBase, CompoundComponent):
 
-    def __init__(self, use_fake_banks = False, *a, **k):
-        super(DeviceComponent, self).__init__(*a, **k)
+    def __init__(self, use_fake_banks=False, *a, **k):
+        (super(DeviceComponent, self).__init__)(*a, **k)
         self._use_fake_banks = use_fake_banks
 
     def set_parameter_controls(self, controls):
@@ -15,7 +14,7 @@ class DeviceComponent(DeviceComponentBase, CompoundComponent):
         self._update_parameter_controls()
 
     def _current_bank_details(self):
-        bank_name = u''
+        bank_name = ''
         bank = []
         if self._bank_index in range(len(self._parameter_banks())):
             bank_name, bank = super(DeviceComponent, self)._current_bank_details()

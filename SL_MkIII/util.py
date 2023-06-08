@@ -1,4 +1,3 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/SL_MkIII/util.py
 from __future__ import absolute_import, print_function, unicode_literals
 from past.utils import old_div
 from ableton.v2.base import clamp, liveobj_valid
@@ -30,4 +29,4 @@ def color_for_track(track):
         except (KeyError, IndexError):
             color_value = find_nearest_color(RGB_COLOR_TABLE, track.color)
 
-    return Color(color_value)
+        return Color(color_value)

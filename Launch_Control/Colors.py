@@ -1,4 +1,3 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Launch_Control/Colors.py
 from __future__ import absolute_import, print_function, unicode_literals
 LED_OFF = 4
 LED_ON = 15

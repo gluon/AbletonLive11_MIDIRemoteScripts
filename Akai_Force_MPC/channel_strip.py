@@ -1,7 +1,5 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Akai_Force_MPC/channel_strip.py
 from __future__ import absolute_import, print_function, unicode_literals
-from builtins import str
-from builtins import range
+from builtins import range, str
 import re
 from itertools import count
 from ableton.v2.base import clamp, index_if, listens, listens_group, liveobj_valid
@@ -15,7 +13,7 @@ from .skin import LIVE_COLOR_TABLE_INDEX_OFFSET
 DIM_FACTOR = 0.2
 
 def dim_color(color):
-    return Color(tuple([ int(channel * DIM_FACTOR) for channel in color.midi_value ]))
+    return Color(tuple([int(channel * DIM_FACTOR) for channel in color.midi_value]))
 
 
 NO_TRACK = 0
@@ -31,19 +29,22 @@ OLED_DISPLAY_UNIPOLAR = 1
 CROSSFADE_ASSIGN_OFF = 0
 CROSSFADE_ASSIGN_A = 1
 CROSSFADE_ASSIGN_B = 2
-LIVE_CROSSFADE_ASSIGN_VALUES = (CROSSFADE_ASSIGN_A, CROSSFADE_ASSIGN_OFF, CROSSFADE_ASSIGN_B)
-float_number_pattern = re.compile(u'-?\\d+\\.\\d+ ')
+LIVE_CROSSFADE_ASSIGN_VALUES = (
+ CROSSFADE_ASSIGN_A,
+ CROSSFADE_ASSIGN_OFF,
+ CROSSFADE_ASSIGN_B)
+float_number_pattern = re.compile('-?\\d+\\.\\d+ ')
 
 def format_volume_value_string(s):
     float_number_match = re.match(float_number_pattern, s)
     if float_number_match:
-        return u'{0:.1f} dB'.format(float(float_number_match.group(0)))
-    else:
-        return s
+        return '{0:.1f} dB'.format(float(float_number_match.group(0)))
+    return s
 
 
 def force_to_live_crossfade_assign_value(value):
-    return index_if(lambda v: v == value, LIVE_CROSSFADE_ASSIGN_VALUES)
+    return index_if(lambda v: v == value
+, LIVE_CROSSFADE_ASSIGN_VALUES)
 
 
 def meter_value_to_midi_value(value):
@@ -77,16 +78,16 @@ class ChannelStripComponent(ChannelStripComponentBase):
         self._oled_display_volume_value_data_source = DisplayDataSource()
         self._track_name_or_volume_value_display = None
         self._drum_group_finder = None
-        super(ChannelStripComponent, self).__init__(*a, **k)
-        self.__on_selected_track_changed.subject = self.song.view
-        self.__on_selected_track_changed()
-        self._drum_group_finder = self.register_disconnectable(PercussionInstrumentFinder(device_parent=self.track))
+        (super(ChannelStripComponent, self).__init__)(*a, **k)
+        self._ChannelStripComponent__on_selected_track_changed.subject = self.song.view
+        self._ChannelStripComponent__on_selected_track_changed()
+        self._drum_group_finder = self.register_disconnectable(PercussionInstrumentFinder(device_parent=(self.track)))
 
     def set_track(self, track):
         super(ChannelStripComponent, self).set_track(track)
         self._drum_group_finder.device_parent = track
-        self.__on_drum_group_found.subject = self._drum_group_finder
-        self.__on_drum_group_found()
+        self._ChannelStripComponent__on_drum_group_found.subject = self._drum_group_finder
+        self._ChannelStripComponent__on_drum_group_found()
         self._update_listeners()
         self._update_controls()
 
@@ -116,8 +117,9 @@ class ChannelStripComponent(ChannelStripComponentBase):
     @crossfade_assign_control.value
     def crossfade_assign_control(self, value, _):
         value_to_set = force_to_live_crossfade_assign_value(value)
-        if value_to_set < len(LIVE_CROSSFADE_ASSIGN_VALUES) and self._track_has_visible_crossfade_assignment_buttons():
-            self.track.mixer_device.crossfade_assign = value_to_set
+        if value_to_set < len(LIVE_CROSSFADE_ASSIGN_VALUES):
+            if self._track_has_visible_crossfade_assignment_buttons():
+                self.track.mixer_device.crossfade_assign = value_to_set
 
     @assign_a_button.pressed
     def assign_a_button(self, _):
@@ -130,14 +132,15 @@ class ChannelStripComponent(ChannelStripComponentBase):
     @mpc_mute_button.pressed
     def mpc_mute_button(self, _):
         track = self.track
-        if liveobj_valid(track) and track != self.song.master_track:
-            track.mute = not track.mute
+        if liveobj_valid(track):
+            if track != self.song.master_track:
+                track.mute = not track.mute
 
     def _on_select_button_pressed_delayed(self, _):
         if self.track.is_foldable:
             self.track.fold_state = not self.track.fold_state
 
-    @listens(u'has_audio_output')
+    @listens('has_audio_output')
     def __on_has_audio_output_changed(self):
         self._update_output_meter_listeners()
         self._update_track_type_control()
@@ -147,12 +150,12 @@ class ChannelStripComponent(ChannelStripComponentBase):
 
     def _update_output_meter_listeners(self):
         track = self.track
-        subject = track if liveobj_valid(track) and track.has_audio_output else None
-        self.__on_output_meter_left_changed.subject = subject
-        self.__on_output_meter_right_changed.subject = subject
+        subject = track if (liveobj_valid(track)) and (track.has_audio_output) else None
+        self._ChannelStripComponent__on_output_meter_left_changed.subject = subject
+        self._ChannelStripComponent__on_output_meter_right_changed.subject = subject
         if liveobj_valid(subject):
-            self.__on_output_meter_left_changed()
-            self.__on_output_meter_right_changed()
+            self._ChannelStripComponent__on_output_meter_left_changed()
+            self._ChannelStripComponent__on_output_meter_right_changed()
         else:
             self._reset_output_meter_controls()
 
@@ -177,61 +180,61 @@ class ChannelStripComponent(ChannelStripComponentBase):
         self._update_listeners()
         self._update_controls()
 
-    @listens(u'output_meter_left')
+    @listens('output_meter_left')
     def __on_output_meter_left_changed(self):
         self.output_meter_left_control.value = meter_value_to_midi_value(self.track.output_meter_left)
 
-    @listens(u'output_meter_right')
+    @listens('output_meter_right')
     def __on_output_meter_right_changed(self):
         self.output_meter_right_control.value = meter_value_to_midi_value(self.track.output_meter_right)
 
-    @listens(u'color')
+    @listens('color')
     def __on_track_color_changed(self):
         self._update_track_color_control()
 
-    @listens(u'value')
+    @listens('value')
     def __on_volume_changed(self):
         track = self.track
-        value_string = format_volume_value_string(str(track.mixer_device.volume) if liveobj_valid(track) and track.has_audio_output else u'')
+        value_string = format_volume_value_string(str(track.mixer_device.volume) if (liveobj_valid(track)) and (track.has_audio_output) else '')
         self._oled_display_volume_value_data_source.set_display_string(value_string)
         self.volume_value_display[0] = value_string
 
-    @listens(u'value')
+    @listens('value')
     def __on_pan_changed(self):
         track = self.track
-        self.pan_value_display[0] = str(track.mixer_device.panning) if liveobj_valid(track) and track.has_audio_output else u''
+        self.pan_value_display[0] = str(track.mixer_device.panning) if (liveobj_valid(track)) and (track.has_audio_output) else ''
 
-    @listens_group(u'value')
+    @listens_group('value')
     def __on_send_value_changed(self, send_index):
         self._update_send_value_display(send_index)
 
-    @listens(u'selected_track')
+    @listens('selected_track')
     def __on_selected_track_changed(self):
         self._update_select_button()
         self._update_track_color_control()
 
-    @listens(u'muted_via_solo')
+    @listens('muted_via_solo')
     def __on_muted_via_solo_changed(self):
-        self.solo_mute_button.color = u'DefaultButton.On' if liveobj_valid(self.track) and self.track != self.song.master_track and self.track.muted_via_solo else u'DefaultButton.Off'
+        self.solo_mute_button.color = 'DefaultButton.On' if liveobj_valid(self.track) and self.track != self.song.master_track and (self.track.muted_via_solo) else 'DefaultButton.Off'
 
-    @listens(u'instrument')
+    @listens('instrument')
     def __on_drum_group_found(self):
         self._update_track_type_control()
 
     def _update_listeners(self):
         track = self.track
-        self.__on_has_audio_output_changed.subject = track
-        self.__on_has_audio_output_changed()
-        self.__on_track_color_changed.subject = track
-        self.__on_track_color_changed()
-        self.__on_volume_changed.subject = track.mixer_device.volume if liveobj_valid(track) else None
-        self.__on_volume_changed()
-        self.__on_muted_via_solo_changed.subject = track
-        self.__on_muted_via_solo_changed()
-        self.__on_pan_changed.subject = track.mixer_device.panning if liveobj_valid(track) else None
-        self.__on_pan_changed()
+        self._ChannelStripComponent__on_has_audio_output_changed.subject = track
+        self._ChannelStripComponent__on_has_audio_output_changed()
+        self._ChannelStripComponent__on_track_color_changed.subject = track
+        self._ChannelStripComponent__on_track_color_changed()
+        self._ChannelStripComponent__on_volume_changed.subject = track.mixer_device.volume if liveobj_valid(track) else None
+        self._ChannelStripComponent__on_volume_changed()
+        self._ChannelStripComponent__on_muted_via_solo_changed.subject = track
+        self._ChannelStripComponent__on_muted_via_solo_changed()
+        self._ChannelStripComponent__on_pan_changed.subject = track.mixer_device.panning if liveobj_valid(track) else None
+        self._ChannelStripComponent__on_pan_changed()
         track = self.track
-        self.__on_send_value_changed.replace_subjects(track.mixer_device.sends if liveobj_valid(track) else [], count())
+        self._ChannelStripComponent__on_send_value_changed.replace_subjects(track.mixer_device.sends if liveobj_valid(track) else [], count())
 
     def _update_controls(self):
         self._update_track_type_control()
@@ -245,91 +248,105 @@ class ChannelStripComponent(ChannelStripComponentBase):
         if liveobj_valid(track):
             if track == self.song.master_track:
                 track_type = MASTER_TRACK
-            elif track in self.song.return_tracks:
-                track_type = RETURN_TRACK
-            elif track.is_foldable:
-                track_type = GROUP_TRACK
-            elif track.has_midi_input:
-                if self._drum_group_finder is not None and liveobj_valid(self._drum_group_finder.drum_group):
-                    track_type = DRUM_TRACK
-                elif track.has_audio_output:
-                    track_type = MELODIC_TRACK
+            else:
+                if track in self.song.return_tracks:
+                    track_type = RETURN_TRACK
                 else:
-                    track_type = EMPTY_MIDI_TRACK
-            elif track.has_audio_output:
-                track_type = AUDIO_TRACK
+                    if track.is_foldable:
+                        track_type = GROUP_TRACK
+                    else:
+                        if track.has_midi_input:
+                            if self._drum_group_finder is not None and liveobj_valid(self._drum_group_finder.drum_group):
+                                track_type = DRUM_TRACK
+                            else:
+                                if track.has_audio_output:
+                                    track_type = MELODIC_TRACK
+                                else:
+                                    track_type = EMPTY_MIDI_TRACK
+                        else:
+                            if track.has_audio_output:
+                                track_type = AUDIO_TRACK
         self.track_type_control.value = track_type
 
     def _update_crossfade_assignment_control(self):
         self.crossfade_assign_control.value = LIVE_CROSSFADE_ASSIGN_VALUES[self.track.mixer_device.crossfade_assign] if self._track_has_visible_crossfade_assignment_buttons() else CROSSFADE_ASSIGN_OFF
 
     def _update_crossfade_assign_color_controls(self):
-        off_color = u'DefaultButton.Off'
+        off_color = 'DefaultButton.Off'
         track = self.track
         assign_a_control_color = off_color
         assign_b_control_color = off_color
         if self._track_has_visible_crossfade_assignment_buttons():
             mixer_device = track.mixer_device
-            assign_a_control_color = u'Mixer.CrossfadeAssignA' if mixer_device.crossfade_assign == force_to_live_crossfade_assign_value(CROSSFADE_ASSIGN_A) else off_color
-            assign_b_control_color = u'Mixer.CrossfadeAssignB' if mixer_device.crossfade_assign == force_to_live_crossfade_assign_value(CROSSFADE_ASSIGN_B) else off_color
+            assign_a_control_color = 'Mixer.CrossfadeAssignA' if mixer_device.crossfade_assign == force_to_live_crossfade_assign_value(CROSSFADE_ASSIGN_A) else off_color
+            assign_b_control_color = 'Mixer.CrossfadeAssignB' if mixer_device.crossfade_assign == force_to_live_crossfade_assign_value(CROSSFADE_ASSIGN_B) else off_color
         self.assign_a_color_control.color = assign_a_control_color
         self.assign_b_color_control.color = assign_b_control_color
 
     def _update_track_name_data_source(self):
         super(ChannelStripComponent, self)._update_track_name_data_source()
-        self._oled_display_track_name_data_source.set_display_string(self._track.name if liveobj_valid(self._track) else u' - ')
+        self._oled_display_track_name_data_source.set_display_string(self._track.name if liveobj_valid(self._track) else ' - ')
 
     def _update_arm_color_control(self):
-        color = u'Mixer.ArmOff'
+        color = 'Mixer.ArmOff'
         track = self.track
-        if liveobj_valid(track) and track in self.song.tracks and track.can_be_armed and track.arm:
-            color = u'Mixer.ArmOn'
+        if liveobj_valid(track):
+            if track in self.song.tracks:
+                if track.can_be_armed:
+                    if track.arm:
+                        color = 'Mixer.ArmOn'
         self.arm_color_control.color = color
 
     def _update_mute_color_controls(self):
-        mute_color_control_color = u'Mixer.MuteOff'
-        mute_button_color = u'Mixer.MuteOn'
+        mute_color_control_color = 'Mixer.MuteOff'
+        mute_button_color = 'Mixer.MuteOn'
         track = self.track
-        if liveobj_valid(track) and (track == self.song.master_track or not track.mute):
-            mute_color_control_color = u'Mixer.MuteOn'
-            mute_button_color = u'Mixer.MuteOff'
-        self.mute_color_control.color = mute_color_control_color
-        self.mpc_mute_button.color = mute_color_control_color
-        if self._mute_button:
-            self._mute_button.set_light(mute_button_color)
+        if liveobj_valid(track):
+            if not (track == self.song.master_track or track.mute):
+                mute_color_control_color = 'Mixer.MuteOn'
+                mute_button_color = 'Mixer.MuteOff'
+            self.mute_color_control.color = mute_color_control_color
+            self.mpc_mute_button.color = mute_color_control_color
+            if self._mute_button:
+                self._mute_button.set_light(mute_button_color)
 
     def _update_solo_color_control(self):
-        color = u'Mixer.SoloOff'
+        color = 'Mixer.SoloOff'
         track = self.track
-        if liveobj_valid(track) and track != self.song.master_track and track.solo:
-            color = u'Mixer.SoloOn'
+        if liveobj_valid(track):
+            if track != self.song.master_track:
+                if track.solo:
+                    color = 'Mixer.SoloOn'
         self.solo_color_control.color = color
 
     def _update_track_color_control(self):
-        color_to_send = u'DefaultButton.Off'
+        color_to_send = 'DefaultButton.Off'
         selected_color_to_send = None
         track = self.track
-        if liveobj_valid(track) and track.color_index != None:
-            color_to_send = track.color_index + LIVE_COLOR_TABLE_INDEX_OFFSET
-            if track == self.song.view.selected_track:
-                selected_color_to_send = u'DefaultButton.On'
+        if liveobj_valid(track):
+            if track.color_index != None:
+                color_to_send = track.color_index + LIVE_COLOR_TABLE_INDEX_OFFSET
+                if track == self.song.view.selected_track:
+                    selected_color_to_send = 'DefaultButton.On'
         self.track_color_control.color = color_to_send
         self.physical_track_color_control.color = selected_color_to_send or color_to_send
 
     def _update_oled_display_style_control(self):
         value_to_send = OLED_DISPLAY_OFF
         track = self.track
-        if liveobj_valid(track) and track.has_audio_output:
-            value_to_send = OLED_DISPLAY_UNIPOLAR
+        if liveobj_valid(track):
+            if track.has_audio_output:
+                value_to_send = OLED_DISPLAY_UNIPOLAR
         self.oled_display_style_control.value = value_to_send
 
     def _update_track_name_or_volume_value_display(self):
         if self._track_name_or_volume_value_display:
-            self._track_name_or_volume_value_display.set_data_sources([self._oled_display_volume_value_data_source if self.volume_touch_control.is_pressed else self._oled_display_track_name_data_source])
+            self._track_name_or_volume_value_display.set_data_sources([
+             self._oled_display_volume_value_data_source if self.volume_touch_control.is_pressed else self._oled_display_track_name_data_source])
 
     def _update_send_value_display(self, index):
         if index < MAX_NUM_SENDS:
-            value_to_send = u''
+            value_to_send = ''
             track = self.track
             if liveobj_valid(track):
                 sends = track.mixer_device.sends

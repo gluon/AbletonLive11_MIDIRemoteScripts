@@ -1,10 +1,8 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/_Framework/MomentaryModeObserver.py
 from __future__ import absolute_import, print_function, unicode_literals
 from builtins import object
 from . import Defaults
 
 class MomentaryModeObserver(object):
-    u""" Listens to the changes of a given set of controls and decides which mode to use """
 
     def __init__(self):
         object.__init__(self)
@@ -15,10 +13,7 @@ class MomentaryModeObserver(object):
     def disconnect(self):
         self._reset()
 
-    def set_mode_details(self, base_mode, controls, mode_callback = None):
-        assert isinstance(base_mode, int)
-        assert isinstance(controls, (type(None), tuple))
-        assert mode_callback == None or callable(mode_callback)
+    def set_mode_details(self, base_mode, controls, mode_callback=None):
         self._reset()
         if controls != None:
             self._controls = controls

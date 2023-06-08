@@ -1,10 +1,6 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Push2/pad_velocity_curve.py
-from __future__ import absolute_import, print_function, unicode_literals
-from __future__ import division
-from builtins import range
-from builtins import round
+from __future__ import absolute_import, division, print_function, unicode_literals
+from builtins import object, range, round
 from past.utils import old_div
-from builtins import object
 import math
 from ableton.v2.base import SerializableListenableProperties, chunks, clamp, listenable_property, task
 from ableton.v2.control_surface import Component
@@ -12,7 +8,8 @@ NUM_VELOCITY_CURVE_ENTRIES = 128
 LAST_INDEX_FOR_DISPLAY = 58
 
 class LookupTable(object):
-    MAXW = [1700.0,
+    MAXW = [
+     1700.0,
      1660.0,
      1590.0,
      1510.0,
@@ -23,7 +20,8 @@ class LookupTable(object):
      860.0,
      640.0,
      400.0]
-    CPMIN = [1650.0,
+    CPMIN = [
+     1650.0,
      1580.0,
      1500.0,
      1410.0,
@@ -34,7 +32,8 @@ class LookupTable(object):
      900.0,
      800.0,
      700.0]
-    CPMAX = [2050.0,
+    CPMAX = [
+     2050.0,
      1950.0,
      1850.0,
      1750.0,
@@ -45,50 +44,12 @@ class LookupTable(object):
      1320.0,
      1240.0,
      1180.0]
-    GAMMA = [0.7,
-     0.64,
-     0.58,
-     0.54,
-     0.5,
-     0.46,
-     0.43,
-     0.4,
-     0.36,
-     0.32,
-     0.25]
-    MINV = [1.0,
-     1,
-     1.0,
-     1.0,
-     1.0,
-     1.0,
-     3.0,
-     6.0,
-     12.0,
-     24.0,
-     36.0]
-    MAXV = [96.0,
-     102.0,
-     116.0,
-     121.0,
-     124.0,
-     127.0,
-     127.0,
-     127.0,
-     127.0,
-     127.0,
-     127.0]
-    ALPHA = [90.0,
-     70.0,
-     54.0,
-     40.0,
-     28.0,
-     20.0,
-     10.0,
-     -5.0,
-     -25.0,
-     -55.0,
-     -90.0]
+    GAMMA = [
+     0.7,0.64,0.58,0.54,0.5,0.46,0.43,0.4,0.36,0.32,0.25]
+    MINV = [1.0,1,1.0,1.0,1.0,1.0,3.0,6.0,12.0,24.0,36.0]
+    MAXV = [96.0,102.0,116.0,121.0,124.0,127.0,127.0,127.0,127.0,127.0,127.0]
+    ALPHA = [
+     90.0,70.0,54.0,40.0,28.0,20.0,10.0,-5.0,-25.0,-55.0,-90.0]
 
 
 def gamma_func(x, gamma):
@@ -103,10 +64,8 @@ def calculate_points(alpha):
     p1y = 0.5 + r * math.sin(a1)
     p2x = 0.5 + r * math.cos(a2)
     p2y = 0.5 + r * math.sin(a2)
-    return (p1x,
-     p1y,
-     p2x,
-     p2y)
+    return (
+     p1x, p1y, p2x, p2y)
 
 
 def bezier(x, t, p1x, p1y, p2x, p2y):
@@ -123,9 +82,11 @@ def bezier(x, t, p1x, p1y, p2x, p2y):
         xt = s3 * p0x + 3 * t * s2 * p1x + 3 * t2 * s * p2x + t3 * p3x
         if xt >= x:
             return (s3 * p0y + 3 * t * s2 * p1y + 3 * t2 * s * p2y + t3 * p3y, t)
-        t += 0.0001
+        else:
+            t += 0.0001
 
-    return (1.0, t)
+    return (
+     1.0, t)
 
 
 def generate_velocity_curve(sensitivity, gain, dynamics):
@@ -144,13 +105,14 @@ def generate_velocity_curve(sensitivity, gain, dynamics):
         w = index * 32.0
         if w <= minw:
             velocity = 1.0 + (minv - 1.0) * old_div(float(index), float(minw_index))
-        elif w >= maxw:
-            velocity = maxv + (127.0 - maxv) * old_div(float(index - maxw_index), float(128 - maxw_index))
         else:
-            wnorm = old_div(w - minw, maxw - minw)
-            b, t = bezier(wnorm, t, p1x, p1y, p2x, p2y)
-            velonorm = gamma_func(b, gamma)
-            velocity = minv + velonorm * (maxv - minv)
+            if w >= maxw:
+                velocity = maxv + (127.0 - maxv) * old_div(float(index - maxw_index), float(128 - maxw_index))
+            else:
+                wnorm = old_div(w - minw, maxw - minw)
+                b, t = bezier(wnorm, t, p1x, p1y, p2x, p2y)
+                velonorm = gamma_func(b, gamma)
+                velocity = minv + velonorm * (maxv - minv)
         curve.append(clamp(int(round(velocity)), 1, 127))
 
     return curve
@@ -161,10 +123,8 @@ def generate_thresholds(sensitivity, gain, dynamics):
     cpmax = LookupTable.CPMAX[sensitivity]
     threshold0 = 33
     threshold1 = 31
-    return (threshold0,
-     threshold1,
-     int(cpmin),
-     int(cpmax))
+    return (
+     threshold0, threshold1, int(cpmin), int(cpmax))
 
 
 class PadVelocityCurveSettings(SerializableListenableProperties):
@@ -183,21 +143,17 @@ class PadVelocityCurveSender(Component):
     SEND_RATE = 0.5
     curve_points = listenable_property.managed([])
 
-    def __init__(self, curve_sysex_element = None, threshold_sysex_element = None, settings = None, chunk_size = None, *a, **k):
-        assert curve_sysex_element is not None
-        assert threshold_sysex_element is not None
-        assert settings is not None
-        assert chunk_size is not None
-        super(PadVelocityCurveSender, self).__init__(*a, **k)
+    def __init__(self, curve_sysex_element=None, threshold_sysex_element=None, settings=None, chunk_size=None, *a, **k):
+        (super(PadVelocityCurveSender, self).__init__)(*a, **k)
         self._curve_sysex_element = curve_sysex_element
         self._threshold_sysex_element = threshold_sysex_element
         self._settings = settings
         self._chunk_size = chunk_size
         self._send_task = self._tasks.add(task.sequence(task.wait(self.SEND_RATE), task.run(self._on_send_task_finished))).kill()
         self._settings_changed = False
-        self.register_slot(settings, self._on_setting_changed, u'sensitivity')
-        self.register_slot(settings, self._on_setting_changed, u'gain')
-        self.register_slot(settings, self._on_setting_changed, u'dynamics')
+        self.register_slot(settings, self._on_setting_changed, 'sensitivity')
+        self.register_slot(settings, self._on_setting_changed, 'gain')
+        self.register_slot(settings, self._on_setting_changed, 'dynamics')
         self._update_curve_model()
 
     def send(self):
@@ -213,7 +169,7 @@ class PadVelocityCurveSender(Component):
 
     def _send_thresholds(self):
         threshold_values = generate_thresholds(self._settings.sensitivity, self._settings.gain, self._settings.dynamics)
-        self._threshold_sysex_element.send_value(*threshold_values)
+        (self._threshold_sysex_element.send_value)(*threshold_values)
 
     def _generate_curve(self):
         return generate_velocity_curve(self._settings.sensitivity, self._settings.gain, self._settings.dynamics)

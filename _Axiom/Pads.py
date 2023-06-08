@@ -1,15 +1,12 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/_Axiom/Pads.py
 from __future__ import absolute_import, print_function, unicode_literals
-from builtins import range
-from builtins import object
+from builtins import object, range
 import Live
 from .consts import *
 
 class Pads(object):
-    u""" Class representing the Pads section on the Axiom controllers """
 
     def __init__(self, parent):
-        self.__parent = parent
+        self._Pads__parent = parent
 
     def build_midi_map(self, script_handle, midi_map_handle):
         for channel in range(4):
@@ -25,14 +22,15 @@ class Pads(object):
             index = pad_index + channel * 8
             if cc_value > 0:
                 if channel in range(4):
-                    if self.__parent.application().view.is_view_visible(u'Session'):
-                        tracks = self.__parent.song().visible_tracks
+                    if self._Pads__parent.application().view.is_view_visible('Session'):
+                        tracks = self._Pads__parent.song().visible_tracks
                         if len(tracks) > index:
                             current_track = tracks[index]
-                            clip_index = list(self.__parent.song().scenes).index(self.__parent.song().view.selected_scene)
+                            clip_index = list(self._Pads__parent.song().scenes).index(self._Pads__parent.song().view.selected_scene)
                             current_track.clip_slots[clip_index].fire()
-                    elif self.__parent.application().view.is_view_visible(u'Arranger'):
-                        if len(self.__parent.song().cue_points) > index:
-                            self.__parent.song().cue_points[index].jump()
-                elif channel == 15:
-                    self.__parent.bank_changed(pad_index)
+                    else:
+                        if not self._Pads__parent.application().view.is_view_visible('Arranger') or len(self._Pads__parent.song().cue_points) > index:
+                            self._Pads__parent.song().cue_points[index].jump()
+                else:
+                    if channel == 15:
+                        self._Pads__parent.bank_changed(pad_index)

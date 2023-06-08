@@ -1,13 +1,13 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/pushbase/quantization_component.py
 from __future__ import absolute_import, print_function, unicode_literals
 import Live
 from ableton.v2.base import clamp, listenable_property, listens
 from ableton.v2.control_surface import Component
 from ableton.v2.control_surface.control import ButtonControl, EncoderControl, StepEncoderControl, ToggleButtonControl
-from .consts import MessageBoxText, SIDE_BUTTON_COLORS
+from .consts import SIDE_BUTTON_COLORS, MessageBoxText
 from .message_box_component import Messenger
 RecordingQuantization = Live.Song.RecordingQuantization
-QUANTIZATION_OPTIONS = [RecordingQuantization.rec_q_quarter,
+QUANTIZATION_OPTIONS = [
+ RecordingQuantization.rec_q_quarter,
  RecordingQuantization.rec_q_eight,
  RecordingQuantization.rec_q_eight_triplet,
  RecordingQuantization.rec_q_eight_eight_triplet,
@@ -16,14 +16,12 @@ QUANTIZATION_OPTIONS = [RecordingQuantization.rec_q_quarter,
  RecordingQuantization.rec_q_sixtenth_sixtenth_triplet,
  RecordingQuantization.rec_q_thirtysecond]
 DEFAULT_QUANTIZATION_INDEX = QUANTIZATION_OPTIONS.index(RecordingQuantization.rec_q_sixtenth)
-QUANTIZATION_NAMES = (u'1/4', u'1/8', u'1/8T', u'1/8+T', u'1/16', u'1/16T', u'1/16+T', u'1/32')
-QUANTIZATION_NAMES_UNICODE = (u'\xbc', u'\u215b', u'\u215bT', u'\u215b+T', u'\ue001', u'\ue001T', u'\ue001+T', u'\ue002')
+QUANTIZATION_NAMES = ('1/4', '1/8', '1/8T', '1/8+T', '1/16', '1/16T', '1/16+T', '1/32')
+QUANTIZATION_NAMES_UNICODE = ('¼', '⅛', '⅛T', '⅛+T', '\ue001', '\ue001T', '\ue001+T',
+                              '\ue002')
 
 def quantize_amount_to_string(amount):
-    u"""
-    Converts a quantize amount [0. to 1.] into a string in percent
-    """
-    return u'%i%%' % int(amount * 100.0)
+    return '%i%%' % int(amount * 100.0)
 
 
 class QuantizationSettingsComponent(Component):
@@ -31,17 +29,18 @@ class QuantizationSettingsComponent(Component):
     quantize_to_encoder = StepEncoderControl()
     quantize_amount_encoder = EncoderControl()
     record_quantization_encoder = StepEncoderControl()
-    record_quantization_toggle_button = ToggleButtonControl(toggled_color=u'Recording.FixedLengthRecordingOn', untoggled_color=u'Recording.FixedLengthRecordingOff')
+    record_quantization_toggle_button = ToggleButtonControl(toggled_color='Recording.FixedLengthRecordingOn',
+      untoggled_color='Recording.FixedLengthRecordingOff')
     quantize_amount = listenable_property.managed(1.0)
     quantize_to_index = listenable_property.managed(DEFAULT_QUANTIZATION_INDEX)
     record_quantization_index = listenable_property.managed(DEFAULT_QUANTIZATION_INDEX)
 
-    def __init__(self, quantization_names = QUANTIZATION_NAMES, *a, **k):
-        super(QuantizationSettingsComponent, self).__init__(*a, **k)
+    def __init__(self, quantization_names=QUANTIZATION_NAMES, *a, **k):
+        (super(QuantizationSettingsComponent, self).__init__)(*a, **k)
         self._quantization_names = quantization_names
-        self.__on_swing_amount_changed.subject = self.song
-        self.__on_record_quantization_changed.subject = self.song
-        self.__on_record_quantization_changed()
+        self._QuantizationSettingsComponent__on_swing_amount_changed.subject = self.song
+        self._QuantizationSettingsComponent__on_record_quantization_changed.subject = self.song
+        self._QuantizationSettingsComponent__on_record_quantization_changed()
 
     @property
     def quantize_to(self):
@@ -88,11 +87,11 @@ class QuantizationSettingsComponent(Component):
     def record_quantization_toggle_button(self, value, button):
         self._update_record_quantization()
 
-    @listens(u'swing_amount')
+    @listens('swing_amount')
     def __on_swing_amount_changed(self):
         self.notify_swing_amount()
 
-    @listens(u'midi_recording_quantization')
+    @listens('midi_recording_quantization')
     def __on_record_quantization_changed(self):
         quant_value = self.song.midi_recording_quantization
         quant_on = quant_value != RecordingQuantization.rec_q_no_q
@@ -109,17 +108,21 @@ class QuantizationSettingsComponent(Component):
 class QuantizationComponent(Component, Messenger):
     action_button = ButtonControl(**SIDE_BUTTON_COLORS)
 
-    def __init__(self, settings_class = None, quantization_names = QUANTIZATION_NAMES, *a, **k):
-        assert settings_class is not None
-        super(QuantizationComponent, self).__init__(*a, **k)
-        self.settings = settings_class(name=u'Quantization_Settings', quantization_names=quantization_names, is_enabled=False, parent=self)
+    def __init__(self, settings_class=None, quantization_names=QUANTIZATION_NAMES, *a, **k):
+        (super(QuantizationComponent, self).__init__)(*a, **k)
+        self.settings = settings_class(name='Quantization_Settings',
+          quantization_names=quantization_names,
+          is_enabled=False,
+          parent=self)
         self._cancel_quantize = False
 
-    def quantize_pitch(self, note, source = None):
+    def quantize_pitch(self, note, source=None):
         clip = self.song.view.detail_clip
         if clip:
             clip.quantize_pitch(note, self.settings.quantize_to, self.settings.quantize_amount)
-            self.show_notification(MessageBoxText.QUANTIZE_CLIP_PITCH % dict(source=source, amount=quantize_amount_to_string(self.settings.quantize_amount), to=self.settings.selected_quantization_name))
+            self.show_notification(MessageBoxText.QUANTIZE_CLIP_PITCH % dict(source=source,
+              amount=(quantize_amount_to_string(self.settings.quantize_amount)),
+              to=(self.settings.selected_quantization_name)))
         self._cancel_quantize = True
 
     @action_button.pressed_delayed
@@ -134,7 +137,9 @@ class QuantizationComponent(Component, Messenger):
     @action_button.released_immediately
     def action_button(self, button):
         clip = self.song.view.detail_clip
-        if clip and not self._cancel_quantize:
-            clip.quantize(self.settings.quantize_to, self.settings.quantize_amount)
-            self.show_notification(MessageBoxText.QUANTIZE_CLIP % dict(amount=quantize_amount_to_string(self.settings.quantize_amount), to=self.settings.selected_quantization_name))
+        if clip:
+            if not self._cancel_quantize:
+                clip.quantize(self.settings.quantize_to, self.settings.quantize_amount)
+                self.show_notification(MessageBoxText.QUANTIZE_CLIP % dict(amount=(quantize_amount_to_string(self.settings.quantize_amount)),
+                  to=(self.settings.selected_quantization_name)))
         self._cancel_quantize = False

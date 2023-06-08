@@ -1,15 +1,13 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/ATOM/note_pad.py
 from __future__ import absolute_import, print_function, unicode_literals
-from builtins import object
-from ableton.v2.control_surface.control import PlayableControl
+from ableton.v3.control_surface.controls import PlayableControl
 
-class NotePadMixin(object):
+class NotePadMixin:
 
     def set_matrix(self, matrix):
-        super(NotePadMixin, self).set_matrix(matrix)
+        super().set_matrix(matrix)
         for button in self.matrix:
             button.set_mode(PlayableControl.Mode.playable_and_listenable)
-            button.pressed_color = u'NotePad.Pressed'
+            button.pressed_color = 'NotePad.Pressed'
 
     def _on_matrix_pressed(self, _):
         pass

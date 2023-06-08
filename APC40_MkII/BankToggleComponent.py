@@ -1,14 +1,13 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/APC40_MkII/BankToggleComponent.py
 from __future__ import absolute_import, print_function, unicode_literals
 from _Framework.ComboElement import ToggleElement
 from _Framework.Control import ToggleButtonControl
-from _Framework.ControlSurfaceComponent import ControlSurfaceComponent
+import _Framework.ControlSurfaceComponent as ControlSurfaceComponent
 
 class BankToggleComponent(ControlSurfaceComponent):
     bank_toggle_button = ToggleButtonControl()
 
     def __init__(self, *a, **k):
-        super(BankToggleComponent, self).__init__(*a, **k)
+        (super(BankToggleComponent, self).__init__)(*a, **k)
         self._toggle_elements = []
 
     @bank_toggle_button.toggled

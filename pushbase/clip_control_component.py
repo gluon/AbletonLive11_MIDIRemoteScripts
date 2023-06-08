@@ -1,19 +1,17 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/pushbase/clip_control_component.py
-from __future__ import absolute_import, print_function, unicode_literals
-from __future__ import division
-from builtins import str
-from builtins import range
+from __future__ import absolute_import, division, print_function, unicode_literals
+from builtins import range, str
 from past.utils import old_div
 import Live
 from ableton.v2.base import EventObject, clamp, forward_property, listenable_property, listens, liveobj_valid, nop
 from ableton.v2.control_surface import Component
-from ableton.v2.control_surface.control import ButtonControl, control_list, EncoderControl, StepEncoderControl
-from ableton.v2.control_surface.mode import ModesComponent
+from ableton.v2.control_surface.control import ButtonControl, EncoderControl, StepEncoderControl, control_list
 from ableton.v2.control_surface.elements import DisplayDataSource
+from ableton.v2.control_surface.mode import ModesComponent
 ONE_THIRTYSECOND_IN_BEATS = 0.125
 ONE_SIXTEENTH_IN_BEATS = 0.25
 ONE_YEAR_AT_120BPM_IN_BEATS = 63072000.0
-GRID_QUANTIZATION_LIST = [Live.Clip.GridQuantization.no_grid,
+GRID_QUANTIZATION_LIST = [
+ Live.Clip.GridQuantization.no_grid,
  Live.Clip.GridQuantization.g_thirtysecond,
  Live.Clip.GridQuantization.g_sixteenth,
  Live.Clip.GridQuantization.g_eighth,
@@ -23,18 +21,18 @@ GRID_QUANTIZATION_LIST = [Live.Clip.GridQuantization.no_grid,
  Live.Clip.GridQuantization.g_2_bars,
  Live.Clip.GridQuantization.g_4_bars,
  Live.Clip.GridQuantization.g_8_bars]
-WARP_MODE_NAMES = {Live.Clip.WarpMode.beats: u'Beats',
- Live.Clip.WarpMode.tones: u'Tones',
- Live.Clip.WarpMode.texture: u'Texture',
- Live.Clip.WarpMode.repitch: u'Repitch',
- Live.Clip.WarpMode.complex: u'Complex',
- Live.Clip.WarpMode.complex_pro: u'Pro',
- Live.Clip.WarpMode.rex: u'Rex'}
+WARP_MODE_NAMES = {Live.Clip.WarpMode.beats: 'Beats', 
+ Live.Clip.WarpMode.tones: 'Tones', 
+ Live.Clip.WarpMode.texture: 'Texture', 
+ Live.Clip.WarpMode.repitch: 'Repitch', 
+ Live.Clip.WarpMode.complex: 'Complex', 
+ Live.Clip.WarpMode.complex_pro: 'Pro', 
+ Live.Clip.WarpMode.rex: 'Rex'}
 
 def convert_beat_time_to_bars_beats_sixteenths(numerator_denominator, beat_time):
     numerator, denominator = numerator_denominator
     if beat_time is None:
-        return u'-'
+        return '-'
     beats_per_bar = one_bar_in_note_values((numerator, denominator), 4.0)
     musical_beats_per_beat = old_div(denominator, 4.0)
     if beat_time >= 0:
@@ -43,35 +41,35 @@ def convert_beat_time_to_bars_beats_sixteenths(numerator_denominator, beat_time)
         bars = int(old_div(beat_time, beats_per_bar)) if beat_time % beats_per_bar == 0 else int(old_div(beat_time, beats_per_bar)) - 1
     beats = 1 + int(beat_time % beats_per_bar * musical_beats_per_beat)
     sixteenths = 1 + int(beat_time % old_div(1.0, musical_beats_per_beat) * 4.0)
-    return u'%i.%i.%i' % (bars, beats, sixteenths)
+    return '%i.%i.%i' % (bars, beats, sixteenths)
 
 
 def convert_beat_length_to_bars_beats_sixteenths(numerator_denominator, beat_length):
     numerator, denominator = numerator_denominator
     if beat_length is None:
-        return u'-'
+        return '-'
     beats_per_bar = one_bar_in_note_values((numerator, denominator), 4.0)
     musical_beats_per_beat = old_div(denominator, 4.0)
     bars = int(old_div(beat_length, beats_per_bar))
     beats = int(beat_length % beats_per_bar * musical_beats_per_beat)
     sixteenths = int(beat_length % old_div(1.0, musical_beats_per_beat) * 4.0)
-    return u'%i.%i.%i' % (bars, beats, sixteenths)
+    return '%i.%i.%i' % (bars, beats, sixteenths)
 
 
 def is_new_recording(clip):
     return clip.is_recording and not clip.is_overdubbing
 
 
-def one_bar_in_note_values(numerator_denominator, note_value = 4.0):
+def one_bar_in_note_values(numerator_denominator, note_value=4.0):
     numerator, denominator = numerator_denominator
     return old_div(note_value * numerator, denominator)
 
 
 class LoopSettingsModel(EventObject):
-    __events__ = (u'looping', u'loop_start', u'loop_end', u'loop_length', u'position', u'start_marker')
+    __events__ = ('looping', 'loop_start', 'loop_end', 'loop_length', 'position', 'start_marker')
 
     def __init__(self, song, *a, **k):
-        super(LoopSettingsModel, self).__init__(*a, **k)
+        (super(LoopSettingsModel, self).__init__)(*a, **k)
         self.clip = None
         self._song = song
 
@@ -90,31 +88,31 @@ class LoopSettingsModel(EventObject):
         self._on_position_changed.subject = clip
         self.notify_clip()
 
-    loop_start = forward_property(u'clip')(u'loop_start')
-    start_marker = forward_property(u'clip')(u'start_marker')
-    loop_end = forward_property(u'clip')(u'loop_end')
-    looping = forward_property(u'clip')(u'looping')
-    position = forward_property(u'clip')(u'position')
+    loop_start = forward_property('clip')('loop_start')
+    start_marker = forward_property('clip')('start_marker')
+    loop_end = forward_property('clip')('loop_end')
+    looping = forward_property('clip')('looping')
+    position = forward_property('clip')('position')
 
-    @listens(u'looping')
+    @listens('looping')
     def _on_looping_changed(self):
         self.notify_looping()
 
-    @listens(u'start_marker')
+    @listens('start_marker')
     def _on_start_marker_changed(self):
         self.notify_start_marker()
 
-    @listens(u'loop_start')
+    @listens('loop_start')
     def _on_loop_start_changed(self):
         self._update_loop_length()
         self.notify_loop_start()
 
-    @listens(u'loop_end')
+    @listens('loop_end')
     def _on_loop_end_changed(self):
         self._update_loop_length()
         self.notify_loop_end()
 
-    @listens(u'position')
+    @listens('position')
     def _on_position_changed(self):
         self.notify_position()
 
@@ -135,12 +133,13 @@ class LoopSettingsModel(EventObject):
 
     @property
     def can_loop(self):
-        return self.clip.is_midi_clip or self.clip.is_audio_clip and self.clip.warping
+        return (self.clip.is_midi_clip) or ((self.clip.is_audio_clip) and (self.clip.warping))
 
     def move_start_marker(self, value, fine_grained):
         marker = self.clip.start_marker if self.looping else self.clip.loop_start
         new_value = marker + self._adjusted_offset(value, fine_grained)
-        signature = (self.clip.signature_numerator, self.clip.signature_denominator)
+        signature = (
+         self.clip.signature_numerator, self.clip.signature_denominator)
         measure_in_beats = one_bar_in_note_values(signature)
         measure_in_sixteenths = one_bar_in_note_values(signature, 16.0)
         additional_offset = old_div(measure_in_beats, measure_in_sixteenths) * (measure_in_sixteenths - 1) if fine_grained else 0.0
@@ -168,7 +167,8 @@ class LoopSettingsModel(EventObject):
                 self.clip.loop_end = new_end
 
     def _adjusted_offset(self, value, fine_grained):
-        return value * self._encoder_factor(fine_grained) * one_bar_in_note_values((self.clip.signature_numerator, self.clip.signature_denominator))
+        return value * self._encoder_factor(fine_grained) * one_bar_in_note_values((
+         self.clip.signature_numerator, self.clip.signature_denominator))
 
     def _encoder_factor(self, fine_grained):
         if fine_grained:
@@ -181,28 +181,34 @@ class LoopSettingsControllerComponent(Component):
     shift_button = ButtonControl()
 
     def __init__(self, *a, **k):
-        super(LoopSettingsControllerComponent, self).__init__(*a, **k)
-        self._encoder_callbacks_looped = [self._on_clip_position_value,
+        (super(LoopSettingsControllerComponent, self).__init__)(*a, **k)
+        self._encoder_callbacks_looped = [
+         self._on_clip_position_value,
          self._on_clip_end_value,
          self._on_clip_start_marker_value,
          self._on_clip_looping_value]
-        self._encoder_callbacks_unlooped = [self._on_clip_start_marker_value,
+        self._encoder_callbacks_unlooped = [
+         self._on_clip_start_marker_value,
          self._on_clip_end_value,
          nop,
          self._on_clip_looping_value]
-        self._touched_encoder_callbacks_looped = [self._on_clip_position_touched,
+        self._touched_encoder_callbacks_looped = [
+         self._on_clip_position_touched,
          self._on_clip_end_touched,
          self._on_clip_start_marker_touched,
          self._on_clip_looping_touched]
-        self._touched_encoder_callbacks_unlooped = [self._on_clip_position_touched,
+        self._touched_encoder_callbacks_unlooped = [
+         self._on_clip_position_touched,
          self._on_clip_end_touched,
          nop,
          self._on_clip_looping_touched]
-        self._released_encoder_callbacks_looped = [self._on_clip_position_released,
+        self._released_encoder_callbacks_looped = [
+         self._on_clip_position_released,
          self._on_clip_end_released,
          self._on_clip_start_marker_released,
          self._on_clip_looping_released]
-        self._released_encoder_callbacks_unlooped = [self._on_clip_position_released,
+        self._released_encoder_callbacks_unlooped = [
+         self._on_clip_position_released,
          self._on_clip_end_released,
          nop,
          self._on_clip_looping_released]
@@ -255,8 +261,9 @@ class LoopSettingsControllerComponent(Component):
     def _on_clip_looping_value(self, value):
         if self._loop_model.can_loop:
             currently_looping = self._loop_model.looping
-            if value >= 0 and not currently_looping or value < 0 and currently_looping:
-                self._loop_model.looping = not currently_looping
+            if not value >= 0 or currently_looping:
+                if not value < 0 or currently_looping:
+                    self._loop_model.looping = not currently_looping
 
     def _on_clip_start_marker_touched(self):
         pass
@@ -284,18 +291,15 @@ class LoopSettingsControllerComponent(Component):
 
 
 class LoopSettingsComponent(LoopSettingsControllerComponent):
-    u"""
-    Component for managing loop settings of a clip
-    """
 
     def __init__(self, *a, **k):
-        super(LoopSettingsComponent, self).__init__(*a, **k)
-        self._name_sources = [ DisplayDataSource() for _ in range(4) ]
-        self._value_sources = [ DisplayDataSource() for _ in range(4) ]
-        self.__on_looping_changed.subject = self._loop_model
-        self.__on_start_marker_changed.subject = self._loop_model
-        self.__on_loop_start_changed.subject = self._loop_model
-        self.__on_loop_end_changed.subject = self._loop_model
+        (super(LoopSettingsComponent, self).__init__)(*a, **k)
+        self._name_sources = [DisplayDataSource() for _ in range(4)]
+        self._value_sources = [DisplayDataSource() for _ in range(4)]
+        self._LoopSettingsComponent__on_looping_changed.subject = self._loop_model
+        self._LoopSettingsComponent__on_start_marker_changed.subject = self._loop_model
+        self._LoopSettingsComponent__on_loop_start_changed.subject = self._loop_model
+        self._LoopSettingsComponent__on_loop_end_changed.subject = self._loop_model
 
     def set_name_display(self, display):
         if display:
@@ -306,24 +310,26 @@ class LoopSettingsComponent(LoopSettingsControllerComponent):
             display.set_data_sources(self._value_sources)
 
     def convert_beat_time_to_bars_beats_sixteenths(self, clip, beat_time):
-        return convert_beat_time_to_bars_beats_sixteenths((clip.signature_numerator, clip.signature_denominator), beat_time)
+        return convert_beat_time_to_bars_beats_sixteenths((
+         clip.signature_numerator, clip.signature_denominator), beat_time)
 
     def convert_beat_length_to_bars_beats_sixteenths(self, clip, beat_length):
-        return convert_beat_length_to_bars_beats_sixteenths((clip.signature_numerator, clip.signature_denominator), beat_length)
+        return convert_beat_length_to_bars_beats_sixteenths((
+         clip.signature_numerator, clip.signature_denominator), beat_length)
 
     def _on_clip_changed(self):
-        self.__on_signature_denominator_changed.subject = self._loop_model.clip
-        self.__on_signature_denominator_changed()
-        self.__on_signature_numerator_changed.subject = self._loop_model.clip
-        self.__on_signature_numerator_changed()
+        self._LoopSettingsComponent__on_signature_denominator_changed.subject = self._loop_model.clip
+        self._LoopSettingsComponent__on_signature_denominator_changed()
+        self._LoopSettingsComponent__on_signature_numerator_changed.subject = self._loop_model.clip
+        self._LoopSettingsComponent__on_signature_numerator_changed()
 
-    @listens(u'signature_denominator')
+    @listens('signature_denominator')
     def __on_signature_denominator_changed(self):
-        self.__update_position_sources()
+        self._LoopSettingsComponent__update_position_sources()
 
-    @listens(u'signature_numerator')
+    @listens('signature_numerator')
     def __on_signature_numerator_changed(self):
-        self.__update_position_sources()
+        self._LoopSettingsComponent__update_position_sources()
 
     def __update_position_sources(self):
         self._update_start_marker_source()
@@ -331,73 +337,70 @@ class LoopSettingsComponent(LoopSettingsControllerComponent):
         self._update_loop_end_source()
         self._update_position_source()
 
-    @listens(u'looping')
+    @listens('looping')
     def __on_looping_changed(self):
         if self.is_enabled():
             self._update_is_looping_source()
             self._update_loop_end_source()
             self._update_start_marker_source()
 
-    @listens(u'start_marker')
+    @listens('start_marker')
     def __on_start_marker_changed(self):
         self._update_start_marker_source()
 
-    @listens(u'loop_start')
+    @listens('loop_start')
     def __on_loop_start_changed(self):
         self._update_loop_start_source()
         self._update_position_source()
         self._update_loop_end_source()
 
-    @listens(u'loop_end')
+    @listens('loop_end')
     def __on_loop_end_changed(self):
         self._update_position_source()
         self._update_loop_end_source()
 
     def _update_start_marker_source(self):
         looping = self._loop_model.looping if liveobj_valid(self.clip) else False
-        self._value_sources[2].set_display_string(self.convert_beat_time_to_bars_beats_sixteenths(self.clip, self._loop_model.start_marker) if looping else u'')
+        self._value_sources[2].set_display_string(self.convert_beat_time_to_bars_beats_sixteenths(self.clip, self._loop_model.start_marker) if looping else '')
 
     def _update_is_looping_source(self):
         looping = self._loop_model.looping if liveobj_valid(self.clip) else False
-        self._name_sources[0].set_display_string(u'Position' if looping else u'Start')
-        self._name_sources[1].set_display_string(u'Length' if looping else u'End')
-        self._name_sources[2].set_display_string(u'Offset' if looping else u'')
+        self._name_sources[0].set_display_string('Position' if looping else 'Start')
+        self._name_sources[1].set_display_string('Length' if looping else 'End')
+        self._name_sources[2].set_display_string('Offset' if looping else '')
 
     def _update_loop_start_source(self):
-        self._value_sources[0].set_display_string(self.convert_beat_time_to_bars_beats_sixteenths(self.clip, self._loop_model.loop_start) if self.clip else u'-')
+        self._value_sources[0].set_display_string(self.convert_beat_time_to_bars_beats_sixteenths(self.clip, self._loop_model.loop_start) if self.clip else '-')
 
     def _update_loop_end_source(self):
         if liveobj_valid(self.clip) and not is_new_recording(self.clip):
             looping = self._loop_model.looping
             self._value_sources[1].set_display_string(self.convert_beat_length_to_bars_beats_sixteenths(self.clip, self._loop_model.loop_length) if looping else self.convert_beat_time_to_bars_beats_sixteenths(self.clip, self._loop_model.loop_end))
-            self._value_sources[3].set_display_string(u'On' if looping else u'Off')
+            self._value_sources[3].set_display_string('On' if looping else 'Off')
         else:
-            self._value_sources[1].set_display_string(u'-')
-            self._value_sources[3].set_display_string(u'-')
+            self._value_sources[1].set_display_string('-')
+            self._value_sources[3].set_display_string('-')
 
     def _update_position_source(self):
-        self._value_sources[0].set_display_string(self.convert_beat_time_to_bars_beats_sixteenths(self.clip, self._loop_model.position) if liveobj_valid(self.clip) else u'-')
+        self._value_sources[0].set_display_string(self.convert_beat_time_to_bars_beats_sixteenths(self.clip, self._loop_model.position) if liveobj_valid(self.clip) else '-')
 
     def update(self):
         super(LoopSettingsComponent, self).update()
         if self.is_enabled():
-            for index, label in enumerate([u'Position',
-             u'Length',
-             u'Offset',
-             u'Loop']):
+            for index, label in enumerate(['Position', 'Length', 'Offset', 'Loop']):
                 self._name_sources[index].set_display_string(label)
 
-            self.__on_loop_start_changed()
-            self.__on_loop_end_changed()
-            self.__on_looping_changed()
-            self.__on_start_marker_changed()
+            self._LoopSettingsComponent__on_loop_start_changed()
+            self._LoopSettingsComponent__on_loop_end_changed()
+            self._LoopSettingsComponent__on_looping_changed()
+            self._LoopSettingsComponent__on_start_marker_changed()
 
 
 class AudioClipSettingsModel(EventObject):
-    __events__ = (u'pitch_fine', u'pitch_coarse', u'gain', u'warp_mode', u'warping')
+    __events__ = ('pitch_fine', 'pitch_coarse', 'gain', 'warp_mode', 'warping')
 
     def __init__(self, *a, **k):
-        super(AudioClipSettingsModel, self).__init__(*a, **k)
+        (super(AudioClipSettingsModel, self).__init__)(*a, **k)
         self.clip = None
 
     def _get_clip(self):
@@ -405,17 +408,17 @@ class AudioClipSettingsModel(EventObject):
 
     def _set_clip(self, clip):
         self._clip = clip
-        self.__on_pitch_fine_changed.subject = self._clip
-        self.__on_pitch_coarse_changed.subject = self._clip
-        self.__on_gain_changed.subject = self._clip
-        self.__on_warp_mode_changed.subject = self._clip
-        self.__on_warping_changed.subject = self._clip
+        self._AudioClipSettingsModel__on_pitch_fine_changed.subject = self._clip
+        self._AudioClipSettingsModel__on_pitch_coarse_changed.subject = self._clip
+        self._AudioClipSettingsModel__on_gain_changed.subject = self._clip
+        self._AudioClipSettingsModel__on_warp_mode_changed.subject = self._clip
+        self._AudioClipSettingsModel__on_warping_changed.subject = self._clip
 
     clip = property(_get_clip, _set_clip)
-    pitch_fine = forward_property(u'clip')(u'pitch_fine')
-    pitch_coarse = forward_property(u'clip')(u'pitch_coarse')
-    gain = forward_property(u'clip')(u'gain')
-    warping = forward_property(u'clip')(u'warping')
+    pitch_fine = forward_property('clip')('pitch_fine')
+    pitch_coarse = forward_property('clip')('pitch_coarse')
+    gain = forward_property('clip')('gain')
+    warping = forward_property('clip')('warping')
 
     def _get_warp_mode(self):
         return self.clip.warp_mode
@@ -443,23 +446,23 @@ class AudioClipSettingsModel(EventObject):
             return 0.1
         return 1.0
 
-    @listens(u'pitch_fine')
+    @listens('pitch_fine')
     def __on_pitch_fine_changed(self):
         self.notify_pitch_fine()
 
-    @listens(u'pitch_coarse')
+    @listens('pitch_coarse')
     def __on_pitch_coarse_changed(self):
         self.notify_pitch_coarse()
 
-    @listens(u'gain')
+    @listens('gain')
     def __on_gain_changed(self):
         self.notify_gain()
 
-    @listens(u'warp_mode')
+    @listens('warp_mode')
     def __on_warp_mode_changed(self):
         self.notify_warp_mode()
 
-    @listens(u'warping')
+    @listens('warping')
     def __on_warping_changed(self):
         self.notify_warping()
 
@@ -471,9 +474,6 @@ class AudioClipSettingsModel(EventObject):
 
 
 class AudioClipSettingsControllerComponent(Component):
-    u"""
-    Component for managing settings of an audio clip
-    """
     warp_mode_encoder = StepEncoderControl()
     transpose_encoder = StepEncoderControl()
     detune_encoder = EncoderControl()
@@ -481,7 +481,7 @@ class AudioClipSettingsControllerComponent(Component):
     shift_button = ButtonControl()
 
     def __init__(self, *a, **k):
-        super(AudioClipSettingsControllerComponent, self).__init__(*a, **k)
+        (super(AudioClipSettingsControllerComponent, self).__init__)(*a, **k)
         self._audio_clip_model = self.register_disconnectable(AudioClipSettingsModel())
 
     def _get_clip(self):
@@ -527,14 +527,14 @@ class AudioClipSettingsControllerComponent(Component):
 class AudioClipSettingsComponent(AudioClipSettingsControllerComponent):
 
     def __init__(self, *a, **k):
-        super(AudioClipSettingsComponent, self).__init__(*a, **k)
-        self._name_sources = [ DisplayDataSource() for _ in range(4) ]
-        self._value_sources = [ DisplayDataSource() for _ in range(4) ]
-        self.__on_pitch_fine_changed.subject = self._audio_clip_model
-        self.__on_pitch_coarse_changed.subject = self._audio_clip_model
-        self.__on_gain_changed.subject = self._audio_clip_model
-        self.__on_warping_changed.subject = self._audio_clip_model
-        self.__on_warp_mode_changed.subject = self._audio_clip_model
+        (super(AudioClipSettingsComponent, self).__init__)(*a, **k)
+        self._name_sources = [DisplayDataSource() for _ in range(4)]
+        self._value_sources = [DisplayDataSource() for _ in range(4)]
+        self._AudioClipSettingsComponent__on_pitch_fine_changed.subject = self._audio_clip_model
+        self._AudioClipSettingsComponent__on_pitch_coarse_changed.subject = self._audio_clip_model
+        self._AudioClipSettingsComponent__on_gain_changed.subject = self._audio_clip_model
+        self._AudioClipSettingsComponent__on_warping_changed.subject = self._audio_clip_model
+        self._AudioClipSettingsComponent__on_warp_mode_changed.subject = self._audio_clip_model
 
     def _on_clip_changed(self):
         self.update()
@@ -547,56 +547,53 @@ class AudioClipSettingsComponent(AudioClipSettingsControllerComponent):
         if display:
             display.set_data_sources(self._value_sources)
 
-    @listens(u'warp_mode')
+    @listens('warp_mode')
     def __on_warp_mode_changed(self):
         if self.is_enabled():
             self._update_warp_mode_source()
 
-    @listens(u'warping')
+    @listens('warping')
     def __on_warping_changed(self):
         if self.is_enabled():
             self._update_warp_mode_source()
 
-    @listens(u'gain')
+    @listens('gain')
     def __on_gain_changed(self):
         if self.is_enabled():
             self._update_gain_source()
 
-    @listens(u'pitch_fine')
+    @listens('pitch_fine')
     def __on_pitch_fine_changed(self):
         if self.is_enabled():
             self._update_pitch_fine_source()
 
-    @listens(u'pitch_coarse')
+    @listens('pitch_coarse')
     def __on_pitch_coarse_changed(self):
         if self.is_enabled():
             self._update_pitch_coarse_source()
 
     def _update_warp_mode_source(self):
-        display_value = u'-'
+        display_value = '-'
         if liveobj_valid(self.clip):
-            display_value = WARP_MODE_NAMES[self.clip.warp_mode] if liveobj_valid(self.clip) and self.clip.warping else u'Off'
+            display_value = WARP_MODE_NAMES[self.clip.warp_mode] if (liveobj_valid(self.clip)) and (self.clip.warping) else 'Off'
         self._value_sources[0].set_display_string(display_value)
 
     def _update_gain_source(self):
-        value = self.clip.gain_display_string if liveobj_valid(self.clip) else u'-'
+        value = self.clip.gain_display_string if liveobj_valid(self.clip) else '-'
         self._value_sources[3].set_display_string(value)
 
     def _update_pitch_fine_source(self):
-        value = str(int(self.clip.pitch_fine)) + u' ct' if liveobj_valid(self.clip) else u'-'
+        value = str(int(self.clip.pitch_fine)) + ' ct' if liveobj_valid(self.clip) else '-'
         self._value_sources[2].set_display_string(value)
 
     def _update_pitch_coarse_source(self):
-        value = str(int(self.clip.pitch_coarse)) + u' st' if liveobj_valid(self.clip) else u'-'
+        value = str(int(self.clip.pitch_coarse)) + ' st' if liveobj_valid(self.clip) else '-'
         self._value_sources[1].set_display_string(value)
 
     def update(self):
         super(AudioClipSettingsComponent, self).update()
         if self.is_enabled():
-            for index, label in enumerate([u'WarpMode',
-             u'Transpose',
-             u'Detune',
-             u'Gain']):
+            for index, label in enumerate(['WarpMode', 'Transpose', 'Detune', 'Gain']):
                 self._name_sources[index].set_display_string(label)
 
             self._update_warp_mode_source()
@@ -606,16 +603,13 @@ class AudioClipSettingsComponent(AudioClipSettingsControllerComponent):
 
 
 class ClipNameComponent(Component):
-    u"""
-    Component for showing the clip name
-    """
     num_label_segments = 4
 
     def __init__(self, *a, **k):
-        super(ClipNameComponent, self).__init__(*a, **k)
+        (super(ClipNameComponent, self).__init__)(*a, **k)
         self._clip = None
-        self._name_data_sources = [ DisplayDataSource() for _ in range(self.num_label_segments) ]
-        self._name_data_sources[0].set_display_string(u'Clip Selection:')
+        self._name_data_sources = [DisplayDataSource() for _ in range(self.num_label_segments)]
+        self._name_data_sources[0].set_display_string('Clip Selection:')
 
     def _get_clip(self):
         return self._clip
@@ -634,7 +628,7 @@ class ClipNameComponent(Component):
             for idx in range(self.num_label_segments):
                 display.segment(idx).set_data_source(self._name_data_sources[idx])
 
-    @listens(u'name')
+    @listens('name')
     def _on_name_changed(self):
         if self.is_enabled():
             self._update_clip_name()
@@ -643,9 +637,8 @@ class ClipNameComponent(Component):
         if clip:
             if clip.name:
                 return clip.name
-            return u'[unnamed]'
-        else:
-            return u'[none]'
+            return '[unnamed]'
+        return '[none]'
 
     def _update_clip_name(self):
         self._name_data_sources[1].set_display_string(self._name_for_clip(self._clip))
@@ -657,33 +650,36 @@ class ClipNameComponent(Component):
 
 
 class ClipControlComponent(ModesComponent):
-    u"""
-    Component that modifies clip properties
-    """
 
-    def __init__(self, loop_layer = None, audio_layer = None, clip_name_layer = None, *a, **k):
-        super(ClipControlComponent, self).__init__(*a, **k)
-        self._audio_clip_settings = AudioClipSettingsComponent(parent=self, is_enabled=False, layer=audio_layer)
-        self._loop_settings = LoopSettingsComponent(parent=self, is_enabled=False, layer=loop_layer)
-        self._clip_name = ClipNameComponent(parent=self, is_enabled=False, layer=clip_name_layer)
-        self.add_mode(u'no_clip', (self._clip_name,))
-        self.add_mode(u'midi', (self._loop_settings, self._clip_name))
-        self.add_mode(u'audio', (self._loop_settings, self._audio_clip_settings, self._clip_name))
-        self.selected_mode = u'no_clip'
+    def __init__(self, loop_layer=None, audio_layer=None, clip_name_layer=None, *a, **k):
+        (super(ClipControlComponent, self).__init__)(*a, **k)
+        self._audio_clip_settings = AudioClipSettingsComponent(parent=self,
+          is_enabled=False,
+          layer=audio_layer)
+        self._loop_settings = LoopSettingsComponent(parent=self,
+          is_enabled=False,
+          layer=loop_layer)
+        self._clip_name = ClipNameComponent(parent=self,
+          is_enabled=False,
+          layer=clip_name_layer)
+        self.add_mode('no_clip', (self._clip_name,))
+        self.add_mode('midi', (self._loop_settings, self._clip_name))
+        self.add_mode('audio', (self._loop_settings, self._audio_clip_settings, self._clip_name))
+        self.selected_mode = 'no_clip'
         self._update_clip()
         self._on_detail_clip_changed.subject = self.song.view
         self._on_selected_scene_changed.subject = self.song.view
         self._on_selected_track_changed.subject = self.song.view
 
-    @listens(u'selected_scene')
+    @listens('selected_scene')
     def _on_selected_scene_changed(self):
         self._update_clip()
 
-    @listens(u'selected_track')
+    @listens('selected_track')
     def _on_selected_track_changed(self):
         self._update_clip()
 
-    @listens(u'detail_clip')
+    @listens('detail_clip')
     def _on_detail_clip_changed(self):
         self._update_clip()
 
@@ -694,15 +690,16 @@ class ClipControlComponent(ModesComponent):
 
     def _update_mode(self):
         track = self.song.view.selected_track
-        new_mode = u'no_clip'
-        if track.clip_slots and (track.has_midi_input or track.has_audio_input):
-            new_mode = u'midi' if track.has_midi_input else u'audio'
+        new_mode = 'no_clip'
+        if track.clip_slots:
+            if track.has_midi_input or track.has_audio_input:
+                new_mode = 'midi' if track.has_midi_input else 'audio'
         self.selected_mode = new_mode
 
     def _update_clip(self):
         self._update_mode()
         clip = self.song.view.detail_clip if self.is_enabled() else None
-        audio_clip = clip if liveobj_valid(clip) and clip.is_audio_clip else None
+        audio_clip = clip if (liveobj_valid(clip)) and (clip.is_audio_clip) else None
         self._clip_name.clip = clip
         self._loop_settings.clip = clip
         self._audio_clip_settings.clip = audio_clip

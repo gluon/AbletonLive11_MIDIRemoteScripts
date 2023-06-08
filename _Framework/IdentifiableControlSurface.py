@@ -1,25 +1,15 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/_Framework/IdentifiableControlSurface.py
 from __future__ import absolute_import, print_function, unicode_literals
 from builtins import str
-from .ControlSurface import ControlSurface
 from . import Task
+from .ControlSurface import ControlSurface
 SYSEX_IDENTITY_REQUEST = (240, 126, 0, 6, 1, 247)
 
 class IdentifiableControlSurface(ControlSurface):
-    u"""
-    Control surface that sends an identity request to verify the right device is
-    linked to it.
-    If the data bytes of the response start with product_id_bytes, the device will
-    call on_identified.
-    Data bytes start at index 5 and cannot be longer than 12 bytes.
-    """
     identity_request_delay = 0.5
     identity_request = SYSEX_IDENTITY_REQUEST
 
-    def __init__(self, product_id_bytes = None, *a, **k):
-        super(IdentifiableControlSurface, self).__init__(*a, **k)
-        assert product_id_bytes is not None
-        assert len(product_id_bytes) < 12
+    def __init__(self, product_id_bytes=None, *a, **k):
+        (super(IdentifiableControlSurface, self).__init__)(*a, **k)
         self._product_id_bytes = product_id_bytes
         self._identity_response_pending = False
         self._request_task = self._tasks.add(Task.sequence(Task.wait(self.identity_request_delay), Task.run(self._send_identity_request)))
@@ -40,7 +30,8 @@ class IdentifiableControlSurface(ControlSurface):
                     self.on_identified()
                     self._identity_response_pending = False
             else:
-                self.log_message(u'MIDI device responded with wrong product id (%s != %s).' % (str(self._product_id_bytes), str(product_id_bytes)))
+                self.log_message('MIDI device responded with wrong product id (%s != %s).' % (
+                 str(self._product_id_bytes), str(product_id_bytes)))
         else:
             super(IdentifiableControlSurface, self).handle_sysex(midi_bytes)
 

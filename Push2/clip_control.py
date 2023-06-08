@@ -1,18 +1,17 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Push2/clip_control.py
-from __future__ import absolute_import, print_function, unicode_literals
-from __future__ import division
-from builtins import map
-from builtins import round
-from builtins import str
+from __future__ import absolute_import, division, print_function, unicode_literals
+from builtins import map, round, str
 from past.utils import old_div
-from itertools import chain
 from contextlib import contextmanager
+from itertools import chain
 from MidiRemoteScript import MutableVector
-from ableton.v2.base import listens, listens_group, liveobj_valid, listenable_property, old_hasattr, task
+from ableton.v2.base import listenable_property, listens, listens_group, liveobj_valid, old_hasattr, task
 from ableton.v2.control_surface import Component, WrappingParameter
 from ableton.v2.control_surface.control import ButtonControl, EncoderControl, MappedSensitivitySettingControl, ToggleButtonControl
 from ableton.v2.control_surface.mode import ModesComponent
-from pushbase.clip_control_component import convert_beat_length_to_bars_beats_sixteenths, convert_beat_time_to_bars_beats_sixteenths, LoopSettingsControllerComponent as LoopSettingsControllerComponentBase, AudioClipSettingsControllerComponent as AudioClipSettingsControllerComponentBase, ONE_YEAR_AT_120BPM_IN_BEATS, WARP_MODE_NAMES
+from pushbase.clip_control_component import ONE_YEAR_AT_120BPM_IN_BEATS, WARP_MODE_NAMES
+from pushbase.clip_control_component import AudioClipSettingsControllerComponent as AudioClipSettingsControllerComponentBase
+from pushbase.clip_control_component import LoopSettingsControllerComponent as LoopSettingsControllerComponentBase
+from pushbase.clip_control_component import convert_beat_length_to_bars_beats_sixteenths, convert_beat_time_to_bars_beats_sixteenths
 from pushbase.note_editor_component import DEFAULT_START_NOTE
 from .clip_decoration import ClipDecoratorFactory
 from .colors import COLOR_INDEX_TO_SCREEN_COLOR
@@ -20,12 +19,9 @@ from .decoration import find_decorated_object
 from .drum_group_component import DrumPadColorNotifier
 from .real_time_channel import RealTimeDataComponent
 from .timeline_navigation import ObjectDescription
-PARAMETERS_LOOPED = (u'Loop position', u'Loop length', u'Start offset')
-PARAMETERS_NOT_LOOPED = (u'Start', u'End')
-PARAMETERS_AUDIO = (u'Warp',
- u'Transpose',
- u'Detune',
- u'Gain')
+PARAMETERS_LOOPED = ('Loop position', 'Loop length', 'Start offset')
+PARAMETERS_NOT_LOOPED = ('Start', 'End')
+PARAMETERS_AUDIO = ('Warp', 'Transpose', 'Detune', 'Gain')
 
 def make_color_vector(color_indices):
     color_vector = MutableVector()
@@ -47,14 +43,13 @@ class LoopSetting(WrappingParameter):
     min = -ONE_YEAR_AT_120BPM_IN_BEATS
     max = ONE_YEAR_AT_120BPM_IN_BEATS
 
-    def __init__(self, use_length_conversion = False, *a, **k):
-        super(LoopSetting, self).__init__(*a, **k)
-        assert self.canonical_parent is not None
+    def __init__(self, use_length_conversion=False, *a, **k):
+        (super(LoopSetting, self).__init__)(*a, **k)
         self._conversion = convert_beat_length_to_bars_beats_sixteenths if use_length_conversion else convert_beat_time_to_bars_beats_sixteenths
         self._recording = False
         self.set_property_host(self._parent)
-        self.__on_clip_changed.subject = self.canonical_parent
-        self.__on_clip_changed()
+        self._LoopSetting__on_clip_changed.subject = self.canonical_parent
+        self._LoopSetting__on_clip_changed()
 
     @property
     def recording(self):
@@ -65,46 +60,65 @@ class LoopSetting(WrappingParameter):
         self._recording = value
         self.notify_value()
 
-    @listens(u'clip')
+    @listens('clip')
     def __on_clip_changed(self):
-        self.__on_signature_numerator_changed.subject = self.canonical_parent.clip
-        self.__on_signature_denominator_changed.subject = self.canonical_parent.clip
+        self._LoopSetting__on_signature_numerator_changed.subject = self.canonical_parent.clip
+        self._LoopSetting__on_signature_denominator_changed.subject = self.canonical_parent.clip
 
-    @listens(u'signature_numerator')
+    @listens('signature_numerator')
     def __on_signature_numerator_changed(self):
         self.notify_value()
 
-    @listens(u'signature_denominator')
+    @listens('signature_denominator')
     def __on_signature_denominator_changed(self):
         self.notify_value()
 
     @property
     def display_value(self):
         if not liveobj_valid(self.canonical_parent.clip):
-            return str(u'-')
+            return str('-')
         if self.recording:
-            return str(u'...')
-        return str(self._conversion((self.canonical_parent.clip.signature_numerator, self.canonical_parent.clip.signature_denominator), self._get_property_value()))
+            return str('...')
+        return str(self._conversion((
+         self.canonical_parent.clip.signature_numerator,
+         self.canonical_parent.clip.signature_denominator), self._get_property_value()))
 
 
 class LoopSettingsControllerComponent(LoopSettingsControllerComponentBase):
-    __events__ = (u'looping', u'loop_parameters', u'zoom', u'clip')
+    __events__ = ('looping', 'loop_parameters', 'zoom', 'clip')
     ZOOM_DEFAULT_SENSITIVITY = MappedSensitivitySettingControl.DEFAULT_SENSITIVITY
     ZOOM_FINE_SENSITIVITY = MappedSensitivitySettingControl.FINE_SENSITIVITY
     zoom_encoder = MappedSensitivitySettingControl()
     zoom_touch_encoder = EncoderControl()
-    loop_button = ToggleButtonControl(toggled_color=u'Clip.Option', untoggled_color=u'Clip.OptionDisabled')
-    crop_button = ButtonControl(color=u'Clip.Action')
+    loop_button = ToggleButtonControl(toggled_color='Clip.Option',
+      untoggled_color='Clip.OptionDisabled')
+    crop_button = ButtonControl(color='Clip.Action')
 
     def __init__(self, *a, **k):
-        super(LoopSettingsControllerComponent, self).__init__(*a, **k)
-        self._looping_settings = [LoopSetting(name=PARAMETERS_LOOPED[0], parent=self._loop_model, source_property=u'position'), LoopSetting(name=PARAMETERS_LOOPED[1], parent=self._loop_model, use_length_conversion=True, source_property=u'loop_length'), LoopSetting(name=PARAMETERS_LOOPED[2], parent=self._loop_model, source_property=u'start_marker')]
-        self._non_looping_settings = [LoopSetting(name=PARAMETERS_NOT_LOOPED[0], parent=self._loop_model, source_property=u'loop_start'), LoopSetting(name=PARAMETERS_NOT_LOOPED[1], parent=self._loop_model, source_property=u'loop_end')]
+        (super(LoopSettingsControllerComponent, self).__init__)(*a, **k)
+        self._looping_settings = [
+         LoopSetting(name=(PARAMETERS_LOOPED[0]),
+           parent=(self._loop_model),
+           source_property='position'),
+         LoopSetting(name=(PARAMETERS_LOOPED[1]),
+           parent=(self._loop_model),
+           use_length_conversion=True,
+           source_property='loop_length'),
+         LoopSetting(name=(PARAMETERS_LOOPED[2]),
+           parent=(self._loop_model),
+           source_property='start_marker')]
+        self._non_looping_settings = [
+         LoopSetting(name=(PARAMETERS_NOT_LOOPED[0]),
+           parent=(self._loop_model),
+           source_property='loop_start'),
+         LoopSetting(name=(PARAMETERS_NOT_LOOPED[1]),
+           parent=(self._loop_model),
+           source_property='loop_end')]
         for setting in self._looping_settings + self._non_looping_settings:
             self.register_disconnectable(setting)
 
-        self.__on_looping_changed.subject = self._loop_model
-        self.__on_looping_changed()
+        self._LoopSettingsControllerComponent__on_looping_changed.subject = self._loop_model
+        self._LoopSettingsControllerComponent__on_looping_changed()
 
     def update(self):
         super(LoopSettingsControllerComponent, self).update()
@@ -139,18 +153,18 @@ class LoopSettingsControllerComponent(LoopSettingsControllerComponentBase):
     @property
     def zoom(self):
         if liveobj_valid(self.clip):
-            return getattr(self.clip, u'zoom', None)
+            return getattr(self.clip, 'zoom', None)
 
     @listenable_property
     def timeline_navigation(self):
         if liveobj_valid(self.clip):
-            return getattr(self.clip, u'timeline_navigation', None)
+            return getattr(self.clip, 'timeline_navigation', None)
 
-    @listens(u'is_recording')
+    @listens('is_recording')
     def __on_is_recording_changed(self):
         self._update_recording_state()
 
-    @listens(u'is_overdubbing')
+    @listens('is_overdubbing')
     def __on_is_overdubbing_changed(self):
         self._update_recording_state()
 
@@ -161,7 +175,7 @@ class LoopSettingsControllerComponent(LoopSettingsControllerComponentBase):
             self._looping_settings[1].recording = recording
             self._non_looping_settings[1].recording = recording
 
-    @listens(u'looping')
+    @listens('looping')
     def __on_looping_changed(self):
         self._update_and_notify()
 
@@ -174,8 +188,8 @@ class LoopSettingsControllerComponent(LoopSettingsControllerComponentBase):
         if self.timeline_navigation is not None:
             self.timeline_navigation.reset_focus_and_animation()
         self._update_and_notify()
-        self.__on_is_recording_changed.subject = self._loop_model.clip
-        self.__on_is_overdubbing_changed.subject = self._loop_model.clip
+        self._LoopSettingsControllerComponent__on_is_recording_changed.subject = self._loop_model.clip
+        self._LoopSettingsControllerComponent__on_is_overdubbing_changed.subject = self._loop_model.clip
         self._update_recording_state()
         self.crop_button.enabled = liveobj_valid(self.clip) and self.clip.is_midi_clip
         self._connect_encoder()
@@ -235,18 +249,18 @@ class LoopSettingsControllerComponent(LoopSettingsControllerComponentBase):
 class GainSetting(WrappingParameter):
 
     def __init__(self, *a, **k):
-        super(GainSetting, self).__init__(*a, **k)
+        (super(GainSetting, self).__init__)(*a, **k)
         self.set_property_host(self._parent)
 
     @property
     def display_value(self):
-        return str(self._property_host.clip.gain_display_string if self._property_host.clip else u'')
+        return str(self._property_host.clip.gain_display_string if self._property_host.clip else '')
 
 
 class PitchSetting(WrappingParameter):
 
     def __init__(self, min_value, max_value, unit, *a, **k):
-        super(PitchSetting, self).__init__(*a, **k)
+        (super(PitchSetting, self).__init__)(*a, **k)
         self._min = min_value
         self._max = max_value
         self._unit = unit
@@ -263,14 +277,14 @@ class PitchSetting(WrappingParameter):
     @property
     def display_value(self):
         value = int(round(float(self._get_property_value())))
-        positive_indicator = u'+' if value > 0 else u''
+        positive_indicator = '+' if value > 0 else ''
         return positive_indicator + str(value) + self._unit
 
 
 class WarpSetting(WrappingParameter):
 
     def __init__(self, *a, **k):
-        super(WarpSetting, self).__init__(*a, **k)
+        (super(WarpSetting, self).__init__)(*a, **k)
         self.set_property_host(self._parent)
 
     @property
@@ -283,30 +297,52 @@ class WarpSetting(WrappingParameter):
 
     @property
     def value_items(self):
-        return list(map(lambda x: str(WARP_MODE_NAMES[x]), self._property_host.available_warp_modes))
+        return list(map(lambda x: str(WARP_MODE_NAMES[x])
+, self._property_host.available_warp_modes))
+
+    @property
+    def short_value_items(self):
+        return self.value_items
 
     def _get_property_value(self):
         return self._property_host.available_warp_modes.index(getattr(self._property_host, self._source_property))
 
 
 class AudioClipSettingsControllerComponent(AudioClipSettingsControllerComponentBase):
-    __events__ = (u'audio_parameters', u'warping', u'gain')
+    __events__ = ('audio_parameters', 'warping', 'gain')
 
     def __init__(self, *a, **k):
-        super(AudioClipSettingsControllerComponent, self).__init__(*a, **k)
-        self._audio_clip_parameters = [WarpSetting(name=PARAMETERS_AUDIO[0], parent=self._audio_clip_model, source_property=u'warp_mode'),
-         PitchSetting(name=PARAMETERS_AUDIO[1], parent=self._audio_clip_model, source_property=u'pitch_coarse', min_value=-49.0, max_value=49.0, unit=u'st'),
-         PitchSetting(name=PARAMETERS_AUDIO[2], parent=self._audio_clip_model, source_property=u'pitch_fine', min_value=-51.0, max_value=51.0, unit=u'ct'),
-         GainSetting(name=PARAMETERS_AUDIO[3], parent=self._audio_clip_model, source_property=u'gain')]
-        self._playhead_real_time_data = RealTimeDataComponent(channel_type=u'playhead', parent=self)
-        self._waveform_real_time_data = RealTimeDataComponent(channel_type=u'waveform', parent=self)
+        (super(AudioClipSettingsControllerComponent, self).__init__)(*a, **k)
+        self._audio_clip_parameters = [
+         WarpSetting(name=(PARAMETERS_AUDIO[0]),
+           parent=(self._audio_clip_model),
+           source_property='warp_mode'),
+         PitchSetting(name=(PARAMETERS_AUDIO[1]),
+           parent=(self._audio_clip_model),
+           source_property='pitch_coarse',
+           min_value=(-49.0),
+           max_value=49.0,
+           unit='st'),
+         PitchSetting(name=(PARAMETERS_AUDIO[2]),
+           parent=(self._audio_clip_model),
+           source_property='pitch_fine',
+           min_value=(-51.0),
+           max_value=51.0,
+           unit='ct'),
+         GainSetting(name=(PARAMETERS_AUDIO[3]),
+           parent=(self._audio_clip_model),
+           source_property='gain')]
+        self._playhead_real_time_data = RealTimeDataComponent(channel_type='playhead',
+          parent=self)
+        self._waveform_real_time_data = RealTimeDataComponent(channel_type='waveform',
+          parent=self)
         for parameter in self._audio_clip_parameters:
             self.register_disconnectable(parameter)
 
-        self.__on_warping_changed.subject = self._audio_clip_model
-        self.__on_gain_changed.subject = self._audio_clip_model
-        self.__on_warping_changed()
-        self.__on_gain_changed()
+        self._AudioClipSettingsControllerComponent__on_warping_changed.subject = self._audio_clip_model
+        self._AudioClipSettingsControllerComponent__on_gain_changed.subject = self._audio_clip_model
+        self._AudioClipSettingsControllerComponent__on_warping_changed()
+        self._AudioClipSettingsControllerComponent__on_gain_changed()
 
     def disconnect(self):
         super(AudioClipSettingsControllerComponent, self).disconnect()
@@ -342,7 +378,7 @@ class AudioClipSettingsControllerComponent(AudioClipSettingsControllerComponentB
     def _on_clip_changed(self):
         self._playhead_real_time_data.set_data(self.clip)
         self._waveform_real_time_data.set_data(self.clip)
-        self.__on_file_path_changed.subject = self.clip
+        self._AudioClipSettingsControllerComponent__on_file_path_changed.subject = self.clip
         self.notify_audio_parameters()
         self.notify_warping()
         self.notify_gain()
@@ -353,45 +389,46 @@ class AudioClipSettingsControllerComponent(AudioClipSettingsControllerComponentB
     def _on_detune_encoder_value(self, value):
         self._audio_clip_model.set_clip_pitch_fine(value, False)
 
-    @listens(u'warping')
+    @listens('warping')
     def __on_warping_changed(self):
         self.notify_warping()
 
-    @listens(u'gain')
+    @listens('gain')
     def __on_gain_changed(self):
         self.notify_gain()
 
-    @listens(u'file_path')
+    @listens('file_path')
     def __on_file_path_changed(self):
         self._waveform_real_time_data.invalidate()
 
 
-def register_matrix_mode(matrix_map, name, modes_component = None, parent_path = None):
+def register_matrix_mode(matrix_map, name, modes_component=None, parent_path=None):
 
     def find_leaf(tree, path):
         key_name, rest = path[0], path[1:]
         if key_name not in tree:
             tree[key_name] = dict(modes_component=None, children={})
-        sub_tree = tree[key_name][u'children']
+        sub_tree = tree[key_name]['children']
         if len(rest) == 0:
             return sub_tree
         return find_leaf(sub_tree, rest)
 
     matrix_map_to_edit = matrix_map if parent_path is None else find_leaf(matrix_map, parent_path)
-    children_to_add_to_map = matrix_map_to_edit[name].get(u'children', {}) if name in matrix_map_to_edit else {}
-    matrix_map_to_edit[name] = dict(modes_component=modes_component, children=children_to_add_to_map)
+    children_to_add_to_map = matrix_map_to_edit[name].get('children', {}) if name in matrix_map_to_edit else {}
+    matrix_map_to_edit[name] = dict(modes_component=modes_component,
+      children=children_to_add_to_map)
 
 
 class MatrixModeWatcherComponent(Component):
 
-    def __init__(self, matrix_mode_map = None, *a, **k):
-        super(MatrixModeWatcherComponent, self).__init__(*a, **k)
+    def __init__(self, matrix_mode_map=None, *a, **k):
+        (super(MatrixModeWatcherComponent, self).__init__)(*a, **k)
         self._matrix_mode_map = matrix_mode_map
 
         def connect_listeners(dct):
             for key, value in dct.items():
-                if key == u'modes_component':
-                    self.register_slot(value, self.__on_matrix_mode_changed, u'selected_mode')
+                if key == 'modes_component':
+                    self.register_slot(value, self._MatrixModeWatcherComponent__on_matrix_mode_changed, 'selected_mode')
                 else:
                     connect_listeners(value)
 
@@ -407,16 +444,16 @@ class MatrixModeWatcherComponent(Component):
             mode_entry = list(mode_map.keys())[0]
             mode_path.append(mode_entry)
             parent = mode_map[mode_entry]
-            children = parent[u'children']
-            modes_comp = parent[u'modes_component']
+            children = parent['children']
+            modes_comp = parent['modes_component']
             selected_mode = modes_comp.selected_mode
             if selected_mode in children:
-                if len(list(children[selected_mode][u'children'].keys())) > 0:
+                if len(list(children[selected_mode]['children'].keys())) > 0:
                     return create_mode_path_recursive({selected_mode: children[selected_mode]})
                 mode_path.append(selected_mode)
             return mode_path
 
-        return u'.'.join(create_mode_path_recursive(initial_mode_map))
+        return '.'.join(create_mode_path_recursive(initial_mode_map))
 
     @listenable_property
     def matrix_mode_path(self):
@@ -433,112 +470,123 @@ class MatrixModeWatcherComponent(Component):
             self.matrix_mode_path = self.create_mode_path(self._matrix_mode_map)
 
 
-_MATRIX_MODE_PATH_TO_DATA = {u'matrix_modes.note.instrument.play': {u'Fold': True,
-                                        u'NumDisplayKeys': 0,
-                                        u'ShowGridWindow': False,
-                                        u'ShowScrollbarCursor': False,
-                                        u'NumPitches': 128,
-                                        u'PitchOffset': 0,
-                                        u'ShowStepLengthGrid': False,
-                                        u'ShowMultipleGridWindows': False},
- u'matrix_modes.note.instrument.sequence': {u'Fold': False,
-                                            u'NumDisplayKeys': 23,
-                                            u'ShowGridWindow': True,
-                                            u'ShowScrollbarCursor': True,
-                                            u'NumPitches': 128,
-                                            u'PitchOffset': 0,
-                                            u'ShowStepLengthGrid': True,
-                                            u'ShowMultipleGridWindows': False},
- u'matrix_modes.note.instrument.split_melodic_sequencer': {u'Fold': True,
-                                                           u'NumDisplayKeys': 32,
-                                                           u'ShowGridWindow': True,
-                                                           u'ShowScrollbarCursor': True,
-                                                           u'NumPitches': 128,
-                                                           u'PitchOffset': 0,
-                                                           u'ShowStepLengthGrid': True,
-                                                           u'ShowMultipleGridWindows': True},
- u'matrix_modes.note.drums.64pads': {u'Fold': True,
-                                     u'NumDisplayKeys': 0,
-                                     u'ShowGridWindow': False,
-                                     u'ShowScrollbarCursor': False,
-                                     u'NumPitches': 128,
-                                     u'PitchOffset': 0,
-                                     u'ShowStepLengthGrid': False,
-                                     u'ShowMultipleGridWindows': False},
- u'matrix_modes.note.drums.sequencer_loop': {u'Fold': False,
-                                             u'NumDisplayKeys': 17,
-                                             u'ShowGridWindow': True,
-                                             u'ShowScrollbarCursor': True,
-                                             u'NumPitches': 128,
-                                             u'PitchOffset': 0,
-                                             u'ShowStepLengthGrid': True,
-                                             u'ShowMultipleGridWindows': False},
- u'matrix_modes.note.drums.sequencer_velocity_levels': {u'Fold': False,
-                                                        u'NumDisplayKeys': 17,
-                                                        u'ShowGridWindow': True,
-                                                        u'ShowScrollbarCursor': True,
-                                                        u'NumPitches': 128,
-                                                        u'PitchOffset': 0,
-                                                        u'ShowStepLengthGrid': True,
-                                                        u'ShowMultipleGridWindows': False},
- u'matrix_modes.note.slicing.64pads': {u'Fold': True,
-                                       u'NumDisplayKeys': 0,
-                                       u'ShowGridWindow': False,
-                                       u'ShowScrollbarCursor': False,
-                                       u'NumPitches': 64,
-                                       u'PitchOffset': 36,
-                                       u'ShowStepLengthGrid': False,
-                                       u'ShowMultipleGridWindows': False},
- u'matrix_modes.note.slicing.sequencer_loop': {u'Fold': False,
-                                               u'NumDisplayKeys': 17,
-                                               u'ShowGridWindow': True,
-                                               u'ShowScrollbarCursor': True,
-                                               u'NumPitches': 64,
-                                               u'PitchOffset': 36,
-                                               u'ShowStepLengthGrid': True,
-                                               u'ShowMultipleGridWindows': False},
- u'matrix_modes.note.slicing.sequencer_velocity_levels': {u'Fold': False,
-                                                          u'NumDisplayKeys': 17,
-                                                          u'ShowGridWindow': True,
-                                                          u'ShowScrollbarCursor': True,
-                                                          u'NumPitches': 64,
-                                                          u'PitchOffset': 36,
-                                                          u'ShowStepLengthGrid': True,
-                                                          u'ShowMultipleGridWindows': False},
- u'matrix_modes.session': {u'Fold': True,
-                           u'NumDisplayKeys': 0,
-                           u'ShowGridWindow': False,
-                           u'ShowScrollbarCursor': False,
-                           u'NumPitches': 128,
-                           u'PitchOffset': 0,
-                           u'ShowStepLengthGrid': False,
-                           u'ShowMultipleGridWindows': False}}
-_DEFAULT_VIEW_DATA = {u'Fold': True,
- u'NumDisplayKeys': 0,
- u'ShowGridWindow': False,
- u'ShowScrollbarCursor': False,
- u'MinPitch': DEFAULT_START_NOTE,
- u'MaxSequenceablePitch': DEFAULT_START_NOTE,
- u'MinSequenceablePitch': DEFAULT_START_NOTE,
- u'PageIndex': 0,
- u'PageLength': 1.0,
- u'MinGridWindowPitch': DEFAULT_START_NOTE,
- u'MaxGridWindowPitch': DEFAULT_START_NOTE,
- u'NumPitches': 128,
- u'PitchOffset': 0,
- u'ShowStepLengthGrid': False,
- u'IsRecording': False,
- u'ShowMultipleGridWindows': False}
+_MATRIX_MODE_PATH_TO_DATA = {'matrix_modes.note.instrument.play':{
+   'Fold': True,
+   'NumDisplayKeys': 0,
+   'ShowGridWindow': False,
+   'ShowScrollbarCursor': False,
+   'NumPitches': 128,
+   'PitchOffset': 0,
+   'ShowStepLengthGrid': False,
+   'ShowMultipleGridWindows': False}, 
+ 'matrix_modes.note.instrument.sequence':{
+   'Fold': False,
+   'NumDisplayKeys': 23,
+   'ShowGridWindow': True,
+   'ShowScrollbarCursor': True,
+   'NumPitches': 128,
+   'PitchOffset': 0,
+   'ShowStepLengthGrid': True,
+   'ShowMultipleGridWindows': False}, 
+ 'matrix_modes.note.instrument.split_melodic_sequencer':{
+   'Fold': True,
+   'NumDisplayKeys': 32,
+   'ShowGridWindow': True,
+   'ShowScrollbarCursor': True,
+   'NumPitches': 128,
+   'PitchOffset': 0,
+   'ShowStepLengthGrid': True,
+   'ShowMultipleGridWindows': True}, 
+ 'matrix_modes.note.drums.64pads':{
+   'Fold': True,
+   'NumDisplayKeys': 0,
+   'ShowGridWindow': False,
+   'ShowScrollbarCursor': False,
+   'NumPitches': 128,
+   'PitchOffset': 0,
+   'ShowStepLengthGrid': False,
+   'ShowMultipleGridWindows': False}, 
+ 'matrix_modes.note.drums.sequencer_loop':{
+   'Fold': False,
+   'NumDisplayKeys': 17,
+   'ShowGridWindow': True,
+   'ShowScrollbarCursor': True,
+   'NumPitches': 128,
+   'PitchOffset': 0,
+   'ShowStepLengthGrid': True,
+   'ShowMultipleGridWindows': False}, 
+ 'matrix_modes.note.drums.sequencer_velocity_levels':{
+   'Fold': False,
+   'NumDisplayKeys': 17,
+   'ShowGridWindow': True,
+   'ShowScrollbarCursor': True,
+   'NumPitches': 128,
+   'PitchOffset': 0,
+   'ShowStepLengthGrid': True,
+   'ShowMultipleGridWindows': False}, 
+ 'matrix_modes.note.slicing.64pads':{
+   'Fold': True,
+   'NumDisplayKeys': 0,
+   'ShowGridWindow': False,
+   'ShowScrollbarCursor': False,
+   'NumPitches': 64,
+   'PitchOffset': 36,
+   'ShowStepLengthGrid': False,
+   'ShowMultipleGridWindows': False}, 
+ 'matrix_modes.note.slicing.sequencer_loop':{
+   'Fold': False,
+   'NumDisplayKeys': 17,
+   'ShowGridWindow': True,
+   'ShowScrollbarCursor': True,
+   'NumPitches': 64,
+   'PitchOffset': 36,
+   'ShowStepLengthGrid': True,
+   'ShowMultipleGridWindows': False}, 
+ 'matrix_modes.note.slicing.sequencer_velocity_levels':{
+   'Fold': False,
+   'NumDisplayKeys': 17,
+   'ShowGridWindow': True,
+   'ShowScrollbarCursor': True,
+   'NumPitches': 64,
+   'PitchOffset': 36,
+   'ShowStepLengthGrid': True,
+   'ShowMultipleGridWindows': False}, 
+ 'matrix_modes.session':{
+   'Fold': True,
+   'NumDisplayKeys': 0,
+   'ShowGridWindow': False,
+   'ShowScrollbarCursor': False,
+   'NumPitches': 128,
+   'PitchOffset': 0,
+   'ShowStepLengthGrid': False,
+   'ShowMultipleGridWindows': False}}
+_DEFAULT_VIEW_DATA = {
+  'Fold': True,
+  'NumDisplayKeys': 0,
+  'ShowGridWindow': False,
+  'ShowScrollbarCursor': False,
+  'MinPitch': DEFAULT_START_NOTE,
+  'MaxSequenceablePitch': DEFAULT_START_NOTE,
+  'MinSequenceablePitch': DEFAULT_START_NOTE,
+  'PageIndex': 0,
+  'PageLength': 1.0,
+  'MinGridWindowPitch': DEFAULT_START_NOTE,
+  'MaxGridWindowPitch': DEFAULT_START_NOTE,
+  'NumPitches': 128,
+  'PitchOffset': 0,
+  'ShowStepLengthGrid': False,
+  'IsRecording': False,
+  'ShowMultipleGridWindows': False}
 
 def get_static_view_data(matrix_mode_path):
     return _MATRIX_MODE_PATH_TO_DATA.get(matrix_mode_path, _DEFAULT_VIEW_DATA)
 
 
 class MidiClipControllerComponent(Component):
-    grid_window_focus = u'grid_window_start'
+    grid_window_focus = 'grid_window_start'
 
     def __init__(self, *a, **k):
-        super(MidiClipControllerComponent, self).__init__(*a, **k)
+        (super(MidiClipControllerComponent, self).__init__)(*a, **k)
         self._configure_vis_task = self._tasks.add(task.sequence(task.delay(1), task.run(self._configure_visualisation))).kill()
         self._clip = None
         self._matrix_mode_watcher = None
@@ -551,9 +599,10 @@ class MidiClipControllerComponent(Component):
         self._most_recent_page_index = 0
         self._most_recent_page_length = 1.0
         self._most_recent_editing_note_regions = []
-        self._visualisation_real_time_data = RealTimeDataComponent(channel_type=u'visualisation', parent=self)
-        self.__on_visualisation_channel_changed.subject = self._visualisation_real_time_data
-        self.__on_visualisation_attached.subject = self._visualisation_real_time_data
+        self._visualisation_real_time_data = RealTimeDataComponent(channel_type='visualisation',
+          parent=self)
+        self._MidiClipControllerComponent__on_visualisation_channel_changed.subject = self._visualisation_real_time_data
+        self._MidiClipControllerComponent__on_visualisation_attached.subject = self._visualisation_real_time_data
         self._instruments = []
         self._sequencers = []
         self._mute_during_track_change_components = []
@@ -562,7 +611,7 @@ class MidiClipControllerComponent(Component):
         self._real_time_data_attached = False
         self._drum_rack_finder = None
         self._drum_pad_color_notifier = self.register_disconnectable(DrumPadColorNotifier())
-        self.__on_note_colors_changed.subject = self._drum_pad_color_notifier
+        self._MidiClipControllerComponent__on_note_colors_changed.subject = self._drum_pad_color_notifier
 
     @property
     def clip(self):
@@ -579,48 +628,52 @@ class MidiClipControllerComponent(Component):
 
     def set_drum_rack_finder(self, finder_component):
         self._drum_rack_finder = finder_component
-        self.__on_drum_rack_changed.subject = self._drum_rack_finder
-        self.__on_drum_rack_changed()
+        self._MidiClipControllerComponent__on_drum_rack_changed.subject = self._drum_rack_finder
+        self._MidiClipControllerComponent__on_drum_rack_changed()
 
     def set_matrix_mode_watcher(self, watcher):
         self._matrix_mode_watcher = watcher
-        self.__on_matrix_mode_changed.subject = watcher
+        self._MidiClipControllerComponent__on_matrix_mode_changed.subject = watcher
 
     def external_regions_of_interest_creator(self, region_of_interest_creator):
 
         def grid_start_time():
             return self._most_recent_page_index * self._most_recent_page_length
 
-        return {u'grid_window': region_of_interest_creator(start_identifier=self.grid_window_focus, getter=lambda : (grid_start_time(), grid_start_time() + self._most_recent_page_length))}
+        return {'grid_window': region_of_interest_creator(start_identifier=(self.grid_window_focus),
+                          getter=(lambda: (
+                         grid_start_time(),
+                         grid_start_time() + self._most_recent_page_length)
+))}
 
     @property
     def external_focusable_object_descriptions(self):
-        return {self.grid_window_focus: ObjectDescription((u'start_end', u'loop', u'grid_window'), self.grid_window_focus)}
+        return {self.grid_window_focus: ObjectDescription(('start_end', 'loop', 'grid_window'), self.grid_window_focus)}
 
     def set_note_settings_component(self, note_settings_component):
         self._note_settings_component = note_settings_component
-        self.__on_note_settings_enabled_changed.subject = note_settings_component
+        self._MidiClipControllerComponent__on_note_settings_enabled_changed.subject = note_settings_component
 
     def set_note_editor_settings_component(self, note_editor_settings_component):
         self._note_editor_settings_component = note_editor_settings_component
-        self.__on_note_editor_settings_touched_changed.subject = note_editor_settings_component
+        self._MidiClipControllerComponent__on_note_editor_settings_touched_changed.subject = note_editor_settings_component
 
     def add_instrument_component(self, instrument):
-        self.__on_instrument_position_changed.add_subject(instrument)
+        self._MidiClipControllerComponent__on_instrument_position_changed.add_subject(instrument)
         self._instruments.append(instrument)
 
     def add_mute_during_track_change_component(self, component):
         self._mute_during_track_change_components.append(component)
 
     def add_paginator(self, paginator):
-        self.__on_paginator_page_index_changed.add_subject(paginator)
-        self.__on_paginator_page_length_changed.add_subject(paginator)
+        self._MidiClipControllerComponent__on_paginator_page_index_changed.add_subject(paginator)
+        self._MidiClipControllerComponent__on_paginator_page_length_changed.add_subject(paginator)
 
     def add_sequencer(self, sequencer):
-        self.__on_editable_pitches_changed.add_subject(sequencer)
-        self.__on_row_start_times_changed.add_subject(sequencer)
-        self.__on_step_length_changed.add_subject(sequencer)
-        self.__on_selected_notes_changed.add_subject(sequencer)
+        self._MidiClipControllerComponent__on_editable_pitches_changed.add_subject(sequencer)
+        self._MidiClipControllerComponent__on_row_start_times_changed.add_subject(sequencer)
+        self._MidiClipControllerComponent__on_step_length_changed.add_subject(sequencer)
+        self._MidiClipControllerComponent__on_selected_notes_changed.add_subject(sequencer)
         self._sequencers.append(sequencer)
 
     def disconnect(self):
@@ -631,117 +684,120 @@ class MidiClipControllerComponent(Component):
         super(MidiClipControllerComponent, self).update()
         self._update_notification_mutes()
         if self.is_enabled():
-            self.__on_matrix_mode_changed()
+            self._MidiClipControllerComponent__on_matrix_mode_changed()
 
     def _on_clip_changed(self):
-        self._visualisation_real_time_data.set_data(getattr(self.clip, u'proxied_object', self.clip))
-        self.__on_clip_color_changed.subject = self.clip
-        timeline_navigation = getattr(self.clip, u'timeline_navigation', None)
-        self.__on_visible_region_changed.subject = timeline_navigation
-        self.__on_focus_marker_changed.subject = timeline_navigation
-        self.__on_show_focus_changed.subject = timeline_navigation
+        self._visualisation_real_time_data.set_data(getattr(self.clip, 'proxied_object', self.clip))
+        self._MidiClipControllerComponent__on_clip_color_changed.subject = self.clip
+        timeline_navigation = getattr(self.clip, 'timeline_navigation', None)
+        self._MidiClipControllerComponent__on_visible_region_changed.subject = timeline_navigation
+        self._MidiClipControllerComponent__on_focus_marker_changed.subject = timeline_navigation
+        self._MidiClipControllerComponent__on_show_focus_changed.subject = timeline_navigation
 
     def _focus_grid_window(self):
-        if liveobj_valid(self.clip) and self.get_static_view_data()[u'ShowGridWindow']:
-            self.clip.timeline_navigation.change_object(self.grid_window_focus)
+        if liveobj_valid(self.clip):
+            if self.get_static_view_data()['ShowGridWindow']:
+                self.clip.timeline_navigation.change_object(self.grid_window_focus)
 
     def _configure_visualisation_delayed(self):
         self._configure_vis_task.restart()
 
-    @listens(u'instrument')
+    @listens('instrument')
     def __on_drum_rack_changed(self):
         self._drum_pad_color_notifier.set_drum_group(self._drum_rack_finder.drum_group)
 
-    @listens(u'enabled')
+    @listens('enabled')
     def __on_note_settings_enabled_changed(self, _):
         self._configure_visualisation()
 
-    @listens(u'is_touched')
+    @listens('is_touched')
     def __on_note_editor_settings_touched_changed(self):
         self._configure_visualisation()
 
-    @listens_group(u'editing_note_regions')
+    @listens_group('editing_note_regions')
     def __on_selected_notes_changed(self, sequencer):
         self._most_recent_editing_note_regions = sequencer.editing_note_regions
         self._configure_visualisation()
 
-    @listens(u'channel_id')
+    @listens('channel_id')
     def __on_visualisation_channel_changed(self):
         self.notify_visualisation_real_time_channel_id()
 
-    @listens(u'attached')
+    @listens('attached')
     def __on_visualisation_attached(self):
         self._real_time_data_attached = True
         self._configure_visualisation()
 
-    @listens(u'color_index')
+    @listens('color_index')
     def __on_clip_color_changed(self):
         self._configure_visualisation()
 
-    @listens(u'visible_region')
+    @listens('visible_region')
     def __on_visible_region_changed(self, *a):
         self._configure_visualisation()
 
-    @listens(u'focus_marker')
+    @listens('focus_marker')
     def __on_focus_marker_changed(self, *a):
         self._configure_visualisation()
 
-    @listens(u'show_focus')
+    @listens('show_focus')
     def __on_show_focus_changed(self, *a):
         self._configure_visualisation()
 
-    @listens(u'matrix_mode_path')
+    @listens('matrix_mode_path')
     def __on_matrix_mode_changed(self):
-        if self.is_enabled() and self._matrix_mode_watcher:
-            static_view_data = self.get_static_view_data()
-            if self.matrix_mode_path() == u'matrix_modes.note.instrument.sequence':
-                num_visible_keys = static_view_data[u'NumDisplayKeys']
-                lower = self._most_recent_editable_pitches[0]
-                upper = self._most_recent_editable_pitches[-1]
-                self._loose_follow_base_note = (lower + upper) // 2 - num_visible_keys // 2
-            if static_view_data[u'ShowGridWindow']:
-                self._focus_grid_window()
-            elif liveobj_valid(self.clip):
-                nav = self.clip.timeline_navigation
-                nav.set_focus_marker_without_updating_visible_region(u'start_marker')
-            self._configure_visualisation()
-            self._update_notification_mutes()
+        if self.is_enabled():
+            if self._matrix_mode_watcher:
+                static_view_data = self.get_static_view_data()
+                if self.matrix_mode_path() == 'matrix_modes.note.instrument.sequence':
+                    num_visible_keys = static_view_data['NumDisplayKeys']
+                    lower = self._most_recent_editable_pitches[0]
+                    upper = self._most_recent_editable_pitches[-1]
+                    self._loose_follow_base_note = (lower + upper) // 2 - num_visible_keys // 2
+                if static_view_data['ShowGridWindow']:
+                    self._focus_grid_window()
+                else:
+                    if liveobj_valid(self.clip):
+                        nav = self.clip.timeline_navigation
+                        nav.set_focus_marker_without_updating_visible_region('start_marker')
+                self._configure_visualisation()
+                self._update_notification_mutes()
 
-    @listens_group(u'position')
+    @listens_group('position')
     def __on_instrument_position_changed(self, instrument):
         self._most_recent_base_note = instrument.min_pitch
         self._most_recent_max_note = instrument.max_pitch
         self._configure_visualisation()
 
-    @listens(u'note_colors')
+    @listens('note_colors')
     def __on_note_colors_changed(self):
         self._configure_visualisation()
 
-    @listens_group(u'editable_pitches')
+    @listens_group('editable_pitches')
     def __on_editable_pitches_changed(self, sequencer):
         self._most_recent_editable_pitches = sequencer.editable_pitches
         if self.is_enabled():
             self._configure_visualisation_delayed()
 
-    @listens_group(u'row_start_times')
+    @listens_group('row_start_times')
     def __on_row_start_times_changed(self, sequencer):
         if sequencer.is_enabled():
             self._most_recent_row_start_times = sequencer.row_start_times
             self._configure_visualisation_delayed()
 
-    @listens_group(u'step_length')
+    @listens_group('step_length')
     def __on_step_length_changed(self, sequencer):
         if sequencer.is_enabled():
             self._most_recent_step_length = sequencer.step_length
             self._configure_visualisation()
 
-    @listens_group(u'page_index')
+    @listens_group('page_index')
     def __on_paginator_page_index_changed(self, paginator):
         self._most_recent_page_index = paginator.page_index
         self._focus_grid_window()
         self._configure_visualisation()
 
-    @listens_group(u'page_length')
+    @listens_group('page_length')
     def __on_paginator_page_length_changed(self, paginator):
         self._most_recent_page_length = paginator.page_length
         self._focus_grid_window()
@@ -760,8 +816,8 @@ class MidiClipControllerComponent(Component):
 
     def _update_notification_mutes(self):
         for component in chain(self._sequencers, self._instruments):
-            if old_hasattr(component, u'show_notifications'):
-                component.show_notifications = not (self.is_enabled() and self.get_static_view_data()[u'ShowScrollbarCursor'])
+            if old_hasattr(component, 'show_notifications'):
+                component.show_notifications = not (self.is_enabled() and self.get_static_view_data()['ShowScrollbarCursor'])
 
     def mute_components_during_track_change(self, muted):
         if self.is_enabled():
@@ -776,8 +832,8 @@ class MidiClipControllerComponent(Component):
         self.mute_components_during_track_change(False)
 
     def _update_minimum_pitch(self):
-        if self.matrix_mode_path() == u'matrix_modes.note.instrument.sequence':
-            num_visible_keys = self.get_static_view_data()[u'NumDisplayKeys']
+        if self.matrix_mode_path() == 'matrix_modes.note.instrument.sequence':
+            num_visible_keys = self.get_static_view_data()['NumDisplayKeys']
             lower = self._most_recent_editable_pitches[0]
             upper = self._most_recent_editable_pitches[-1]
             window_size = upper - lower
@@ -794,64 +850,67 @@ class MidiClipControllerComponent(Component):
         return self._most_recent_base_note
 
     def _update_maximum_sequenceable_pitch(self):
-        if self.matrix_mode_path() == u'matrix_modes.note.instrument.sequence':
+        if self.matrix_mode_path() == 'matrix_modes.note.instrument.sequence':
             return self._most_recent_editable_pitches[-1]
         return self._most_recent_max_note
 
     def _update_minimum_sequenceable_pitch(self):
-        if self.matrix_mode_path() == u'matrix_modes.note.instrument.sequence':
+        if self.matrix_mode_path() == 'matrix_modes.note.instrument.sequence':
             return self._most_recent_editable_pitches[0]
         return self._most_recent_base_note
 
     def _update_note_colors(self):
         matrix_mode = self.matrix_mode_path()
-        in_correct_mode = matrix_mode is not None and matrix_mode.startswith(u'matrix_modes.note.drums') or matrix_mode == u'matrix_modes.session'
-        note_colors = self._drum_pad_color_notifier.note_colors if in_correct_mode and self._drum_pad_color_notifier.has_drum_group else []
-        return make_color_vector(note_colors)
+        in_correct_mode = (matrix_mode is not None) and (matrix_mode.startswith('matrix_modes.note.drums')) or (matrix_mode == 'matrix_modes.session')
+        if in_correct_mode:
+            note_colors = self._drum_pad_color_notifier.note_colors if self._drum_pad_color_notifier.has_drum_group else []
+            return make_color_vector(note_colors)
 
     def _configure_visualisation(self):
         visualisation = self._visualisation_real_time_data.device_visualisation()
-        if liveobj_valid(visualisation) and liveobj_valid(self.clip) and self._real_time_data_attached:
-            color = COLOR_INDEX_TO_SCREEN_COLOR[self.clip.color_index]
-            visible_region = self.clip.zoom.visible_region
-            focus_marker = self.clip.timeline_navigation.focus_marker
-            new_data = {u'ClipColor': color.as_remote_script_color(),
-             u'PageIndex': self._most_recent_page_index,
-             u'PageLength': float(self._most_recent_page_length),
-             u'RowStartTimes': make_vector(self._most_recent_row_start_times),
-             u'StepLength': float(self._most_recent_step_length),
-             u'MinGridWindowPitch': self._most_recent_editable_pitches[0],
-             u'MaxGridWindowPitch': self._most_recent_editable_pitches[-1],
-             u'GridWindowPitches': make_vector(self._most_recent_editable_pitches),
-             u'MinPitch': self._update_minimum_pitch(),
-             u'MaxSequenceablePitch': self._update_maximum_sequenceable_pitch(),
-             u'MinSequenceablePitch': self._update_minimum_sequenceable_pitch(),
-             u'NoteColors': self._update_note_colors(),
-             u'IsRecording': liveobj_valid(self.clip) and self.clip.is_recording and not self.clip.is_overdubbing,
-             u'NoteSettingsMode': self._note_settings_component is not None and self._note_settings_component.is_enabled(),
-             u'NoteSettingsTouched': self._note_editor_settings_component is not None and self._note_editor_settings_component.is_enabled() and self._note_editor_settings_component.is_touched,
-             u'EditingNotePitches': make_vector([ pitch for pitch, (start, end) in self._most_recent_editing_note_regions ]),
-             u'EditingNoteStarts': make_vector([ float(start) for pitch, (start, end) in self._most_recent_editing_note_regions ]),
-             u'EditingNoteEnds': make_vector([ float(end) for pitch, (start, end) in self._most_recent_editing_note_regions ]),
-             u'DisplayStartTime': float(visible_region.start),
-             u'DisplayEndTime': float(visible_region.end),
-             u'FocusMarkerName': focus_marker.name,
-             u'FocusMarkerPosition': focus_marker.position,
-             u'ShowFocus': self.clip.timeline_navigation.show_focus}
-            view_data = visualisation.get_view_data()
-            if self._matrix_mode_watcher is not None:
-                self._add_items_to_view_data(view_data)
-            for key, value in new_data.items():
-                view_data[key] = value
+        if liveobj_valid(visualisation):
+            if liveobj_valid(self.clip):
+                if self._real_time_data_attached:
+                    color = COLOR_INDEX_TO_SCREEN_COLOR[self.clip.color_index]
+                    visible_region = self.clip.zoom.visible_region
+                    focus_marker = self.clip.timeline_navigation.focus_marker
+                    new_data = {'ClipColor':color.as_remote_script_color(), 
+                     'PageIndex':self._most_recent_page_index, 
+                     'PageLength':float(self._most_recent_page_length), 
+                     'RowStartTimes':make_vector(self._most_recent_row_start_times), 
+                     'StepLength':float(self._most_recent_step_length), 
+                     'MinGridWindowPitch':self._most_recent_editable_pitches[0], 
+                     'MaxGridWindowPitch':self._most_recent_editable_pitches[-1], 
+                     'GridWindowPitches':make_vector(self._most_recent_editable_pitches), 
+                     'MinPitch':self._update_minimum_pitch(), 
+                     'MaxSequenceablePitch':self._update_maximum_sequenceable_pitch(), 
+                     'MinSequenceablePitch':self._update_minimum_sequenceable_pitch(), 
+                     'NoteColors':self._update_note_colors(), 
+                     'IsRecording':liveobj_valid(self.clip) and self.clip.is_recording and not self.clip.is_overdubbing, 
+                     'NoteSettingsMode':self._note_settings_component is not None and self._note_settings_component.is_enabled(), 
+                     'NoteSettingsTouched':self._note_editor_settings_component is not None and self._note_editor_settings_component.is_enabled() and self._note_editor_settings_component.is_touched, 
+                     'EditingNotePitches':make_vector([pitch for pitch, (start, end) in self._most_recent_editing_note_regions]), 
+                     'EditingNoteStarts':make_vector([float(start) for pitch, (start, end) in self._most_recent_editing_note_regions]), 
+                     'EditingNoteEnds':make_vector([float(end) for pitch, (start, end) in self._most_recent_editing_note_regions]), 
+                     'DisplayStartTime':float(visible_region.start), 
+                     'DisplayEndTime':float(visible_region.end), 
+                     'FocusMarkerName':focus_marker.name, 
+                     'FocusMarkerPosition':focus_marker.position, 
+                     'ShowFocus':self.clip.timeline_navigation.show_focus}
+                    view_data = visualisation.get_view_data()
+                    if self._matrix_mode_watcher is not None:
+                        self._add_items_to_view_data(view_data)
+                    for key, value in new_data.items():
+                        view_data[key] = value
 
-            visualisation.set_view_data(view_data)
+                    visualisation.set_view_data(view_data)
 
 
 class ClipControlComponent(Component):
-    __events__ = (u'clip',)
+    __events__ = ('clip', )
 
-    def __init__(self, decorator_factory = None, *a, **k):
-        super(ClipControlComponent, self).__init__(*a, **k)
+    def __init__(self, decorator_factory=None, *a, **k):
+        (super(ClipControlComponent, self).__init__)(*a, **k)
         self._clip = None
         self.midi_loop_controller = LoopSettingsControllerComponent(parent=self)
         self.audio_loop_controller = LoopSettingsControllerComponent(parent=self)
@@ -859,21 +918,21 @@ class ClipControlComponent(Component):
         self.midi_clip_controller = MidiClipControllerComponent(parent=self)
         self.mode_selector = ModesComponent(parent=self)
         self._decorator_factory = decorator_factory or ClipDecoratorFactory()
-        self.__on_selected_scene_changed.subject = self.song.view
-        self.__on_selected_track_changed.subject = self.song.view
-        self.__on_selected_clip_changed.subject = self.song.view
-        self.__on_has_clip_changed.subject = self.song.view.highlighted_clip_slot
+        self._ClipControlComponent__on_selected_scene_changed.subject = self.song.view
+        self._ClipControlComponent__on_selected_track_changed.subject = self.song.view
+        self._ClipControlComponent__on_selected_clip_changed.subject = self.song.view
+        self._ClipControlComponent__on_has_clip_changed.subject = self.song.view.highlighted_clip_slot
         self._update_controller()
 
-    @listens(u'selected_scene')
+    @listens('selected_scene')
     def __on_selected_scene_changed(self):
         self._update_controller()
 
-    @listens(u'selected_track')
+    @listens('selected_track')
     def __on_selected_track_changed(self):
         self._update_controller()
 
-    @listens(u'detail_clip')
+    @listens('detail_clip')
     def __on_selected_clip_changed(self):
         self._update_controller()
 
@@ -884,7 +943,7 @@ class ClipControlComponent(Component):
     def _decorate_clip(self, clip):
         return find_decorated_object(clip, self._decorator_factory) or self._decorator_factory.decorate(clip)
 
-    @listens(u'has_clip')
+    @listens('has_clip')
     def __on_has_clip_changed(self):
         self._update_controller()
 
@@ -912,15 +971,15 @@ class ClipControlComponent(Component):
             decorated_midi_clip = self._decorate_clip(midi_clip)
             self.midi_clip_controller.clip = decorated_midi_clip
             self.midi_loop_controller.clip = decorated_midi_clip
-            self.__on_has_clip_changed.subject = self.song.view.highlighted_clip_slot
+            self._ClipControlComponent__on_has_clip_changed.subject = self.song.view.highlighted_clip_slot
             self._clip = clip
             self.notify_clip()
 
     def _update_selected_mode(self, clip):
         if liveobj_valid(clip):
-            self.mode_selector.selected_mode = u'audio' if clip.is_audio_clip else u'midi'
+            self.mode_selector.selected_mode = 'audio' if clip.is_audio_clip else 'midi'
         else:
-            self.mode_selector.selected_mode = u'no_clip'
+            self.mode_selector.selected_mode = 'no_clip'
 
     @property
     def clip(self):

@@ -1,6 +1,5 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Launchkey_MK3/skin.py
 from __future__ import absolute_import, print_function, unicode_literals
-from ableton.v2.control_surface import merge_skins, Skin
+from ableton.v2.control_surface import Skin, merge_skins
 from novation.colors import Mono, Rgb
 from novation.skin import skin as base_skin
 
@@ -32,4 +31,4 @@ class Colors:
                 Available = Rgb.PURPLE_HALF
 
 
-skin = merge_skins(*(base_skin, Skin(Colors)))
+skin = merge_skins(base_skin, Skin(Colors)*())

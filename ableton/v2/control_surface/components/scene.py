@@ -1,24 +1,18 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/ableton/v2/control_surface/components/scene.py
 from __future__ import absolute_import, print_function, unicode_literals
-import Live
 from builtins import zip
-from ...base import listens, liveobj_valid, liveobj_changed
+import Live
+from ...base import listens, liveobj_changed, liveobj_valid
 from ..component import Component
 from ..control import ButtonControl
-from .clip_slot import ClipSlotComponent, is_button_pressed, find_nearest_color
+from .clip_slot import ClipSlotComponent, find_nearest_color, is_button_pressed
 
 class SceneComponent(Component):
-    u"""
-    Class representing a scene in Live
-    """
     clip_slot_component_type = ClipSlotComponent
     launch_button = ButtonControl()
 
-    def __init__(self, session_ring = None, *a, **k):
-        assert session_ring is not None
-        assert session_ring.num_tracks >= 0
+    def __init__(self, session_ring=None, *a, **k):
         self._controlled_tracks = []
-        super(SceneComponent, self).__init__(*a, **k)
+        (super(SceneComponent, self).__init__)(*a, **k)
         self._session_ring = session_ring
         self._scene = None
         self._clip_slots = []
@@ -28,24 +22,24 @@ class SceneComponent(Component):
             new_slot = self._create_clip_slot()
             self._clip_slots.append(new_slot)
 
-        self._triggered_color = u'Session.SceneTriggered'
-        self._scene_color = u'Session.Scene'
-        self._no_scene_color = u'Session.NoScene'
+        self._triggered_color = 'Session.SceneTriggered'
+        self._scene_color = 'Session.Scene'
+        self._no_scene_color = 'Session.NoScene'
         self._track_offset = 0
         self._select_button = None
         self._delete_button = None
         self._duplicate_button = None
-        self.__on_track_list_changed.subject = session_ring
+        self._SceneComponent__on_track_list_changed.subject = session_ring
 
-    @listens(u'tracks')
+    @listens('tracks')
     def __on_track_list_changed(self):
         self._update_controlled_tracks()
 
     def set_scene(self, scene):
         if liveobj_changed(scene, self._scene):
             self._scene = scene
-            self.__on_is_triggered_changed.subject = scene
-            self.__on_scene_color_changed.subject = scene
+            self._SceneComponent__on_is_triggered_changed.subject = scene
+            self._SceneComponent__on_scene_color_changed.subject = scene
             self.update()
 
     def set_launch_button(self, button):
@@ -62,7 +56,6 @@ class SceneComponent(Component):
         self._duplicate_button = button
 
     def set_track_offset(self, offset):
-        assert offset >= 0
         if offset != self._track_offset:
             self._track_offset = offset
             self._update_controlled_tracks()
@@ -100,10 +93,12 @@ class SceneComponent(Component):
         if self._track_offset > 0:
             real_offset = 0
             visible_tracks = 0
-            while visible_tracks < self._track_offset and len(tracks) > real_offset:
-                if tracks[real_offset].is_visible:
-                    visible_tracks += 1
-                real_offset += 1
+            while visible_tracks < self._track_offset:
+                if len(tracks) > real_offset:
+                    if tracks[real_offset].is_visible:
+                        visible_tracks += 1
+                    else:
+                        real_offset += 1
 
             actual_track_offset = real_offset
         return actual_track_offset
@@ -114,8 +109,9 @@ class SceneComponent(Component):
         track_offset = self._determine_actual_track_offset(tracks)
         clip_slots = self._scene.clip_slots
         for _ in self._clip_slots:
-            while len(tracks) > track_offset and not tracks[track_offset].is_visible:
-                track_offset += 1
+            while len(tracks) > track_offset:
+                if not tracks[track_offset].is_visible:
+                    track_offset += 1
 
             if len(clip_slots) > track_offset:
                 slots_to_use.append(clip_slots[track_offset])
@@ -132,21 +128,26 @@ class SceneComponent(Component):
     def _on_launch_button_pressed(self):
         if is_button_pressed(self._select_button):
             self._do_select_scene(self._scene)
-        elif liveobj_valid(self._scene):
-            if is_button_pressed(self._duplicate_button):
-                self._do_duplicate_scene(self._scene)
-            elif is_button_pressed(self._delete_button):
-                self._do_delete_scene(self._scene)
-            else:
-                self._do_launch_scene(True)
+        else:
+            if liveobj_valid(self._scene):
+                if is_button_pressed(self._duplicate_button):
+                    self._do_duplicate_scene(self._scene)
+                else:
+                    if is_button_pressed(self._delete_button):
+                        self._do_delete_scene(self._scene)
+                    else:
+                        self._do_launch_scene(True)
 
     @launch_button.released
     def launch_button(self, value):
         self._on_launch_button_released()
 
     def _on_launch_button_released(self):
-        if not is_button_pressed(self._select_button) and liveobj_valid(self._scene) and not is_button_pressed(self._duplicate_button) and not is_button_pressed(self._delete_button):
-            self._do_launch_scene(False)
+        if not is_button_pressed(self._select_button):
+            if liveobj_valid(self._scene):
+                if not is_button_pressed(self._duplicate_button):
+                    if not is_button_pressed(self._delete_button):
+                        self._do_launch_scene(False)
 
     def _do_select_scene(self, scene_for_overrides):
         if liveobj_valid(self._scene):
@@ -186,28 +187,29 @@ class SceneComponent(Component):
         if self.launch_button.is_momentary:
             self._scene.set_fire_button_state(value != 0)
             launched = value != 0
-        elif value != 0:
-            self._scene.fire()
-            launched = True
-        if launched and self.song.select_on_launch:
-            self.song.view.selected_scene = self._scene
+        else:
+            if value != 0:
+                self._scene.fire()
+                launched = True
+        if launched:
+            if self.song.select_on_launch:
+                self.song.view.selected_scene = self._scene
 
-    @listens(u'is_triggered')
+    @listens('is_triggered')
     def __on_is_triggered_changed(self):
-        assert liveobj_valid(self._scene)
         self._update_launch_button()
 
-    @listens(u'color')
+    @listens('color')
     def __on_scene_color_changed(self):
-        assert liveobj_valid(self._scene)
         self._update_launch_button()
 
     def _color_value(self, color):
         value = None
         if self._color_palette:
             value = self._color_palette.get(color, None)
-        if value is None and self._color_table:
-            value = find_nearest_color(self._color_table, color)
+        if value is None:
+            if self._color_table:
+                value = find_nearest_color(self._color_table, color)
         return value
 
     def _update_launch_button(self):

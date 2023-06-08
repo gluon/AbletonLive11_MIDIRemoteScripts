@@ -1,10 +1,8 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/APC40/SessionComponent.py
 from __future__ import absolute_import, print_function, unicode_literals
 from _Framework.Control import ButtonControl
 from _APC.SessionComponent import SessionComponent as SessionComponentBase
 
 class SessionComponent(SessionComponentBase):
-    u""" Special SessionComponent with a button (pedal) to fire the selected clip slot """
     slot_launch_button = ButtonControl()
     selected_scene_launch_button = ButtonControl()
 

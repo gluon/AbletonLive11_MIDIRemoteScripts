@@ -1,21 +1,15 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Push2/model/generation.py
 from __future__ import absolute_import, print_function, unicode_literals
-from hashlib import md5
-from contextlib import contextmanager
-from collections import namedtuple
-from operator import attrgetter
-from functools import partial
 from future.utils import iteritems
+from collections import namedtuple
+from contextlib import contextmanager
+from functools import partial
+from hashlib import md5
+from operator import attrgetter
 from ableton.v2.base import Disconnectable, EventObject, Slot, has_event
+from .declaration import ModelVisitor, UndeclaredReferenceClass, ViewModelCantContainListModels, ViewModelsCantContainRefs
 from .repr import ModelAdapter
-from .declaration import ViewModelsCantContainRefs, ViewModelCantContainListModels, UndeclaredReferenceClass, ModelVisitor
 
 class AdapterAwareSlot(Slot):
-    u"""
-    A special Slot-subclass that delegates
-    validation checking to the adapters that
-    are wrapped around all bindable objects.
-    """
 
     def subject_valid(self, adapter):
         return adapter is not None and adapter.is_valid()
@@ -23,14 +17,13 @@ class AdapterAwareSlot(Slot):
 
 class ModelUpdateNotifier(object):
 
-    def __init__(self, step = None, parent = None, delegate = None):
-        assert parent is not None or step is None, (parent, step)
+    def __init__(self, step=None, parent=None, delegate=None):
         self._step = step
         self._delegate = delegate
         self.path = [] if self._step is None else parent.path + [self._step]
 
     def step(self, step):
-        return ModelUpdateNotifier(step=step, parent=self, delegate=self._delegate)
+        return ModelUpdateNotifier(step=step, parent=self, delegate=(self._delegate))
 
     def attribute_changed(self, value):
         if self._delegate:
@@ -43,8 +36,8 @@ class ModelUpdateNotifier(object):
 
 class WrapperBase(Disconnectable):
 
-    def __init__(self, notifier = ModelUpdateNotifier(), *a, **k):
-        super(WrapperBase, self).__init__(*a, **k)
+    def __init__(self, notifier=ModelUpdateNotifier(), *a, **k):
+        (super(WrapperBase, self).__init__)(*a, **k)
         self._notifier = notifier
 
     def get(self):
@@ -60,7 +53,7 @@ class WrapperBase(Disconnectable):
 class SimpleWrapper(WrapperBase):
 
     def __init__(self, value, *a, **k):
-        super(SimpleWrapper, self).__init__(*a, **k)
+        (super(SimpleWrapper, self).__init__)(*a, **k)
         self._value = value
 
     def to_json(self):
@@ -81,10 +74,8 @@ class NullValueWrapper(SimpleWrapper):
 
 class BoundListWrapper(EventObject, SimpleWrapper):
 
-    def __init__(self, parent_object, name = None, wrapper = None, notifier = ModelUpdateNotifier(), *a, **k):
-        assert wrapper is not None
-        assert name is not None
-        super(BoundListWrapper, self).__init__([], notifier=notifier, *a, **k)
+    def __init__(self, parent_object, name=None, wrapper=None, notifier=ModelUpdateNotifier(), *a, **k):
+        (super(BoundListWrapper, self).__init__)([], *a, notifier=notifier, **k)
         self.wrapper = wrapper
         self.attrgetter = partial(getattr, parent_object, name)
         self._update_list()
@@ -97,25 +88,25 @@ class BoundListWrapper(EventObject, SimpleWrapper):
         for value in self._value:
             self.disconnect_disconnectable(value)
 
-        self._value = [ self.wrapper(v, notifier=self._notifier.step(i)) for i, v in enumerate(self.attrgetter()) ]
+        self._value = [self.wrapper(v, notifier=(self._notifier.step(i))) for i, v in enumerate(self.attrgetter())]
         for value in self._value:
             self.register_disconnectable(value)
 
     def to_json(self):
-        return [ v.to_json() for v in self._value ]
+        return [v.to_json() for v in self._value]
 
     def _connect(self, parent_object, name):
         if has_event(parent_object, name):
-            slot = AdapterAwareSlot(parent_object, lambda *a: self._update_list(), name)
+            slot = AdapterAwareSlot(parent_object, lambda *a: self._update_list()
+, name)
             slot.connect()
             self.register_slot(slot)
 
 
 class BoundAttributeWrapper(WrapperBase):
 
-    def __init__(self, bound_object, attr_getter = None, *a, **k):
-        super(BoundAttributeWrapper, self).__init__(*a, **k)
-        assert attr_getter is not None
+    def __init__(self, bound_object, attr_getter=None, *a, **k):
+        (super(BoundAttributeWrapper, self).__init__)(*a, **k)
         self.attrgetter = partial(attr_getter, bound_object)
 
     def get(self):
@@ -130,11 +121,9 @@ class BoundAttributeWrapper(WrapperBase):
 
 class BoundObjectWrapper(EventObject, SimpleWrapper):
 
-    def __init__(self, bound_object, wrappers = None, adapter = None, *a, **k):
-        assert adapter is not None
-        assert wrappers is not None
+    def __init__(self, bound_object, wrappers=None, adapter=None, *a, **k):
         bound_object = adapter(bound_object) if bound_object != None else None
-        super(BoundObjectWrapper, self).__init__(bound_object, *a, **k)
+        (super(BoundObjectWrapper, self).__init__)(bound_object, *a, **k)
         self.wrappers = wrappers
         self.values = {}
         if bound_object is not None:
@@ -148,17 +137,19 @@ class BoundObjectWrapper(EventObject, SimpleWrapper):
         self._notifier.structural_change()
 
     def to_json(self):
-        if self._value is not None and self._value.is_valid():
-            res = {}
-            for name, wrapper in iteritems(self.values):
-                res[name] = wrapper.to_json()
+        if self._value is not None:
+            if self._value.is_valid():
+                res = {}
+                for name, wrapper in iteritems(self.values):
+                    res[name] = wrapper.to_json()
 
-            return res
+                return res
 
     def _update_wrapper(self, name):
         if name in self.values:
             self.disconnect_disconnectable(self.values[name])
-        self.values[name] = self.wrappers[name](self._value, notifier=self._notifier.step(name))
+        self.values[name] = self.wrappers[name]((self._value),
+          notifier=(self._notifier.step(name)))
         self.register_disconnectable(self.values[name])
 
     def _property_changed(self, name, *_a):
@@ -177,10 +168,10 @@ class BoundObjectWrapper(EventObject, SimpleWrapper):
 class DeferredWrapper(WrapperBase):
 
     def __init__(self, parent, name, bound_object_wrapper, *a, **k):
-        super(DeferredWrapper, self).__init__(*a, **k)
+        (super(DeferredWrapper, self).__init__)(*a, **k)
         value = getattr(parent, name)
         if value is None:
-            self._value = NullValueWrapper(None, notifier=self._notifier.step(name))
+            self._value = NullValueWrapper(None, notifier=(self._notifier.step(name)))
         else:
             self._value = bound_object_wrapper(value, *a, **k)
 
@@ -199,12 +190,10 @@ class DeferredWrapper(WrapperBase):
 
 class NotifyingList(WrapperBase):
 
-    def __init__(self, value, wrapper = None, *a, **k):
-        super(NotifyingList, self).__init__(*a, **k)
-        assert wrapper is not None
-        assert value is not None
+    def __init__(self, value, wrapper=None, *a, **k):
+        (super(NotifyingList, self).__init__)(*a, **k)
         self.wrapper = wrapper
-        self.data = [ self.wrapper(item, notifier=self._notifier.step(i)) for i, item in enumerate(value) ]
+        self.data = [self.wrapper(item, notifier=(self._notifier.step(i))) for i, item in enumerate(value)]
 
     def notify(self):
         self._notifier.structural_change()
@@ -219,24 +208,24 @@ class NotifyingList(WrapperBase):
         self.notify()
 
     def to_json(self):
-        return [ item.to_json() for item in self.data ]
+        return [item.to_json() for item in self.data]
 
     def to_list(self):
-        return [ i.get() for i in self.data ]
+        return [i.get() for i in self.data]
 
     def __repr__(self):
-        return u'<%s %r>' % (self.__class__.__name__, self.data)
+        return '<%s %r>' % (self.__class__.__name__, self.data)
 
     def __setitem__(self, index, value):
         if not isinstance(index, slice):
             index = slice(index, index + 1)
             value = [value]
-        own_values = [ v.get() for v in self.data[index] ]
+        own_values = [v.get() for v in self.data[index]]
         if own_values != value:
             for old_item in self.data[index]:
                 old_item.disconnect()
 
-            self.data[index] = [ self.wrapper(item) for item in value ]
+            self.data[index] = [self.wrapper(item) for item in value]
             self.notify()
 
     def get(self):
@@ -262,14 +251,14 @@ class ModelMixin(WrapperBase):
     wrappers = {}
 
     def __init__(self, *a, **k):
-        super(ModelMixin, self).__init__(*a, **k)
+        (super(ModelMixin, self).__init__)(*a, **k)
         self.data = {}
         for name, wrapper in iteritems(self.wrappers):
             value = self.default_data[name]
-            self.data[name] = wrapper(value, notifier=self._notifier.step(name))
+            self.data[name] = wrapper(value, notifier=(self._notifier.step(name)))
 
         for name, child in iteritems(self.children):
-            self.data[name] = child(notifier=self._notifier.step(name))
+            self.data[name] = child(notifier=(self._notifier.step(name)))
 
     def disconnect(self):
         super(ModelMixin, self).disconnect()
@@ -283,19 +272,15 @@ class ModelMixin(WrapperBase):
         return self
 
 
-def make_bound_child_wrapper(name = None, wrapper = None):
+def make_bound_child_wrapper(name=None, wrapper=None):
 
-    def apply_wrapper(bound_object, name = None, wrapper = None, notifier = None):
-        return wrapper(getattr(bound_object, name), notifier=notifier)
+    def apply_wrapper(bound_object, name=None, wrapper=None, notifier=None):
+        return wrapper((getattr(bound_object, name)), notifier=notifier)
 
     return partial(apply_wrapper, name=name, wrapper=wrapper)
 
 
-ClassInfo = namedtuple(u'ClassInfo', [u'class_',
- u'd',
- u'default_data',
- u'wrappers',
- u'children'])
+ClassInfo = namedtuple('ClassInfo', ['class_','d','default_data','wrappers','children'])
 
 @contextmanager
 def pushpop(collection, item):
@@ -324,31 +309,42 @@ class BindingModelVisitor(ModelVisitor):
 
     def visit_binding_class(self, class_):
         if class_ not in self._decl2class:
-            with self(ClassInfo(class_=class_, d=None, default_data=None, wrappers={}, children=None)) as ci:
+            with self(ClassInfo(class_=class_,
+              d=None,
+              default_data=None,
+              wrappers={},
+              children=None)) as ci:
                 super(BindingModelVisitor, self).visit_binding_class(class_)
-                self._decl2class[class_] = partial(BoundObjectWrapper, wrappers=ci.wrappers, adapter=class_.__dict__.get(u'ADAPTER', ModelAdapter))
+                self._decl2class[class_] = partial(BoundObjectWrapper,
+                  wrappers=(ci.wrappers),
+                  adapter=(class_.__dict__.get('ADAPTER', ModelAdapter)))
                 self._name2class[class_.__name__] = self._decl2class[class_]
         return self._decl2class[class_]
 
     def visit_value_property(self, name, decl):
         super(BindingModelVisitor, self).visit_value_property(name, decl)
-        self.current_class_info.wrappers[name] = partial(BoundAttributeWrapper, attr_getter=attrgetter(name))
+        self.current_class_info.wrappers[name] = partial(BoundAttributeWrapper,
+          attr_getter=(attrgetter(name)))
 
     def visit_id_property(self, name, decl):
         super(BindingModelVisitor, self).visit_id_property(name, decl)
-        self.current_class_info.wrappers[name] = partial(BoundAttributeWrapper, attr_getter=decl.id_attribute_getter)
+        self.current_class_info.wrappers[name] = partial(BoundAttributeWrapper,
+          attr_getter=(decl.id_attribute_getter))
 
     def visit_binding_property(self, name, decl):
         super(BindingModelVisitor, self).visit_binding_property(name, decl)
-        self.current_class_info.wrappers[name] = make_bound_child_wrapper(name=name, wrapper=self._decl2class[decl.property_type])
+        self.current_class_info.wrappers[name] = make_bound_child_wrapper(name=name,
+          wrapper=(self._decl2class[decl.property_type]))
 
     def visit_value_list_property(self, name, decl, value_type):
         super(BindingModelVisitor, self).visit_value_list_property(name, decl, value_type)
-        self.current_class_info.wrappers[name] = partial(BoundListWrapper, name=name, wrapper=SimpleWrapper)
+        self.current_class_info.wrappers[name] = partial(BoundListWrapper,
+          name=name, wrapper=SimpleWrapper)
 
     def visit_complex_list_property(self, name, decl, value_type):
         super(BindingModelVisitor, self).visit_complex_list_property(name, decl, value_type)
-        self.current_class_info.wrappers[name] = partial(BoundListWrapper, name=name, wrapper=self._decl2class[value_type])
+        self.current_class_info.wrappers[name] = partial(BoundListWrapper,
+          name=name, wrapper=(self._decl2class[value_type]))
 
     def visit_custom_property(self, name, decl):
         super(BindingModelVisitor, self).visit_custom_property(name, decl)
@@ -356,7 +352,8 @@ class BindingModelVisitor(ModelVisitor):
 
     def visit_list_model_property(self, name, decl, value_type):
         super(BindingModelVisitor, self).visit_list_model_property(name, decl, value_type)
-        self.current_class_info.wrappers[name] = partial(BoundListWrapper, name=name, wrapper=self._decl2class[value_type])
+        self.current_class_info.wrappers[name] = partial(BoundListWrapper,
+          name=name, wrapper=(self._decl2class[value_type]))
 
     def visit_reference_property(self, name, decl):
         super(BindingModelVisitor, self).visit_reference_property(name, decl)
@@ -368,7 +365,8 @@ class BindingModelVisitor(ModelVisitor):
     @staticmethod
     def _resolve_reference(class_name, wrappers, name, decl2class):
         generated_class = decl2class[class_name]
-        wrappers[name] = partial(DeferredWrapper, name=name, bound_object_wrapper=generated_class)
+        wrappers[name] = partial(DeferredWrapper,
+          name=name, bound_object_wrapper=generated_class)
 
     @staticmethod
     def _resolve_reference_list(class_name, wrappers, name, decl2class):
@@ -379,7 +377,7 @@ class BindingModelVisitor(ModelVisitor):
 class ViewModelVisitor(ModelVisitor):
 
     def __init__(self, *a, **k):
-        super(ViewModelVisitor, self).__init__(*a, **k)
+        (super(ViewModelVisitor, self).__init__)(*a, **k)
         self._class_stack = []
         self._decl2class = {}
         self._name2class = {}
@@ -405,10 +403,10 @@ class ViewModelVisitor(ModelVisitor):
     def visit_viewmodel_class(self, class_):
         with self(ClassInfo(class_=class_, d={}, default_data={}, wrappers={}, children={})) as ci:
             super(ViewModelVisitor, self).visit_viewmodel_class(class_)
-            ci.d[u'default_data'] = ci.default_data
-            ci.d[u'wrappers'] = ci.wrappers
-            ci.d[u'children'] = ci.children
-            generated_class = type(str(u'P2' + class_.__name__), (ModelMixin,), ci.d)
+            ci.d['default_data'] = ci.default_data
+            ci.d['wrappers'] = ci.wrappers
+            ci.d['children'] = ci.children
+            generated_class = type(str('P2' + class_.__name__), (ModelMixin,), ci.d)
             self._decl2class[class_] = generated_class
             return generated_class
 
@@ -447,7 +445,7 @@ class ViewModelVisitor(ModelVisitor):
         ci = self.current_class_info
         ci.d[name] = _generate_model_mixin_property(name)
         ci.default_data[name] = []
-        ci.wrappers[name] = partial(NotifyingList, wrapper=self._decl2class[value_type])
+        ci.wrappers[name] = partial(NotifyingList, wrapper=(self._decl2class[value_type]))
 
     def visit_reference_property(self, name, decl):
         raise ViewModelsCantContainRefs
@@ -471,7 +469,9 @@ class ModelFingerprintVisitor(ModelVisitor):
     @property
     def fingerprint(self):
         if self._fingerprint is None:
-            self._fingerprint = u';'.join((u'%s(%s)' % (classname, u','.join(property_prints)) for classname, property_prints in sorted(iteritems(self._class2proplist), key=lambda item: item[0])))
+            self._fingerprint = ';'.join(('%s(%s)' % (classname, ','.join(property_prints)) for classname, property_prints in sorted((iteritems(self._class2proplist)),
+              key=(lambda item: item[0]
+))))
         return self._fingerprint
 
     def visit_class(self, class_):
@@ -480,35 +480,35 @@ class ModelFingerprintVisitor(ModelVisitor):
             self._class2proplist[class_.__name__] = property_prints
 
     def visit_id_property(self, *_a):
-        self.property_prints.append(u'id')
+        self.property_prints.append('id')
 
     def visit_value_property(self, name, decl):
         super(ModelFingerprintVisitor, self).visit_value_property(name, decl)
-        self.property_prints.append(u'%s:%s' % (name, decl.property_type.__name__))
+        self.property_prints.append('%s:%s' % (name, decl.property_type.__name__))
 
     def visit_view_model_property(self, name, decl):
         super(ModelFingerprintVisitor, self).visit_view_model_property(name, decl)
-        self.property_prints.append(u'%s:%s' % (name, decl.property_type.__name__))
+        self.property_prints.append('%s:%s' % (name, decl.property_type.__name__))
 
     def visit_value_list_property(self, name, decl, property_type):
         super(ModelFingerprintVisitor, self).visit_value_list_property(name, decl, property_type)
-        self.property_prints.append(u'%s:listof(%s)' % (name, property_type.__name__))
+        self.property_prints.append('%s:listof(%s)' % (name, property_type.__name__))
 
     def visit_list_model_property(self, name, decl, property_type):
         super(ModelFingerprintVisitor, self).visit_list_model_property(name, decl, property_type)
-        self.property_prints.append(u'%s:listmodel(%s)' % (name, property_type.__name__))
+        self.property_prints.append('%s:listmodel(%s)' % (name, property_type.__name__))
 
     def visit_complex_list_property(self, name, decl, value_type):
         super(ModelFingerprintVisitor, self).visit_complex_list_property(name, decl, value_type)
-        self.property_prints.append(u'%s:listof(%s)' % (name, value_type.__name__))
+        self.property_prints.append('%s:listof(%s)' % (name, value_type.__name__))
 
     def visit_binding_property(self, name, decl):
         super(ModelFingerprintVisitor, self).visit_binding_property(name, decl)
-        self.property_prints.append(u'%s:%s' % (name, decl.property_type.__name__))
+        self.property_prints.append('%s:%s' % (name, decl.property_type.__name__))
 
 
 def generate_model_fingerprint(cls):
-    return md5(ModelFingerprintVisitor(cls).fingerprint.encode(u'utf-8')).hexdigest()
+    return md5(ModelFingerprintVisitor(cls).fingerprint.encode('utf-8')).hexdigest()
 
 
 def generate_mrs_model(cls):

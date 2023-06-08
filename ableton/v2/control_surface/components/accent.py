@@ -1,4 +1,3 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/ableton/v2/control_surface/components/accent.py
 from __future__ import absolute_import, print_function, unicode_literals
 from ...base import listenable_property
 from ..component import Component
@@ -6,10 +5,11 @@ from ..control import ToggleButtonControl
 from ..elements import NullFullVelocity
 
 class AccentComponent(Component):
-    accent_button = ToggleButtonControl(toggled_color=u'Accent.On', untoggled_color=u'Accent.Off')
+    accent_button = ToggleButtonControl(toggled_color='Accent.On',
+      untoggled_color='Accent.Off')
 
     def __init__(self, *a, **k):
-        super(AccentComponent, self).__init__(*a, **k)
+        (super(AccentComponent, self).__init__)(*a, **k)
         self.set_full_velocity(None)
 
     def set_full_velocity(self, full_velocity):

@@ -1,4 +1,3 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/ableton/v2/control_surface/midi.py
 from __future__ import absolute_import, print_function, unicode_literals
 from builtins import map
 from numbers import Number
@@ -12,7 +11,8 @@ SYSEX_GENERAL_INFO = 6
 SYSEX_NON_REALTIME = 126
 SYSEX_IDENTITY_REQUEST_ID = 1
 SYSEX_IDENTITY_RESPONSE_ID = 2
-SYSEX_IDENTITY_REQUEST_MESSAGE = (SYSEX_START,
+SYSEX_IDENTITY_REQUEST_MESSAGE = (
+ SYSEX_START,
  SYSEX_NON_REALTIME,
  127,
  SYSEX_GENERAL_INFO,
@@ -25,10 +25,10 @@ def is_valid_channel(channel):
     return 0 <= channel < 16
 
 
-def is_valid_value(value):
+def is_valid_value(value, max_val=128):
     if not isinstance(value, Number):
         return False
-    return 0 <= value < 128
+    return 0 <= value < max_val
 
 
 def is_valid_identifier(identifier):
@@ -57,4 +57,4 @@ def extract_value(midi_bytes):
 
 def pretty_print_bytes(midi_bytes):
     hex_values = list(map(hex, midi_bytes))
-    return u' '.join(hex_values)
+    return ' '.join(hex_values)

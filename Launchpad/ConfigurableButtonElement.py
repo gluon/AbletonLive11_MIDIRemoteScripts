@@ -1,11 +1,9 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Launchpad/ConfigurableButtonElement.py
 from __future__ import absolute_import, print_function, unicode_literals
 from builtins import range
 import Live
 from _Framework.ButtonElement import *
 
 class ConfigurableButtonElement(ButtonElement):
-    u""" Special button class that can be configured with custom on- and off-values """
 
     def __init__(self, is_momentary, msg_type, channel, identifier):
         ButtonElement.__init__(self, is_momentary, msg_type, channel, identifier)
@@ -17,8 +15,6 @@ class ConfigurableButtonElement(ButtonElement):
         self._pending_listeners = []
 
     def set_on_off_values(self, on_value, off_value):
-        assert on_value in range(128)
-        assert off_value in range(128)
         self.clear_send_cache()
         self._on_value = on_value
         self._off_value = off_value
@@ -38,7 +34,7 @@ class ConfigurableButtonElement(ButtonElement):
     def reset(self):
         self.send_value(4)
 
-    def add_value_listener(self, callback, identify_sender = False):
+    def add_value_listener(self, callback, identify_sender=False):
         if not self._is_notifying:
             ButtonElement.add_value_listener(self, callback, identify_sender)
         else:
@@ -53,12 +49,13 @@ class ConfigurableButtonElement(ButtonElement):
 
         self._pending_listeners = []
 
-    def send_value(self, value, force = False):
+    def send_value(self, value, force=False):
         ButtonElement.send_value(self, value, force or self._force_next_value)
         self._force_next_value = False
 
     def install_connections(self, install_translation_callback, install_mapping_callback, install_forwarding_callback):
         if self._is_enabled:
             ButtonElement.install_connections(self, install_translation_callback, install_mapping_callback, install_forwarding_callback)
-        elif self._msg_channel != self._original_channel or self._msg_identifier != self._original_identifier:
-            install_translation_callback(self._msg_type, self._original_identifier, self._original_channel, self._msg_identifier, self._msg_channel)
+        else:
+            if self._msg_channel != self._original_channel or self._msg_identifier != self._original_identifier:
+                install_translation_callback(self._msg_type, self._original_identifier, self._original_channel, self._msg_identifier, self._msg_channel)

@@ -1,11 +1,9 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Novation_Impulse/EncoderModeSelector.py
 from __future__ import absolute_import, print_function, unicode_literals
 from builtins import range
 import Live
-from _Framework.ModeSelectorComponent import ModeSelectorComponent
+import _Framework.ModeSelectorComponent as ModeSelectorComponent
 
 class EncoderModeSelector(ModeSelectorComponent):
-    u""" Class that reassigns the given encoders to either device- or mixer control """
 
     def __init__(self, device, mixer, bank_up_button, bank_down_button, encoders):
         ModeSelectorComponent.__init__(self)
@@ -36,13 +34,11 @@ class EncoderModeSelector(ModeSelectorComponent):
 
     def set_device_mixer_buttons(self, device_button, mixer_button):
         if self._device_button != None:
-            assert self._mixer_button != None
             self._device_button.remove_value_listener(self._device_value)
             self._mixer_button.remove_value_listener(self._mixer_value)
         self._device_button = device_button
         self._mixer_button = mixer_button
         if self._device_button != None:
-            assert self._mixer_button != None
             self._device_button.add_value_listener(self._device_value)
             self._mixer_button.add_value_listener(self._mixer_value)
 
@@ -54,7 +50,6 @@ class EncoderModeSelector(ModeSelectorComponent):
 
     def update(self):
         super(EncoderModeSelector, self).update()
-        assert self._mode_index in range(self.number_of_modes())
         if self.is_enabled():
             self._device.set_allow_update(False)
             self._mixer.set_allow_update(False)
@@ -75,43 +70,42 @@ class EncoderModeSelector(ModeSelectorComponent):
                     strip = self._mixer.channel_strip(index)
                     if self._mode_index == 0:
                         strip.set_pan_control(self._encoders[index])
-                    elif self._mode_index < 5:
-                        sends = [None,
-                         None,
-                         None,
-                         None]
-                        sends[self._mode_index - 1] = self._encoders[index]
-                        strip.set_send_controls(tuple(sends))
                     else:
-                        strip.set_volume_control(self._encoders[index])
+                        if self._mode_index < 5:
+                            sends = [
+                             None, None, None, None]
+                            sends[self._mode_index - 1] = self._encoders[index]
+                            strip.set_send_controls(tuple(sends))
+                        else:
+                            strip.set_volume_control(self._encoders[index])
 
             self._device.set_allow_update(True)
             self._mixer.set_allow_update(True)
 
     def _bank_down_value(self, value):
-        assert value in range(128)
-        if self.is_enabled() and not self._device_mode:
-            if value > 0 or not self._bank_down_button.is_momentary():
-                new_mode = max(self._mode_index - 1, 0)
-                self.set_mode(new_mode)
+        if self.is_enabled():
+            if not self._device_mode:
+                if not (value > 0 or self._bank_down_button.is_momentary()):
+                    new_mode = max(self._mode_index - 1, 0)
+                    self.set_mode(new_mode)
 
     def _bank_up_value(self, value):
-        assert value in range(128)
-        if self.is_enabled() and not self._device_mode:
-            if value > 0 or not self._bank_up_button.is_momentary():
-                new_mode = min(self._mode_index + 1, self.number_of_modes() - 1)
-                self.set_mode(new_mode)
+        if self.is_enabled():
+            if not self._device_mode:
+                if not (value > 0 or self._bank_up_button.is_momentary()):
+                    new_mode = min(self._mode_index + 1, self.number_of_modes() - 1)
+                    self.set_mode(new_mode)
 
     def _device_value(self, value):
-        assert value in range(128)
-        if self.is_enabled() and not self._device_mode:
-            if value > 0 or not self._device_button.is_momentary():
-                self._device_mode = True
-                self.update()
+        if self.is_enabled():
+            if not self._device_mode:
+                if not (value > 0 or self._device_button.is_momentary()):
+                    self._device_mode = True
+                    self.update()
 
     def _mixer_value(self, value):
-        assert value in range(128)
-        if self.is_enabled() and self._device_mode:
-            if value > 0 or not self._mixer_button.is_momentary():
-                self._device_mode = False
-                self.update()
+        if self.is_enabled():
+            if self._device_mode:
+                if not (value > 0 or self._mixer_button.is_momentary()):
+                    self._device_mode = False
+                    self.update()

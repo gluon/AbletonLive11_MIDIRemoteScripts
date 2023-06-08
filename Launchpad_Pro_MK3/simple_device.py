@@ -1,4 +1,3 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Launchpad_Pro_MK3/simple_device.py
 from __future__ import absolute_import, print_function, unicode_literals
 from future.moves.itertools import zip_longest
 from ableton.v2.base import liveobj_valid
@@ -12,9 +11,9 @@ class SimpleDeviceParameterComponent(SimpleDeviceParameterComponentBase):
     static_color_controls = ControlList(SendValueControl, 8)
     stop_fader_control = SendReceiveValueControl()
 
-    def __init__(self, static_color_value = 0, *a, **k):
+    def __init__(self, static_color_value=0, *a, **k):
         self._static_color_value = static_color_value
-        super(SimpleDeviceParameterComponent, self).__init__(use_parameter_banks=True, *a, **k)
+        (super(SimpleDeviceParameterComponent, self).__init__)(a, use_parameter_banks=True, **k)
         self._update_static_color_controls()
         self._next_bank_index = self.bank_index
 

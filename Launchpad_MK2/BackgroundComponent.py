@@ -1,4 +1,3 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Launchpad_MK2/BackgroundComponent.py
 from __future__ import absolute_import, print_function, unicode_literals
 from _Framework.BackgroundComponent import BackgroundComponent as BackgroundComponentBase
 
@@ -15,8 +14,8 @@ class BackgroundComponent(BackgroundComponentBase):
 
 class TranslatingBackgroundComponent(BackgroundComponent):
 
-    def __init__(self, translation_channel = 0, *a, **k):
-        super(TranslatingBackgroundComponent, self).__init__(*a, **k)
+    def __init__(self, translation_channel=0, *a, **k):
+        (super(TranslatingBackgroundComponent, self).__init__)(*a, **k)
         self._translation_channel = translation_channel
 
     def _clear_control(self, name, control):

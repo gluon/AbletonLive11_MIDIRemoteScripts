@@ -1,17 +1,17 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Push2/device_component.py
 from __future__ import absolute_import, print_function, unicode_literals
+import re
 from collections import namedtuple
 from functools import partial
-import re
 from MidiRemoteScript import MutableVector
 from ableton.v2.base import EventError, const, listenable_property, listens, liveobj_valid
-from ableton.v2.control_surface import DeviceProvider as DeviceProviderBase, ParameterInfo
+from ableton.v2.control_surface import DeviceProvider as DeviceProviderBase
+from ableton.v2.control_surface import ParameterInfo
 from ableton.v2.control_surface.components import DeviceComponent as DeviceComponentBase
-from ableton.v2.control_surface.control import control_list, ButtonControl
+from ableton.v2.control_surface.control import ButtonControl, control_list
 from pushbase.song_utils import find_parent_track
 from .colors import COLOR_INDEX_TO_SCREEN_COLOR
-from .device_parameter_bank_with_options import create_device_bank_with_options, OPTIONS_PER_BANK
-from .parameter_mapping_sensitivities import PARAMETER_SENSITIVITIES, DEFAULT_SENSITIVITY_KEY, FINE_GRAINED_SENSITIVITY_KEY, parameter_mapping_sensitivity, fine_grain_parameter_mapping_sensitivity
+from .device_parameter_bank_with_options import OPTIONS_PER_BANK, create_device_bank_with_options
+from .parameter_mapping_sensitivities import DEFAULT_SENSITIVITY_KEY, FINE_GRAINED_SENSITIVITY_KEY, PARAMETER_SENSITIVITIES, fine_grain_parameter_mapping_sensitivity, parameter_mapping_sensitivity
 
 def make_vector(items):
     vector = MutableVector()
@@ -24,19 +24,23 @@ def make_vector(items):
 def parameter_sensitivities(device_class, parameter):
     sensitivities = {}
     try:
-        param_name = parameter.name if liveobj_valid(parameter) else u''
+        param_name = parameter.name if liveobj_valid(parameter) else ''
         sensitivities = PARAMETER_SENSITIVITIES[device_class][param_name]
     except KeyError:
         pass
 
-    for key, getter in ((DEFAULT_SENSITIVITY_KEY, parameter_mapping_sensitivity), (FINE_GRAINED_SENSITIVITY_KEY, fine_grain_parameter_mapping_sensitivity)):
+    for key, getter in (
+     (
+      DEFAULT_SENSITIVITY_KEY, parameter_mapping_sensitivity),
+     (
+      FINE_GRAINED_SENSITIVITY_KEY, fine_grain_parameter_mapping_sensitivity)):
         if key not in sensitivities:
             sensitivities[key] = getter(parameter)
 
     return sensitivities
 
 
-ButtonRange = namedtuple(u'ButtonRange', [u'left_index', u'right_index'])
+ButtonRange = namedtuple('ButtonRange', ['left_index', 'right_index'])
 
 class Push2DeviceProvider(DeviceProviderBase):
     allow_update_callback = const(True)
@@ -50,8 +54,8 @@ class GenericDeviceComponent(DeviceComponentBase):
     parameter_touch_buttons = control_list(ButtonControl, control_count=8)
     shift_button = ButtonControl()
 
-    def __init__(self, visualisation_real_time_data = None, delete_button = None, *a, **k):
-        super(GenericDeviceComponent, self).__init__(*a, **k)
+    def __init__(self, visualisation_real_time_data=None, delete_button=None, *a, **k):
+        (super(GenericDeviceComponent, self).__init__)(*a, **k)
         self._visualisation_real_time_data = visualisation_real_time_data
         self._delete_button = delete_button
         self.default_sensitivity = partial(self._sensitivity, DEFAULT_SENSITIVITY_KEY)
@@ -65,10 +69,6 @@ class GenericDeviceComponent(DeviceComponentBase):
         self.notify_options()
 
     def _on_device_changed(self, device):
-        u"""
-        Override the base class behaviour, which calls _set_device when a device in
-        the device provider changes. It's already donne by the DeviceComponentProvider.
-        """
         pass
 
     @parameter_touch_buttons.pressed
@@ -127,7 +127,10 @@ class GenericDeviceComponent(DeviceComponentBase):
         return True
 
     def _create_parameter_info(self, parameter, name):
-        return ParameterInfo(parameter=parameter if self._is_parameter_available(parameter) else None, name=name, default_encoder_sensitivity=self.default_sensitivity(parameter), fine_grain_encoder_sensitivity=self.fine_sensitivity(parameter))
+        return ParameterInfo(parameter=(parameter if self._is_parameter_available(parameter) else None),
+          name=name,
+          default_encoder_sensitivity=(self.default_sensitivity(parameter)),
+          fine_grain_encoder_sensitivity=(self.fine_sensitivity(parameter)))
 
     def _sensitivity(self, sensitivity_key, parameter):
         device = self.device()
@@ -141,11 +144,11 @@ class GenericDeviceComponent(DeviceComponentBase):
 
     @listenable_property
     def options(self):
-        return getattr(self._bank, u'options', [None] * OPTIONS_PER_BANK)
+        return getattr(self._bank, 'options', [None] * OPTIONS_PER_BANK)
 
     @property
     def bank_view_description(self):
-        return getattr(self._bank, u'bank_view_description', u'')
+        return getattr(self._bank, 'bank_view_description', '')
 
     @listenable_property
     def visualisation_visible(self):
@@ -161,16 +164,18 @@ class GenericDeviceComponent(DeviceComponentBase):
 
     @property
     def _shrink_parameters(self):
-        return [False] * 8
+        return [
+         False] * 8
 
-    @listens(u'options')
+    @listens('options')
     def __on_options_changed(self):
         self.notify_options()
 
     def _setup_bank(self, device):
-        super(GenericDeviceComponent, self)._setup_bank(device, bank_factory=create_device_bank_with_options)
+        super(GenericDeviceComponent, self)._setup_bank(device,
+          bank_factory=create_device_bank_with_options)
         try:
-            self.__on_options_changed.subject = self._bank
+            self._GenericDeviceComponent__on_options_changed.subject = self._bank
         except EventError:
             pass
 
@@ -179,81 +184,80 @@ class DeviceComponentWithTrackColorViewData(GenericDeviceComponent):
 
     def _set_device(self, device):
         super(DeviceComponentWithTrackColorViewData, self)._set_device(device)
-        self.__on_device_active_changed.subject = device if liveobj_valid(device) else None
+        self._DeviceComponentWithTrackColorViewData__on_device_active_changed.subject = device if liveobj_valid(device) else None
         parent_track = find_parent_track(self._decorated_device)
-        self.__on_track_mute_changed.subject = parent_track
-        self.__on_track_muted_via_solo_changed.subject = parent_track
-        self.__on_track_or_chain_color_changed.subject = device.canonical_parent if liveobj_valid(device) else None
+        self._DeviceComponentWithTrackColorViewData__on_track_mute_changed.subject = parent_track
+        self._DeviceComponentWithTrackColorViewData__on_track_muted_via_solo_changed.subject = parent_track
+        self._DeviceComponentWithTrackColorViewData__on_track_or_chain_color_changed.subject = device.canonical_parent if liveobj_valid(device) else None
 
     def _initial_visualisation_view_data(self):
-        view_data = {u'IsActive': self._is_active_for_visualisation()}
+        view_data = {'IsActive': self._is_active_for_visualisation()}
         track_color = self._track_color_for_visualisation()
         if track_color is not None:
-            view_data[u'TrackColor'] = track_color
+            view_data['TrackColor'] = track_color
         return view_data
 
     def _is_active_for_visualisation(self):
         device = self._decorated_device
         parent_track = find_parent_track(self._decorated_device)
-        if liveobj_valid(device) and liveobj_valid(parent_track):
-            if parent_track == self.song.master_track:
-                return device.is_active
-            return device.is_active and not parent_track.mute and not parent_track.muted_via_solo
+        if liveobj_valid(device):
+            if liveobj_valid(parent_track):
+                if parent_track == self.song.master_track:
+                    return device.is_active
+                return device.is_active and not parent_track.mute and not parent_track.muted_via_solo
         return False
 
     def _track_color_for_visualisation(self):
         device = self._decorated_device
         canonical_parent = device.canonical_parent if liveobj_valid(device) else None
-        if liveobj_valid(canonical_parent) and canonical_parent.color_index is not None:
-            color = COLOR_INDEX_TO_SCREEN_COLOR[canonical_parent.color_index]
-            return color.as_remote_script_color()
+        if liveobj_valid(canonical_parent):
+            if canonical_parent.color_index is not None:
+                color = COLOR_INDEX_TO_SCREEN_COLOR[canonical_parent.color_index]
+                return color.as_remote_script_color()
 
-    @listens(u'is_active')
+    @listens('is_active')
     def __on_device_active_changed(self):
         self._update_is_active()
 
-    @listens(u'mute')
+    @listens('mute')
     def __on_track_mute_changed(self):
         self._update_is_active()
 
-    @listens(u'muted_via_solo')
+    @listens('muted_via_solo')
     def __on_track_muted_via_solo_changed(self):
         self._update_is_active()
 
     def _update_is_active(self):
         if self.is_enabled():
-            self._update_visualisation_view_data({u'IsActive': self._is_active_for_visualisation()})
+            self._update_visualisation_view_data({'IsActive': self._is_active_for_visualisation()})
 
-    @listens(u'color_index')
+    @listens('color_index')
     def __on_track_or_chain_color_changed(self):
         if self.is_enabled():
             track_color = self._track_color_for_visualisation()
             if track_color is not None:
-                self._update_visualisation_view_data({u'TrackColor': track_color})
+                self._update_visualisation_view_data({'TrackColor': track_color})
 
 
-ENVELOPE_FEATURES_FOR_PARAMETER = {u'Attack': set([u'AttackLine', u'AttackNode', u'DecayLine']),
- u'Decay': set([u'DecayLine', u'DecayNode', u'SustainLine']),
- u'Sustain': set([u'DecayLine',
-              u'DecayNode',
-              u'SustainLine',
-              u'SustainNode',
-              u'ReleaseLine']),
- u'Release': set([u'ReleaseLine', u'ReleaseNode']),
- u'Init': set([u'InitNode', u'AttackLine']),
- u'Initial': set([u'InitNode', u'AttackLine']),
- u'Peak': set([u'AttackLine', u'AttackNode', u'DecayLine']),
- u'End': set([u'ReleaseLine', u'ReleaseNode']),
- u'Final': set([u'ReleaseLine', u'ReleaseNode']),
- u'A Slope': set([u'AttackLine']),
- u'D Slope': set([u'DecayLine']),
- u'R Slope': set([u'ReleaseLine']),
- u'Fade In': set([u'FadeInLine', u'FadeInNode', u'SustainLine']),
- u'Fade Out': set([u'FadeOutLine', u'FadeOutNode'])}
+ENVELOPE_FEATURES_FOR_PARAMETER = {'Attack':set(['AttackLine', 'AttackNode', 'DecayLine']), 
+ 'Decay':set(['DecayLine', 'DecayNode', 'SustainLine']), 
+ 'Sustain':set([
+  'DecayLine','DecayNode','SustainLine','SustainNode','ReleaseLine']), 
+ 'Release':set(['ReleaseLine', 'ReleaseNode']), 
+ 'Init':set(['InitNode', 'AttackLine']), 
+ 'Initial':set(['InitNode', 'AttackLine']), 
+ 'Peak':set(['AttackLine', 'AttackNode', 'DecayLine']), 
+ 'End':set(['ReleaseLine', 'ReleaseNode']), 
+ 'Final':set(['ReleaseLine', 'ReleaseNode']), 
+ 'A Slope':set(['AttackLine']), 
+ 'D Slope':set(['DecayLine']), 
+ 'R Slope':set(['ReleaseLine']), 
+ 'Fade In':set(['FadeInLine', 'FadeInNode', 'SustainLine']), 
+ 'Fade Out':set(['FadeOutLine', 'FadeOutNode'])}
 
 def normalize_envelope_parameter_name(parameter_name, envelope_prefixes):
-    find_envelope_prefix = re.compile(u'^({}) '.format(u'|'.join(envelope_prefixes)))
-    return re.sub(find_envelope_prefix, u'', parameter_name)
+    find_envelope_prefix = re.compile('^({}) '.format('|'.join(envelope_prefixes)))
+    return re.sub(find_envelope_prefix, '', parameter_name)
 
 
 def extend_with_envelope_features_for_parameter(features, parameter, envelope_prefixes):

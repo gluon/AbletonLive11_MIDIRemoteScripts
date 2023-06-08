@@ -1,4 +1,3 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/pushbase/touch_strip_controller.py
 from __future__ import absolute_import, print_function, unicode_literals
 from builtins import range
 from ableton.v2.control_surface import Component
@@ -11,7 +10,7 @@ from .touch_strip_element import DEFAULT_BEHAVIOUR, MODWHEEL_BEHAVIOUR, SimpleBe
 class TouchStripControllerComponent(Component):
 
     def __init__(self, *a, **k):
-        super(TouchStripControllerComponent, self).__init__(*a, **k)
+        (super(TouchStripControllerComponent, self).__init__)(*a, **k)
         self._touch_strip = None
         self._parameter = None
 
@@ -42,7 +41,7 @@ class TouchStripControllerComponent(Component):
 class TouchStripEncoderConnection(Component, TouchEncoderObserver):
 
     def __init__(self, strip_controller, touch_button, *a, **k):
-        super(TouchStripEncoderConnection, self).__init__(*a, **k)
+        (super(TouchStripEncoderConnection, self).__init__)(*a, **k)
         self._strip_controller = strip_controller
         self._touch_button = touch_button
         self._encoder = None
@@ -58,14 +57,15 @@ class TouchStripEncoderConnection(Component, TouchEncoderObserver):
         self._on_encoder_change(encoder)
 
     def _on_encoder_change(self, encoder):
-        if consts.PROTO_TOUCH_ENCODER_TO_STRIP and self._encoder in (encoder, None):
-            self._set_touched_encoder(encoder if self._can_use_touch_encoder(encoder) else None)
+        if consts.PROTO_TOUCH_ENCODER_TO_STRIP:
+            if self._encoder in (encoder, None):
+                self._set_touched_encoder(encoder if self._can_use_touch_encoder(encoder) else None)
 
     def _can_use_touch_encoder(self, encoder):
-        is_useable = encoder.is_pressed() and encoder.mapped_parameter() != None
+        is_usable = encoder.is_pressed() and encoder.mapped_parameter() != None
         can_be_initial_encoder = self._encoder == None and not self._touch_button.is_pressed()
         should_trigger_update = self._encoder == encoder
-        return is_useable and (can_be_initial_encoder or should_trigger_update)
+        return is_usable and (can_be_initial_encoder or should_trigger_update)
 
     def _set_touched_encoder(self, encoder):
         self._encoder = encoder
@@ -78,7 +78,7 @@ class TouchStripPitchModComponent(Component, Messenger):
     touch_strip_toggle = ToggleButtonControl()
 
     def __init__(self, *a, **k):
-        super(TouchStripPitchModComponent, self).__init__(*a, **k)
+        (super(TouchStripPitchModComponent, self).__init__)(*a, **k)
         self._touch_strip = None
         self._touch_strip_indication = None
 
@@ -103,7 +103,7 @@ class TouchStripPitchModComponent(Component, Messenger):
     def _update_touch_strip_indication(self):
         if self._touch_strip_indication:
             self._touch_strip_indication.set_mode(TouchStripModes.CUSTOM_FREE)
-            self._touch_strip_indication.send_state([ (TouchStripStates.STATE_FULL if self.touch_strip_toggle.is_toggled else TouchStripStates.STATE_HALF) for _ in range(self._touch_strip_indication.state_count) ])
+            self._touch_strip_indication.send_state([TouchStripStates.STATE_FULL if self.touch_strip_toggle.is_toggled else TouchStripStates.STATE_HALF for _ in range(self._touch_strip_indication.state_count)])
 
     def update(self):
         super(TouchStripPitchModComponent, self).update()

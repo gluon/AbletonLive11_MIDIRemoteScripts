@@ -1,4 +1,3 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/MiniLab_mkII/SessionComponent.py
 from __future__ import absolute_import, print_function, unicode_literals
 from builtins import range
 from itertools import product
@@ -15,7 +14,7 @@ STOPPED_VALUE = 5
 class ClipSlotComponent(ClipSlotComponentBase):
 
     def __init__(self, *a, **k):
-        super(ClipSlotComponent, self).__init__(*a, **k)
+        (super(ClipSlotComponent, self).__init__)(*a, **k)
         self._led = None
 
     def set_led(self, led):
@@ -26,11 +25,12 @@ class ClipSlotComponent(ClipSlotComponentBase):
         self._update_led()
 
     def _update_led(self):
-        if self.is_enabled() and self._led != None:
-            value_to_send = self._feedback_value()
-            if value_to_send in (None, -1):
-                value_to_send = EMPTY_VALUE
-            self._led.send_value((value_to_send,))
+        if self.is_enabled():
+            if self._led != None:
+                value_to_send = self._feedback_value()
+                if value_to_send in (None, -1):
+                    value_to_send = EMPTY_VALUE
+                self._led.send_value((value_to_send,))
 
     def _feedback_value(self):
         if self._clip_slot != None:
@@ -40,12 +40,11 @@ class ClipSlotComponent(ClipSlotComponentBase):
                     if clip.will_record_on_start:
                         return TRIGGERED_TO_RECORD_VALUE
                     return TRIGGERED_TO_PLAY_VALUE
-                elif clip.is_playing:
+                if clip.is_playing:
                     if clip.is_recording:
                         return RECORDING_VALUE
                     return STARTED_VALUE
-                else:
-                    return STOPPED_VALUE
+                return STOPPED_VALUE
 
 
 class SceneComponent(SceneComponentBase):
@@ -56,7 +55,6 @@ class SessionComponent(SessionComponentBase):
     scene_component_type = SceneComponent
 
     def set_clip_slot_leds(self, leds):
-        assert not leds or leds.width() == self._num_tracks and leds.height() == self._num_scenes
         if leds:
             for led, (x, y) in leds.iterbuttons():
                 scene = self.scene(y)

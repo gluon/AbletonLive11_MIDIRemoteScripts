@@ -1,29 +1,62 @@
-# Config File for User-defined Instant Mappings
-
-# We assume that the controls on your MIDI controller
-# send CCs (except for pads). All controls that do not have
-# an explicit channel setting are expected to use the
-# global channel. CCs & Notes are counted from 0-127
-# and channels from 0-15.
-
-[Globals]
-# The channel that the controller should send on
 GlobalChannel: 0
-# If your controller is connected via USB, replace ControllerName
-# with the name of the respective port. Live will then try to
-# recognize the ports for you when you select your Instant-Mappings
-InputName: ControllerName
-OutputName: ControllerName
-# If your controller has pads that send notes, you can use them to
-# play the visible pads in your DrumRacks. Just replace the -1 for
-# the note (and channel) of the respective pad. The arrangement of
-# the pads in the DrumRacks is as follows:
+
+# ======================================================
+# Control Settings Information
+# ======================================================
+
+# The settings below allow you to control various
+# features in Live via MIDI messages that your
+# controller sends.
+
+# Aside from the PadxNote features where Note numbers
+# are assigned, all other features expect CCs. CCs and
+# Note numbers are counted from 0-127.
+
+# For the most part, CCs and Notes are expected to be
+# sent on the GlobalChannel.  However, it is possible
+# to specify a different channel for some features such
+# as EncoderChannelx.  In those cases, if the channel is
+# left at -1, the GlobalChannel will be used. Channels
+# are counted from 0-15.
+
+# Aside from buttons used for MixerControl, buttons on
+# your controller are expected to not be toggles (i.e.,
+# sending value 0 every second time you press it).
+
+# Finally, for some features, you can specify the map
+# mode of the MIDI message(s) assigned to the feature.
+# The following map modes are available:
+# - Absolute
+# - Absolute14Bit
+# - LinearSignedBit
+# - LinearSignedBit2
+# - LinearTwoCompliment
+# - LinearBinaryOffset
+# - AccelSignedBit
+# - AccelSignedBit2
+# - AccelTwoCompliment
+# - AccelBinaryOffset
+
+# For faders and knobs with a fixed range, you will
+# use Absolute or Absolute14Bit.  For endless encoders,
+# you will use one of the other modes.  To find out which
+# to use, you can:
+# - Consult the controller's documentation.
+# - Review section 27.2.4 of Live's manual:
+#   https://www.ableton.com/en/manual/midi-and-key-remote-control/
+# - Try the various modes to see which works best for you.
+
+# ======================================================
+
+# The Pad settings below allow you to assign Note
+# numbers that will be used to play the visible pads in
+# Drum Racks.  The arrangement of the Pads is as
+# follows:
 #   1     2     3     4
 #   5     6     7     8
 #   9    10    11    12
 #  13    14    15    16
-# (If you leave the channel of a pad at -1, Live will assume that
-#  the pad uses the global channel)
+
 Pad1Note: -1
 Pad2Note: -1
 Pad3Note: -1
@@ -57,13 +90,20 @@ Pad14Channel: -1
 Pad15Channel: -1
 Pad16Channel: -1
 
+# ======================================================
+
 [DeviceControls]
-# The Encoders will control the device parameters (you can also
-# use knobs or sliders). Replace the -1's with the CCs sent by
-# the respective controls on your controller. You can also set
-# the channel for each controller if it differs from the global
-# channel (if you leave the channel of an encoder at -1, Live
-# will assume that the encoder uses the global channel).
+# The settings below apply to the Device that is selected
+# in Live.
+
+# Encoder1-Encoder16 control up to 16 Device parameters
+# at a time.  The number of Encoders used here determines
+# how the bank buttons described further down will work.
+# If 8 or less Encoders are used, the bank buttons will
+# select one bank of 8 parameters for the Encoders to
+# control.  If 9 or more Encoders are used, the bank
+# buttons will select two banks of 8 parameters for the
+# Encoders to control.
 Encoder1: -1
 Encoder2: -1
 Encoder3: -1
@@ -72,6 +112,14 @@ Encoder5: -1
 Encoder6: -1
 Encoder7: -1
 Encoder8: -1
+Encoder9: -1
+Encoder10: -1
+Encoder11: -1
+Encoder12: -1
+Encoder13: -1
+Encoder14: -1
+Encoder15: -1
+Encoder16: -1
 EncoderChannel1: -1
 EncoderChannel2: -1
 EncoderChannel3: -1
@@ -80,22 +128,18 @@ EncoderChannel5: -1
 EncoderChannel6: -1
 EncoderChannel7: -1
 EncoderChannel8: -1
-# Enter the respective map mode for the encoders here. The following
-# map modes are available:
-# - Absolute
-# - Absolute14Bit
-# - LinearSignedBit
-# - LinearSignedBit2
-# - LinearTwoCompliment
-# - LinearBinaryOffset
-# - AccelSignedBit
-# - AccelSignedBit2
-# - AccelTwoCompliment
-# - AccelBinaryOffset
-# Consult the controller's documentation to find out which mode to use.
+EncoderChannel9: -1
+EncoderChannel10: -1
+EncoderChannel11: -1
+EncoderChannel12: -1
+EncoderChannel13: -1
+EncoderChannel14: -1
+EncoderChannel15: -1
+EncoderChannel16: -1
 EncoderMapMode: Absolute
-# Buttons used here are expected to not be toggles (i.e., sending
-# value 0 every second time you press it).
+
+# Bank1Button-Bank8Button directly select the bank(s) of
+# Device parameters for the Encoders to control.
 Bank1Button: -1
 Bank2Button: -1
 Bank3Button: -1
@@ -104,15 +148,27 @@ Bank5Button: -1
 Bank6Button: -1
 Bank7Button: -1
 Bank8Button: -1
+
+# NextBankButton and PrevBankButton select the next or
+# previous bank(s) of Device parameters for the Encoders
+# to control.
 NextBankButton: -1
 PrevBankButton: -1
+
+# OnOffButton toggles the Device Activator switch.
+OnOffButton: -1
+
+# LockButton locks the other DeviceControls to the
+# currently selected Device.
 LockButton: -1
 
+# ======================================================
+
 [MixerControls]
-# Again enter the appropriate CCs for the respective controls.
-# If all sliders use the global channel to send their data,
-# you can leave the channels at -1. You can, of course, use
-# encoders or knobs instead of sliders.
+# The settings below allow you to control various Mixer
+# features of 8 Tracks at a time.
+
+# VolumeSlider1-VolumeSlider8 control Track volume.
 VolumeSlider1: -1
 VolumeSlider2: -1
 VolumeSlider3: -1
@@ -129,8 +185,8 @@ Slider5Channel: -1
 Slider6Channel: -1
 Slider7Channel: -1
 Slider8Channel: -1
-MasterVolumeSlider: -1
-MasterSliderChannel: -1
+
+# Send1Knob1-Send1Knob8 control Track Send A.
 Send1Knob1: -1
 Send1Knob2: -1
 Send1Knob3: -1
@@ -139,6 +195,8 @@ Send1Knob5: -1
 Send1Knob6: -1
 Send1Knob7: -1
 Send1Knob8: -1
+
+# Send2Knob1-Send2Knob8 control Track Send B.
 Send2Knob1: -1
 Send2Knob2: -1
 Send2Knob3: -1
@@ -147,6 +205,44 @@ Send2Knob5: -1
 Send2Knob6: -1
 Send2Knob7: -1
 Send2Knob8: -1
+
+# TrackMuteButton1-TrackMuteButton8 control Track muting.
+TrackMuteButton1: -1
+TrackMuteButton2: -1
+TrackMuteButton3: -1
+TrackMuteButton4: -1
+TrackMuteButton5: -1
+TrackMuteButton6: -1
+TrackMuteButton7: -1
+TrackMuteButton8: -1
+
+# InvertMuteButtonFeedback specifies whether feedback sent
+# to TrackMuteButtons will be inverted (True) or not (False).
+# When inverted, an on value will be sent when a Track is not
+# muted and off value will be sent when a Track is muted.
+InvertMuteButtonFeedback: True
+
+# TrackSoloButton1-TrackSoloButton8 control Track soloing.
+TrackSoloButton1: -1
+TrackSoloButton2: -1
+TrackSoloButton3: -1
+TrackSoloButton4: -1
+TrackSoloButton5: -1
+TrackSoloButton6: -1
+TrackSoloButton7: -1
+TrackSoloButton8: -1
+
+# TrackSelectButton1-TrackSelectButton8 select Tracks.
+TrackSelectButton1: -1
+TrackSelectButton2: -1
+TrackSelectButton3: -1
+TrackSelectButton4: -1
+TrackSelectButton5: -1
+TrackSelectButton6: -1
+TrackSelectButton7: -1
+TrackSelectButton8: -1
+
+# TrackArmButton1-TrackArmButton8 control Track arming.
 TrackArmButton1: -1
 TrackArmButton2: -1
 TrackArmButton3: -1
@@ -155,16 +251,82 @@ TrackArmButton5: -1
 TrackArmButton6: -1
 TrackArmButton7: -1
 TrackArmButton8: -1
+
+# NextBankButton and PrevBankButton select the next or
+# previous bank of 8 Tracks for the controls above to
+# control.
+NextBankButton: -1
+PrevBankButton: -1
+
+# MasterVolumeSlider controls Master Track volume.
+MasterVolumeSlider: -1
+MasterSliderChannel: -1
+
+# CueVolumeSlider controls Cue/Preview volume.
+CueVolumeSlider: -1
+CueSliderChannel: -1
+
+# CrossfaderSlider controls the Crossfader.
+CrossfaderSlider: -1
+CrossfaderSliderChannel: -1
+CrossfaderMapMode: Absolute
+
+# VolumeMapMode specifies the map mode to use for all
+# volume controls.
 VolumeMapMode: Absolute
+
+# SendsMapMode specifies the map mode to use for all
+# send controls.
 SendsMapMode: Absolute
 
+# MixerButtonsToggle specifies whether the buttons in
+# this section are toggles (True) or momentary (False).
+MixerButtonsToggle: False
+
+# ======================================================
+
 [TransportControls]
-# The transport buttons are also expected not to be toggles.
+# The settings below allow you to control various
+# transport-related features.
+
+# StopButton stops playback.
 StopButton: -1
+
+# PlayButton starts playback.
 PlayButton: -1
+
+# RecButton toggles Arrangement Record.
 RecButton: -1
+
+# SessionRecButton toggles Session Record.
+SessionRecButton: -1
+
+# OverButton toggles Arrangement Overdub.
+OverButton: -1
+
+# MetroButton toggles the Metronome.
+MetroButton: -1
+
+# LoopButton toggles the Arrangement Loop.
 LoopButton: -1
+
+# RwdButton rewinds playback.
 RwdButton: -1
+
+# FwdButton fast-forwards playback.
 FfwdButton: -1
 
+# PunchInButton controls Punch-In.
+PunchInButton: -1
 
+# PunchOutButton controls Punch-Out.
+PunchOutButton: -1
+
+# NudgeUpButton triggers Phase Nudge Up.
+NudgeUpButton: -1
+
+# NudgeDownButton triggers Phase Nudge Down.
+NudgeDownButton: -1
+
+# TapTempoButton triggers Tap Tempo.
+TapTempoButton: -1

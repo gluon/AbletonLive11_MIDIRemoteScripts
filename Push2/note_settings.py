@@ -1,7 +1,4 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Push2/note_settings.py
-from __future__ import absolute_import, print_function, unicode_literals
-from __future__ import division
-import Live
+from __future__ import absolute_import, division, print_function, unicode_literals
 from builtins import round
 from past.utils import old_div
 from ableton.v2.base import listenable_property, listens
@@ -97,11 +94,11 @@ class NoteProbabilitySetting(NoteSetting):
 class NoteSettingsComponent(NoteSettingsComponentBase):
 
     def __init__(self, *a, **k):
-        super(NoteSettingsComponent, self).__init__(*a, **k)
-        self._selected_drum_pad_color = self.register_disconnectable(SelectedDrumPadColor(song=self.song))
-        self._selected_clip_color = self.register_disconnectable(SelectedClipColor(song_view=self.song.view))
+        (super(NoteSettingsComponent, self).__init__)(*a, **k)
+        self._selected_drum_pad_color = self.register_disconnectable(SelectedDrumPadColor(song=(self.song)))
+        self._selected_clip_color = self.register_disconnectable(SelectedClipColor(song_view=(self.song.view)))
         self._color = self._selected_clip_color
-        self.__on_midi_value_changed.subject = self._color
+        self._NoteSettingsComponent__on_midi_value_changed.subject = self._color
 
     def _create_settings(self, grid_resolution):
         args = dict(grid_resolution=grid_resolution)
@@ -121,13 +118,13 @@ class NoteSettingsComponent(NoteSettingsComponentBase):
 
     def set_color_mode(self, color_mode):
         self._color = self.get_color_for_mode(color_mode)
-        self.__on_midi_value_changed.subject = self._color
+        self._NoteSettingsComponent__on_midi_value_changed.subject = self._color
         self.notify_color_index()
 
     def get_color_for_mode(self, color_mode):
-        if color_mode == u'drum_pad':
+        if color_mode == 'drum_pad':
             return self._selected_drum_pad_color
-        if color_mode == u'clip':
+        if color_mode == 'clip':
             return self._selected_clip_color
 
     @property
@@ -161,6 +158,6 @@ class NoteSettingsComponent(NoteSettingsComponentBase):
             return color_index
         return -1
 
-    @listens(u'midi_value')
+    @listens('midi_value')
     def __on_midi_value_changed(self, *a):
         self.notify_color_index()

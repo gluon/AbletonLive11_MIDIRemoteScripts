@@ -1,4 +1,3 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Akai_Force_MPC/control.py
 from __future__ import absolute_import, print_function, unicode_literals
 from past.utils import old_div
 from ableton.v2.base import clamp, listens, liveobj_valid
@@ -11,10 +10,6 @@ class SendReceiveValueControl(InputControl):
 
 
 class MappedAbsoluteControl(MappedControl):
-    u"""
-    Control that maps ControlElements with an absolute map mode to
-    Live parameters. Supports internal parameters.
-    """
 
     class State(MappedControl.State):
 
@@ -40,7 +35,7 @@ class MappedAbsoluteControl(MappedControl):
                 else:
                     self._control_element.release_parameter()
 
-        @listens(u'value')
+        @listens('value')
         def _control_value(self, value):
             mapped_parameter = self.mapped_parameter
             if mapped_parameter.is_quantized:

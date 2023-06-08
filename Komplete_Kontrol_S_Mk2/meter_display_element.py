@@ -1,4 +1,3 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Komplete_Kontrol_S_Mk2/meter_display_element.py
 from __future__ import absolute_import, print_function, unicode_literals
 from builtins import range
 from ableton.v2.base import task
@@ -9,9 +8,9 @@ CLEAR_VALUE = 0
 class MeterDisplayElement(ControlElement):
 
     def __init__(self, header, num_segments, *a, **k):
-        super(MeterDisplayElement, self).__init__(*a, **k)
+        (super(MeterDisplayElement, self).__init__)(*a, **k)
         self._header = header
-        self._clear_values = [ CLEAR_VALUE for _ in range(num_segments * METERS_PER_SEGMENT) ]
+        self._clear_values = [CLEAR_VALUE for _ in range(num_segments * METERS_PER_SEGMENT)]
         self._meter_values = list(self._clear_values)
         self._last_sent_message = None
         self._send_message_task = self._tasks.add(task.run(self._send_message))

@@ -1,7 +1,6 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Komplete_Kontrol_S_Mk2/view_control_component.py
 from __future__ import absolute_import, print_function, unicode_literals
 from ableton.v2.control_surface import Component
-from ableton.v2.control_surface.components import BasicTrackScroller, BasicSceneScroller
+from ableton.v2.control_surface.components import BasicSceneScroller, BasicTrackScroller
 from ableton.v2.control_surface.control import SendValueEncoderControl
 
 class ViewControlComponent(Component):
@@ -9,16 +8,16 @@ class ViewControlComponent(Component):
     scene_encoder = SendValueEncoderControl()
 
     def __init__(self, *a, **k):
-        super(ViewControlComponent, self).__init__(*a, **k)
+        (super(ViewControlComponent, self).__init__)(*a, **k)
         self._track_scroller = BasicTrackScroller()
         self._scene_scroller = BasicSceneScroller()
         song = self.song
         view = song.view
-        self.register_slot(song, self._update_track_encoder, u'visible_tracks')
-        self.register_slot(song, self._update_track_encoder, u'return_tracks')
-        self.register_slot(view, self._update_track_encoder, u'selected_track')
-        self.register_slot(song, self._update_scene_encoder, u'scenes')
-        self.register_slot(view, self._update_scene_encoder, u'selected_scene')
+        self.register_slot(song, self._update_track_encoder, 'visible_tracks')
+        self.register_slot(song, self._update_track_encoder, 'return_tracks')
+        self.register_slot(view, self._update_track_encoder, 'selected_track')
+        self.register_slot(song, self._update_scene_encoder, 'scenes')
+        self.register_slot(view, self._update_scene_encoder, 'selected_scene')
 
     @track_encoder.value
     def track_encoder(self, value, _):

@@ -1,6 +1,7 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/SL_MkIII/control.py
 from __future__ import absolute_import, print_function, unicode_literals
-from ableton.v2.control_surface.control import Control, ConfigurableTextDisplayControl as ConfigurableTextDisplayControlBase, TextDisplayControl as TextDisplayControlBase
+from ableton.v2.control_surface.control import ConfigurableTextDisplayControl as ConfigurableTextDisplayControlBase
+from ableton.v2.control_surface.control import Control
+from ableton.v2.control_surface.control import TextDisplayControl as TextDisplayControlBase
 
 class BinaryControl(Control):
 
@@ -9,7 +10,7 @@ class BinaryControl(Control):
         OFF_VALUE = 0
 
         def __init__(self, *a, **k):
-            super(BinaryControl.State, self).__init__(*a, **k)
+            (super(BinaryControl.State, self).__init__)(*a, **k)
             self._is_on = False
 
         @property

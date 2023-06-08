@@ -1,18 +1,17 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/ableton/v2/control_surface/control/radio_button.py
 from __future__ import absolute_import, print_function, unicode_literals
 from ...base import nop
-from .control import control_event, control_color
 from .button import ButtonControlBase
+from .control import control_color, control_event
 
 class RadioButtonControl(ButtonControlBase):
-    checked = control_event(u'checked')
+    checked = control_event('checked')
 
     class State(ButtonControlBase.State):
-        unchecked_color = control_color(u'DefaultButton.Off')
-        checked_color = control_color(u'DefaultButton.On')
+        unchecked_color = control_color('DefaultButton.Off')
+        checked_color = control_color('DefaultButton.On')
 
-        def __init__(self, unchecked_color = None, checked_color = None, *a, **k):
-            super(RadioButtonControl.State, self).__init__(*a, **k)
+        def __init__(self, unchecked_color=None, checked_color=None, *a, **k):
+            (super(RadioButtonControl.State, self).__init__)(*a, **k)
             if unchecked_color is not None:
                 self.unchecked_color = unchecked_color
             if checked_color is not None:
@@ -43,5 +42,5 @@ class RadioButtonControl(ButtonControlBase):
 
         def _notify_checked(self):
             if self._checked:
-                self._call_listener(u'checked')
+                self._call_listener('checked')
                 self._on_checked()

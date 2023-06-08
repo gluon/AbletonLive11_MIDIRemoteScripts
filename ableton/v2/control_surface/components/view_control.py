@@ -1,17 +1,16 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/ableton/v2/control_surface/components/view_control.py
 from __future__ import absolute_import, print_function, unicode_literals
 import Live
 from ...base import depends, in_range, liveobj_valid
 from ..component import Component
-from .scroll import ScrollComponent, Scrollable
+from .scroll import Scrollable, ScrollComponent
 NavDirection = Live.Application.Application.View.NavDirection
-VIEWS = (u'Browser', u'Arranger', u'Session', u'Detail', u'Detail/Clip', u'Detail/DeviceChain')
+VIEWS = ('Browser', 'Arranger', 'Session', 'Detail', 'Detail/Clip', 'Detail/DeviceChain')
 
 class _DeltaSongScroller(Scrollable):
 
     @depends(song=None)
-    def __init__(self, song = None, *a, **k):
-        super(_DeltaSongScroller, self).__init__(*a, **k)
+    def __init__(self, song=None, *a, **k):
+        (super(_DeltaSongScroller, self).__init__)(*a, **k)
         self._song = song
 
     _do_scroll = NotImplemented
@@ -71,8 +70,9 @@ class TrackScroller(BasicTrackScroller):
     def _select_scene_of_playing_clip(self, track):
         if track.can_be_armed:
             playing_slot_index = track.playing_slot_index
-            if playing_slot_index >= 0 and track.clip_slots[playing_slot_index].clip:
-                self._song.view.highlighted_clip_slot = track.clip_slots[playing_slot_index]
+            if playing_slot_index >= 0:
+                if track.clip_slots[playing_slot_index].clip:
+                    self._song.view.highlighted_clip_slot = track.clip_slots[playing_slot_index]
 
 
 class BasicSceneScroller(_DeltaSongScroller):
@@ -94,7 +94,8 @@ class SceneScroller(BasicSceneScroller):
         super(SceneScroller, self)._do_scroll(delta)
         if liveobj_valid(self._song.view.highlighted_clip_slot):
             if self._song.view.highlighted_clip_slot.has_clip:
-                self._song.view.highlighted_clip_slot.fire(force_legato=True, launch_quantization=Live.Song.Quantization.q_no_q)
+                self._song.view.highlighted_clip_slot.fire(force_legato=True,
+                  launch_quantization=(Live.Song.Quantization.q_no_q))
             else:
                 self._song.view.selected_track.stop_all_clips(False)
 
@@ -103,29 +104,26 @@ class SceneListScroller(BasicSceneScroller):
 
     def _do_scroll(self, delta):
         super(SceneListScroller, self)._do_scroll(delta)
-        self._song.view.selected_scene.fire(force_legato=True, can_select_scene_on_launch=False)
+        self._song.view.selected_scene.fire(force_legato=True,
+          can_select_scene_on_launch=False)
 
 
 class ViewControlComponent(Component):
-    u"""
-    Component that can toggle the device chain- and clip view of the
-    selected track
-    """
 
     def __init__(self, *a, **k):
-        super(ViewControlComponent, self).__init__(*a, **k)
-        self._scroll_tracks = ScrollComponent(self._create_track_scroller(), parent=self)
-        self._scroll_scene_list = ScrollComponent(SceneListScroller(), parent=self)
-        self._scroll_scenes = ScrollComponent(self._create_scene_scroller(), parent=self)
+        (super(ViewControlComponent, self).__init__)(*a, **k)
+        self._scroll_tracks = ScrollComponent((self._create_track_scroller()), parent=self)
+        self._scroll_scene_list = ScrollComponent((SceneListScroller()), parent=self)
+        self._scroll_scenes = ScrollComponent((self._create_scene_scroller()), parent=self)
         song = self.song
         view = song.view
-        self.register_slot(song, self._scroll_tracks.update, u'visible_tracks')
-        self.register_slot(song, self._scroll_tracks.update, u'return_tracks')
-        self.register_slot(song, self._scroll_scenes.update, u'scenes')
-        self.register_slot(song, self._scroll_scene_list.update, u'scenes')
-        self.register_slot(view, self._scroll_tracks.update, u'selected_track')
-        self.register_slot(view, self._scroll_scenes.update, u'selected_scene')
-        self.register_slot(view, self._scroll_scene_list.update, u'selected_scene')
+        self.register_slot(song, self._scroll_tracks.update, 'visible_tracks')
+        self.register_slot(song, self._scroll_tracks.update, 'return_tracks')
+        self.register_slot(song, self._scroll_scenes.update, 'scenes')
+        self.register_slot(song, self._scroll_scene_list.update, 'scenes')
+        self.register_slot(view, self._scroll_tracks.update, 'selected_track')
+        self.register_slot(view, self._scroll_scenes.update, 'selected_scene')
+        self.register_slot(view, self._scroll_scene_list.update, 'selected_scene')
 
     def _create_track_scroller(self):
         return TrackScroller()
@@ -152,22 +150,22 @@ class ViewControlComponent(Component):
         self._scroll_scene_list.set_scroll_up_button(button)
 
     def show_view(self, view):
-        assert view in VIEWS
         app_view = self.application.view
         try:
-            if view == u'Detail/DeviceChain' or u'Detail/Clip':
-                if not app_view.is_view_visible(u'Detail'):
-                    app_view.show_view(u'Detail')
+            if not view == 'Detail/DeviceChain':
+                pass
+            if not app_view.is_view_visible('Detail'):
+                app_view.show_view('Detail')
             if not app_view.is_view_visible(view):
                 app_view.show_view(view)
         except RuntimeError:
             pass
 
     def focus_view(self, view):
-        assert view in VIEWS
         app_view = self.application.view
-        if view == u'Detail/DeviceChain' or u'Detail/Clip':
-            if not app_view.is_view_visible(u'Detail'):
-                app_view.show_view(u'Detail')
+        if not view == 'Detail/DeviceChain':
+            pass
+        if not app_view.is_view_visible('Detail'):
+            app_view.show_view('Detail')
         if not app_view.is_view_visible(view):
             app_view.focus_view(view)

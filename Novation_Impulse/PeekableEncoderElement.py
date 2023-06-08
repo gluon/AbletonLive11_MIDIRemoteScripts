@@ -1,18 +1,15 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Novation_Impulse/PeekableEncoderElement.py
 from __future__ import absolute_import, print_function, unicode_literals
 import Live
-from _Framework.EncoderElement import EncoderElement
+import _Framework.EncoderElement as EncoderElement
 from _Framework.InputControlElement import *
 
 class PeekableEncoderElement(EncoderElement):
-    u""" Encoder that can be connected and disconnected to a specific parameter """
 
     def __init__(self, msg_type, channel, identifier, map_mode):
         EncoderElement.__init__(self, msg_type, channel, identifier, map_mode)
         self._peek_mode = False
 
     def set_peek_mode(self, peek_mode):
-        assert isinstance(peek_mode, type(False))
         if self._peek_mode != peek_mode:
             self._peek_mode = peek_mode
             self._request_rebuild()

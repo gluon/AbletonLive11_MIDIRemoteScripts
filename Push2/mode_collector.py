@@ -1,11 +1,10 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Push2/mode_collector.py
 from __future__ import absolute_import, print_function, unicode_literals
-from ableton.v2.base import listenable_property, listens, EventObject
+from ableton.v2.base import EventObject, listenable_property, listens
 
 class ModeCollector(EventObject):
 
-    def __init__(self, main_modes = None, mix_modes = None, global_mix_modes = None, device_modes = None, *a, **k):
-        super(ModeCollector, self).__init__(*a, **k)
+    def __init__(self, main_modes=None, mix_modes=None, global_mix_modes=None, device_modes=None, *a, **k):
+        (super(ModeCollector, self).__init__)(*a, **k)
         self._main_modes = main_modes
         self._mix_modes = mix_modes
         self._global_mix_modes = global_mix_modes
@@ -19,7 +18,7 @@ class ModeCollector(EventObject):
     def main_mode(self):
         return self._main_modes.selected_mode
 
-    @listens(u'selected_mode')
+    @listens('selected_mode')
     def _on_selected_main_mode_changed(self, mode):
         self.notify_main_mode()
 
@@ -27,7 +26,7 @@ class ModeCollector(EventObject):
     def mix_mode(self):
         return self._mix_modes.selected_mode
 
-    @listens(u'selected_mode')
+    @listens('selected_mode')
     def _on_selected_mix_mode_changed(self, mode):
         self.notify_mix_mode()
 
@@ -35,7 +34,7 @@ class ModeCollector(EventObject):
     def global_mix_mode(self):
         return self._global_mix_modes.selected_mode
 
-    @listens(u'selected_mode')
+    @listens('selected_mode')
     def _on_selected_global_mix_mode_changed(self, mode):
         self.notify_global_mix_mode()
 
@@ -43,6 +42,6 @@ class ModeCollector(EventObject):
     def device_mode(self):
         return self._device_modes.selected_mode
 
-    @listens(u'selected_mode')
+    @listens('selected_mode')
     def _on_selected_device_mode_changed(self, mode):
         self.notify_device_mode()

@@ -1,4 +1,3 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/RemoteSL/consts.py
 from __future__ import absolute_import, print_function, unicode_literals
 from builtins import range
 NOTE_OFF_STATUS = 128
@@ -12,7 +11,8 @@ SL_MIDI_CHANNEL = 0
 CC_VAL_BUTTON_PRESSED = 1
 CC_VAL_BUTTON_RELEASED = 0
 ABLETON_PID = 4
-WELCOME_SYSEX_MESSAGE = (240,
+WELCOME_SYSEX_MESSAGE = (
+ 240,
  0,
  32,
  41,
@@ -25,7 +25,8 @@ WELCOME_SYSEX_MESSAGE = (240,
  1,
  1,
  247)
-GOOD_BYE_SYSEX_MESSAGE = (240,
+GOOD_BYE_SYSEX_MESSAGE = (
+ 240,
  0,
  32,
  41,
@@ -38,7 +39,8 @@ GOOD_BYE_SYSEX_MESSAGE = (240,
  1,
  0,
  247)
-ALL_LEDS_OFF_MESSAGE = (CC_STATUS + SL_MIDI_CHANNEL, 78, 0)
+ALL_LEDS_OFF_MESSAGE = (
+ CC_STATUS + SL_MIDI_CHANNEL, 78, 0)
 NUM_CHARS_PER_DISPLAY_STRIP = 9
 NUM_CHARS_PER_DISPLAY_LINE = NUM_CHARS_PER_DISPLAY_STRIP * NUM_CONTROLS_PER_ROW
 
@@ -48,7 +50,8 @@ def __create_row_range(cc_base):
 
 FX_DISPLAY_PAGE_UP = 88
 FX_DISPLAY_PAGE_DOWN = 89
-fx_display_button_ccs = [FX_DISPLAY_PAGE_UP, FX_DISPLAY_PAGE_DOWN]
+fx_display_button_ccs = [
+ FX_DISPLAY_PAGE_UP, FX_DISPLAY_PAGE_DOWN]
 FX_SELECT_FIRST_BUTTON_ROW = 80
 FX_SELECT_ENCODER_ROW = 81
 FX_SELECT_SECOND_BUTTON_ROW = 82
@@ -78,7 +81,8 @@ fx_forwarded_ccs = fx_display_button_ccs + fx_select_button_ccs + fx_upper_butto
 fx_forwarded_notes = []
 MX_DISPLAY_PAGE_UP = 90
 MX_DISPLAY_PAGE_DOWN = 91
-mx_display_button_ccs = [MX_DISPLAY_PAGE_UP, MX_DISPLAY_PAGE_DOWN]
+mx_display_button_ccs = [
+ MX_DISPLAY_PAGE_UP, MX_DISPLAY_PAGE_DOWN]
 MX_SELECT_SLIDER_ROW = 85
 MX_SELECT_FIRST_BUTTON_ROW = 86
 MX_SELECT_SECOND_BUTTON_ROW = 87
@@ -96,7 +100,8 @@ TS_PLAY_CC = 75
 TS_RECORD_CC = 76
 TS_LOOP_CC = 77
 TS_LOCK = 79
-ts_ccs = [TS_REWIND_CC,
+ts_ccs = [
+ TS_REWIND_CC,
  TS_FORWARD_CC,
  TS_STOP_CC,
  TS_PLAY_CC,
@@ -109,11 +114,5 @@ mx_ccs = mx_display_button_ccs + mx_select_button_ccs + mx_first_button_row_ccs 
 mx_notes = []
 mx_forwarded_ccs = mx_display_button_ccs + mx_select_button_ccs + mx_first_button_row_ccs + mx_second_button_row_ccs
 mx_forwarded_notes = []
-PAD_TRANSLATION = ((0, 2, 36, 0),
- (1, 2, 37, 0),
- (2, 2, 38, 0),
- (3, 2, 39, 0),
- (0, 3, 40, 0),
- (1, 3, 41, 0),
- (2, 3, 42, 0),
- (3, 3, 43, 0))
+PAD_TRANSLATION = ((0, 2, 36, 0), (1, 2, 37, 0), (2, 2, 38, 0), (3, 2, 39, 0), (0, 3, 40, 0),
+                   (1, 3, 41, 0), (2, 3, 42, 0), (3, 3, 43, 0))

@@ -1,4 +1,3 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/KeyLab_Essential/channel_strip.py
 from __future__ import absolute_import, print_function, unicode_literals
 from ableton.v2.control_surface.components import ChannelStripComponent as ChannelStripComponentBase
 from .ringed_mapped_encoder_control import RingedMappedEncoderControl

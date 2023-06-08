@@ -1,14 +1,13 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/_Arturia/SessionComponent.py
 from __future__ import absolute_import, print_function, unicode_literals
-from _Framework.SessionComponent import SessionComponent as SessionComponentBase
 from _Framework.Control import EncoderControl
+from _Framework.SessionComponent import SessionComponent as SessionComponentBase
 
 class SessionComponent(SessionComponentBase):
     scene_select_encoder = EncoderControl()
     _session_component_ends_initialisation = False
 
     def __init__(self, *a, **k):
-        super(SessionComponent, self).__init__(*a, **k)
+        (super(SessionComponent, self).__init__)(*a, **k)
         self.set_offsets(0, 0)
         self.on_selected_scene_changed()
         self.on_selected_track_changed()
@@ -23,8 +22,10 @@ class SessionComponent(SessionComponentBase):
         current_index = list(all_scenes).index(selected_scene)
         if value > 0 and selected_scene != all_scenes[-1]:
             self.song().view.selected_scene = all_scenes[current_index + 1]
-        elif value < 0 and selected_scene != all_scenes[0]:
-            self.song().view.selected_scene = all_scenes[current_index - 1]
+        else:
+            if value < 0:
+                if selected_scene != all_scenes[0]:
+                    self.song().view.selected_scene = all_scenes[current_index - 1]
 
     def on_selected_scene_changed(self):
         super(SessionComponent, self).on_selected_scene_changed()

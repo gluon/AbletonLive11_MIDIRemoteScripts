@@ -1,17 +1,15 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/SL_MkIII/skin.py
 from __future__ import absolute_import, print_function, unicode_literals
-from builtins import object
 from ableton.v2.control_surface import Skin
 from novation.colors import Rgb
 
-class Colors(object):
+class Colors:
 
-    class DefaultButton(object):
+    class DefaultButton:
         On = Rgb.GREEN
         Off = Rgb.BLACK
         Disabled = Rgb.BLACK
 
-    class Session(object):
+    class Session:
         RecordButton = Rgb.RED
         ClipTriggeredPlay = Rgb.GREEN_BLINK
         ClipTriggeredRecord = Rgb.RED_BLINK
@@ -27,7 +25,7 @@ class Colors(object):
         ClipEmpty = Rgb.BLACK
         Navigation = Rgb.WHITE
 
-    class Mixer(object):
+    class Mixer:
         ArmOn = Rgb.RED
         ArmOff = Rgb.RED_HALF
         SoloOn = Rgb.BLUE
@@ -38,13 +36,13 @@ class Colors(object):
         TrackSelect = Rgb.WHITE
         Send = Rgb.WHITE
 
-    class Monitor(object):
+    class Monitor:
         In = Rgb.LIGHT_BLUE
         Auto = Rgb.YELLOW
         Off = Rgb.YELLOW
         Disabled = Rgb.YELLOW_HALF
 
-    class Transport(object):
+    class Transport:
         PlayOn = Rgb.GREEN
         PlayOff = Rgb.GREEN_HALF
         StopEnabled = Rgb.WHITE
@@ -56,38 +54,38 @@ class Colors(object):
         MetronomeOn = Rgb.YELLOW
         MetronomeOff = Rgb.YELLOW_HALF
 
-    class Recording(object):
+    class Recording:
         On = Rgb.RED
         Off = Rgb.RED_HALF
         Transition = Rgb.BLACK
 
-    class Mode(object):
+    class Mode:
 
-        class Mute(object):
+        class Mute:
             On = Rgb.YELLOW
 
-        class Solo(object):
+        class Solo:
             On = Rgb.BLUE
 
-        class Monitor(object):
+        class Monitor:
             On = Rgb.GREEN
 
-        class Arm(object):
+        class Arm:
             On = Rgb.RED
 
-        class Devices(object):
+        class Devices:
             On = Rgb.PURPLE
             Off = Rgb.PURPLE
 
-        class Pan(object):
+        class Pan:
             On = Rgb.ORANGE
             Off = Rgb.ORANGE
 
-        class Sends(object):
+        class Sends:
             On = Rgb.WHITE
             Off = Rgb.WHITE
 
-    class DrumGroup(object):
+    class DrumGroup:
         PadEmpty = Rgb.BLACK
         PadFilled = Rgb.YELLOW
         PadSelected = Rgb.LIGHT_BLUE
@@ -99,23 +97,23 @@ class Colors(object):
         PadInvisible = Rgb.BLACK
         PadAction = Rgb.RED
 
-    class ItemNavigation(object):
+    class ItemNavigation:
         NoItem = Rgb.BLACK
         ItemSelected = Rgb.PURPLE
         ItemNotSelected = Rgb.PURPLE_HALF
 
-    class Device(object):
+    class Device:
         On = Rgb.PURPLE
 
-    class TrackNavigation(object):
+    class TrackNavigation:
         On = Rgb.LIGHT_BLUE
         Pressed = Rgb.LIGHT_BLUE
 
-    class SceneNavigation(object):
+    class SceneNavigation:
         On = Rgb.WHITE
         Pressed = Rgb.WHITE
 
-    class Action(object):
+    class Action:
         Available = Rgb.WHITE
 
 

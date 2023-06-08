@@ -1,26 +1,16 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/ableton/v2/base/disconnectable.py
 from __future__ import absolute_import, print_function, unicode_literals
 from .util import find_if
 
 class Disconnectable(object):
-    u"""
-    Represents an entity that holds connections to other objects that
-    should be explicitly cleared to avoid object lifetime problems or
-    leaking listeners.
-    """
 
     def disconnect(self):
         pass
 
 
 class CompoundDisconnectable(Disconnectable):
-    u"""
-    Compound disconnectable. Collects other disconnectables and
-    disconnects them recursively.
-    """
 
     def __init__(self, *a, **k):
-        super(CompoundDisconnectable, self).__init__(*a, **k)
+        (super(CompoundDisconnectable, self).__init__)(*a, **k)
         self._registered_disconnectables = []
 
     def register_disconnectables(self, disconnectables):
@@ -58,13 +48,9 @@ class CompoundDisconnectable(Disconnectable):
 
 
 class disconnectable(object):
-    u"""
-    Context manager that will disconnect the given disconnectable when
-    the context is exited.  It returns the original disconnectable.
-    """
 
-    def __init__(self, managed = None, *a, **k):
-        super(disconnectable, self).__init__(*a, **k)
+    def __init__(self, managed=None, *a, **k):
+        (super(disconnectable, self).__init__)(*a, **k)
         self._managed = managed
 
     def __enter__(self):

@@ -1,7 +1,6 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Launch_Control/DeviceNavigationComponent.py
 from __future__ import absolute_import, print_function, unicode_literals
 import Live
-from _Framework.ControlSurfaceComponent import ControlSurfaceComponent
+import _Framework.ControlSurfaceComponent as ControlSurfaceComponent
 from _Framework.SubjectSlot import subject_slot
 
 class DeviceNavigationComponent(ControlSurfaceComponent):
@@ -18,20 +17,20 @@ class DeviceNavigationComponent(ControlSurfaceComponent):
         self._update_button_states()
         self._on_previous_device.subject = button
 
-    @subject_slot(u'value')
+    @subject_slot('value')
     def _on_next_device(self, value):
         if value:
             self._scroll_device_view(Live.Application.Application.View.NavDirection.right)
 
-    @subject_slot(u'value')
+    @subject_slot('value')
     def _on_previous_device(self, value):
         if value:
             self._scroll_device_view(Live.Application.Application.View.NavDirection.left)
 
     def _scroll_device_view(self, direction):
-        self.application().view.show_view(u'Detail')
-        self.application().view.show_view(u'Detail/DeviceChain')
-        self.application().view.scroll_view(direction, u'Detail/DeviceChain', False)
+        self.application().view.show_view('Detail')
+        self.application().view.show_view('Detail/DeviceChain')
+        self.application().view.scroll_view(direction, 'Detail/DeviceChain', False)
 
     def _update_button_states(self):
         if self._next_button:

@@ -1,14 +1,12 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/ableton/v2/control_surface/components/session_navigation.py
 from __future__ import absolute_import, print_function, unicode_literals
 from ...base import listens
 from ..component import Component
-from .scroll import ScrollComponent, Scrollable
+from .scroll import Scrollable, ScrollComponent
 
 class SessionRingScroller(Scrollable):
 
-    def __init__(self, session_ring = None, *a, **k):
-        super(SessionRingScroller, self).__init__(*a, **k)
-        assert session_ring is not None
+    def __init__(self, session_ring=None, *a, **k):
+        (super(SessionRingScroller, self).__init__)(*a, **k)
         self._session_ring = session_ring
 
     do_scroll_up = NotImplemented
@@ -56,7 +54,7 @@ class SessionRingSceneScroller(SessionRingScroller):
 class SessionRingTrackPager(SessionRingScroller):
 
     def __init__(self, *a, **k):
-        super(SessionRingTrackPager, self).__init__(*a, **k)
+        (super(SessionRingTrackPager, self).__init__)(*a, **k)
         self.page_size = self._session_ring.num_tracks
 
     def can_scroll_up(self):
@@ -75,7 +73,7 @@ class SessionRingTrackPager(SessionRingScroller):
 class SessionRingScenePager(SessionRingScroller):
 
     def __init__(self, *a, **k):
-        super(SessionRingScenePager, self).__init__(*a, **k)
+        (super(SessionRingScenePager, self).__init__)(*a, **k)
         self.page_size = self._session_ring.num_scenes
 
     def can_scroll_up(self):
@@ -92,36 +90,36 @@ class SessionRingScenePager(SessionRingScroller):
 
 
 class SessionNavigationComponent(Component):
-    u"""
-    Allows moving the session ring using navigation controls.
-    """
     track_scroller_type = SessionRingTrackScroller
     scene_scroller_type = SessionRingSceneScroller
     track_pager_type = SessionRingTrackPager
     scene_pager_type = SessionRingScenePager
 
-    def __init__(self, session_ring = None, *a, **k):
-        super(SessionNavigationComponent, self).__init__(*a, **k)
-        assert session_ring is not None
+    def __init__(self, session_ring=None, *a, **k):
+        (super(SessionNavigationComponent, self).__init__)(*a, **k)
         self._session_ring = session_ring
-        self.__on_offset_changed.subject = self._session_ring
-        self.__on_tracks_changed.subject = self._session_ring
-        self.__on_scene_list_changed.subject = self.song
-        self._vertical_banking = ScrollComponent(self.scene_scroller_type(session_ring), parent=self)
-        self._horizontal_banking = ScrollComponent(self.track_scroller_type(session_ring), parent=self)
-        self._vertical_paginator = ScrollComponent(self.scene_pager_type(session_ring), parent=self)
-        self._horizontal_paginator = ScrollComponent(self.track_pager_type(session_ring), parent=self)
+        self._SessionNavigationComponent__on_offset_changed.subject = self._session_ring
+        self._SessionNavigationComponent__on_tracks_changed.subject = self._session_ring
+        self._SessionNavigationComponent__on_scene_list_changed.subject = self.song
+        self._vertical_banking = ScrollComponent((self.scene_scroller_type(session_ring)),
+          parent=self)
+        self._horizontal_banking = ScrollComponent((self.track_scroller_type(session_ring)),
+          parent=self)
+        self._vertical_paginator = ScrollComponent((self.scene_pager_type(session_ring)),
+          parent=self)
+        self._horizontal_paginator = ScrollComponent((self.track_pager_type(session_ring)),
+          parent=self)
 
-    @listens(u'offset')
+    @listens('offset')
     def __on_offset_changed(self, track_offset, _):
         self._update_vertical()
         self._update_horizontal()
 
-    @listens(u'tracks')
+    @listens('tracks')
     def __on_tracks_changed(self):
         self._update_horizontal()
 
-    @listens(u'scenes')
+    @listens('scenes')
     def __on_scene_list_changed(self):
         self._update_vertical()
 

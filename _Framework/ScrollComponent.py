@@ -1,16 +1,10 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/_Framework/ScrollComponent.py
 from __future__ import absolute_import, print_function, unicode_literals
 from builtins import object
-from . import Defaults
-from . import Task
+from . import Defaults, Task
 from .Control import ButtonControl
 from .ControlSurfaceComponent import ControlSurfaceComponent
 
 class Scrollable(object):
-    u"""
-    Abstract interface for an object that can be scrolled in discreet
-    steps in one dimension.
-    """
 
     def can_scroll_up(self):
         return False
@@ -26,22 +20,20 @@ class Scrollable(object):
 
 
 class ScrollComponent(ControlSurfaceComponent, Scrollable):
-    u"""
-    A component that handles scrolling behavior over a Scrollable
-    with a pair of buttons.
-    """
     is_private = True
     scrolling_delay = Defaults.MOMENTARY_DELAY
     scrolling_step_delay = 0.1
     default_scrollable = Scrollable()
     default_pager = Scrollable()
     _scrollable = default_scrollable
-    default_scroll_skin = dict(color=u'Enabled', pressed_color=u'Pressed', disabled_color=False)
+    default_scroll_skin = dict(color='Enabled',
+      pressed_color='Pressed',
+      disabled_color=False)
     scroll_up_button = ButtonControl(**default_scroll_skin)
     scroll_down_button = ButtonControl(**default_scroll_skin)
 
-    def __init__(self, scrollable = None, *a, **k):
-        super(ScrollComponent, self).__init__(*a, **k)
+    def __init__(self, scrollable=None, *a, **k):
+        (super(ScrollComponent, self).__init__)(*a, **k)
         self._scroll_task_up = self._make_scroll_task(self._do_scroll_up)
         self._scroll_task_down = self._make_scroll_task(self._do_scroll_down)
         if scrollable != None:

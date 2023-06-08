@@ -1,41 +1,43 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Oxygen_Pro/skin.py
 from __future__ import absolute_import, print_function, unicode_literals
 from ableton.v2.control_surface import Skin
-from ableton.v2.control_surface.elements import Color
-LED_ON = Color(127)
-LED_OFF = Color(0)
+from .colors import Basic, Rgb
 
 class Colors:
 
     class DefaultButton:
-        On = LED_ON
-        Off = LED_OFF
-        Disabled = LED_OFF
+        On = Basic.ON
+        Off = Basic.OFF
+        Disabled = Basic.OFF
 
     class Transport:
-        PlayOn = LED_ON
-        PlayOff = LED_OFF
+        PlayOn = Basic.ON
+        PlayOff = Basic.OFF
 
     class Recording:
-        On = LED_ON
-        Transition = LED_ON
-        Off = LED_OFF
+        On = Basic.ON
+        Transition = Basic.ON
+        Off = Basic.OFF
 
     class Mixer:
-        ArmOn = LED_ON
-        ArmOff = LED_OFF
+        ArmOn = Basic.ON
+        ArmOff = Basic.OFF
+        MuteOn = Basic.ON
+        MuteOff = Basic.OFF
+        SoloOn = Basic.ON
+        SoloOff = Basic.OFF
+        EmptyTrack = Basic.OFF
 
     class Session:
-        ClipEmpty = LED_OFF
-        ClipTriggeredPlay = LED_ON
-        ClipTriggeredRecord = LED_ON
-        ClipStopped = LED_ON
-        ClipStarted = LED_ON
-        ClipRecording = LED_ON
-        RecordButton = LED_ON
-        Scene = LED_OFF
-        NoScene = LED_OFF
-        SceneTriggered = LED_ON
+        ClipEmpty = Rgb.WHITE
+        ClipTriggeredPlay = Rgb.GREEN_BLINK
+        ClipTriggeredRecord = Rgb.RED_BLINK
+        ClipStopped = Rgb.AMBER
+        ClipStarted = Rgb.GREEN
+        ClipRecording = Rgb.RED
+        RecordButton = Basic.OFF
+        Scene = Basic.OFF
+        NoScene = Basic.OFF
+        SceneTriggered = Basic.ON
 
 
 skin = Skin(Colors)

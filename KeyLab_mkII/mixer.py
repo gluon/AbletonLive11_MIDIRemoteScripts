@@ -1,7 +1,6 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/KeyLab_mkII/mixer.py
 from __future__ import absolute_import, print_function, unicode_literals
 from ableton.v2.base import liveobj_valid
-from ableton.v2.control_surface.components import MixerComponent as MixerComponentBase
+from novation.mixer import MixerComponent as MixerComponentBase
 
 class MixerComponent(MixerComponentBase):
 

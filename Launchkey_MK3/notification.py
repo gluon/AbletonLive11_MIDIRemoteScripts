@@ -1,4 +1,3 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Launchkey_MK3/notification.py
 from __future__ import absolute_import, print_function, unicode_literals
 from ableton.v2.base import task
 from ableton.v2.control_surface import Component
@@ -10,7 +9,7 @@ class NotificationComponent(Component):
     display_lines = control_list(DisplayControl, control_count=2)
 
     def __init__(self, *a, **k):
-        super(NotificationComponent, self).__init__(*a, **k)
+        (super(NotificationComponent, self).__init__)(*a, **k)
         self._clear_notification_task = self._tasks.add(task.sequence(task.wait(CLEAR_DELAY), task.run(self._clear_notification)))
         self._clear_notification_task.kill()
 
@@ -21,5 +20,5 @@ class NotificationComponent(Component):
         self.display_lines[1].message = lower_line
 
     def _clear_notification(self):
-        self.display_lines[0].message = u' '
-        self.display_lines[1].message = u' '
+        self.display_lines[0].message = ' '
+        self.display_lines[1].message = ' '

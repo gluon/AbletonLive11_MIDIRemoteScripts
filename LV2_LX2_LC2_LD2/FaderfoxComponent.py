@@ -1,13 +1,11 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/LV2_LX2_LC2_LD2/FaderfoxComponent.py
 from __future__ import absolute_import, print_function, unicode_literals
-from builtins import range
-from builtins import object
+from builtins import object, range
 from .consts import *
 
 class FaderfoxComponent(object):
     __module__ = __name__
-    __doc__ = u'Baseclass for a subcomponent for Faderfox controllers.'
-    __filter_funcs__ = [u'update_display', u'log']
+    __doc__ = 'Baseclass for a subcomponent for Faderfox controllers.'
+    __filter_funcs__ = ['update_display', 'log']
 
     def __init__(self, parent):
         FaderfoxComponent.realinit(self, parent)

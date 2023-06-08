@@ -1,13 +1,10 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/AxiomPro/DisplayingMixerComponent.py
 from __future__ import absolute_import, print_function, unicode_literals
-from builtins import str
-from builtins import range
-from _Framework.ButtonElement import ButtonElement
-from _Framework.MixerComponent import MixerComponent
-from _Framework.PhysicalDisplayElement import PhysicalDisplayElement
+from builtins import range, str
+import _Framework.ButtonElement as ButtonElement
+import _Framework.MixerComponent as MixerComponent
+import _Framework.PhysicalDisplayElement as PhysicalDisplayElement
 
 class DisplayingMixerComponent(MixerComponent):
-    u""" Special mixer class that displays the Mute/Solo state of the selected track """
 
     def __init__(self, num_tracks):
         MixerComponent.__init__(self, num_tracks)
@@ -24,11 +21,9 @@ class DisplayingMixerComponent(MixerComponent):
         self._display = None
 
     def set_display(self, display):
-        assert isinstance(display, PhysicalDisplayElement)
         self._display = display
 
     def set_solo_button(self, button):
-        assert button == None or isinstance(button, ButtonElement) and button.is_momentary()
         self.selected_strip().set_solo_button(button)
         if self._solo_button != button:
             if self._solo_button != None:
@@ -39,7 +34,6 @@ class DisplayingMixerComponent(MixerComponent):
             self.update()
 
     def set_mute_button(self, button):
-        assert button == None or isinstance(button, ButtonElement) and button.is_momentary()
         self.selected_strip().set_mute_button(button)
         if self._mute_button != button:
             if self._mute_button != None:
@@ -53,10 +47,13 @@ class DisplayingMixerComponent(MixerComponent):
         sel_track = None
         while len(self._selected_tracks) > 0:
             track = self._selected_tracks[-1]
-            if track != None and track.has_midi_input and track.can_be_armed and not track.arm:
-                sel_track = track
-                break
-            del self._selected_tracks[-1]
+            if track != None:
+                if track.has_midi_input:
+                    if track.can_be_armed:
+                        if not track.arm:
+                            sel_track = track
+                            break
+                        del self._selected_tracks[-1]
 
         if sel_track != None:
             found_recording_clip = False
@@ -64,57 +61,63 @@ class DisplayingMixerComponent(MixerComponent):
             tracks = song.tracks
             check_arrangement = song.is_playing and song.record_mode
             for track in tracks:
-                if track.can_be_armed and track.arm:
-                    if check_arrangement:
-                        found_recording_clip = True
-                        break
-                    else:
-                        playing_slot_index = track.playing_slot_index
+                if track.can_be_armed:
+                    if track.arm:
+                        if check_arrangement:
+                            found_recording_clip = True
+                            break
+                        else:
+                            playing_slot_index = track.playing_slot_index
                         if playing_slot_index in range(len(track.clip_slots)):
                             slot = track.clip_slots[playing_slot_index]
-                            if slot.has_clip and slot.clip.is_recording:
-                                found_recording_clip = True
-                                break
+                            if slot.has_clip:
+                                if slot.clip.is_recording:
+                                    found_recording_clip = True
+                                    break
 
             if not found_recording_clip:
                 if song.exclusive_arm:
                     for track in tracks:
-                        if track.can_be_armed and track.arm and track != sel_track:
-                            track.arm = False
+                        if track.can_be_armed:
+                            if track.arm:
+                                if track != sel_track:
+                                    track.arm = False
 
                 sel_track.arm = True
                 sel_track.view.select_instrument()
         self._selected_tracks = []
 
     def _solo_value(self, value):
-        assert self._solo_button != None
-        assert value in range(128)
-        if self._display != None and self.song().view.selected_track not in (self.song().master_track, None):
-            if value != 0:
-                track = self.song().view.selected_track
-                display_string = str(track.name) + u': Solo '
-                if track.solo:
-                    display_string += u'On'
+        if self._display != None:
+            if self.song().view.selected_track not in (
+             self.song().master_track,
+             None):
+                if value != 0:
+                    track = self.song().view.selected_track
+                    display_string = str(track.name) + ': Solo '
+                    if track.solo:
+                        display_string += 'On'
+                    else:
+                        display_string += 'Off'
+                    self._display.display_message(display_string)
                 else:
-                    display_string += u'Off'
-                self._display.display_message(display_string)
-            else:
-                self._display.update()
+                    self._display.update()
 
     def _mute_value(self, value):
-        assert self._mute_button != None
-        assert value in range(128)
-        if self._display != None and self.song().view.selected_track not in (self.song().master_track, None):
-            if value != 0:
-                track = self.song().view.selected_track
-                display_string = str(track.name) + u': Mute '
-                if track.mute:
-                    display_string += u'On'
+        if self._display != None:
+            if self.song().view.selected_track not in (
+             self.song().master_track,
+             None):
+                if value != 0:
+                    track = self.song().view.selected_track
+                    display_string = str(track.name) + ': Mute '
+                    if track.mute:
+                        display_string += 'On'
+                    else:
+                        display_string += 'Off'
+                    self._display.display_message(display_string)
                 else:
-                    display_string += u'Off'
-                self._display.display_message(display_string)
-            else:
-                self._display.update()
+                    self._display.update()
 
     def _next_track_value(self, value):
         MixerComponent._next_track_value(self, value)

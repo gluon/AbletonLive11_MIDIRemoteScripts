@@ -1,4 +1,3 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/_Arturia/MixerComponent.py
 from __future__ import absolute_import, print_function, unicode_literals
 from builtins import map
 from future.moves.itertools import zip_longest
@@ -8,7 +7,7 @@ from .ScrollComponent import ScrollComponent
 class MixerComponent(MixerComponentBase):
 
     def __init__(self, *a, **k):
-        super(MixerComponent, self).__init__(*a, **k)
+        (super(MixerComponent, self).__init__)(*a, **k)
         self._track_selection = self.register_component(ScrollComponent())
         self._track_selection.can_scroll_up = self._can_select_prev_track
         self._track_selection.can_scroll_down = self._can_select_next_track
@@ -46,13 +45,11 @@ class MixerComponent(MixerComponentBase):
     def _select_prev_track(self):
         selected_track = self.song().view.selected_track
         all_tracks = self.all_tracks()
-        assert selected_track in all_tracks
         index = list(all_tracks).index(selected_track)
         self.song().view.selected_track = all_tracks[index - 1]
 
     def _select_next_track(self):
         selected_track = self.song().view.selected_track
         all_tracks = self.all_tracks()
-        assert selected_track in all_tracks
         index = list(all_tracks).index(selected_track)
         self.song().view.selected_track = all_tracks[index + 1]

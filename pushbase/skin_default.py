@@ -1,8 +1,7 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/pushbase/skin_default.py
 from __future__ import absolute_import, print_function, unicode_literals
 from builtins import object
 from ableton.v2.control_surface import Skin
-from .colors import Basic, Rgb, Pulse, Blink, BiLed
+from .colors import Basic, BiLed, Blink, Pulse, Rgb
 
 class Colors(object):
 

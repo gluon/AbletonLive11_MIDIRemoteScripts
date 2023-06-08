@@ -1,11 +1,10 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Push2/skin_default.py
 from __future__ import absolute_import, print_function, unicode_literals
 from builtins import object
 from ableton.v2.control_surface import Skin
 from ableton.v2.control_surface.elements import SelectedClipColorFactory, SelectedTrackColorFactory
 from pushbase.colors import Blink, FallbackColor, Pulse
 from pushbase.skin_default import Colors as ColorsBase
-from .colors import Basic, DISPLAY_BUTTON_SHADE_LEVEL, Rgb, SelectedDeviceChainColorFactory, SelectedDrumPadColorFactory, make_color_factory_func
+from .colors import DISPLAY_BUTTON_SHADE_LEVEL, Basic, Rgb, SelectedDeviceChainColorFactory, SelectedDrumPadColorFactory, make_color_factory_func
 make_selected_track_color = make_color_factory_func(SelectedTrackColorFactory)
 make_selected_drum_pad_color = make_color_factory_func(SelectedDrumPadColorFactory)
 make_selected_device_chain_color = make_color_factory_func(SelectedDeviceChainColorFactory)

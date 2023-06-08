@@ -1,6 +1,4 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Code_Series/mixer_navigation.py
-from __future__ import absolute_import, print_function, unicode_literals
-from __future__ import division
+from __future__ import absolute_import, division, print_function, unicode_literals
 from past.utils import old_div
 from ableton.v2.control_surface.components import SessionNavigationComponent, SessionRingScroller
 
