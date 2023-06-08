@@ -1,10 +1,24 @@
+<<<<<<< HEAD
+=======
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/BLOCKS/blocks.py
+# Compiled at: 2022-01-27 16:28:16
+# Size of source mod 2**32: 10401 bytes
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 from __future__ import absolute_import, division, print_function, unicode_literals
 from builtins import range
 from past.utils import old_div
 from functools import partial
 import Live
 from ableton.v2.base import clamp, listens, liveobj_valid, nop
+<<<<<<< HEAD
 from ableton.v2.control_surface import MIDI_CC_TYPE, MIDI_NOTE_TYPE, MIDI_PB_TYPE, Layer, PercussionInstrumentFinder, SimpleControlSurface
+=======
+from ableton.v2.control_surface import MIDI_CC_TYPE, MIDI_NOTE_TYPE, MIDI_PB_TYPE, ControlSurface, Layer, PercussionInstrumentFinder
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 from ableton.v2.control_surface.components import DrumGroupComponent, SessionComponent, SessionNavigationComponent, SessionRingComponent
 from ableton.v2.control_surface.elements import ButtonMatrixElement, EncoderElement, SysexElement
 from ableton.v2.control_surface.midi import CC_STATUS
@@ -18,7 +32,11 @@ from .target_track_provider import TargetTrackProvider
 NUM_TRACKS = 4
 NUM_SCENES = 4
 MODE_MSG_CHANNEL = 15
+<<<<<<< HEAD
 MODE_NAMES_TO_IDS = { 'session': 60, 'melodic': 61, 'drum': 62, 'disabled': 63}
+=======
+MODE_NAMES_TO_IDS = {'session':60,  'melodic':61,  'drum':62,  'disabled':63}
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 MELODIC_FEEDBACK_CHANNEL = 3
 DRUM_FEEDBACK_CHANNEL = 4
 NON_FEEDBACK_CHANNEL = 0
@@ -56,7 +74,11 @@ class Blocks(SimpleControlSurface):
 
     def _create_controls(self):
         self._pads_raw = [ButtonElement(True, MIDI_NOTE_TYPE, 0, identifier, name=('Pad_{}'.format(identifier)), skin=skin) for identifier in range(100)]
+<<<<<<< HEAD
         self._session_matrix = ButtonMatrixElement(rows=[[self._pads_raw[offset + col] for col in range(NUM_TRACKS)] for offset in range(80, 49, -10)],
+=======
+        self._session_matrix = ButtonMatrixElement(rows=[[self._pads_raw[(offset + col)] for col in range(NUM_TRACKS)] for offset in range(80, 49, -10)],
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
           name='Session_Matrix')
         self._scene_launch_button_matrix = ButtonMatrixElement(rows=[
          [self._pads_raw[identifier] for identifier in range(89, 58, -10)]],
@@ -69,7 +91,11 @@ class Blocks(SimpleControlSurface):
         self._nav_right_button = self._pads_raw[93]
         self._mode_cycle_button = ButtonElement(True,
           MIDI_CC_TYPE, 0, 127, skin=skin, name='Mode_Button')
+<<<<<<< HEAD
         self._drum_pads = ButtonMatrixElement(rows=[[self._pads_raw[offset + col] for col in range(4)] for offset in range(48, 35, -4)],
+=======
+        self._drum_pads = ButtonMatrixElement(rows=[[self._pads_raw[(offset + col)] for col in range(4)] for offset in range(48, 35, -4)],
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
           name='Drum_Pads')
         self._tempo_encoder = EncoderElement(MIDI_PB_TYPE,
           0,
@@ -173,11 +199,18 @@ class Blocks(SimpleControlSurface):
         drum_device = self._percussion_instrument_finder.drum_group
         if not is_playable(track):
             self._note_modes.selected_mode = 'disabled'
+<<<<<<< HEAD
         else:
             if drum_device:
                 self._note_modes.selected_mode = 'drum'
             else:
                 self._note_modes.selected_mode = 'melodic'
+=======
+        elif drum_device:
+            self._note_modes.selected_mode = 'drum'
+        else:
+            self._note_modes.selected_mode = 'melodic'
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
         if self._note_modes.selected_mode == 'disabled':
             self.release_controlled_track()
         else:

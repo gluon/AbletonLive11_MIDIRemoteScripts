@@ -1,26 +1,51 @@
+<<<<<<< HEAD
 from __future__ import absolute_import, print_function, unicode_literals
 from _Framework.DeviceComponent import DeviceComponent as DeviceComponentBase
+=======
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/_UserScript/DeviceComponent.py
+# Compiled at: 2022-01-27 16:28:17
+# Size of source mod 2**32: 4978 bytes
+from __future__ import absolute_import, print_function, unicode_literals
+import _Framework.DeviceComponent as DeviceComponentBase
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 from ableton.v2.base import liveobj_valid, nop
 
 class DeviceComponent(DeviceComponentBase):
 
     def __init__(self, *a, **k):
+<<<<<<< HEAD
         (super().__init__)(*a, **k)
+=======
+        (super(DeviceComponent, self).__init__)(*a, **k)
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
         self._num_banks_to_control = 1
         self._empty_control_slots = self.register_slot_manager()
 
     def set_parameter_controls(self, controls):
         self._num_banks_to_control = 2 if controls and (controls.width() > 8) else 1
+<<<<<<< HEAD
         super().set_parameter_controls(controls)
+=======
+        super(DeviceComponent, self).set_parameter_controls(controls)
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 
     def _bank_up_value(self, value):
         if self.is_enabled():
             if value:
                 if self._bank_down_button is None:
                     self._cycle_bank_index()
+<<<<<<< HEAD
                 else:
                     if self._can_bank_up():
                         self._increment_bank_index(1)
+=======
+                elif self._can_bank_up():
+                    self._increment_bank_index(1)
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 
     def _bank_down_value(self, value):
         if self.is_enabled():
@@ -55,7 +80,11 @@ class DeviceComponent(DeviceComponentBase):
 
     def update(self):
         self._empty_control_slots.disconnect()
+<<<<<<< HEAD
         super().update()
+=======
+        super(DeviceComponent, self).update()
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 
     def _assign_parameters(self):
         self._bank_name, bank = self._current_bank_details()
@@ -88,8 +117,13 @@ class DeviceComponent(DeviceComponentBase):
                     bank = list(banks[index])
                     bank_name = self._parameter_bank_names()[index]
                     if not multiple_banks or index < self._number_of_parameter_banks() - 1:
+<<<<<<< HEAD
                         bank.extend(banks[index + 1])
                         bank_name += '  /  {}'.format(self._parameter_bank_names()[index + 1])
+=======
+                        bank.extend(banks[(index + 1)])
+                        bank_name += '  /  {}'.format(self._parameter_bank_names()[(index + 1)])
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
                 else:
                     bank = best_of
                     bank_name = 'Best of Parameters'

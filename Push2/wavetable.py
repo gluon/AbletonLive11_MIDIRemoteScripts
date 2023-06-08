@@ -1,3 +1,13 @@
+<<<<<<< HEAD
+=======
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Push2/wavetable.py
+# Compiled at: 2022-01-27 16:28:16
+# Size of source mod 2**32: 32307 bytes
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 from __future__ import absolute_import, print_function, unicode_literals
 from builtins import range
 import re, Live
@@ -5,7 +15,11 @@ AutomationState = Live.DeviceParameter.AutomationState
 ModulationSource = Live.WavetableDevice.ModulationSource
 from ableton.v2.base import const, find_if, listenable_property, listens, liveobj_valid
 from ableton.v2.control_surface import EnumWrappingParameter, InternalParameter, InternalParameterBase, Layer, PitchParameter
+<<<<<<< HEAD
 from ableton.v2.control_surface import WavetableDeviceDecorator as WavetableDeviceDecoratorBase
+=======
+import ableton.v2.control_surface as WavetableDeviceDecoratorBase
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 from ableton.v2.control_surface import WavetableEnvelopeType, WavetableFilterType, WavetableLfoType, WavetableOscillatorType, get_parameter_by_name
 from pushbase.actions import DeleteAndReturnToDefaultComponent
 from pushbase.consts import MessageBoxText
@@ -142,6 +156,7 @@ class WavetableDeviceDecorator(WavetableDeviceDecoratorBase):
          DeviceTriggerOption(name='Go to Amp Env',
            callback=(lambda: (
           choose_envelope(WavetableEnvelopeType.amp),
+<<<<<<< HEAD
           jump_to_bank('Envelopes'))
 )),
          DeviceTriggerOption(name='Go to Env 2',
@@ -162,6 +177,23 @@ class WavetableDeviceDecorator(WavetableDeviceDecoratorBase):
            callback=(lambda: (
           choose_lfo(WavetableLfoType.two), jump_to_bank('LFOs'))
 )),
+=======
+          jump_to_bank('Envelopes')))),
+         DeviceTriggerOption(name='Go to Env 2',
+           callback=(lambda: (
+          choose_envelope(WavetableEnvelopeType.env2),
+          jump_to_bank('Envelopes')))),
+         DeviceTriggerOption(name='Go to Env 3',
+           callback=(lambda: (
+          choose_envelope(WavetableEnvelopeType.env3),
+          jump_to_bank('Envelopes')))),
+         DeviceTriggerOption(name='Go to LFO 1',
+           callback=(lambda: (
+          choose_lfo(WavetableLfoType.one), jump_to_bank('LFOs')))),
+         DeviceTriggerOption(name='Go to LFO 2',
+           callback=(lambda: (
+          choose_lfo(WavetableLfoType.two), jump_to_bank('LFOs')))),
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
          DeviceTriggerOption(name='Back',
            callback=(self.notify_request_previous_bank_from_mod_matrix))) + (
          self.osc_on_option,
@@ -260,8 +292,12 @@ class WavetableDeviceComponent(DeviceComponentWithTrackColorViewData):
     VISUALISATION_CONFIGURATION = {'wavetable':{'position_in_banks':{0:ButtonRange(0, 2), 
        1:ButtonRange(1, 3)}, 
       'visible_in_bank':lambda component, bank: component.selected_oscillator in [
+<<<<<<< HEAD
        WavetableOscillatorType.one, WavetableOscillatorType.two]
 }, 
+=======
+       WavetableOscillatorType.one, WavetableOscillatorType.two]}, 
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
      'filter':{'position_in_banks': {0:ButtonRange(3, 5),  2:ButtonRange(2, 4)}}, 
      'lfo':{'position_in_banks': {5: ButtonRange(0, 3)}}, 
      'envelope':{'position_in_banks': {4: ButtonRange(2, 5)}}}

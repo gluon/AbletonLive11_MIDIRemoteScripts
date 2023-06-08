@@ -1,3 +1,13 @@
+<<<<<<< HEAD
+=======
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/pushbase/instrument_component.py
+# Compiled at: 2022-01-27 16:28:17
+# Size of source mod 2**32: 22122 bytes
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 from __future__ import absolute_import, division, print_function, unicode_literals
 from builtins import map, round
 from past.utils import old_div
@@ -209,8 +219,12 @@ class InstrumentComponent(PlayableComponent, Slideable, Messenger):
             return self._note_layout.notes[0]
         if self._note_layout.notes[0] == 0:
             return 0
+<<<<<<< HEAD
         return len(self._note_layout.notes) - index_if(lambda n: n >= 12
 , self._note_layout.notes)
+=======
+        return len(self._note_layout.notes) - index_if(lambda n: n >= 12, self._note_layout.notes)
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 
     @property
     def page_offset(self):
@@ -390,10 +404,16 @@ class InstrumentComponent(PlayableComponent, Slideable, Messenger):
                     height = interval + 1
             else:
                 interval = 8
+<<<<<<< HEAD
         else:
             if not self._note_layout.is_in_key:
                 interval = [
                  0,2,4,5,7,9,10,11][interval]
+=======
+        elif not self._note_layout.is_in_key:
+            interval = [
+             0, 2, 4, 5, 7, 9, 10, 11][interval]
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
         if self._note_layout.is_horizontal:
             steps = [
              1, interval]
@@ -468,8 +488,12 @@ class SelectedNotesInstrumentComponent(InstrumentComponent):
 
     def _commit_pressed_notes(self):
         with self._updating_selected_notes_model():
+<<<<<<< HEAD
             held_notes = list(map(lambda button: self._get_note_info_for_coordinate(button.coordinate).index
 , [button for button in self.matrix if button.is_pressed]))
+=======
+            held_notes = list(map(lambda button: self._get_note_info_for_coordinate(button.coordinate).index, [button for button in self.matrix if button.is_pressed]))
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
             if len(held_notes) > 0:
                 self.selected_notes_provider.selected_notes = held_notes
                 self._pitches = held_notes
@@ -564,6 +588,10 @@ class SelectedNotesInstrumentComponent(InstrumentComponent):
 
     @contextmanager
     def _updating_selected_notes_model(self):
+<<<<<<< HEAD
         yield
+=======
+        (yield)
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
         self.song.view.selected_track.set_data('push-instrument-selected-notes', self.selected_notes_provider.selected_notes)
         self._update_led_feedback()

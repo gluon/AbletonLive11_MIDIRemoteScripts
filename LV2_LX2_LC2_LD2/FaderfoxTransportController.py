@@ -1,3 +1,13 @@
+<<<<<<< HEAD
+=======
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/LV2_LX2_LC2_LD2/FaderfoxTransportController.py
+# Compiled at: 2022-01-27 16:28:16
+# Size of source mod 2**32: 6803 bytes
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 from __future__ import absolute_import, print_function, unicode_literals
 from builtins import range
 import Live
@@ -38,6 +48,7 @@ class FaderfoxTransportController(FaderfoxComponent):
             if channel == CHANNEL_SETUP2:
                 if note_no == SCENE_LAUNCH_NOTE:
                     self.parent.song().view.selected_scene.fire_as_selected()
+<<<<<<< HEAD
                 else:
                     if note_no == SCENE_STOP_NOTE:
                         self.parent.song().stop_all_clips()
@@ -119,6 +130,78 @@ class FaderfoxTransportController(FaderfoxComponent):
                                 self.trigger_track_clip(track_idx, index_of(notes, note_no) + 6)
                             else:
                                 track_idx += 1
+=======
+                elif note_no == SCENE_STOP_NOTE:
+                    self.parent.song().stop_all_clips()
+                elif note_no == SCENE_UP_NOTE:
+                    idx = self.helper.selected_scene_idx() - 1
+                    new_scene_idx = min(len(self.parent.song().scenes) - 1, max(0, idx))
+                    self.parent.song().view.selected_scene = self.parent.song().scenes[new_scene_idx]
+                elif note_no == SCENE_DOWN_NOTE:
+                    idx = self.helper.selected_scene_idx() + 1
+                    new_scene_idx = min(len(self.parent.song().scenes) - 1, max(0, idx))
+                    self.parent.song().view.selected_scene = self.parent.song().scenes[new_scene_idx]
+                elif note_no == GLOBAL_PLAY_NOTE:
+                    self.parent.song().start_playing()
+                elif note_no == GLOBAL_STOP_NOTE:
+                    self.parent.song().stop_playing()
+                elif note_no == SESSION_ARRANGE_SWITCH_NOTE:
+                    view = self.parent.application().view
+                    if view.is_view_visible('Session'):
+                        view.show_view('Arranger')
+                    else:
+                        view.show_view('Session')
+                elif note_no == CLIP_TRACK_SWITCH_NOTE:
+                    view = self.parent.application().view
+                    if view.is_view_visible('Detail/Clip'):
+                        view.show_view('Detail/DeviceChain')
+                    else:
+                        view.show_view('Detail/Clip')
+                elif note_no == CLIP_SELECT_NOTE:
+                    view = self.parent.application().view
+                    if view.is_view_visible('Detail'):
+                        view.hide_view('Detail')
+                    else:
+                        view.show_view('Detail')
+                elif note_no in SCENE_LAUNCH_NOTES:
+                    scene_idx = index_of(SCENE_LAUNCH_NOTES, note_no)
+                    if scene_idx < len(self.parent.song().scenes):
+                        self.parent.song().scenes[scene_idx].fire()
+                else:
+                    track_idx = 0
+                    for notes in SLOT_LAUNCH_NOTES2:
+                        if note_no in notes[2:]:
+                            clip_idx = index_of(notes, note_no) + 6
+                            self.trigger_track_clip(track_idx, clip_idx)
+                        else:
+                            track_idx += 1
+
+            elif channel == TRACK_CHANNEL_SETUP2:
+                if note_no in LAUNCH_NOTES:
+                    idx = index_of(LAUNCH_NOTES, note_no)
+                    scene = self.parent.song().view.selected_scene
+                    max_track_idx = len(scene.clip_slots)
+                    if max_track_idx > idx:
+                        scene.clip_slots[idx].fire()
+                if note_no in STOP_NOTES:
+                    idx = index_of(STOP_NOTES, note_no)
+                    if len(self.parent.song().tracks) > idx:
+                        self.stop_track(idx)
+            elif channel == AUX_CHANNEL_SETUP2:
+                track_idx = 0
+                for notes in SLOT_LAUNCH_NOTES1:
+                    if note_no in notes:
+                        self.trigger_track_clip(track_idx, index_of(notes, note_no))
+                    else:
+                        track_idx += 1
+
+                track_idx = 0
+                for notes in SLOT_LAUNCH_NOTES2:
+                    if note_no in notes[0:2]:
+                        self.trigger_track_clip(track_idx, index_of(notes, note_no) + 6)
+                    else:
+                        track_idx += 1
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 
     def trigger_track_clip(self, track_idx, clip_idx):
         self.helper.trigger_track_clip(track_idx, clip_idx)

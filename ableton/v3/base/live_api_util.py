@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 from __future__ import absolute_import, print_function, unicode_literals
 from sys import maxsize
 import Live
@@ -152,6 +153,24 @@ def is_parameter_quantized(parameter, device):
         device_class = getattr(device, 'class_name', None)
         is_quantized = (parameter.is_quantized) or ((device_class in UNDECLARED_QUANTIZED_PARAMETERS) and (parameter.name in UNDECLARED_QUANTIZED_PARAMETERS[device_class]))
     return is_quantized
+=======
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/ableton/v3/base/live_api_util.py
+# Compiled at: 2022-01-27 16:28:17
+# Size of source mod 2**32: 1127 bytes
+from __future__ import absolute_import, print_function, unicode_literals
+from . import liveobj_valid
+
+def is_song_recording(song):
+    return song.session_record or song.record_mode
+
+
+def track_can_record(track):
+    return track.can_be_armed and (track.arm or track.implicit_arm)
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 
 
 def toggle_or_cycle_parameter_value(parameter):
@@ -162,6 +181,7 @@ def toggle_or_cycle_parameter_value(parameter):
             else:
                 parameter.value = parameter.value + 1
         else:
+<<<<<<< HEAD
             parameter.value = parameter.max if parameter.value == parameter.min else parameter.min
 
 
@@ -179,3 +199,6 @@ def liveobj_color_to_value_from_palette(obj, palette=None, fallback_table=None, 
             return find_nearest_color(fallback_table, obj.color)
 
         return default_value
+=======
+            parameter.value = parameter.max if parameter.value == parameter.min else parameter.min
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34

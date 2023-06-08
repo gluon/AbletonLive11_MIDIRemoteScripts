@@ -1,3 +1,13 @@
+<<<<<<< HEAD
+=======
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Axiom_49_61_Classic/Axiom.py
+# Compiled at: 2022-01-27 16:28:16
+# Size of source mod 2**32: 9250 bytes
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 from __future__ import absolute_import, print_function, unicode_literals
 from builtins import object, str
 import Live, MidiRemoteScript
@@ -85,6 +95,7 @@ class Axiom(object):
             cc_value = midi_bytes[2]
             if list(AXIOM_TRANSPORT).count(cc_no) > 0:
                 self._Axiom__transport_unit.receive_midi_cc(cc_no, cc_value)
+<<<<<<< HEAD
             else:
                 if list(AXIOM_BUTTONS).count(cc_no) > 0:
                     self._Axiom__slider_unit.receive_midi_cc(cc_no, cc_value, channel)
@@ -97,6 +108,16 @@ class Axiom(object):
         else:
             if midi_bytes[0] == 240:
                 pass
+=======
+            elif list(AXIOM_BUTTONS).count(cc_no) > 0:
+                self._Axiom__slider_unit.receive_midi_cc(cc_no, cc_value, channel)
+            elif list(AXIOM_ENCODERS).count(cc_no) > 0:
+                self._Axiom__encoder_unit.receive_midi_cc(cc_no, cc_value, channel)
+            elif list(AXIOM_PADS).count(cc_no) > 0:
+                self._Axiom__pad_unit.receive_midi_cc(cc_no, cc_value, channel)
+        elif midi_bytes[0] == 240:
+            pass
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 
     def lock_to_device(self, device):
         self._Axiom__encoder_unit.lock_to_device(device)

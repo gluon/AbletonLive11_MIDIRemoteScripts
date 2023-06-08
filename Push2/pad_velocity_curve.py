@@ -1,3 +1,13 @@
+<<<<<<< HEAD
+=======
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Push2/pad_velocity_curve.py
+# Compiled at: 2022-01-27 16:28:16
+# Size of source mod 2**32: 7495 bytes
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 from __future__ import absolute_import, division, print_function, unicode_literals
 from builtins import object, range, round
 from past.utils import old_div
@@ -45,11 +55,19 @@ class LookupTable(object):
      1240.0,
      1180.0]
     GAMMA = [
+<<<<<<< HEAD
      0.7,0.64,0.58,0.54,0.5,0.46,0.43,0.4,0.36,0.32,0.25]
     MINV = [1.0,1,1.0,1.0,1.0,1.0,3.0,6.0,12.0,24.0,36.0]
     MAXV = [96.0,102.0,116.0,121.0,124.0,127.0,127.0,127.0,127.0,127.0,127.0]
     ALPHA = [
      90.0,70.0,54.0,40.0,28.0,20.0,10.0,-5.0,-25.0,-55.0,-90.0]
+=======
+     0.7, 0.64, 0.58, 0.54, 0.5, 0.46, 0.43, 0.4, 0.36, 0.32, 0.25]
+    MINV = [1.0, 1, 1.0, 1.0, 1.0, 1.0, 3.0, 6.0, 12.0, 24.0, 36.0]
+    MAXV = [96.0, 102.0, 116.0, 121.0, 124.0, 127.0, 127.0, 127.0, 127.0, 127.0, 127.0]
+    ALPHA = [
+     90.0, 70.0, 54.0, 40.0, 28.0, 20.0, 10.0, -5.0, -25.0, -55.0, -90.0]
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 
 
 def gamma_func(x, gamma):

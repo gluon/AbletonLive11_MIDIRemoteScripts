@@ -1,3 +1,13 @@
+<<<<<<< HEAD
+=======
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Push2/routing.py
+# Compiled at: 2022-01-27 16:28:16
+# Size of source mod 2**32: 40971 bytes
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 from __future__ import absolute_import, print_function, unicode_literals
 from builtins import filter, map, range
 from functools import partial
@@ -154,8 +164,12 @@ class TrackOrRoutingControlChooserComponent(ModesComponent):
 def reorder_routing_targets(targets, desired_first_target_display_name):
     targets = list(targets)
     index_of_desired_first_target = None
+<<<<<<< HEAD
     index_of_desired_first_target = index_if(lambda target: target.display_name == desired_first_target_display_name
 , targets)
+=======
+    index_of_desired_first_target = index_if(lambda target: target.display_name == desired_first_target_display_name, targets)
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
     if index_of_desired_first_target >= 0:
         if index_of_desired_first_target < len(targets):
             return [
@@ -358,7 +372,7 @@ class InputChannelAndPositionRouter(EventObject):
         complete_list = self._input_channel_router.routing_targets
         index_in_complete_list = self._input_channel_router.current_target_index
         slice_size = len(self.live_position_postfixes)
-        self._input_channel_router.current_target = complete_list[index_in_complete_list // slice_size * slice_size + new_index]
+        self._input_channel_router.current_target = complete_list[(index_in_complete_list // slice_size * slice_size + new_index)]
 
     @property
     def input_type_name(self):
@@ -677,8 +691,12 @@ class RoutingControlComponent(ModesComponent):
          partial(self._set_active_routers, input_type_router, input_channel_and_position_router),
          self._real_time_channel_assigner])
         self.add_mode('output', [
+<<<<<<< HEAD
          SetAttributeMode(self, '_can_route', lambda *a: True
 ),
+=======
+         SetAttributeMode(self, '_can_route', lambda *a: True),
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
          partial(self._set_active_routers, output_type_router, output_channel_router),
          self._real_time_channel_assigner])
         self.selected_mode = 'input'

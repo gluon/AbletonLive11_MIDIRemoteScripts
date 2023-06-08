@@ -1,3 +1,13 @@
+<<<<<<< HEAD
+=======
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Akai_Force_MPC/session.py
+# Compiled at: 2022-01-27 16:28:16
+# Size of source mod 2**32: 8913 bytes
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 from __future__ import absolute_import, division, print_function, unicode_literals
 from builtins import range
 from future.moves.itertools import zip_longest
@@ -5,7 +15,7 @@ from past.utils import old_div
 from itertools import count, product
 import Live
 from ableton.v2.base import clamp, find_if, in_range, index_if, listens_group, liveobj_valid
-from ableton.v2.control_surface.components import SessionComponent as SessionComponentBase
+import ableton.v2.control_surface.components as SessionComponentBase
 from ableton.v2.control_surface.control import ButtonControl, SendValueControl, control_list
 from .elements import NUM_TRACK_CONTROLS
 from .scene import SceneComponent

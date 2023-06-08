@@ -1,3 +1,13 @@
+<<<<<<< HEAD
+=======
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/pushbase/automation_component.py
+# Compiled at: 2022-01-27 16:28:17
+# Size of source mod 2**32: 7109 bytes
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 from __future__ import absolute_import, division, print_function, unicode_literals
 from builtins import map
 from past.utils import old_div
@@ -52,8 +62,12 @@ class AutomationComponent(DeviceParameterComponent):
         return self._parameter_infos_to_use()
 
     def _parameter_infos_to_use(self):
+<<<<<<< HEAD
         return list(map(lambda info: info if self.parameter_is_automateable(info.parameter if info else None) else None
 , self._parameter_provider.parameters))
+=======
+        return list(map(lambda info: info if self.parameter_is_automateable(info.parameter if info else None) else None, self._parameter_provider.parameters))
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 
     @property
     def can_automate_parameters(self):

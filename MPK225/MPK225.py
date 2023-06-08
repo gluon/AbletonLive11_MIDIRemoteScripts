@@ -1,10 +1,24 @@
+<<<<<<< HEAD
+=======
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/MPK225/MPK225.py
+# Compiled at: 2022-01-27 16:28:16
+# Size of source mod 2**32: 2569 bytes
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 from __future__ import absolute_import, print_function, unicode_literals
 import _Framework.ControlSurface as ControlSurface
 import _Framework.DeviceComponent as DeviceComponent
 import _Framework.DrumRackComponent as DrumRackComponent
 from _Framework.InputControlElement import MIDI_CC_TYPE, MIDI_NOTE_TYPE
 import _Framework.Layer as Layer
+<<<<<<< HEAD
 from _Framework.MidiMap import MidiMap as MidiMapBase
+=======
+import _Framework.MidiMap as MidiMapBase
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 from _Framework.MidiMap import make_button, make_encoder
 import _Framework.TransportComponent as TransportComponent
 
@@ -18,7 +32,11 @@ class MidiMap(MidiMapBase):
         self.add_button('Loop', 0, 114, MIDI_CC_TYPE)
         self.add_button('Forward', 0, 116, MIDI_CC_TYPE)
         self.add_button('Backward', 0, 115, MIDI_CC_TYPE)
+<<<<<<< HEAD
         self.add_matrix('Encoders', make_encoder, 0, [[22,23,24,25,26,27,28,29]], MIDI_CC_TYPE)
+=======
+        self.add_matrix('Encoders', make_encoder, 0, [[22, 23, 24, 25, 26, 27, 28, 29]], MIDI_CC_TYPE)
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
         self.add_matrix('Drum_Pads', make_button, 1, [
          [
           67, 69, 71, 72], [60, 62, 64, 65]], MIDI_NOTE_TYPE)

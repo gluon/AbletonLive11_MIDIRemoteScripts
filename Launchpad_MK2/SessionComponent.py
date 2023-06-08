@@ -1,6 +1,19 @@
+<<<<<<< HEAD
 from __future__ import absolute_import, print_function, unicode_literals
 from builtins import map
 from _Framework.SessionComponent import SessionComponent as SessionComponentBase
+=======
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Launchpad_MK2/SessionComponent.py
+# Compiled at: 2022-01-27 16:28:16
+# Size of source mod 2**32: 2746 bytes
+from __future__ import absolute_import, print_function, unicode_literals
+from builtins import map
+import _Framework.SessionComponent as SessionComponentBase
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 from _Framework.SubjectSlot import subject_slot_group
 from _Framework.Util import in_range
 from .ComponentUtils import skin_scroll_component
@@ -43,6 +56,7 @@ class SessionComponent(SessionComponentBase):
                                 track = tracks_to_use[track_index]
                                 if track.fired_slot_index == -2:
                                     value_to_send = self._stop_clip_triggered_value
+<<<<<<< HEAD
                                 else:
                                     if track.playing_slot_index >= 0:
                                         value_to_send = self._stop_clip_value
@@ -55,6 +69,18 @@ class SessionComponent(SessionComponentBase):
                                 button.send_value(value_to_send)
                             else:
                                 button.set_light(value_to_send)
+=======
+                                elif track.playing_slot_index >= 0:
+                                    value_to_send = self._stop_clip_value
+                                else:
+                                    value_to_send = self._stopped_clip_value
+                        if value_to_send is None:
+                            button.turn_off()
+                        elif in_range(value_to_send, 0, 128):
+                            button.send_value(value_to_send)
+                        else:
+                            button.set_light(value_to_send)
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 
     def _update_stop_all_clips_button(self):
         button = self._stop_all_button

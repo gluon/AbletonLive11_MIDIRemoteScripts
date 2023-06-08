@@ -1,3 +1,13 @@
+<<<<<<< HEAD
+=======
+# ======================================================
+# Config File for User-defined InstantMappings
+# ======================================================
+
+[Globals]
+# The primary MIDI channel that the controller uses in
+# the range of 0-15.
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 GlobalChannel: 0
 
 # ======================================================

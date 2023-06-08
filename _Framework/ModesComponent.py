@@ -1,3 +1,13 @@
+<<<<<<< HEAD
+=======
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/_Framework/ModesComponent.py
+# Compiled at: 2022-01-27 16:28:16
+# Size of source mod 2**32: 28051 bytes
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 from __future__ import absolute_import, print_function, unicode_literals
 from builtins import map, object
 from functools import partial
@@ -500,8 +510,12 @@ class ModesComponent(CompoundComponent):
         if not isinstance(groups, set):
             groups = set(groups)
         mode = tomode(mode_or_component)
+<<<<<<< HEAD
         task = self._tasks.add(Task.sequence(Task.wait(Defaults.MOMENTARY_DELAY), Task.run(lambda: self._get_mode_behaviour(name).press_delayed(self, name)
 )))
+=======
+        task = self._tasks.add(Task.sequence(Task.wait(Defaults.MOMENTARY_DELAY), Task.run(lambda: self._get_mode_behaviour(name).press_delayed(self, name))))
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
         task.kill()
         slot = self.register_slot(listener=(partial(self._on_mode_button_value, name)),
           event='value',
@@ -571,12 +585,20 @@ class ModesComponent(CompoundComponent):
                     if value:
                         behaviour.press_immediate(self, name)
                         task.restart()
+<<<<<<< HEAD
                     else:
                         if task.is_killed:
                             behaviour.release_delayed(self, name)
                         else:
                             behaviour.release_immediate(self, name)
                             task.kill()
+=======
+                    elif task.is_killed:
+                        behaviour.release_delayed(self, name)
+                    else:
+                        behaviour.release_immediate(self, name)
+                        task.kill()
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
                 else:
                     behaviour.press_immediate(self, name)
                     behaviour.release_immediate(self, name)
@@ -593,10 +615,16 @@ class ModesComponent(CompoundComponent):
                     if not self._mode_toggle.is_momentary() or is_press:
                         self.cycle_mode(1)
                         self._mode_toggle_task.restart()
+<<<<<<< HEAD
                     else:
                         if is_release:
                             if self.momentary_toggle or can_latch:
                                 self.cycle_mode(-1)
+=======
+                    elif is_release:
+                        if self.momentary_toggle or (can_latch):
+                            self.cycle_mode(-1)
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
                     self._last_toggle_value = value
 
     def cycle_mode(self, delta=1):

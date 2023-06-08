@@ -1,3 +1,13 @@
+<<<<<<< HEAD
+=======
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/AxiomPro/AxiomPro.py
+# Compiled at: 2022-01-27 16:28:16
+# Size of source mod 2**32: 13127 bytes
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 from __future__ import absolute_import, print_function, unicode_literals
 from builtins import range
 import Live
@@ -67,7 +77,7 @@ class AxiomPro(ControlSurface):
             encoders = []
             for offset in range(8):
                 encoders.append(PeekableEncoderElement(MIDI_CC_TYPE, 15, 17 + offset, Live.MidiMap.MapMode.relative_smooth_two_compliment))
-                encoders[-1].set_feedback_delay(-1)
+                encoders[(-1)].set_feedback_delay(-1)
 
             mixer_or_device = MixerOrDeviceModeSelector(self._mixer_encoder_modes, device, tuple(encoders), tuple([ButtonElement(is_momentary, MIDI_CC_TYPE, 15, 74 + offset) for offset in range(4)]))
             mixer_or_device.set_mode_toggle(ButtonElement(is_momentary, MIDI_CC_TYPE, 15, 109))
@@ -86,7 +96,11 @@ class AxiomPro(ControlSurface):
             page_displays = []
             for index in range(4):
                 page_displays.append(PhysicalDisplayElement(5, 1))
+<<<<<<< HEAD
                 page_displays[-1].set_message_parts(SYSEX_START + (17, 4, index, 0), (247, ))
+=======
+                page_displays[(-1)].set_message_parts(SYSEX_START + (17, 4, index, 0), (247, ))
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 
             encoder_display = PhysicalDisplayElement(80, 8)
             encoder_display.set_message_parts(SYSEX_START + (17, 3), (247, ))
@@ -112,7 +126,11 @@ class AxiomPro(ControlSurface):
 
     def handle_sysex(self, midi_bytes):
         if midi_bytes[0:-2] == SYSEX_START + (32, ):
+<<<<<<< HEAD
             msg_id_byte = midi_bytes[-2]
+=======
+            msg_id_byte = midi_bytes[(-2)]
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
             is_setup_response = msg_id_byte in (46, 38)
             has_sliders = msg_id_byte == 46
             if is_setup_response:

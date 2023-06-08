@@ -1,9 +1,22 @@
+<<<<<<< HEAD
+=======
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Tranzport/Tranzport.py
+# Compiled at: 2022-01-27 16:28:16
+# Size of source mod 2**32: 46033 bytes
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 from __future__ import absolute_import, division, print_function, unicode_literals
 from builtins import object, range, str
 from past.utils import old_div
 from itertools import chain
 import Live
+<<<<<<< HEAD
 from ableton.v2.base import move_current_song_time
+=======
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 from .consts import *
 
 class Tranzport(object):
@@ -144,7 +157,11 @@ class Tranzport(object):
             self._Tranzport__show_pos_and_tempo()
         if self._Tranzport__timer_count == 20:
             self._Tranzport__on_selected_track_changed()
+<<<<<<< HEAD
         if self._Tranzport__ffwd_pressed or self._Tranzport__rewind_pressed:
+=======
+        if self._Tranzport__ffwd_pressed or (self._Tranzport__rewind_pressed):
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
             self._Tranzport__spooling_factor = self._Tranzport__spooling_factor + 0.2
             if self._Tranzport__ffwd_pressed:
                 self.song().jump_by(1 * self._Tranzport__spooling_factor)
@@ -164,6 +181,7 @@ class Tranzport(object):
             velocity = midi_bytes[2]
             if note == TRANZ_SHIFT:
                 self._Tranzport__shift_status_changed(velocity)
+<<<<<<< HEAD
             else:
                 if note in TRANZ_TRANS_SECTION:
                     self._Tranzport__on_transport_button_pressed(note, velocity)
@@ -186,6 +204,24 @@ class Tranzport(object):
                 if midi_bytes[0] == 176:
                     if cc_no == 60:
                         self._Tranzport__on_jogdial_changed(cc_value)
+=======
+            elif note in TRANZ_TRANS_SECTION:
+                self._Tranzport__on_transport_button_pressed(note, velocity)
+            elif note in TRANZ_TRACK_SECTION:
+                self._Tranzport__on_track_button_pressed(note, velocity)
+            elif note in TRANZ_LOOP_SECTION:
+                self._Tranzport__on_loop_button_pressed(note, velocity)
+            elif note in TRANZ_CUE_SECTION:
+                self._Tranzport__on_cue_button_pressed(note, velocity)
+            elif note == TRANZ_UNDO:
+                self._Tranzport__on_undo_pressed(velocity)
+        elif midi_bytes[0] & 240 == CC_STATUS:
+            cc_no = midi_bytes[1]
+            cc_value = midi_bytes[2]
+            if midi_bytes[0] == 176:
+                if cc_no == 60:
+                    self._Tranzport__on_jogdial_changed(cc_value)
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 
     def __on_transport_button_pressed(self, button, status):
         if button == TRANZ_PLAY:
@@ -194,6 +230,7 @@ class Tranzport(object):
                     self.song().is_playing = True
                 else:
                     self.song().continue_playing()
+<<<<<<< HEAD
         else:
             if button == TRANZ_STOP:
                 if status > 0:
@@ -226,6 +263,36 @@ class Tranzport(object):
                             else:
                                 self._Tranzport__rewind_pressed = False
                                 self._Tranzport__spooling_factor = 1.0
+=======
+        elif button == TRANZ_STOP:
+            if status > 0:
+                self.song().is_playing = False
+        elif button == TRANZ_REC:
+            if status > 0:
+                self.song().record_mode = self._Tranzport__shift_pressed or not self.song().record_mode
+            else:
+                pass
+        elif button == TRANZ_FFWD:
+            if status > 0:
+                if self._Tranzport__shift_pressed:
+                    self.song().jump_by(self.song().signature_denominator)
+                else:
+                    self.song().jump_by(1)
+                    self._Tranzport__ffwd_pressed = True
+            else:
+                self._Tranzport__ffwd_pressed = False
+                self._Tranzport__spooling_factor = 1.0
+        elif button == TRANZ_RWD:
+            if status > 0:
+                if self._Tranzport__shift_pressed:
+                    self.song().jump_by(-1 * self.song().signature_denominator)
+                else:
+                    self.song().jump_by(-1)
+                    self._Tranzport__rewind_pressed = True
+            else:
+                self._Tranzport__rewind_pressed = False
+                self._Tranzport__spooling_factor = 1.0
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 
     def __on_track_button_pressed(self, button, status):
         all_tracks = list(tuple(self.song().visible_tracks) + tuple(self.song().return_tracks) + (self.song().master_track,))
@@ -241,6 +308,7 @@ class Tranzport(object):
                         self.song().view.selected_track = all_tracks[index]
             else:
                 self._Tranzport__prevtrack_pressed = False
+<<<<<<< HEAD
         else:
             if button == TRANZ_NEXT_TRACK:
                 if status > 0:
@@ -265,6 +333,34 @@ class Tranzport(object):
 
                             if not self._Tranzport__current_track or self._Tranzport__current_track.can_be_armed:
                                 self._Tranzport__current_track.arm = not self._Tranzport__current_track.arm
+=======
+        elif button == TRANZ_NEXT_TRACK:
+            if status > 0:
+                if self._Tranzport__shift_pressed:
+                    self._Tranzport__handle_page_select(1)
+                else:
+                    self._Tranzport__nexttrack_pressed = True
+                    if index < len(all_tracks) - 1:
+                        index = index + 1
+                        self.song().view.selected_track = all_tracks[index]
+            else:
+                self._Tranzport__nexttrack_pressed = False
+        elif button == TRANZ_ARM_TRACK:
+            if not status > 0 or list(self.song().visible_tracks).count(self._Tranzport__current_track) > 0:
+                if not self.song().exclusive_arm or self._Tranzport__shift_pressed:
+                    if not (self._Tranzport__shift_pressed and self.song().exclusive_arm):
+                        for i in self.song().tracks:
+                            if i != self._Tranzport__current_track:
+                                if i.can_be_armed:
+                                    i.arm = False
+
+                    if not self._Tranzport__current_track or self._Tranzport__current_track.can_be_armed:
+                        self._Tranzport__current_track.arm = not self._Tranzport__current_track.arm
+        elif button == TRANZ_MUTE_TRACK:
+            if not status > 0 or (list(self.song().visible_tracks) + list(self.song().return_tracks)).count(self._Tranzport__current_track) > 0:
+                if not self._Tranzport__shift_pressed:
+                    self._Tranzport__current_track.mute = not self._Tranzport__current_track.mute
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
                 else:
                     if button == TRANZ_MUTE_TRACK:
                         if not status > 0 or (list(self.song().visible_tracks) + list(self.song().return_tracks)).count(self._Tranzport__current_track) > 0:
@@ -274,6 +370,7 @@ class Tranzport(object):
                                 for i in chain(self.song().tracks, self.song().return_tracks):
                                     i.mute = False
 
+<<<<<<< HEAD
                     else:
                         if button == TRANZ_SOLO_TRACK:
                             if status > 0:
@@ -287,6 +384,20 @@ class Tranzport(object):
 
                                         if self._Tranzport__current_track:
                                             self._Tranzport__current_track.solo = not self._Tranzport__current_track.solo
+=======
+        elif button == TRANZ_SOLO_TRACK:
+            if status > 0:
+                if (list(self.song().visible_tracks) + list(self.song().return_tracks)).count(self._Tranzport__current_track) > 0:
+                    if not self.song().exclusive_solo or self._Tranzport__shift_pressed:
+                        if not (self._Tranzport__shift_pressed and self.song().exclusive_solo):
+                            for i in chain(self.song().tracks, self.song().return_tracks):
+                                if i.solo:
+                                    if not i == self._Tranzport__current_track:
+                                        i.solo = False
+
+                        if self._Tranzport__current_track:
+                            self._Tranzport__current_track.solo = not self._Tranzport__current_track.solo
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 
     def __on_loop_button_pressed(self, button, status):
         current_pos = self.song().current_song_time
@@ -296,9 +407,32 @@ class Tranzport(object):
             if button == TRANZ_LOOP:
                 if not self._Tranzport__shift_pressed:
                     self.song().loop = not self.song().loop
+<<<<<<< HEAD
                 else:
                     if self.application().view.is_view_visible('Session'):
                         self.application().view.show_view('Arranger')
+=======
+                elif self.application().view.is_view_visible('Session'):
+                    self.application().view.show_view('Arranger')
+                elif self.application().view.is_view_visible('Arranger'):
+                    self.application().view.show_view('Session')
+            elif button == TRANZ_PUNCH_IN:
+                if not self._Tranzport__shift_pressed:
+                    self.song().punch_in = not self.song().punch_in
+                elif current_pos < loop_end:
+                    self.song().loop_start = current_pos
+                    self.song().loop_length = loop_end - current_pos
+            elif button == TRANZ_PUNCH_OUT:
+                if not self._Tranzport__shift_pressed:
+                    self.song().punch_out = not self.song().punch_out
+                elif current_pos > loop_start:
+                    self.song().loop_length = current_pos - loop_start
+            elif button == TRANZ_PUNCH:
+                if self.application().view.is_view_visible('Session'):
+                    current_slot = self.song().view.highlighted_clip_slot
+                    if not self._Tranzport__shift_pressed or list(self.song().visible_tracks).count(self._Tranzport__current_track) > 0:
+                        current_slot.fire()
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
                     else:
                         if self.application().view.is_view_visible('Arranger'):
                             self.application().view.show_view('Session')
@@ -335,6 +469,7 @@ class Tranzport(object):
                         self.song().jump_to_prev_cue()
                 else:
                     self.song().current_song_time = 0
+<<<<<<< HEAD
             else:
                 if button == TRANZ_ADD_CUE:
                     if not self._Tranzport__shift_pressed:
@@ -354,6 +489,23 @@ class Tranzport(object):
                 else:
                     if button == TRANZ_NEXT_CUE:
                         self._Tranzport__nextmarker_pressed = False
+=======
+            elif button == TRANZ_ADD_CUE:
+                if not self._Tranzport__shift_pressed:
+                    self.song().set_or_delete_cue()
+            elif button == TRANZ_NEXT_CUE:
+                if not self._Tranzport__shift_pressed:
+                    self._Tranzport__nextmarker_pressed = True
+                    if self.song().can_jump_to_next_cue:
+                        self.song().jump_to_next_cue()
+                else:
+                    self.song().current_song_time = self.song().last_event_time
+        elif status == 0:
+            if button == TRANZ_PREV_CUE:
+                self._Tranzport__prevmarker_pressed = False
+            elif button == TRANZ_NEXT_CUE:
+                self._Tranzport__nextmarker_pressed = False
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 
     def __on_jogdial_changed(self, value):
         neg_value = value - 64
@@ -365,6 +517,7 @@ class Tranzport(object):
                     if index < len(all_tracks) - 1:
                         index = index + 1
                         self.song().view.selected_track = all_tracks[index]
+<<<<<<< HEAD
                 else:
                     if self._Tranzport__prevmarker_pressed or self._Tranzport__nextmarker_pressed:
                         if self.song().can_jump_to_next_cue:
@@ -415,10 +568,62 @@ class Tranzport(object):
             if value in range(65, 128):
                 if not self._Tranzport__shift_pressed:
                     if self._Tranzport__prevtrack_pressed or self._Tranzport__nexttrack_pressed:
+=======
+                elif self._Tranzport__prevmarker_pressed or self._Tranzport__nextmarker_pressed:
+                    if self.song().can_jump_to_next_cue:
+                        self.song().jump_to_next_cue()
+                elif self._Tranzport__selected_page == 0:
+                    if self.application().view.is_view_visible('Session'):
+                        index = list(self.song().scenes).index(self.song().view.selected_scene)
+                        if index < len(self.song().scenes) - 1:
+                            index = index + 1
+                            self.song().view.selected_scene = self.song().scenes[index]
+                    else:
+                        self.song().jump_by(value)
+                elif self._Tranzport__selected_page == 1:
+                    if self._Tranzport__current_track.mixer_device.volume.value <= self._Tranzport__current_track.mixer_device.volume.max - 0.01 * value:
+                        self._Tranzport__current_track.mixer_device.volume.value = self._Tranzport__current_track.mixer_device.volume.value + 0.01 * value
+                    else:
+                        self._Tranzport__current_track.mixer_device.volume.value = self._Tranzport__current_track.mixer_device.volume.max
+                elif self._Tranzport__selected_page == 2:
+                    self.song().loop_start = self.song().loop_start + value
+                elif self._Tranzport__selected_page == 3:
+                    if self._Tranzport__current_track.mixer_device.sends[self._Tranzport__current_send_index].value <= self._Tranzport__current_track.mixer_device.sends[self._Tranzport__current_send_index].max - 0.01 * value:
+                        self._Tranzport__current_track.mixer_device.sends[self._Tranzport__current_send_index].value = self._Tranzport__current_track.mixer_device.sends[self._Tranzport__current_send_index].value + 0.01 * value
+                    else:
+                        self._Tranzport__current_track.mixer_device.sends[self._Tranzport__current_send_index].value = self._Tranzport__current_track.mixer_device.sends[self._Tranzport__current_send_index].max
+            elif self._Tranzport__selected_page == 0:
+                self.song().tempo = self.song().tempo + 0.1 * value
+            elif self._Tranzport__selected_page == 1:
+                if self._Tranzport__current_track.mixer_device.panning.value <= self._Tranzport__current_track.mixer_device.panning.max - 0.02 * value:
+                    self._Tranzport__current_track.mixer_device.panning.value = self._Tranzport__current_track.mixer_device.panning.value + 0.02 * value
+                else:
+                    self._Tranzport__current_track.mixer_device.panning.value = self._Tranzport__current_track.mixer_device.panning.max
+            elif self._Tranzport__selected_page == 2:
+                self.song().loop_length = self.song().loop_length + value
+            elif self._Tranzport__selected_page == 3:
+                if self._Tranzport__current_send_index < len(self._Tranzport__current_track.mixer_device.sends) - 1:
+                    self._Tranzport__current_send_index = self._Tranzport__current_send_index + 1
+                else:
+                    self._Tranzport__current_send_index = len(self._Tranzport__current_track.mixer_device.sends) - 1
+        elif value in range(65, 128):
+            if not self._Tranzport__shift_pressed:
+                if self._Tranzport__prevtrack_pressed or self._Tranzport__nexttrack_pressed:
+                    if index > 0:
+                        index = index - 1
+                        self.song().view.selected_track = all_tracks[index]
+                elif self._Tranzport__prevmarker_pressed or self._Tranzport__nextmarker_pressed:
+                    if self.song().can_jump_to_prev_cue:
+                        self.song().jump_to_prev_cue()
+                elif self._Tranzport__selected_page == 0:
+                    if self.application().view.is_view_visible('Session'):
+                        index = list(self.song().scenes).index(self.song().view.selected_scene)
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
                         if index > 0:
                             index = index - 1
                             self.song().view.selected_track = all_tracks[index]
                     else:
+<<<<<<< HEAD
                         if self._Tranzport__prevmarker_pressed or self._Tranzport__nextmarker_pressed:
                             if self.song().can_jump_to_prev_cue:
                                 self.song().jump_to_prev_cue()
@@ -466,13 +671,49 @@ class Tranzport(object):
                                         self._Tranzport__current_send_index = self._Tranzport__current_send_index - 1
                                     else:
                                         self._Tranzport__current_send_index = 0
+=======
+                        self.song().jump_by(-1 * neg_value)
+                elif self._Tranzport__selected_page == 1:
+                    if self._Tranzport__current_track.mixer_device.volume.value >= self._Tranzport__current_track.mixer_device.volume.min + 0.01 * neg_value:
+                        self._Tranzport__current_track.mixer_device.volume.value = self._Tranzport__current_track.mixer_device.volume.value - 0.01 * neg_value
+                    else:
+                        self._Tranzport__current_track.mixer_device.volume.value = self._Tranzport__current_track.mixer_device.volume.min
+                elif self._Tranzport__selected_page == 2:
+                    if self.song().loop_start >= neg_value:
+                        self.song().loop_start = self.song().loop_start - neg_value
+                elif self._Tranzport__selected_page == 3:
+                    if self._Tranzport__current_track.mixer_device.sends[self._Tranzport__current_send_index].value >= self._Tranzport__current_track.mixer_device.sends[self._Tranzport__current_send_index].min + 0.01 * neg_value:
+                        self._Tranzport__current_track.mixer_device.sends[self._Tranzport__current_send_index].value = self._Tranzport__current_track.mixer_device.sends[self._Tranzport__current_send_index].value - 0.01 * neg_value
+                    else:
+                        self._Tranzport__current_track.mixer_device.sends[self._Tranzport__current_send_index].value = self._Tranzport__current_track.mixer_device.sends[self._Tranzport__current_send_index].min
+            elif self._Tranzport__selected_page == 0:
+                self.song().tempo = self.song().tempo - 0.1 * neg_value
+            elif self._Tranzport__selected_page == 1:
+                if self._Tranzport__current_track.mixer_device.panning.value >= self._Tranzport__current_track.mixer_device.panning.min + 0.02 * neg_value:
+                    self._Tranzport__current_track.mixer_device.panning.value = self._Tranzport__current_track.mixer_device.panning.value - 0.02 * neg_value
+                else:
+                    self._Tranzport__current_track.mixer_device.panning.value = self._Tranzport__current_track.mixer_device.panning.min
+            elif self._Tranzport__selected_page == 2:
+                if self.song().loop_length > neg_value:
+                    self.song().loop_length = self.song().loop_length - neg_value
+            elif self._Tranzport__selected_page == 3:
+                if self._Tranzport__current_send_index > 0:
+                    self._Tranzport__current_send_index = self._Tranzport__current_send_index - 1
+                else:
+                    self._Tranzport__current_send_index = 0
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 
     def __on_undo_pressed(self, status):
         if not status > 0 or (self._Tranzport__shift_pressed or self.song()).can_undo:
             self.song().undo()
+<<<<<<< HEAD
         else:
             if self.song().can_redo:
                 self.song().redo()
+=======
+        elif self.song().can_redo:
+            self.song().redo()
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 
     def __on_selected_scene_changed(self):
         if self.application().view.is_view_visible('Session'):
@@ -516,9 +757,14 @@ class Tranzport(object):
         if self.application().view.is_view_visible('Session'):
             line = self._Tranzport__translate_string(self._Tranzport__bring_string_to_length(self._Tranzport__current_track.name, 11))
             line = line + self._Tranzport__translate_string('  Scene%2d' % (list(self.song().scenes).index(self.song().view.selected_scene) + 1))
+<<<<<<< HEAD
         else:
             if self.application().view.is_view_visible('Arranger'):
                 line = self._Tranzport__translate_string(self._Tranzport__bring_string_to_length(self._Tranzport__current_track.name, 20))
+=======
+        elif self.application().view.is_view_visible('Arranger'):
+            line = self._Tranzport__translate_string(self._Tranzport__bring_string_to_length(self._Tranzport__current_track.name, 20))
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
         self._Tranzport__display_line_one = line
 
     def __show_selected_page--- This code section failed: ---
@@ -638,9 +884,14 @@ Parse error at or near `COME_FROM' instruction at offset 108_4
         if len(self._Tranzport__current_track.mixer_device.sends) > 0 and self._Tranzport__current_track.has_audio_output:
             if self._Tranzport__current_send_index >= len(self._Tranzport__current_track.mixer_device.sends):
                 self._Tranzport__current_send_index = len(self._Tranzport__current_track.mixer_device.sends) - 1
+<<<<<<< HEAD
             else:
                 if self._Tranzport__current_send_index < 0:
                     self._Tranzport__current_send_index = 0
+=======
+            elif self._Tranzport__current_send_index < 0:
+                self._Tranzport__current_send_index = 0
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
             current_send = self._Tranzport__current_track.mixer_device.sends[self._Tranzport__current_send_index]
             result = self._Tranzport__translate_string(self._Tranzport__string_from_number_with_length(current_send, 8)) + self._Tranzport__translate_string('  in  ') + self._Tranzport__translate_string(current_send.name)
         else:
@@ -649,7 +900,11 @@ Parse error at or near `COME_FROM' instruction at offset 108_4
 
     def __show_page_select(self):
         index = self._Tranzport__selected_page
+<<<<<<< HEAD
         if self.application().view.is_view_visible('Session') or index > 0:
+=======
+        if self.application().view.is_view_visible('Session') or (index > 0):
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
             index = index + 1
         pages_list = ('<', ) + PAGES_NAMES[index] + ('>', )
         position = 10 - old_div(len(pages_list), 2)
@@ -736,9 +991,14 @@ Parse error at or near `COME_FROM' instruction at offset 108_4
             self._Tranzport__selected_page = self._Tranzport__selected_page + direction
             if self._Tranzport__selected_page >= NUM_PAGES:
                 self._Tranzport__selected_page = 0
+<<<<<<< HEAD
             else:
                 if self._Tranzport__selected_page < 0:
                     self._Tranzport__selected_page = NUM_PAGES - 1
+=======
+            elif self._Tranzport__selected_page < 0:
+                self._Tranzport__selected_page = NUM_PAGES - 1
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
         else:
             self._Tranzport__showing_page_list = True
         self._Tranzport__show_page_select()

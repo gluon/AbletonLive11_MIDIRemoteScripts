@@ -1,3 +1,13 @@
+<<<<<<< HEAD
+=======
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Axiom_AIR_25_49_61/SingleFaderButtonModeSelector.py
+# Compiled at: 2022-01-27 16:28:16
+# Size of source mod 2**32: 2505 bytes
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 from __future__ import absolute_import, print_function, unicode_literals
 import _Framework.ModeSelectorComponent as ModeSelectorComponent
 from .consts import *
@@ -38,6 +48,7 @@ class SingleFaderButtonModeSelector(ModeSelectorComponent):
                 if self._mode_index == 0:
                     strip.set_mute_button(fader_button)
                     self._mode_toggle.send_value(AMB_FULL, True)
+<<<<<<< HEAD
                 else:
                     if self._mode_index == 1:
                         strip.set_solo_button(fader_button)
@@ -46,6 +57,15 @@ class SingleFaderButtonModeSelector(ModeSelectorComponent):
                     else:
                         strip.set_arm_button(fader_button)
                         self._mode_toggle.send_value(RED_FULL, True)
+=======
+                elif self._mode_index == 1:
+                    strip.set_solo_button(fader_button)
+                    self._mode_toggle.send_value(AMB_FULL, True)
+                    self._flashing_button = self._mode_toggle
+                else:
+                    strip.set_arm_button(fader_button)
+                    self._mode_toggle.send_value(RED_FULL, True)
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 
     def _on_timer(self):
         if self._flashing_button != None:

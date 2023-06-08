@@ -1,3 +1,13 @@
+<<<<<<< HEAD
+=======
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/pushbase/playhead_component.py
+# Compiled at: 2022-01-27 16:28:17
+# Size of source mod 2**32: 3406 bytes
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 from __future__ import absolute_import, division, print_function, unicode_literals
 from builtins import range
 from past.utils import old_div
@@ -56,7 +66,11 @@ class PlayheadComponent(Component):
             clip = None
             if self.is_enabled():
                 if not self.song.is_playing or liveobj_valid(self._clip):
+<<<<<<< HEAD
                     if self._clip.is_arrangement_clip or self._clip.is_playing:
+=======
+                    if self._clip.is_arrangement_clip or (self._clip.is_playing):
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
                         clip = self._clip
                     self._playhead.clip = clip
                     self._playhead.set_feedback_channels(self._feedback_channels)

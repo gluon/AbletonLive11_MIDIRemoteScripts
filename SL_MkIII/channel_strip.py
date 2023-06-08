@@ -1,8 +1,24 @@
+<<<<<<< HEAD
 from __future__ import absolute_import, division, print_function, unicode_literals
 from past.utils import old_div
 import Live
 from ableton.v2.base import clamp, listens, liveobj_valid, old_round
 from ableton.v2.control_surface.components import ChannelStripComponent as ChannelStripComponentBase
+=======
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/SL_MkIII/channel_strip.py
+# Compiled at: 2022-01-27 16:28:16
+# Size of source mod 2**32: 7230 bytes
+from __future__ import absolute_import, division, print_function, unicode_literals
+from builtins import str
+from past.utils import old_div
+import Live
+from ableton.v2.base import clamp, listens, liveobj_valid, old_round
+import ableton.v2.control_surface.components as ChannelStripComponentBase
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 from ableton.v2.control_surface.control import ButtonControl, ColorSysexControl
 from ableton.v2.control_surface.elements import DisplayDataSource, SysexRGBColor
 from .control import BinaryControl
@@ -35,7 +51,11 @@ class ChannelStripComponent(ChannelStripComponentBase, Messenger):
     track_selection_field = BinaryControl()
 
     def __init__(self, *a, **k):
+<<<<<<< HEAD
         (super().__init__)(*a, **k)
+=======
+        (super(ChannelStripComponent, self).__init__)(*a, **k)
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
         self._pan_value_display_data_source = DisplayDataSource()
         self._ChannelStripComponent__on_selected_track_changed.subject = self.song.view
 
@@ -50,7 +70,11 @@ class ChannelStripComponent(ChannelStripComponentBase, Messenger):
         self._update_listeners()
 
     def set_volume_control(self, control):
+<<<<<<< HEAD
         super().set_volume_control(control)
+=======
+        super(ChannelStripComponent, self).set_volume_control(control)
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
         self._ChannelStripComponent__on_volume_control_value_received.subject = control
 
     def set_pan_control(self, control):

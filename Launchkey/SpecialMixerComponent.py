@@ -1,10 +1,15 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Launchkey/SpecialMixerComponent.py
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Launchkey/SpecialMixerComponent.py
+# Compiled at: 2022-01-27 16:28:16
+# Size of source mod 2**32: 2538 bytes
 from __future__ import absolute_import, print_function, unicode_literals
 from builtins import range
-from _Framework.MixerComponent import MixerComponent
+import _Framework.MixerComponent as MixerComponent
 
 class SpecialMixerComponent(MixerComponent):
-    u""" Special mixer class that toggles given buttons between mute and solo """
 
     def __init__(self, num_tracks):
         MixerComponent.__init__(self, num_tracks)
@@ -34,8 +39,9 @@ class SpecialMixerComponent(MixerComponent):
             button = None
             if self._strip_mute_solo_buttons != None:
                 button = self._strip_mute_solo_buttons[index]
-            strip.set_mute_button(button)
-            strip.set_solo_button(None)
+            else:
+                strip.set_mute_button(button)
+                strip.set_solo_button(None)
 
     def _mute_solo_flip_value(self, value):
         if self._strip_mute_solo_buttons != None:

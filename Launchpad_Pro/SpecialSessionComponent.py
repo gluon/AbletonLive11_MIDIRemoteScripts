@@ -1,3 +1,13 @@
+<<<<<<< HEAD
+=======
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Launchpad_Pro/SpecialSessionComponent.py
+# Compiled at: 2022-01-27 16:28:16
+# Size of source mod 2**32: 14249 bytes
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 from __future__ import absolute_import, print_function, unicode_literals
 from builtins import range
 import Live
@@ -43,6 +53,7 @@ class SpecialClipSlotComponent(ClipSlotComponent):
             if self._clip_slot is not None:
                 if self._select_button and self._select_button.is_pressed() and value:
                     self._do_select_clip(self._clip_slot)
+<<<<<<< HEAD
                 else:
                     if self._double_loop_button and self._double_loop_button.is_pressed() and value:
                         self._do_double_loop(self._clip_slot)
@@ -60,6 +71,21 @@ class SpecialClipSlotComponent(ClipSlotComponent):
                                         if value:
                                             self._do_track_arm()
                                     self._do_launch_clip(value)
+=======
+                elif self._double_loop_button and self._double_loop_button.is_pressed() and value:
+                    self._do_double_loop(self._clip_slot)
+                elif self._duplicate_button and self._duplicate_button.is_pressed() and value:
+                    self._do_duplicate_clip()
+                elif self._delete_button and self._delete_button.is_pressed() and value:
+                    self._do_delete_clip()
+                elif self._quantize_button and self._quantize_button.is_pressed() and value:
+                    self._do_quantize_clip(self._clip_slot)
+                else:
+                    if self._should_arm():
+                        if value:
+                            self._do_track_arm()
+                    self._do_launch_clip(value)
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 
     @property
     def can_duplicate_loop(self):
@@ -116,6 +142,7 @@ class SpecialSceneComponent(SceneComponent):
             if self._scene != None:
                 if self._select_button and self._select_button.is_pressed() and value:
                     self._do_select_scene(self._scene)
+<<<<<<< HEAD
                 else:
                     if self._delete_button and self._delete_button.is_pressed() and value:
                         self._do_delete_scene(self._scene)
@@ -124,6 +151,14 @@ class SpecialSceneComponent(SceneComponent):
                             self._do_duplicate_scene()
                         else:
                             self._do_launch_scene(value)
+=======
+                elif self._delete_button and self._delete_button.is_pressed() and value:
+                    self._do_delete_scene(self._scene)
+                elif self._duplicate_button and self._duplicate_button.is_pressed() and value:
+                    self._do_duplicate_scene()
+                else:
+                    self._do_launch_scene(value)
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 
     def _do_duplicate_scene(self):
         try:
@@ -209,6 +244,7 @@ class SpecialSessionComponent(SessionComponent):
                                 track = tracks_to_use[track_index]
                                 if track.fired_slot_index == -2:
                                     value_to_send = self._stop_clip_triggered_value
+<<<<<<< HEAD
                                 else:
                                     if track.playing_slot_index >= 0:
                                         value_to_send = self._stop_clip_value
@@ -221,6 +257,18 @@ class SpecialSessionComponent(SessionComponent):
                                 button.send_value(value_to_send)
                             else:
                                 button.set_light(value_to_send)
+=======
+                                elif track.playing_slot_index >= 0:
+                                    value_to_send = self._stop_clip_value
+                                else:
+                                    value_to_send = 'Session.StoppedClip'
+                        if value_to_send is None:
+                            button.turn_off()
+                        elif in_range(value_to_send, 0, 128):
+                            button.send_value(value_to_send)
+                        else:
+                            button.set_light(value_to_send)
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 
     def _update_stop_scene_clip_buttons(self):
         if self.is_enabled():
@@ -239,6 +287,7 @@ class SpecialSessionComponent(SessionComponent):
                         if scene_index < len(scenes):
                             if scenes[scene_index].clip_slots:
                                 tracks = self.tracks_to_use()
+<<<<<<< HEAD
                                 if find_if(lambda x: x.playing_slot_index == scene_index and x.fired_slot_index != -2
 , tracks):
                                     value_to_send = self._stop_clip_value
@@ -255,6 +304,20 @@ class SpecialSessionComponent(SessionComponent):
                                 button.send_value(value_to_send)
                             else:
                                 button.set_light(value_to_send)
+=======
+                                if find_if(lambda x: x.playing_slot_index == scene_index and x.fired_slot_index != -2, tracks):
+                                    value_to_send = self._stop_clip_value
+                                elif find_if(lambda x: x.fired_slot_index == -2 and x.playing_slot_index == scene_index, tracks):
+                                    value_to_send = self._stop_clip_triggered_value
+                                else:
+                                    value_to_send = 'Session.StoppedClip'
+                        if value_to_send is None:
+                            button.turn_off()
+                        elif in_range(value_to_send, 0, 128):
+                            button.send_value(value_to_send)
+                        else:
+                            button.set_light(value_to_send)
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 
     def _update_stop_all_clips_button(self):
         button = self._stop_all_button

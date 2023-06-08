@@ -1,3 +1,13 @@
+<<<<<<< HEAD
+=======
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/RemoteSL/MixerController.py
+# Compiled at: 2022-01-27 16:28:16
+# Size of source mod 2**32: 24280 bytes
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 from __future__ import absolute_import, print_function, unicode_literals
 from builtins import object, range, str
 import Live
@@ -50,6 +60,7 @@ class MixerController(RemoteSLComponent):
     def receive_midi_cc(self, cc_no, cc_value):
         if cc_no in mx_display_button_ccs:
             self._MixerController__handle_page_up_down_ccs(cc_no, cc_value)
+<<<<<<< HEAD
         else:
             if cc_no in mx_select_button_ccs:
                 self._MixerController__handle_select_button_ccs(cc_no, cc_value)
@@ -72,6 +83,25 @@ class MixerController(RemoteSLComponent):
                                 self._MixerController__handle_transport_ccs(cc_no, cc_value)
                             else:
                                 pass
+=======
+        elif cc_no in mx_select_button_ccs:
+            self._MixerController__handle_select_button_ccs(cc_no, cc_value)
+        elif cc_no in mx_first_button_row_ccs:
+            channel_strip = self._MixerController__strips[(cc_no - MX_FIRST_BUTTON_ROW_BASE_CC)]
+            if cc_value == CC_VAL_BUTTON_PRESSED:
+                channel_strip.first_button_pressed()
+        elif cc_no in mx_second_button_row_ccs:
+            channel_strip = self._MixerController__strips[(cc_no - MX_SECOND_BUTTON_ROW_BASE_CC)]
+            if cc_value == CC_VAL_BUTTON_PRESSED:
+                channel_strip.second_button_pressed()
+        elif cc_no in mx_slider_row_ccs:
+            channel_strip = self._MixerController__strips[(cc_no - MX_SLIDER_ROW_BASE_CC)]
+            channel_strip.slider_moved(cc_value)
+        elif cc_no in ts_ccs:
+            self._MixerController__handle_transport_ccs(cc_no, cc_value)
+        else:
+            pass
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 
     def build_midi_map(self, script_handle, midi_map_handle):
         needs_takeover = True
@@ -163,6 +193,7 @@ class MixerController(RemoteSLComponent):
         if cc_no == MX_SELECT_SLIDER_ROW:
             if cc_value == CC_VAL_BUTTON_PRESSED:
                 self._MixerController__set_slider_mode(SLIDER_MODE_VOLUME)
+<<<<<<< HEAD
         else:
             if cc_no == MX_SELECT_FIRST_BUTTON_ROW:
                 if cc_value == CC_VAL_BUTTON_PRESSED:
@@ -172,6 +203,15 @@ class MixerController(RemoteSLComponent):
                     self._MixerController__set_slider_mode(SLIDER_MODE_SEND)
                 else:
                     pass
+=======
+        elif cc_no == MX_SELECT_FIRST_BUTTON_ROW:
+            if cc_value == CC_VAL_BUTTON_PRESSED:
+                self._MixerController__set_slider_mode(SLIDER_MODE_PAN)
+        elif cc_no == MX_SELECT_SECOND_BUTTON_ROW and cc_value == CC_VAL_BUTTON_PRESSED:
+            self._MixerController__set_slider_mode(SLIDER_MODE_SEND)
+        else:
+            pass
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 
     def __handle_transport_ccs(self, cc_no, cc_value):
         if cc_no == TS_REWIND_CC:
@@ -180,6 +220,7 @@ class MixerController(RemoteSLComponent):
                 self.song().jump_by(-FORW_REW_JUMP_BY_AMOUNT)
             else:
                 self._MixerController__rewind_button_down = False
+<<<<<<< HEAD
         else:
             if cc_no == TS_FORWARD_CC:
                 if cc_value == CC_VAL_BUTTON_PRESSED:
@@ -209,6 +250,31 @@ class MixerController(RemoteSLComponent):
                                     self._MixerController__on_transport_lock_changed()
                                 else:
                                     pass
+=======
+        elif cc_no == TS_FORWARD_CC:
+            if cc_value == CC_VAL_BUTTON_PRESSED:
+                self._MixerController__forward_button_down = True
+                self.song().jump_by(FORW_REW_JUMP_BY_AMOUNT)
+            else:
+                self._MixerController__forward_button_down = False
+        elif cc_no == TS_STOP_CC:
+            if cc_value == CC_VAL_BUTTON_PRESSED:
+                self.song().stop_playing()
+        elif cc_no == TS_PLAY_CC:
+            if cc_value == CC_VAL_BUTTON_PRESSED:
+                self.song().start_playing()
+        elif cc_no == TS_LOOP_CC:
+            if cc_value == CC_VAL_BUTTON_PRESSED:
+                self.song().loop = not self.song().loop
+        elif cc_no == TS_RECORD_CC:
+            if cc_value == CC_VAL_BUTTON_PRESSED:
+                self.song().record_mode = not self.song().record_mode
+        elif cc_no == TS_LOCK:
+            self._MixerController__transport_locked = cc_value != CC_VAL_BUTTON_RELEASED
+            self._MixerController__on_transport_lock_changed()
+        else:
+            pass
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 
     def __on_transport_lock_changed(self):
         for strip in self._MixerController__strips:
@@ -244,11 +310,18 @@ class MixerController(RemoteSLComponent):
                 self._MixerController__slider_mode = SLIDER_MODE_SEND
             self._MixerController__update_selected_row_leds()
             self._MixerController__reassign_strips()
+<<<<<<< HEAD
         else:
             if self._MixerController__slider_mode != new_mode:
                 self._MixerController__slider_mode = new_mode
                 self._MixerController__update_selected_row_leds()
                 self._MixerController__reassign_strips()
+=======
+        elif self._MixerController__slider_mode != new_mode:
+            self._MixerController__slider_mode = new_mode
+            self._MixerController__update_selected_row_leds()
+            self._MixerController__reassign_strips()
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 
     def __update_selected_row_leds(self):
         if self._MixerController__slider_mode == SLIDER_MODE_VOLUME:
@@ -262,6 +335,7 @@ class MixerController(RemoteSLComponent):
              self.cc_status_byte(),
              MX_SELECT_SECOND_BUTTON_ROW,
              CC_VAL_BUTTON_RELEASED))
+<<<<<<< HEAD
         else:
             if self._MixerController__slider_mode == SLIDER_MODE_PAN:
                 self.send_midi((
@@ -284,6 +358,28 @@ class MixerController(RemoteSLComponent):
                      self.cc_status_byte(),
                      MX_SELECT_SECOND_BUTTON_ROW,
                      CC_VAL_BUTTON_PRESSED))
+=======
+        elif self._MixerController__slider_mode == SLIDER_MODE_PAN:
+            self.send_midi((
+             self.cc_status_byte(), MX_SELECT_SLIDER_ROW, CC_VAL_BUTTON_RELEASED))
+            self.send_midi((
+             self.cc_status_byte(), MX_SELECT_FIRST_BUTTON_ROW, CC_VAL_BUTTON_PRESSED))
+            self.send_midi((
+             self.cc_status_byte(),
+             MX_SELECT_SECOND_BUTTON_ROW,
+             CC_VAL_BUTTON_RELEASED))
+        elif self._MixerController__slider_mode >= SLIDER_MODE_SEND:
+            self.send_midi((
+             self.cc_status_byte(), MX_SELECT_SLIDER_ROW, CC_VAL_BUTTON_RELEASED))
+            self.send_midi((
+             self.cc_status_byte(),
+             MX_SELECT_FIRST_BUTTON_ROW,
+             CC_VAL_BUTTON_RELEASED))
+            self.send_midi((
+             self.cc_status_byte(),
+             MX_SELECT_SECOND_BUTTON_ROW,
+             CC_VAL_BUTTON_PRESSED))
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 
     def __on_record_mode_changed(self):
         if not (self._MixerController__transport_locked or self.support_mkII()):

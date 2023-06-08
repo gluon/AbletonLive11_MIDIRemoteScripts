@@ -1,3 +1,13 @@
+<<<<<<< HEAD
+=======
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/AxiomPro/PageableDeviceComponent.py
+# Compiled at: 2022-01-27 16:28:16
+# Size of source mod 2**32: 13712 bytes
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 from __future__ import absolute_import, print_function, unicode_literals
 from builtins import range, str
 import Live
@@ -6,6 +16,7 @@ import _Framework.ButtonElement as ButtonElement
 import _Framework.DeviceComponent as DeviceComponent
 import _Framework.DisplayDataSource as DisplayDataSource
 import _Framework.EncoderElement as EncoderElement
+<<<<<<< HEAD
 SPECIAL_NAME_DICT = {
   'InstrumentImpulse': (('Pad1', 'Pad2'), ('Pad3', 'Pad4'), ('Pad5', 'Pad6'), ('Pad7', 'Pad8')),
   'Operator': (('OscA', 'OscB', 'OscC', 'OscD'), ('LFO', 'Fltr'), ('Pitch',), ('Glob.',)),
@@ -14,6 +25,15 @@ SPECIAL_NAME_DICT = {
   'LoungeLizard': (('Ma&Ti',), ('To&Da',), ('Pick', 'Mod'), ('Glob.',)),
   'StringStudio': (('Ex&St', 'Damp'), ('Te&Pi', 'Body'), ('Fltr', 'LFO'), ('Glob.', 'Vibr')),
   'Eq8': (('Bands', 'EQ1-3'), ('Freq', 'Gain'), ('Reso', 'Fltr'), ('Glob.',))}
+=======
+SPECIAL_NAME_DICT = {'InstrumentImpulse':(('Pad1', 'Pad2'), ('Pad3', 'Pad4'), ('Pad5', 'Pad6'), ('Pad7', 'Pad8')), 
+ 'Operator':(('OscA', 'OscB', 'OscC', 'OscD'), ('LFO', 'Fltr'), ('Pitch',), ('Glob.',)), 
+ 'MultiSampler':(('Vol.', 'Pitch'), ('Fltr', 'FEnv'), ('LFO1', 'LFO2', 'LFO3'), ('Osc',)), 
+ 'UltraAnalog':(('Osc',), ('Fltr', 'FEnv', 'FMod'), ('VEnv', 'Mix'), ('Out',)), 
+ 'LoungeLizard':(('Ma&Ti',), ('To&Da',), ('Pick', 'Mod'), ('Glob.',)), 
+ 'StringStudio':(('Ex&St', 'Damp'), ('Te&Pi', 'Body'), ('Fltr', 'LFO'), ('Glob.', 'Vibr')), 
+ 'Eq8':(('Bands', 'EQ1-3'), ('Freq', 'Gain'), ('Reso', 'Fltr'), ('Glob.',))}
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 SPECIAL_DEVICE_DICT = {'InstrumentImpulse':[
   (
    IMP_BANK1, IMP_BANK2),
@@ -83,8 +103,13 @@ class PageableDeviceComponent(DeviceComponent):
         for new_index in range(8):
             self._parameter_name_data_sources.append(DisplayDataSource())
             self._page_name_data_sources.append(DisplayDataSource())
+<<<<<<< HEAD
             self._parameter_name_data_sources[-1].set_display_string(' - ')
             self._page_name_data_sources[-1].set_display_string(' - ')
+=======
+            self._parameter_name_data_sources[(-1)].set_display_string(' - ')
+            self._page_name_data_sources[(-1)].set_display_string(' - ')
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 
     def disconnect(self):
         self._parameter_value_data_source = None
@@ -140,11 +165,18 @@ class PageableDeviceComponent(DeviceComponent):
     def _assign_parameters(self):
         if self._device.class_name in list(SPECIAL_DEVICE_DICT.keys()):
             self._PageableDeviceComponent__assign_parameters_special()
+<<<<<<< HEAD
         else:
             if self._device.class_name in list(DEVICE_DICT.keys()):
                 self._PageableDeviceComponent__assign_parameters_normal()
             else:
                 self._PageableDeviceComponent__assign_parameters_plugin()
+=======
+        elif self._device.class_name in list(DEVICE_DICT.keys()):
+            self._PageableDeviceComponent__assign_parameters_normal()
+        else:
+            self._PageableDeviceComponent__assign_parameters_plugin()
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
         self._parameter_value_data_source.set_display_string('')
         for index in range(len(self._parameter_controls)):
             if self._parameter_controls[index].mapped_parameter() != None:
@@ -170,9 +202,9 @@ class PageableDeviceComponent(DeviceComponent):
             if index < len(bank_names):
                 page_names = bank_names[index]
                 if index == self._bank_index:
-                    self._page_name_data_sources[index].set_display_string(page_names[(self._page_index[index] + 1) % len(page_names)])
+                    self._page_name_data_sources[index].set_display_string(page_names[((self._page_index[index] + 1) % len(page_names))])
                 else:
-                    self._page_name_data_sources[index].set_display_string(page_names[self._page_index[index] % len(page_names)])
+                    self._page_name_data_sources[index].set_display_string(page_names[(self._page_index[index] % len(page_names))])
             else:
                 self._page_name_data_sources[index].set_display_string(' - ')
 

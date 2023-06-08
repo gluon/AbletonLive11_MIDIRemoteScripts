@@ -1,3 +1,13 @@
+<<<<<<< HEAD
+=======
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/pushbase/session_recording_component.py
+# Compiled at: 2022-01-27 16:28:17
+# Size of source mod 2**32: 9014 bytes
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 from __future__ import absolute_import, print_function, unicode_literals
 from builtins import filter
 import Live
@@ -26,7 +36,11 @@ def have_other_recording_clips(tracks, recording_clip):
     for track in filter(lambda t: t.can_be_armed and (t.arm or t.implicit_arm)
 , tracks):
         index = track.playing_slot_index
+<<<<<<< HEAD
         slot = track.clip_slots[index] if (0<= index < len(track.clip_slots)) else None
+=======
+        slot = track.clip_slots[index] if (0 <= index < len(track.clip_slots)) else None
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
         clip = getattr(slot, 'clip', None)
         if getattr(clip, 'is_recording', False):
             if clip is not recording_clip:
@@ -175,11 +189,18 @@ class FixedLengthSessionRecordingComponent(SessionRecordingComponent, Messenger)
                 if clip_slot.is_triggered:
                     if song.overdub and not clip_slot.is_recording:
                         self.record_button.color = 'Recording.Transition'
+<<<<<<< HEAD
                     else:
                         if song.record_mode:
                             self.record_button.color = 'Recording.ArrangementRecordingOn'
                         else:
                             super(FixedLengthSessionRecordingComponent, self)._update_record_button()
+=======
+                    elif song.record_mode:
+                        self.record_button.color = 'Recording.ArrangementRecordingOn'
+                    else:
+                        super(FixedLengthSessionRecordingComponent, self)._update_record_button()
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
                 self.arrangement_record_button.color = self.record_button.color
 
     @listens('record_mode')

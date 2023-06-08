@@ -1,3 +1,13 @@
+<<<<<<< HEAD
+=======
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Push2/browser_modes.py
+# Compiled at: 2021-06-29 09:33:48
+# Size of source mod 2**32: 4548 bytes
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 from __future__ import absolute_import, print_function, unicode_literals
 import Live
 from ableton.v2.base import depends, liveobj_valid
@@ -68,11 +78,18 @@ class HotswapBrowseMode(BrowseModeBase):
         if liveobj_valid(hotswap_target):
             if isinstance(hotswap_target, Live.DrumPad.DrumPad):
                 self._drum_group_component.hotswap_indication_mode = 'current_pad'
+<<<<<<< HEAD
             else:
                 if isinstance(hotswap_target, Live.RackDevice.RackDevice):
                     if hotswap_target.can_have_drum_pads:
                         if hotswap_target == self._drum_group_component.drum_group_device:
                             self._drum_group_component.hotswap_indication_mode = 'all_pads'
+=======
+            elif isinstance(hotswap_target, Live.RackDevice.RackDevice):
+                if hotswap_target.can_have_drum_pads:
+                    if hotswap_target == self._drum_group_component.drum_group_device:
+                        self._drum_group_component.hotswap_indication_mode = 'all_pads'
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 
 
 class AddDeviceMode(HotswapBrowseMode):

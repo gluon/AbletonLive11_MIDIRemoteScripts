@@ -1,3 +1,13 @@
+<<<<<<< HEAD
+=======
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Push/browser_model.py
+# Compiled at: 2022-01-27 16:28:16
+# Size of source mod 2**32: 12153 bytes
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 from __future__ import absolute_import, print_function, unicode_literals
 from builtins import map, object
 import os
@@ -40,11 +50,18 @@ class VirtualBrowserItem(object):
 
 
 class BrowserListItem(ActionListItem):
+<<<<<<< HEAD
     URI_TO_NAME_FALLBACK = {
       'query:Synths': 'Instruments',
       'query:Drums': 'Drums',
       'query:UserLibrary': 'User Library',
       'query:Plugins': 'Plug-Ins'}
+=======
+    URI_TO_NAME_FALLBACK = {'query:Synths':'Instruments', 
+     'query:Drums':'Drums', 
+     'query:UserLibrary':'User Library', 
+     'query:Plugins':'Plug-Ins'}
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 
     def __str__(self):
         return self._item_name
@@ -195,7 +212,7 @@ class FullBrowserModel(BrowserModel):
     def _push_content_list(self):
         if self._num_contents < len(self._contents):
             self._num_contents += 1
-            content = self._contents[self._num_contents - 1]
+            content = self._contents[(self._num_contents - 1)]
         else:
             content = self.make_content_list()
             level = len(self._contents)
@@ -229,7 +246,7 @@ class FullBrowserModel(BrowserModel):
             children = self.get_children(selected.content, level) if selected != None else []
             if children or is_folder or level < 1:
                 self._fit_content_lists(level + 2)
-                child_contents, _ = self._contents[level + 1]
+                child_contents, _ = self._contents[(level + 1)]
                 child_contents.assign_items(children)
             else:
                 self._fit_content_lists(level + 1)

@@ -1,6 +1,19 @@
+<<<<<<< HEAD
 from __future__ import absolute_import, print_function, unicode_literals
 from builtins import map, zip
 from ...base import EventObject, forward_property, listenable_property, listens, liveobj_valid
+=======
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/ableton/v2/control_surface/components/item_lister.py
+# Compiled at: 2022-01-28 05:06:24
+# Size of source mod 2**32: 9271 bytes
+from __future__ import absolute_import, print_function, unicode_literals
+from builtins import map, zip
+from ...base import EventObject, forward_property, listenable_property, listens
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 from .. import Component
 from ..control import ButtonControl, control_list
 
@@ -118,7 +131,7 @@ class ItemListerComponentBase(Component):
     def _adjust_offset(self):
         num_raw_items = len(self._item_provider.items)
         list_length = self._num_visible_items
-        if list_length >= num_raw_items or self._item_offset >= num_raw_items - list_length:
+        if list_length >= num_raw_items or (self._item_offset >= num_raw_items - list_length):
             self._item_offset = max(0, num_raw_items - list_length)
 
     def update_items(self):
@@ -134,7 +147,11 @@ class ItemListerComponentBase(Component):
         num_slots = min(self._num_visible_items, len(items))
         new_items = []
         if num_slots > 0:
+<<<<<<< HEAD
             new_items = [(self._create_slot)(index, *item) for index, item in enumerate(items[:num_slots]) if liveobj_valid(item[0])]
+=======
+            new_items = [(self._create_slot)(index, *item) for index, item in enumerate(items[:num_slots]) if item[0] != None]
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
         return new_items
 
     def _create_slot(self, index, item, nesting_level):

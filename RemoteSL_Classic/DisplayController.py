@@ -1,6 +1,18 @@
+<<<<<<< HEAD
 from __future__ import absolute_import, print_function, unicode_literals
 from builtins import range, str
 from ableton.v3.base import as_ascii
+=======
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/RemoteSL_Classic/DisplayController.py
+# Compiled at: 2022-01-27 16:28:16
+# Size of source mod 2**32: 8576 bytes
+from __future__ import absolute_import, print_function, unicode_literals
+from builtins import range, str
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 from .consts import *
 from .RemoteSLComponent import RemoteSLComponent
 
@@ -71,9 +83,14 @@ class DisplayController(RemoteSLComponent):
         if len(final_message) < NUM_CHARS_PER_DISPLAY_LINE:
             fill_up = NUM_CHARS_PER_DISPLAY_LINE - len(final_message)
             final_message = final_message + ' ' * fill_up
+<<<<<<< HEAD
         else:
             if len(final_message) >= NUM_CHARS_PER_DISPLAY_LINE:
                 final_message = final_message[0:NUM_CHARS_PER_DISPLAY_LINE]
+=======
+        elif len(final_message) >= NUM_CHARS_PER_DISPLAY_LINE:
+            final_message = final_message[0:NUM_CHARS_PER_DISPLAY_LINE]
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
         final_offset = 0
         sysex_header = (
          240,
@@ -91,7 +108,11 @@ class DisplayController(RemoteSLComponent):
         sysex_pos = (
          final_offset, row_id)
         sysex_text_command = (4, )
+<<<<<<< HEAD
         sysex_text = tuple(as_ascii(final_message))
+=======
+        sysex_text = tuple([ord(c) for c in final_message])
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
         sysex_close_up = (247, )
         full_sysex = sysex_header + sysex_pos + sysex_text_command + sysex_text + sysex_close_up
         if self._DisplayController__last_send_row_id_messages[row_id] != full_sysex:
@@ -114,4 +135,16 @@ class DisplayController(RemoteSLComponent):
 
         else:
             display_string = display_string.center(NUM_CHARS_PER_DISPLAY_STRIP - 1)
+<<<<<<< HEAD
         return display_string[:NUM_CHARS_PER_DISPLAY_STRIP - 1] + ' '
+=======
+        ret = ''
+        for i in range(NUM_CHARS_PER_DISPLAY_STRIP - 1):
+            if not ord(display_string[i]) > 127 or ord(display_string[i]) < 0:
+                ret += ' '
+            else:
+                ret += display_string[i]
+
+        ret += ' '
+        return ret
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34

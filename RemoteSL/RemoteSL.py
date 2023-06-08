@@ -1,3 +1,13 @@
+<<<<<<< HEAD
+=======
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/RemoteSL/RemoteSL.py
+# Compiled at: 2022-01-27 16:28:16
+# Size of source mod 2**32: 11253 bytes
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 from __future__ import absolute_import, print_function, unicode_literals
 from builtins import object, str
 import Live, MidiRemoteScript
@@ -118,6 +128,7 @@ class RemoteSL(object):
             velocity = midi_bytes[2]
             if note in fx_notes:
                 self._RemoteSL__effect_controller.receive_midi_note(note, velocity)
+<<<<<<< HEAD
             else:
                 if note in mx_notes:
                     self._RemoteSL__mixer_controller.receive_midi_note(note, velocity)
@@ -152,3 +163,35 @@ class RemoteSL(object):
                                 self.request_rebuild_midi_map()
                 else:
                     print('unknown MIDI message %s' % str(midi_bytes))
+=======
+            elif note in mx_notes:
+                self._RemoteSL__mixer_controller.receive_midi_note(note, velocity)
+            else:
+                print('unknown MIDI message %s' % str(midi_bytes))
+        elif midi_bytes[0] & 240 == CC_STATUS:
+            channel = midi_bytes[0] & 15
+            cc_no = midi_bytes[1]
+            cc_value = midi_bytes[2]
+            if cc_no in fx_ccs:
+                self._RemoteSL__effect_controller.receive_midi_cc(cc_no, cc_value)
+            elif cc_no in mx_ccs:
+                self._RemoteSL__mixer_controller.receive_midi_cc(cc_no, cc_value)
+            else:
+                print('unknown MIDI message %s' % str(midi_bytes))
+        elif midi_bytes[0] == 240:
+            if len(midi_bytes) == 13:
+                if midi_bytes[1:4] == (0, 32, 41):
+                    if not midi_bytes[8] == ABLETON_PID or midi_bytes[10] == 1:
+                        self._RemoteSL__automap_has_control = midi_bytes[11] == 0
+                        support_mkII = midi_bytes[6] * 100 + midi_bytes[7] >= 1800
+                        if not self._RemoteSL__automap_has_control:
+                            self.send_midi(ALL_LEDS_OFF_MESSAGE)
+                        for c in self._RemoteSL__components:
+                            c.set_support_mkII(support_mkII)
+                            if not self._RemoteSL__automap_has_control:
+                                c.refresh_state()
+
+                        self.request_rebuild_midi_map()
+        else:
+            print('unknown MIDI message %s' % str(midi_bytes))
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34

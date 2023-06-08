@@ -1,3 +1,13 @@
+<<<<<<< HEAD
+=======
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Launchkey_MK3/simple_display.py
+# Compiled at: 2022-01-27 16:28:16
+# Size of source mod 2**32: 2243 bytes
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 from __future__ import absolute_import, print_function, unicode_literals
 from functools import partial
 from ableton.v2.base import task
@@ -11,10 +21,16 @@ as_ascii = partial(as_ascii, ascii_translations=ascii_translations)
 
 class SimpleDisplayElement(NotifyingControlElement):
 
+<<<<<<< HEAD
     def __init__(self, command, tail, *a, **k):
         (super(SimpleDisplayElement, self).__init__)(*a, **k)
         self._message_command = command
         self._message_header = None
+=======
+    def __init__(self, header, tail, *a, **k):
+        (super(SimpleDisplayElement, self).__init__)(*a, **k)
+        self._message_header = header
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
         self._message_tail = tail
         self._message_to_send = None
         self._last_sent_message = None
@@ -54,4 +70,8 @@ class SimpleDisplayElement(NotifyingControlElement):
 
     def _send_message(self):
         if self._message_to_send:
+<<<<<<< HEAD
             self.send_midi(self._message_header + self._message_to_send)
+=======
+            self.send_midi(self._message_to_send)
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34

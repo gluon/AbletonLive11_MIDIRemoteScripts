@@ -1,10 +1,29 @@
+<<<<<<< HEAD
 from __future__ import absolute_import, print_function, unicode_literals
 from ableton.v3.base import listens
 from ableton.v3.control_surface.components import TransportComponent as TransportComponentBase
+=======
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/FANTOM/transport.py
+# Compiled at: 2022-01-27 16:28:16
+# Size of source mod 2**32: 2069 bytes
+from __future__ import absolute_import, print_function, unicode_literals
+from ableton.v3.base import clamp, listens
+import ableton.v3.control_surface.components as TransportComponentBase
+from ableton.v3.control_surface.controls import EncoderControl
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 from .control import DisplayControl
 MAX_NUM_BARS_WITH_BEATS = 9999
 
 class TransportComponent(TransportComponentBase):
+<<<<<<< HEAD
+=======
+    tempo_coarse_control = EncoderControl()
+    tempo_fine_control = EncoderControl()
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
     beat_time_display = DisplayControl()
     tempo_display = DisplayControl()
 
@@ -12,6 +31,22 @@ class TransportComponent(TransportComponentBase):
         (super().__init__)(*a, **k)
         self._TransportComponent__on_song_time_changed.subject = self.song
         self._TransportComponent__on_tempo_changed.subject = self.song
+<<<<<<< HEAD
+=======
+
+    def set_tempo_fine_control(self, control):
+        self.tempo_fine_control.set_control_element(control)
+
+    @tempo_coarse_control.value
+    def tempo_coarse_control(self, value, _):
+        factor = 1 if value > 0 else -1
+        self.song.tempo = clamp(self.song.tempo + factor, 20, 999)
+
+    @tempo_fine_control.value
+    def tempo_fine_control(self, value, _):
+        factor = 0.1 if value > 0 else -0.1
+        self.song.tempo = clamp(self.song.tempo + factor, 20, 999)
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 
     def update(self):
         super().update()

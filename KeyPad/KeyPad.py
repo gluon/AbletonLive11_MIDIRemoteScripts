@@ -1,3 +1,13 @@
+<<<<<<< HEAD
+=======
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/KeyPad/KeyPad.py
+# Compiled at: 2022-01-27 16:28:16
+# Size of source mod 2**32: 8224 bytes
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 from __future__ import absolute_import, division, print_function, unicode_literals
 from builtins import map, range
 from past.utils import old_div
@@ -17,7 +27,11 @@ from .CombinedButtonsElement import CombinedButtonsElement
 from .CuePointControlComponent import CuePointControlComponent
 NUM_CHANNEL_STRIPS = 16
 pads = [
+<<<<<<< HEAD
  1,2,3,4,9,10,11,12,5,6,7,8,13,14,15,16]
+=======
+ 1, 2, 3, 4, 9, 10, 11, 12, 5, 6, 7, 8, 13, 14, 15, 16]
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 PAD_TRANSLATIONS = tuple([(n % 4, 3 - old_div(n, 4), pads[n] + 35, 4) for n in range(16)])
 
 def make_slider(channel, cc, name):
@@ -61,8 +75,12 @@ class KeyPad(ControlSurface):
         if midi_bytes != self._preset_message(2):
             super(KeyPad, self).handle_sysex(midi_bytes)
         else:
+<<<<<<< HEAD
             list(map(lambda x: x.set_enabled(True)
 , (
+=======
+            list(map(lambda x: x.set_enabled(True), (
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
              self._mixer, self._session, self._transport, self._cue_control)))
 
     def _create_controls(self):
@@ -89,7 +107,11 @@ class KeyPad(ControlSurface):
         self._shifted_mute_buttons = make_controls(make_non_momentary_button, 'Shifted_Mute_%d_Button', 16)
         self._shifted_solo_buttons = make_controls(make_button, 'Shifted_Solo_%d_Button', 32)
         self._all_shifted_arm_buttons = make_controls(make_button, 'Shifted_Arm_%d_Button', 49)
+<<<<<<< HEAD
         self._shifted_arm_buttons = [CombinedButtonsElement(buttons=(self._all_shifted_arm_buttons[index], self._all_shifted_arm_buttons[index + 8])) for index in range(8)]
+=======
+        self._shifted_arm_buttons = [CombinedButtonsElement(buttons=(self._all_shifted_arm_buttons[index], self._all_shifted_arm_buttons[(index + 8)])) for index in range(8)]
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
         self._shifted_play_button = make_button(1, 108, 'Shifted_Play_Button')
         self._shifted_stop_button = make_button(1, 109, 'Shifted_Stop_Button')
         self._shifted_record_button = make_button(1, 110, 'Shifted_Record_Button')

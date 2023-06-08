@@ -1,3 +1,13 @@
+<<<<<<< HEAD
+=======
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/ableton/v2/control_surface/control/encoder.py
+# Compiled at: 2022-01-27 16:28:17
+# Size of source mod 2**32: 13533 bytes
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 from __future__ import absolute_import, print_function, unicode_literals
 import logging
 from ...base import clamp, const, lazy_attribute, old_hasattr, sign, task
@@ -26,7 +36,11 @@ class EncoderControl(InputControl):
             return self._is_touched
 
         def set_control_element(self, control_element):
+<<<<<<< HEAD
             if self._control_element != control_element or self._lost_touch_element(self._control_element):
+=======
+            if self._control_element != control_element or (self._lost_touch_element(self._control_element)):
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
                 self._release_encoder()
                 self._kill_all_tasks()
             super(EncoderControl.State, self).set_control_element(control_element)

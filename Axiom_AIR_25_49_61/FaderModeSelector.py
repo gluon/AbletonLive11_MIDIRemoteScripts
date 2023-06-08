@@ -1,3 +1,13 @@
+<<<<<<< HEAD
+=======
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Axiom_AIR_25_49_61/FaderModeSelector.py
+# Compiled at: 2022-01-27 16:28:16
+# Size of source mod 2**32: 3693 bytes
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 from __future__ import absolute_import, print_function, unicode_literals
 from builtins import range
 import _Framework.ModeSelectorComponent as ModeSelectorComponent
@@ -54,6 +64,7 @@ class FaderModeSelector(ModeSelectorComponent):
                 self._fader_button_modes.set_mix_mode()
                 self._mixer.master_strip().set_select_button(None)
                 self._master_fader_button.turn_off()
+<<<<<<< HEAD
             else:
                 if self._mode_index == 1:
                     self._modes_buttons[0].send_value(GRN_FULL, True)
@@ -66,6 +77,19 @@ class FaderModeSelector(ModeSelectorComponent):
                     self._device.set_parameter_controls(self._faders)
                     self._fader_button_modes.set_track_select_mode()
                     self._mixer.master_strip().set_select_button(self._master_fader_button)
+=======
+            elif self._mode_index == 1:
+                self._modes_buttons[0].send_value(GRN_FULL, True)
+                self._modes_buttons[1].send_value(LED_OFF, True)
+                self._fader_button_modes.set_track_select_mode()
+                self._mixer.master_strip().set_select_button(self._master_fader_button)
+            else:
+                self._modes_buttons[0].send_value(LED_OFF, True)
+                self._modes_buttons[1].send_value(RED_FULL, True)
+                self._device.set_parameter_controls(self._faders)
+                self._fader_button_modes.set_track_select_mode()
+                self._mixer.master_strip().set_select_button(self._master_fader_button)
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
             self._device.set_allow_update(True)
             self._mixer.set_allow_update(True)
 

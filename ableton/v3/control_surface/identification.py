@@ -1,3 +1,13 @@
+<<<<<<< HEAD
+=======
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/ableton/v3/control_surface/identification.py
+# Compiled at: 2022-01-28 05:06:24
+# Size of source mod 2**32: 7637 bytes
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 from __future__ import absolute_import, print_function, unicode_literals
 import logging
 from abc import ABC, abstractmethod
@@ -16,12 +26,24 @@ def status_byte_to_msg_type(status_byte):
     msg_type = MIDI_CC_TYPE
     if status_byte == midi.NOTE_ON_STATUS:
         msg_type = MIDI_NOTE_TYPE
+<<<<<<< HEAD
     else:
         if status_byte == midi.PB_STATUS:
             msg_type = MIDI_PB_TYPE
     return msg_type
 
 
+=======
+    elif status_byte == midi.PB_STATUS:
+        msg_type = MIDI_PB_TYPE
+    return msg_type
+
+
+def is_standard_identity_response(midi_bytes):
+    return midi_bytes[1:PRODUCT_ID_BYTES_START_INDEX] == STANDARD_RESPONSE_BYTES
+
+
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 def create_responder(identity_response_id_bytes, custom_identity_response):
     if identity_response_id_bytes is not None:
         return StandardResponder(identity_response_id_bytes)
@@ -78,7 +100,11 @@ class StandardResponder(Responder):
         return SysexElement(sysex_identifier=NON_REALTIME_HEADER)
 
     def is_valid_response(self, response_bytes):
+<<<<<<< HEAD
         if response_bytes[1:PRODUCT_ID_BYTES_START_INDEX] == STANDARD_RESPONSE_BYTES:
+=======
+        if is_standard_identity_response(response_bytes):
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
             product_id_bytes = self._extract_product_id_bytes(response_bytes)
             if product_id_bytes != self._response_bytes:
                 raise IdentityResponseError(expected_bytes=(self._response_bytes),
@@ -93,7 +119,11 @@ class StandardResponder(Responder):
 class IdentityResponseError(Exception):
 
     def __init__(self, expected_bytes=None, actual_bytes=None):
+<<<<<<< HEAD
         super().__init__('Hardware controller responded with wrong identity bytes: ({} != {}).'.format(expected_bytes, actual_bytes))
+=======
+        super().__init__('MIDI device responded with wrong identity bytes: ({} != {}).'.format(expected_bytes, actual_bytes))
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 
 
 class IdentificationComponent(Component):
@@ -109,7 +139,10 @@ class IdentificationComponent(Component):
         self._responder = create_responder(identity_response_id_bytes, custom_identity_response)
         response_element = self._responder.create_response_element()
         response_element.name = 'identity_control'
+<<<<<<< HEAD
         response_element.is_private = True
+=======
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
         self.identity_response_control.set_control_element(response_element)
         self._request_task = self._tasks.add(task.sequence(task.run(self._send_identity_request), task.wait(identity_request_delay), task.run(self._send_identity_request)))
         self._request_task.kill()

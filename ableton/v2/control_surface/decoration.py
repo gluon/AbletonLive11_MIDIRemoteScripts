@@ -1,3 +1,13 @@
+<<<<<<< HEAD
+=======
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/ableton/v2/control_surface/decoration.py
+# Compiled at: 2022-01-28 05:06:24
+# Size of source mod 2**32: 9570 bytes
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 from __future__ import absolute_import, print_function, unicode_literals
 from builtins import filter, map, round
 from future.utils import iteritems
@@ -127,7 +137,7 @@ class NotifyingList(EventObject):
         return self._index
 
     def _set_index(self, value):
-        if value < 0 or value >= len(self.available_values):
+        if value < 0 or (value >= len(self.available_values)):
             raise IndexError
         self._index = value
         self.notify_index()
@@ -211,7 +221,7 @@ class PitchParameter(InternalParameter):
             self._integer_value_host.value = clamp(new_value, self._integer_value_host.min, self._integer_value_host.max)
 
     def _set_finegrain(self, new_value):
-        if new_value < 0 or new_value > 1:
+        if new_value < 0 or (new_value > 1):
             offset = 1 if new_value < 0 else -1
             new_value += offset
             self._set_coarse(getattr(self._integer_value_host, 'value', 0) - offset)
@@ -247,6 +257,6 @@ class PitchParameter(InternalParameter):
     def automation_state(self):
         integer_host_automation_state = get_parameter_automation_state(self._integer_value_host)
         decimal_host_automation_state = get_parameter_automation_state(self._decimal_value_host)
-        if integer_host_automation_state == AutomationState.playing or decimal_host_automation_state == AutomationState.playing:
+        if integer_host_automation_state == AutomationState.playing or (decimal_host_automation_state == AutomationState.playing):
             return AutomationState.playing
         return integer_host_automation_state or decimal_host_automation_state

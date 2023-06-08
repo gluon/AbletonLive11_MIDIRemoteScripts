@@ -1,3 +1,13 @@
+<<<<<<< HEAD
+=======
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/pushbase/auto_arm_component.py
+# Compiled at: 2022-01-27 16:28:17
+# Size of source mod 2**32: 5180 bytes
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 from __future__ import absolute_import, print_function, unicode_literals
 from builtins import filter
 from functools import partial
@@ -71,8 +81,12 @@ class RestoringAutoArmComponent(AutoArmComponent, Messenger):
         song = self.song
         exclusive_arm = song.exclusive_arm
         selected_track = song.view.selected_track
+<<<<<<< HEAD
         return self.is_enabled() and self.can_auto_arm_track(selected_track) and not selected_track.arm and any(filter(lambda track: (exclusive_arm or self.can_auto_arm_track(track)) and track.can_be_armed and track.arm
 , song.tracks))
+=======
+        return self.is_enabled() and self.can_auto_arm_track(selected_track) and not selected_track.arm and any(filter(lambda track: exclusive_arm or self.can_auto_arm_track(track) and track.can_be_armed and track.arm, song.tracks))
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 
     def can_auto_arm(self):
         return self.is_enabled() and not self.needs_restore_auto_arm

@@ -1,3 +1,13 @@
+<<<<<<< HEAD
+=======
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/ableton/v2/control_surface/control_surface.py
+# Compiled at: 2022-01-28 05:06:24
+# Size of source mod 2**32: 32657 bytes
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 from __future__ import absolute_import, print_function, unicode_literals
 from builtins import filter, map
 from future.utils import iteritems, itervalues
@@ -79,6 +89,7 @@ class SimpleControlSurface(EventObject):
 
     @property
     def components(self):
+<<<<<<< HEAD
         return tuple(filter(lambda comp: not comp.is_private
 , self._components))
 
@@ -90,6 +101,13 @@ class SimpleControlSurface(EventObject):
     @property
     def controls(self):
         return self._controls
+=======
+        return tuple(filter(lambda comp: not comp.is_private, self._components))
+
+    @property
+    def root_components(self):
+        return tuple(filter(lambda comp: comp.is_root and not comp.is_private, self._components))
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 
     def _get_tasks(self):
         return self._task_group
@@ -128,7 +146,11 @@ class SimpleControlSurface(EventObject):
 
     def suggest_map_mode(self, cc_no, channel):
         suggested_map_mode = -1
+<<<<<<< HEAD
         for control in self._controls:
+=======
+        for control in self.controls:
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
             if isinstance(control, InputControlElement):
                 if control.message_type() == MIDI_CC_TYPE:
                     if control.message_identifier() == cc_no:
@@ -235,16 +257,26 @@ class SimpleControlSurface(EventObject):
             if result is not None:
                 identifier, recipient = result
                 midi_processor(recipient, midi_bytes[len(identifier):-1])
+<<<<<<< HEAD
             else:
                 if self.received_midi_listener_count() == 0:
                     logger.warning('Got unknown sysex message: ' + midi.pretty_print_bytes(midi_bytes))
+=======
+            elif self.received_midi_listener_count() == 0:
+                logger.warning('Got unknown sysex message: ' + midi.pretty_print_bytes(midi_bytes))
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
         else:
             recipient = self.get_recipient_for_nonsysex_midi_message(midi_bytes)
             if recipient is not None:
                 midi_processor(recipient, midi.extract_value(midi_bytes))
+<<<<<<< HEAD
             else:
                 if self.received_midi_listener_count() == 0:
                     logger.warning('Got unknown message: ' + midi.pretty_print_bytes(midi_bytes))
+=======
+            elif self.received_midi_listener_count() == 0:
+                logger.warning('Got unknown message: ' + midi.pretty_print_bytes(midi_bytes))
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 
     def get_recipient_for_nonsysex_midi_message(self, midi_bytes):
         forwarding_key = midi_bytes[:1 if midi.is_pitchbend(midi_bytes) else 2]
@@ -259,7 +291,7 @@ class SimpleControlSurface(EventObject):
     def suppressing_rebuild_requests(self):
         try:
             self._set_suppress_rebuild_requests(True)
-            yield
+            (yield)
         finally:
             self._set_suppress_rebuild_requests(False)
 
@@ -319,7 +351,11 @@ class SimpleControlSurface(EventObject):
         self._c_instance.release_controlled_track()
 
     def _register_control(self, control):
+<<<<<<< HEAD
         self._controls.append(control)
+=======
+        self.controls.append(control)
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
         control.canonical_parent = self
         if isinstance(control, PhysicalDisplayElement):
             self._displays.append(control)
@@ -343,16 +379,16 @@ class SimpleControlSurface(EventObject):
         if not self._in_component_guard:
             with self._in_component_guard():
                 with self._component_guard():
-                    yield
+                    (yield)
         else:
-            yield
+            (yield)
 
     @contextmanager
     def _component_guard(self):
         with self._control_surface_injector:
             with self.suppressing_rebuild_requests():
                 with self.accumulating_midi_messages():
-                    yield
+                    (yield)
                     self._ownership_handler.commit_ownership_changes()
 
     @profile
@@ -365,7 +401,7 @@ class SimpleControlSurface(EventObject):
     def accumulating_midi_messages(self):
         with self._accumulate_midi_messages():
             try:
-                yield
+                (yield)
             finally:
                 self._flush_midi_messages()
 
@@ -405,7 +441,11 @@ class SimpleControlSurface(EventObject):
     def _do_send_midi(self, midi_event_bytes):
         try:
             self._c_instance.send_midi(midi_event_bytes)
+<<<<<<< HEAD
         except Exception:
+=======
+        except:
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
             logger.error('Error while sending midi message %s', str(midi_event_bytes))
             traceback.print_exc()
             return False
@@ -419,6 +459,7 @@ class SimpleControlSurface(EventObject):
             feedback_rule = Live.MidiMap.NoteFeedbackRule()
             feedback_rule.note_no = control.message_identifier()
             feedback_rule.vel_map = feedback_map
+<<<<<<< HEAD
         else:
             if control.message_type() == MIDI_CC_TYPE:
                 feedback_rule = Live.MidiMap.CCFeedbackRule()
@@ -428,6 +469,15 @@ class SimpleControlSurface(EventObject):
                 if control.message_type() == MIDI_PB_TYPE:
                     feedback_rule = Live.MidiMap.PitchBendFeedbackRule()
                     feedback_rule.value_pair_map = feedback_map
+=======
+        elif control.message_type() == MIDI_CC_TYPE:
+            feedback_rule = Live.MidiMap.CCFeedbackRule()
+            feedback_rule.cc_no = control.message_identifier()
+            feedback_rule.cc_value_map = feedback_map
+        elif control.message_type() == MIDI_PB_TYPE:
+            feedback_rule = Live.MidiMap.PitchBendFeedbackRule()
+            feedback_rule.value_pair_map = feedback_map
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
         feedback_rule.channel = control.message_channel()
         feedback_rule.delay_in_ms = feedback_delay
         feedback_rule.enabled = control.is_feedback_enabled
@@ -449,6 +499,7 @@ class SimpleControlSurface(EventObject):
         if control.message_type() == MIDI_NOTE_TYPE:
             success = Live.MidiMap.forward_midi_note(self._c_instance.handle(), midi_map_handle, control.message_channel(), control.message_identifier(), should_consume_event)
         else:
+<<<<<<< HEAD
             if control.message_type() == MIDI_CC_TYPE:
                 success = Live.MidiMap.forward_midi_cc(self._c_instance.handle(), midi_map_handle, control.message_channel(), control.message_identifier(), should_consume_event)
             else:
@@ -456,6 +507,9 @@ class SimpleControlSurface(EventObject):
                     success = Live.MidiMap.forward_midi_pitchbend(self._c_instance.handle(), midi_map_handle, control.message_channel())
                 else:
                     success = True
+=======
+            success = True
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
         if success:
             forwarding_keys = control.identifier_bytes()
             for key in forwarding_keys:
@@ -468,10 +522,14 @@ class SimpleControlSurface(EventObject):
         if type == MIDI_CC_TYPE:
             self._c_instance.set_cc_translation(from_identifier, from_channel, to_identifier, to_channel)
         else:
+<<<<<<< HEAD
             if type == MIDI_NOTE_TYPE:
                 self._c_instance.set_note_translation(from_identifier, from_channel, to_identifier, to_channel)
             else:
                 pass
+=======
+            pass
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 
     @lazy_attribute
     def preferences(self):
@@ -488,16 +546,24 @@ class SimpleControlSurface(EventObject):
                 e = None
                 del e
 
+<<<<<<< HEAD
         preferences.set_serializer(lambda: dumps(pref_dict)
 )
+=======
+        preferences.set_serializer(lambda: dumps(pref_dict))
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
         return pref_dict
 
     def _pre_serialize(self):
         if self.preferences_key is not None:
             preferences = self._c_instance.preferences(self.preferences_key)
             dump = dumps(self.preferences)
+<<<<<<< HEAD
             preferences.set_serializer(lambda: dump
 )
+=======
+            preferences.set_serializer(lambda: dump)
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 
 
 class ControlSurface(SimpleControlSurface):
@@ -552,4 +618,8 @@ class ControlSurface(SimpleControlSurface):
     def _component_guard(self):
         with super(ControlSurface, self)._component_guard():
             with self._device_support_injector:
+<<<<<<< HEAD
                 yield
+=======
+                (yield)
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34

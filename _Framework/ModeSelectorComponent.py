@@ -1,3 +1,13 @@
+<<<<<<< HEAD
+=======
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/_Framework/ModeSelectorComponent.py
+# Compiled at: 2022-01-27 16:28:16
+# Size of source mod 2**32: 5408 bytes
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 from __future__ import absolute_import, print_function, unicode_literals
 from builtins import range
 from .ButtonElement import ButtonElement
@@ -68,7 +78,11 @@ class ModeSelectorComponent(ControlSurfaceComponent):
             self._update_mode()
 
     def _update_mode(self):
+<<<<<<< HEAD
         mode = self._modes_heap[-1][0]
+=======
+        mode = self._modes_heap[(-1)][0]
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
         if self._mode_index != mode:
             self._mode_index = mode
             self.update()
@@ -100,6 +114,11 @@ class ModeSelectorComponent(ControlSurfaceComponent):
                 mode_observer.set_mode_details(new_mode, self._controls_for_mode(new_mode), self._get_public_mode_index)
                 self._modes_heap.append((new_mode, sender, mode_observer))
                 self._update_mode()
+<<<<<<< HEAD
+=======
+            elif self._modes_heap[(-1)][1] == sender and not self._modes_heap[(-1)][2].is_mode_momentary():
+                self.set_mode(new_mode)
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
             else:
                 if self._modes_heap[-1][1] == sender and not self._modes_heap[-1][2].is_mode_momentary():
                     self.set_mode(new_mode)

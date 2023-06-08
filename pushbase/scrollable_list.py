@@ -1,3 +1,13 @@
+<<<<<<< HEAD
+=======
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/pushbase/scrollable_list.py
+# Compiled at: 2022-01-27 16:28:17
+# Size of source mod 2**32: 19344 bytes
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 from __future__ import absolute_import, division, print_function, unicode_literals
 from builtins import object, str
 from past.utils import old_div
@@ -103,6 +113,7 @@ class ScrollableList(EventObject, Scrollable):
     def select_item_index_with_border(self, index, border_size):
         if self.fixed_offset is not None:
             self.select_item_index_with_offset(index, self.fixed_offset)
+<<<<<<< HEAD
         else:
             if index >= 0:
                 if index < len(self._items):
@@ -111,6 +122,15 @@ class ScrollableList(EventObject, Scrollable):
                         self._offset = clamp(offset, 0, len(self._items))
                     self._normalize_offset(index)
                     self._do_set_selected_item_index(index)
+=======
+        elif index >= 0:
+            if index < len(self._items):
+                if not in_range(index, self._offset + border_size, self._offset + self._num_visible_items - border_size):
+                    offset = index - (self._num_visible_items - 2 * border_size) if self.selected_item_index < index else index - border_size
+                    self._offset = clamp(offset, 0, len(self._items))
+                self._normalize_offset(index)
+                self._do_set_selected_item_index(index)
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 
     def next_page(self):
         if self.can_scroll_down():
@@ -380,11 +400,18 @@ class ListComponent(Component):
         if self._current_action_item == None:
             if self._action_target_is_next_item():
                 color = 'Browser.LoadNext'
+<<<<<<< HEAD
             else:
                 if self._can_be_used_for_action(self.selected_item):
                     color = 'Browser.Load'
                 else:
                     color = 'Browser.LoadNotPossible'
+=======
+            elif self._can_be_used_for_action(self.selected_item):
+                color = 'Browser.Load'
+            else:
+                color = 'Browser.LoadNotPossible'
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
         self.action_button.color = color
 
     def _update_display(self):

@@ -1,3 +1,13 @@
+<<<<<<< HEAD
+=======
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/LV2_LX2_LC2_LD2/FaderfoxScript.py
+# Compiled at: 2022-01-27 16:28:16
+# Size of source mod 2**32: 4502 bytes
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 from __future__ import absolute_import, print_function, unicode_literals
 from builtins import object, str
 import sys, Live
@@ -131,6 +141,7 @@ class FaderfoxScript(object):
 
             self.param_map.receive_midi_cc(channel, cc_no, cc_value)
         else:
+<<<<<<< HEAD
             if status == NOTEON_STATUS or status == NOTEOFF_STATUS:
                 note_no = midi_bytes[1]
                 note_vel = midi_bytes[2]
@@ -140,3 +151,6 @@ class FaderfoxScript(object):
                 self.param_map.receive_midi_note(channel, status, note_no, note_vel)
             else:
                 pass
+=======
+            pass
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34

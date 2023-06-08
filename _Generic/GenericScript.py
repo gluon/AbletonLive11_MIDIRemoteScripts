@@ -1,3 +1,13 @@
+<<<<<<< HEAD
+=======
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/_Generic/GenericScript.py
+# Compiled at: 2022-01-27 16:28:17
+# Size of source mod 2**32: 16642 bytes
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 from __future__ import absolute_import, print_function, unicode_literals
 from builtins import range
 from future.utils import iteritems
@@ -96,7 +106,11 @@ class GenericScript(ControlSurface):
             return MixerButton((mixer_options[control]), name=name)
 
         def make_channel_strip_button(control_list, index, name):
+<<<<<<< HEAD
             if 0<= index < len(control_list):
+=======
+            if 0 <= index < len(control_list):
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
                 if is_valid_midi_identifier(control_list[index]):
                     return MixerButton((control_list[index]),
                       name=('{}_{}_Button'.format(index, name)))
@@ -146,7 +160,11 @@ class GenericScript(ControlSurface):
                     strip = mixer.channel_strip(track)
                     strip.name = 'Channel_Strip_{}'.format(track)
                     layer_specs = {}
+<<<<<<< HEAD
                     if 0<= track < len(volume_controls):
+=======
+                    if 0 <= track < len(volume_controls):
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
                         channel = global_channel
                         cc = volume_controls[track]
                         if isinstance(volume_controls[track], (tuple, list)):
@@ -171,7 +189,11 @@ class GenericScript(ControlSurface):
                             layer_specs['select_button'] = select_button
                         send_controls_raw = []
                         for index, send in enumerate(send_info):
+<<<<<<< HEAD
                             if 0<= track < len(send):
+=======
+                            if 0 <= track < len(send):
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
                                 channel = global_channel
                                 cc = send[track]
                                 if isinstance(send[track], (tuple, list)):
@@ -199,6 +221,11 @@ class GenericScript(ControlSurface):
             return DeviceButton(global_channel, (bank_controls[control]), name=name)
 
         if device_controls:
+<<<<<<< HEAD
+=======
+            device = device_component_class(device_selection_follows_track_selection=True,
+              name='Device_Component')
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
             layer_specs = {}
             if bank_controls:
                 if has_specification_for('NEXTBANK', bank_controls):
@@ -247,11 +274,16 @@ class GenericScript(ControlSurface):
                 layer_specs['parameter_controls'] = ButtonMatrixElement(rows=[
                  parameter_encoders_raw],
                   name='Device_Parameter_Controls')
+<<<<<<< HEAD
             if layer_specs:
                 device = device_component_class(device_selection_follows_track_selection=True,
                   name='Device_Component')
                 device.layer = Layer(**layer_specs)
                 self.set_device_component(device)
+=======
+            device.layer = Layer(**layer_specs)
+            self.set_device_component(device)
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 
     def _init_transport_component(self, transport_controls, global_channel):
 

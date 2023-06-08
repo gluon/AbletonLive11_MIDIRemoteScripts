@@ -1,3 +1,13 @@
+<<<<<<< HEAD
+=======
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/pushbase/loop_selector_component.py
+# Compiled at: 2022-01-27 16:28:17
+# Size of source mod 2**32: 21055 bytes
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 from __future__ import absolute_import, division, print_function, unicode_literals
 from builtins import map, range
 from past.utils import old_div
@@ -197,7 +207,7 @@ class LoopSelectorComponent(Component, Messenger):
         @contextmanager
         def save_page_color(page_colors, page):
             old_page_value = page_colors[page]
-            yield
+            (yield)
             page_colors[page] = old_page_value
 
         @contextmanager
@@ -205,7 +215,11 @@ class LoopSelectorComponent(Component, Messenger):
             if clip_is_new_recording(self._sequencer_clip):
                 old_tail_values = page_colors[page + 1:]
                 page_colors[page + 1:] = ['LoopSelector.OutsideLoop'] * len(old_tail_values)
+<<<<<<< HEAD
             yield
+=======
+            (yield)
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
             if clip_is_new_recording(self._sequencer_clip):
                 page_colors[page + 1:] = old_tail_values
 
@@ -394,9 +408,14 @@ class LoopSelectorComponent(Component, Messenger):
             buttons_pressed = len(self._pressed_pages)
             if buttons_pressed == 1 and page_in_loop:
                 self._try_select_page(page)
+<<<<<<< HEAD
             else:
                 if not (buttons_pressed > 1 or page_in_loop):
                     self._try_set_loop()
+=======
+            elif not (buttons_pressed > 1 or page_in_loop):
+                self._try_set_loop()
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
             if self._step_duplicator.is_duplicating:
                 self._add_page_to_duplicator(page)
             if self.delete_button.is_pressed:

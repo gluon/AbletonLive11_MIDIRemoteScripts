@@ -1,7 +1,21 @@
+<<<<<<< HEAD
 from __future__ import absolute_import, print_function, unicode_literals
 from builtins import range
 import contextlib, logging
 from ..base import Disconnectable, Event, Signal, const, depends, in_range, liveobj_valid, nop, task
+=======
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/ableton/v2/control_surface/input_control_element.py
+# Compiled at: 2022-01-28 05:06:24
+# Size of source mod 2**32: 18521 bytes
+from __future__ import absolute_import, print_function, unicode_literals
+from builtins import range
+import contextlib, logging
+from ..base import Disconnectable, Event, Signal, const, depends, in_range, nop, task
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 from . import midi
 from .control_element import NotifyingControlElement
 logger = logging.getLogger(__name__)
@@ -57,6 +71,7 @@ class ParameterSlot(Disconnectable):
             self.connect()
 
     def connect(self):
+<<<<<<< HEAD
         if self._control is not None:
             if liveobj_valid(self._parameter):
                 self._control.connect_to(self._parameter)
@@ -64,6 +79,15 @@ class ParameterSlot(Disconnectable):
     def soft_disconnect(self):
         if self._control is not None:
             if liveobj_valid(self._parameter):
+=======
+        if self._control != None:
+            if self._parameter != None:
+                self._control.connect_to(self._parameter)
+
+    def soft_disconnect(self):
+        if self._control != None:
+            if self._parameter != None:
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
                 self._control.release_parameter()
 
     def disconnect(self):
@@ -84,7 +108,7 @@ class InputSignal(Signal):
             control = self._input_control
             old_count = self.count
             old_wants_forwarding = control.script_wants_forwarding()
-            yield
+            (yield)
         finally:
             diff_count = self.count - old_count
             control._input_signal_listener_count += diff_count
@@ -123,7 +147,11 @@ class InputControlElement(NotifyingControlElement):
     allow_receiving_chunks = False
 
     @depends(request_rebuild_midi_map=(const(nop)))
+<<<<<<< HEAD
     def __init__(self, msg_type=None, channel=None, identifier=None, sysex_identifier=None, request_rebuild_midi_map=None, send_should_depend_on_forwarding=True, is_feedback_enabled=True, *a, **k):
+=======
+    def __init__(self, msg_type=None, channel=None, identifier=None, sysex_identifier=None, request_rebuild_midi_map=None, send_should_depend_on_forwarding=True, *a, **k):
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
         (super(InputControlElement, self).__init__)(*a, **k)
         self._send_depends_on_forwarding = send_should_depend_on_forwarding
         self._request_rebuild = request_rebuild_midi_map
@@ -255,7 +283,7 @@ class InputControlElement(NotifyingControlElement):
         self._send_delayed_messages_task.kill()
         self._is_mapped = False
         self._is_being_forwarded = False
-        if self._msg_channel != self._original_channel or self._msg_identifier != self._original_identifier:
+        if self._msg_channel != self._original_channel or (self._msg_identifier != self._original_identifier):
             install_translation(self._msg_type, self._original_identifier, self._original_channel, self._msg_identifier, self._msg_channel)
         if liveobj_valid(self._parameter_to_map_to):
             self._is_mapped = install_mapping(self, self._parameter_to_map_to, self._mapping_feedback_delay, self._mapping_feedback_values())
@@ -341,6 +369,7 @@ class InputControlElement(NotifyingControlElement):
         self._verify_value(value)
         if force or self._force_next_send:
             self._do_send_value(value, channel)
+<<<<<<< HEAD
         else:
             if not self.send_depends_on_forwarding or self._is_being_forwarded and self._send_delayed_messages_task.is_running:
                 first = 1 - self.num_delayed_messages
@@ -349,6 +378,14 @@ class InputControlElement(NotifyingControlElement):
                 if (
                  value, channel) != self._last_sent_message:
                     self._do_send_value(value, channel)
+=======
+        elif not self.send_depends_on_forwarding or self._is_being_forwarded and self._send_delayed_messages_task.is_running:
+            first = 1 - self.num_delayed_messages
+            self._delayed_messages = self._delayed_messages[first:] + [(value, channel)]
+        elif (
+         value, channel) != self._last_sent_message:
+            self._do_send_value(value, channel)
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
         self._force_next_send = False
 
     def _do_send_value(self, value, channel=None):
@@ -395,18 +432,29 @@ class InputControlElement(NotifyingControlElement):
 
     def _verify_value(self, value):
         if self._msg_type < MIDI_SYSEX_TYPE:
+<<<<<<< HEAD
             pass
+=======
+            upper_bound = 16384 if self._msg_type == MIDI_PB_TYPE else 128
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 
     def _report_value(self, value, is_input):
         self._verify_value(value)
         message = '('
         if self._msg_type == MIDI_NOTE_TYPE:
             message += 'Note ' + str(self._msg_identifier) + ', '
+<<<<<<< HEAD
         else:
             if self._msg_type == MIDI_CC_TYPE:
                 message += 'CC ' + str(self._msg_identifier) + ', '
             else:
                 message += 'PB '
+=======
+        elif self._msg_type == MIDI_CC_TYPE:
+            message += 'CC ' + str(self._msg_identifier) + ', '
+        else:
+            message += 'PB '
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
         message += 'Chan. ' + str(self._msg_channel)
         message += ') '
         message += 'received value ' if is_input else 'sent value '

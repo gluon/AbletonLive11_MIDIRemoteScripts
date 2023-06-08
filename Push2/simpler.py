@@ -1,10 +1,24 @@
+<<<<<<< HEAD
+=======
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Push2/simpler.py
+# Compiled at: 2022-01-27 16:28:16
+# Size of source mod 2**32: 21077 bytes
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 from __future__ import absolute_import, division, print_function, unicode_literals
 from builtins import range
 from past.utils import old_div
 from functools import partial
 from ableton.v2.base import depends, find_if, listenable_property, listens, liveobj_valid
 from ableton.v2.control_surface import EnumWrappingParameter, NotifyingList
+<<<<<<< HEAD
 from ableton.v2.control_surface import SimplerDeviceDecorator as SimplerDeviceDecoratorBase
+=======
+import ableton.v2.control_surface as SimplerDeviceDecoratorBase
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 from ableton.v2.control_surface import get_parameter_by_name
 from pushbase.message_box_component import Messenger
 from .device_component import DeviceComponentWithTrackColorViewData, extend_with_envelope_features_for_parameter, make_vector
@@ -26,7 +40,7 @@ def insert_new_slice(simpler):
     selected_slice = view.selected_slice
     if selected_slice in slices:
         slice_index = slices.index(selected_slice)
-        new_slice_point = center_point(selected_slice, slices[slice_index + 1])
+        new_slice_point = center_point(selected_slice, slices[(slice_index + 1)])
         if new_slice_point not in slices:
             sample.insert_slice(new_slice_point)
             view.selected_slice = new_slice_point
@@ -101,7 +115,7 @@ class SimplerDeviceDecorator(SimplerDeviceDecoratorBase, Messenger):
         def split_slice_available():
             if sample_available():
                 slices = self._live_object.sample.slices
-                return len(slices) != MAX_NUMBER_SLICES or slices[-1] != self._live_object.view.selected_slice
+                return len(slices) != MAX_NUMBER_SLICES or slices[(-1)] != self._live_object.view.selected_slice
             return False
 
         self.crop_option = DeviceTriggerOption(name='Crop',
@@ -115,6 +129,7 @@ class SimplerDeviceDecorator(SimplerDeviceDecoratorBase, Messenger):
           value_property_name='retrigger')
         self.warp_as_x_bars_option = DeviceTriggerOption(name='Warp as X Bars',
           default_label=(self.get_warp_as_option_label()),
+<<<<<<< HEAD
           callback=(lambda: call_simpler_function('warp_as', call_simpler_function('guess_playback_length'))
 ),
           is_active=(lambda: get_simpler_flag('can_warp_as')
@@ -127,6 +142,16 @@ class SimplerDeviceDecorator(SimplerDeviceDecoratorBase, Messenger):
           callback=(partial(call_simpler_function, 'warp_double')),
           is_active=(lambda: get_simpler_flag('can_warp_double')
 ))
+=======
+          callback=(lambda: call_simpler_function('warp_as', call_simpler_function('guess_playback_length'))),
+          is_active=(lambda: get_simpler_flag('can_warp_as')))
+        self.warp_half_option = DeviceTriggerOption(name=':2',
+          callback=(partial(call_simpler_function, 'warp_half')),
+          is_active=(lambda: get_simpler_flag('can_warp_half')))
+        self.warp_double_option = DeviceTriggerOption(name='x2',
+          callback=(partial(call_simpler_function, 'warp_double')),
+          is_active=(lambda: get_simpler_flag('can_warp_double')))
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
         self.lfo_sync_option = DeviceSwitchOption(name='LFO Sync Type',
           parameter=(get_parameter_by_name(self, 'L Sync')))
         self.loop_option = DeviceOnOffOption(name='Loop',
@@ -135,6 +160,7 @@ class SimplerDeviceDecorator(SimplerDeviceDecoratorBase, Messenger):
           parameter=(get_parameter_by_name(self, 'Filter Slope')))
         self.clear_slices_action = DeviceTriggerOption(name='Clear Slices',
           default_label='Clear Slices',
+<<<<<<< HEAD
           callback=(lambda: call_sample_function('clear_slices')
 ),
           is_active=(lambda: sample_available() and len(self._live_object.sample.slices) > 1
@@ -148,6 +174,17 @@ class SimplerDeviceDecorator(SimplerDeviceDecoratorBase, Messenger):
           default_label='Split Slice',
           callback=(lambda: insert_new_slice(self._live_object)
 ),
+=======
+          callback=(lambda: call_sample_function('clear_slices')),
+          is_active=(lambda: sample_available() and len(self._live_object.sample.slices) > 1))
+        self.reset_slices_action = DeviceTriggerOption(name='Reset Slices',
+          default_label='Reset Slices',
+          callback=reset_slices,
+          is_active=(lambda: sample_available()))
+        self.split_slice_action = DeviceTriggerOption(name='Split Slice',
+          default_label='Split Slice',
+          callback=(lambda: insert_new_slice(self._live_object)),
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
           is_active=split_slice_available)
 
     def get_parameter_by_name(self, name):

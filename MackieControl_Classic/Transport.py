@@ -1,3 +1,13 @@
+<<<<<<< HEAD
+=======
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/MackieControl_Classic/Transport.py
+# Compiled at: 2022-01-27 16:28:16
+# Size of source mod 2**32: 25343 bytes
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 from __future__ import absolute_import, division, print_function, unicode_literals
 from past.utils import old_div
 from ableton.v2.base import move_current_song_time
@@ -128,6 +138,7 @@ class Transport(MackieControlComponent):
         if switch_id == SID_MARKER_FROM_PREV:
             if value == BUTTON_PRESSED:
                 self._Transport__jump_to_prev_cue()
+<<<<<<< HEAD
         else:
             if switch_id == SID_MARKER_FROM_NEXT:
                 if value == BUTTON_PRESSED:
@@ -158,12 +169,39 @@ class Transport(MackieControlComponent):
                                 if switch_id == SID_MARKER_END:
                                     if value == BUTTON_PRESSED:
                                         self._Transport__goto_end()
+=======
+        elif switch_id == SID_MARKER_FROM_NEXT:
+            if value == BUTTON_PRESSED:
+                self._Transport__jump_to_next_cue()
+        elif switch_id == SID_MARKER_LOOP:
+            if value == BUTTON_PRESSED:
+                self._Transport__toggle_loop()
+        elif switch_id == SID_MARKER_PI:
+            if value == BUTTON_PRESSED:
+                if self.control_is_pressed():
+                    self._Transport__set_loopstart_from_cur_position()
+                else:
+                    self._Transport__toggle_punch_in()
+        elif switch_id == SID_MARKER_PO:
+            if value == BUTTON_PRESSED:
+                if self.control_is_pressed():
+                    self._Transport__set_loopend_from_cur_position()
+                else:
+                    self._Transport__toggle_punch_out()
+        elif switch_id == SID_MARKER_HOME:
+            if value == BUTTON_PRESSED:
+                self._Transport__goto_home()
+        elif switch_id == SID_MARKER_END:
+            if value == BUTTON_PRESSED:
+                self._Transport__goto_end()
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 
     def handle_transport_switch_ids(self, switch_id, value):
         if switch_id == SID_TRANSPORT_REWIND:
             if value == BUTTON_PRESSED:
                 self._Transport__rewind()
                 self._Transport____rewind_button_down = True
+<<<<<<< HEAD
             else:
                 if value == BUTTON_RELEASED:
                     self._Transport____rewind_button_down = False
@@ -191,6 +229,29 @@ class Transport(MackieControlComponent):
                         if switch_id == SID_TRANSPORT_RECORD:
                             if value == BUTTON_PRESSED:
                                 self._Transport__toggle_record()
+=======
+            elif value == BUTTON_RELEASED:
+                self._Transport____rewind_button_down = False
+                self._Transport__fast___rewind_counter = 0
+            self._Transport__update_forward_rewind_leds()
+        elif switch_id == SID_TRANSPORT_FAST_FORWARD:
+            if value == BUTTON_PRESSED:
+                self._Transport__fast_forward()
+                self._Transport__forward_button_down = True
+            elif value == BUTTON_RELEASED:
+                self._Transport__forward_button_down = False
+                self._Transport____fast_forward_counter = 0
+            self._Transport__update_forward_rewind_leds()
+        elif switch_id == SID_TRANSPORT_STOP:
+            if value == BUTTON_PRESSED:
+                self._Transport__stop_song()
+        elif switch_id == SID_TRANSPORT_PLAY:
+            if value == BUTTON_PRESSED:
+                self._Transport__start_song()
+        elif switch_id == SID_TRANSPORT_RECORD:
+            if value == BUTTON_PRESSED:
+                self._Transport__toggle_record()
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 
     def handle_jog_wheel_rotation(self, value):
         backwards = value >= 64
@@ -205,9 +266,42 @@ class Transport(MackieControlComponent):
                 amount = value
             tempo = max(20, min(999, self.song().tempo + amount * step))
             self.song().tempo = tempo
+<<<<<<< HEAD
         else:
             if self.session_is_visible():
                 num_steps_per_session_scroll = 4
+=======
+        elif self.session_is_visible():
+            num_steps_per_session_scroll = 4
+            if backwards:
+                self._Transport__jog_step_count_backwards += 1
+                if self._Transport__jog_step_count_backwards >= num_steps_per_session_scroll:
+                    self._Transport__jog_step_count_backwards = 0
+                    step = -1
+                else:
+                    step = 0
+            else:
+                self._Transport__jog_step_count_forward += 1
+                if self._Transport__jog_step_count_forward >= num_steps_per_session_scroll:
+                    self._Transport__jog_step_count_forward = 0
+                    step = 1
+                else:
+                    step = 0
+            if step:
+                new_index = list(self.song().scenes).index(self.song().view.selected_scene) + step
+                new_index = min(len(self.song().scenes) - 1, max(0, new_index))
+                self.song().view.selected_scene = self.song().scenes[new_index]
+        else:
+            if backwards:
+                step = max(1.0, (value - 64) / 2.0)
+            else:
+                step = max(1.0, value / 2.0)
+            if self.song().is_playing:
+                step *= 4.0
+            if self.alt_is_pressed():
+                step /= 4.0
+            if self._Transport__scrub_button_down:
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
                 if backwards:
                     self._Transport__jog_step_count_backwards += 1
                     if self._Transport__jog_step_count_backwards >= num_steps_per_session_scroll:
@@ -244,6 +338,7 @@ class Transport(MackieControlComponent):
                 self._Transport__cursor_up_is_down = True
                 self._Transport__cursor_repeat_delay = 0
                 self._Transport__on_cursor_up_pressed()
+<<<<<<< HEAD
             else:
                 if value == BUTTON_RELEASED:
                     self._Transport__cursor_up_is_down = False
@@ -298,6 +393,52 @@ class Transport(MackieControlComponent):
                             else:
                                 self._Transport__scrub_button_down = not self._Transport__scrub_button_down
                                 self._Transport__update_scrub_button_led()
+=======
+            elif value == BUTTON_RELEASED:
+                self._Transport__cursor_up_is_down = False
+        elif switch_id == SID_JOG_CURSOR_DOWN:
+            if value == BUTTON_PRESSED:
+                self._Transport__cursor_down_is_down = True
+                self._Transport__cursor_repeat_delay = 0
+                self._Transport__on_cursor_down_pressed()
+            elif value == BUTTON_RELEASED:
+                self._Transport__cursor_down_is_down = False
+        elif switch_id == SID_JOG_CURSOR_LEFT:
+            if value == BUTTON_PRESSED:
+                self._Transport__cursor_left_is_down = True
+                self._Transport__cursor_repeat_delay = 0
+                self._Transport__on_cursor_left_pressed()
+            elif value == BUTTON_RELEASED:
+                self._Transport__cursor_left_is_down = False
+        elif switch_id == SID_JOG_CURSOR_RIGHT:
+            if value == BUTTON_PRESSED:
+                self._Transport__cursor_right_is_down = True
+                self._Transport__cursor_repeat_delay = 0
+                self._Transport__on_cursor_right_pressed()
+            elif value == BUTTON_RELEASED:
+                self._Transport__cursor_right_is_down = False
+        elif switch_id == SID_JOG_ZOOM:
+            if value == BUTTON_PRESSED:
+                if self.session_is_visible():
+                    if self.selected_clip_slot():
+                        if self.alt_is_pressed():
+                            self.selected_clip_slot().has_stop_button = not self.selected_clip_slot().has_stop_button
+                        elif self.option_is_pressed():
+                            self.selected_clip_slot().stop()
+                        else:
+                            self.selected_clip_slot().fire()
+                else:
+                    self._Transport__zoom_button_down = not self._Transport__zoom_button_down
+                    self._Transport__update_zoom_button_led()
+        elif not switch_id == SID_JOG_SCRUB or value == BUTTON_PRESSED and self.session_is_visible():
+            if self.option_is_pressed():
+                self.song().stop_all_clips()
+            else:
+                self.song().view.selected_scene.fire_as_selected()
+        else:
+            self._Transport__scrub_button_down = not self._Transport__scrub_button_down
+            self._Transport__update_scrub_button_led()
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 
     def __on_cursor_up_pressed(self):
         nav = Live.Application.Application.View.NavDirection
@@ -348,10 +489,14 @@ class Transport(MackieControlComponent):
             else:
                 self.song().stop_playing()
         else:
+<<<<<<< HEAD
             if self.control_is_pressed():
                 self.song().play_selection()
             else:
                 self.song().start_playing()
+=======
+            self.song().start_playing()
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 
     def __toggle_loop(self):
         self.song().loop = not self.song().loop
@@ -427,6 +572,11 @@ class Transport(MackieControlComponent):
     def __update_zoom_button_led(self):
         if self.session_is_visible():
             self._Transport__update_zoom_led_in_session()
+<<<<<<< HEAD
+=======
+        elif self._Transport__zoom_button_down:
+            self.send_midi((NOTE_ON_STATUS, SID_JOG_ZOOM, BUTTON_STATE_ON))
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
         else:
             if self._Transport__zoom_button_down:
                 self.send_midi((NOTE_ON_STATUS, SID_JOG_ZOOM, BUTTON_STATE_ON))

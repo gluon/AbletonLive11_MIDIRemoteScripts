@@ -1,36 +1,41 @@
-#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Launchkey/SessionNavigationComponent.py
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Launchkey/SessionNavigationComponent.py
+# Compiled at: 2022-01-27 16:28:16
+# Size of source mod 2**32: 4362 bytes
 from __future__ import absolute_import, print_function, unicode_literals
 from builtins import range
-from _Framework.CompoundComponent import CompoundComponent
-from _Framework.ScrollComponent import ScrollComponent
 from _Framework import Task
-from _Framework.ViewControlComponent import TrackScroller, BasicSceneScroller
+import _Framework.CompoundComponent as CompoundComponent
+import _Framework.ScrollComponent as ScrollComponent
+from _Framework.ViewControlComponent import BasicSceneScroller, TrackScroller
 
 def is_recording_clip(tracks, check_arrangement):
     found_recording_clip = False
     for track in tracks:
-        if track.can_be_armed and track.arm:
-            if check_arrangement:
-                found_recording_clip = True
-                break
-            else:
-                playing_slot_index = track.playing_slot_index
+        if track.can_be_armed:
+            if track.arm:
+                if check_arrangement:
+                    found_recording_clip = True
+                    break
+                else:
+                    playing_slot_index = track.playing_slot_index
                 if playing_slot_index in range(len(track.clip_slots)):
                     slot = track.clip_slots[playing_slot_index]
-                    if slot.has_clip and slot.clip.is_recording:
-                        found_recording_clip = True
-                        break
+                    if slot.has_clip:
+                        if slot.clip.is_recording:
+                            found_recording_clip = True
+                            break
 
     return found_recording_clip
 
 
 class ArmingTrackScrollComponent(ScrollComponent):
-    u"""
-    ScrollComponent that arms the last visited MIDI track
-    """
 
     def __init__(self, *a, **k):
-        super(ArmingTrackScrollComponent, self).__init__(*a, **k)
+        (super(ArmingTrackScrollComponent, self).__init__)(*a, **k)
         self._arming_task = self._tasks.add(Task.sequence(Task.delay(1), self._arm_task))
         self._arming_task.kill()
 
@@ -65,8 +70,9 @@ class ArmingTrackScrollComponent(ScrollComponent):
             if not is_recording_clip(tracks, check_arrangement):
                 if song.exclusive_arm:
                     for track in tracks:
-                        if track.can_be_armed and track != track_to_arm:
-                            track.arm = False
+                        if track.can_be_armed:
+                            if track != track_to_arm:
+                                track.arm = False
 
                 track_to_arm.arm = True
                 track_to_arm.view.select_instrument()
@@ -82,20 +88,17 @@ class ArmingTrackScrollComponent(ScrollComponent):
 
 
 class SessionNavigationComponent(CompoundComponent):
-    u"""
-    Component that controls the session selection 'crosshair'
-    """
 
     def __init__(self, *a, **k):
-        super(SessionNavigationComponent, self).__init__(*a, **k)
+        (super(SessionNavigationComponent, self).__init__)(*a, **k)
         self._scroll_tracks, self._scroll_scenes = self.register_components(ArmingTrackScrollComponent(TrackScroller()), ScrollComponent(BasicSceneScroller()))
         song = self.song()
         view = song.view
-        self.register_slot(song, self._scroll_tracks.update, u'visible_tracks')
-        self.register_slot(song, self._scroll_tracks.update, u'return_tracks')
-        self.register_slot(song, self._scroll_scenes.update, u'scenes')
-        self.register_slot(view, self._scroll_tracks.update, u'selected_track')
-        self.register_slot(view, self._scroll_scenes.update, u'selected_scene')
+        self.register_slot(song, self._scroll_tracks.update, 'visible_tracks')
+        self.register_slot(song, self._scroll_tracks.update, 'return_tracks')
+        self.register_slot(song, self._scroll_scenes.update, 'scenes')
+        self.register_slot(view, self._scroll_tracks.update, 'selected_track')
+        self.register_slot(view, self._scroll_scenes.update, 'selected_scene')
 
     def set_next_track_button(self, button):
         self._scroll_tracks.set_scroll_down_button(button)

@@ -1,6 +1,16 @@
+<<<<<<< HEAD
+=======
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Akai_Force_MPC/clip_slot.py
+# Compiled at: 2021-06-29 09:33:48
+# Size of source mod 2**32: 3918 bytes
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 from __future__ import absolute_import, print_function, unicode_literals
 from ableton.v2.base import listens, liveobj_valid
-from ableton.v2.control_surface.components import ClipSlotComponent as ClipSlotComponentBase
+import ableton.v2.control_surface.components as ClipSlotComponentBase
 from ableton.v2.control_surface.control import ButtonControl, TextDisplayControl
 from .skin import LIVE_COLOR_TABLE_INDEX_OFFSET
 
@@ -47,7 +57,11 @@ class ClipSlotComponent(ClipSlotComponentBase):
             if slot_or_clip.is_recording:
                 return self._recording_color
             return self._started_value
+<<<<<<< HEAD
         if slot_or_clip.color != None or getattr(slot_or_clip, 'controls_other_clips', True):
+=======
+        if slot_or_clip.color != None or (getattr(slot_or_clip, 'controls_other_clips', True)):
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
             return self._stopped_value
         if self._track_is_armed(track):
             if self._clip_slot.has_stop_button:
@@ -78,7 +92,12 @@ class ClipSlotComponent(ClipSlotComponentBase):
         if liveobj_valid(clip_slot):
             if self.has_clip():
                 color_to_send = 'Session.ClipSelected' if (self.select_button_is_pressed) and (clip_slot == self.song.view.highlighted_clip_slot) else (clip_slot.clip.color_index + LIVE_COLOR_TABLE_INDEX_OFFSET)
+<<<<<<< HEAD
             else:
                 if clip_slot.color != None:
                     color_to_send = clip_slot.color_index + LIVE_COLOR_TABLE_INDEX_OFFSET
+=======
+            elif clip_slot.color != None:
+                color_to_send = clip_slot.color_index + LIVE_COLOR_TABLE_INDEX_OFFSET
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
         self.clip_color_control.color = color_to_send

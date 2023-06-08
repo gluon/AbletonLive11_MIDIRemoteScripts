@@ -1,7 +1,20 @@
+<<<<<<< HEAD
 from __future__ import absolute_import, print_function, unicode_literals
 from builtins import object, range, str
 import Live, MidiRemoteScript
 from ableton.v2.base import move_current_song_time
+=======
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/FireOne/FireOne.py
+# Compiled at: 2022-01-27 16:28:16
+# Size of source mod 2**32: 14401 bytes
+from __future__ import absolute_import, print_function, unicode_literals
+from builtins import object, range, str
+import Live, MidiRemoteScript
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 NOTE_OFF_STATUS = 128
 NOTE_ON_STATUS = 144
 CC_STATUS = 176
@@ -16,7 +29,11 @@ PLAY_NOTE = 94
 REC_NOTE = 95
 SHIFT_NOTE = 70
 FIRE_ONE_TRANSPORT = [
+<<<<<<< HEAD
  RWD_NOTE,FFWD_NOTE,STOP_NOTE,PLAY_NOTE,REC_NOTE]
+=======
+ RWD_NOTE, FFWD_NOTE, STOP_NOTE, PLAY_NOTE, REC_NOTE]
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 FIRE_ONE_F_KEYS = list(range(54, 64))
 FIRE_ONE_CHANNEL = 0
 
@@ -93,17 +110,25 @@ class FireOne(object):
             self._FireOne__spooling_counter += 1
             if self._FireOne__spooling_counter % 2 == 0:
                 self.song().jump_by(self.song().signature_denominator)
+<<<<<<< HEAD
         else:
             if self._FireOne__rwd_pressed:
                 self._FireOne__spooling_counter += 1
                 if self._FireOne__spooling_counter % 2 == 0:
                     self.song().jump_by(-1 * self.song().signature_denominator)
+=======
+        elif self._FireOne__rwd_pressed:
+            self._FireOne__spooling_counter += 1
+            if self._FireOne__spooling_counter % 2 == 0:
+                self.song().jump_by(-1 * self.song().signature_denominator)
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 
     def receive_midi(self, midi_bytes):
         cc_or_note = midi_bytes[1]
         if midi_bytes[0] & 240 == CC_STATUS:
             if cc_or_note is JOG_DIAL_CC:
                 self._FireOne__jog_dial_message(cc_or_note, midi_bytes[2])
+<<<<<<< HEAD
         else:
             if midi_bytes[0] & 240 in (NOTE_ON_STATUS, NOTE_OFF_STATUS):
                 value = midi_bytes[2]
@@ -117,6 +142,18 @@ class FireOne(object):
                     else:
                         if cc_or_note in FIRE_ONE_F_KEYS:
                             self._FireOne__f_key_message(cc_or_note, value)
+=======
+        elif midi_bytes[0] & 240 in (NOTE_ON_STATUS, NOTE_OFF_STATUS):
+            value = midi_bytes[2]
+            if midi_bytes[0] & 240 == NOTE_OFF_STATUS:
+                value = 0
+            if cc_or_note is SHIFT_NOTE:
+                self._FireOne__shift_pressed = value != 0
+            elif cc_or_note in FIRE_ONE_TRANSPORT:
+                self._FireOne__transport_message(cc_or_note, value)
+            elif cc_or_note in FIRE_ONE_F_KEYS:
+                self._FireOne__f_key_message(cc_or_note, value)
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 
     def __playing_status_changed(self):
         status = NOTE_OFF_STATUS
@@ -147,6 +184,7 @@ class FireOne(object):
                 self.song().continue_playing()
             else:
                 self.song().is_playing = True
+<<<<<<< HEAD
         else:
             if note is STOP_NOTE and value != 0:
                 self.song().is_playing = False
@@ -177,6 +215,32 @@ class FireOne(object):
                             else:
                                 if value == 0:
                                     self._FireOne__rwd_pressed = False
+=======
+        elif note is STOP_NOTE and value != 0:
+            self.song().is_playing = False
+        elif note is REC_NOTE and value != 0:
+            self.song().record_mode = not self.song().record_mode
+        elif note is FFWD_NOTE:
+            if value != 0 and not self._FireOne__rwd_pressed:
+                if self._FireOne__shift_pressed:
+                    self.song().jump_by(1)
+                else:
+                    self.song().jump_by(self.song().signature_denominator)
+                    self._FireOne__ffwd_pressed = True
+                    self._FireOne__spooling_counter = 0
+            elif value == 0:
+                self._FireOne__ffwd_pressed = False
+        elif note is RWD_NOTE:
+            if value != 0 and not self._FireOne__ffwd_pressed:
+                if self._FireOne__shift_pressed:
+                    self.song().jump_by(-1)
+                else:
+                    self.song().jump_by(-1 * self.song().signature_denominator)
+                    self._FireOne__rwd_pressed = True
+                    self._FireOne__spooling_counter = 0
+            elif value == 0:
+                self._FireOne__rwd_pressed = False
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 
     def __jog_dial_message(self, cc_no, cc_value):
         moved_forward = cc_value in range(1, 64)
@@ -195,7 +259,20 @@ class FireOne(object):
                 if not moved_forward:
                     value -= 64
                     value *= -1
+<<<<<<< HEAD
                 move_current_song_time(self.song(), value)
+=======
+                self.song().jump_by(value)
+        elif self.application().view.is_view_visible('Session'):
+            tracks = self.song().visible_tracks
+            index = list(tracks).index(self.song().view.selected_track)
+            if moved_forward:
+                if index < len(tracks) - 1:
+                    index = index + 1
+            elif index > 0:
+                index = index - 1
+            self.song().view.selected_track = tracks[index]
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
         else:
             if self.application().view.is_view_visible('Session'):
                 tracks = self.song().visible_tracks

@@ -1,3 +1,13 @@
+<<<<<<< HEAD
+=======
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Blackstar_Live_Logic/elements.py
+# Compiled at: 2021-06-29 09:33:48
+# Size of source mod 2**32: 1406 bytes
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 from __future__ import absolute_import, print_function, unicode_literals
 from ableton.v2.control_surface import MIDI_CC_TYPE
 from ableton.v2.control_surface.elements import ButtonElement, ButtonMatrixElement, SysexElement
@@ -20,5 +30,9 @@ class Elements(object):
           name='Foot_Switches')
         self.time_display = TimeDisplayElement(SYSEX_HEADER + NUMERIC_DISPLAY_COMMAND, (SYSEX_END,))
         self.live_integration_mode_switch = SysexElement(name='Live_Integration_Mode_Switch',
+<<<<<<< HEAD
           send_message_generator=(lambda v: LIVE_INTEGRATION_MODE_ID + (v, SYSEX_END)
 ))
+=======
+          send_message_generator=(lambda v: LIVE_INTEGRATION_MODE_ID + (v, SYSEX_END)))
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34

@@ -1,3 +1,13 @@
+<<<<<<< HEAD
+=======
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Push/special_chan_strip_component.py
+# Compiled at: 2022-01-27 16:28:16
+# Size of source mod 2**32: 13437 bytes
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 from __future__ import absolute_import, division, print_function, unicode_literals
 from builtins import map, range, str, zip
 from past.utils import old_div
@@ -124,6 +134,7 @@ class SpecialChanStripComponent(components.ChannelStripComponent, Messenger):
         if self.is_enabled():
             if self._track == None:
                 self.select_button.color = self.empty_color
+<<<<<<< HEAD
             else:
                 if self._track.can_be_armed and self._track.arm or self._track.implicit_arm:
                     if self._track == self.song.view.selected_track:
@@ -135,6 +146,17 @@ class SpecialChanStripComponent(components.ChannelStripComponent, Messenger):
                         self.select_button.color = 'Option.Selected'
                     else:
                         self.select_button.color = 'Option.Unselected'
+=======
+            elif self._track.can_be_armed and self._track.arm or self._track.implicit_arm:
+                if self._track == self.song.view.selected_track:
+                    self.select_button.color = 'Mixer.ArmSelected'
+                else:
+                    self.select_button.color = 'Mixer.ArmUnselected'
+            elif self._track == self.song.view.selected_track:
+                self.select_button.color = 'Option.Selected'
+            else:
+                self.select_button.color = 'Option.Unselected'
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 
     def _update_track_listeners(self):
         mixer = self._track.mixer_device if self._track else None
@@ -172,6 +194,7 @@ class SpecialChanStripComponent(components.ChannelStripComponent, Messenger):
             if self._track:
                 if self._duplicate_button and self._duplicate_button.is_pressed():
                     self._do_duplicate_track(self._track)
+<<<<<<< HEAD
                 else:
                     if self._is_deleting:
                         self._do_delete_track(self._track)
@@ -180,6 +203,14 @@ class SpecialChanStripComponent(components.ChannelStripComponent, Messenger):
                             toggle_arm((self._track), (self.song), exclusive=False)
                         else:
                             self._select_value_without_modifier(button)
+=======
+                elif self._is_deleting:
+                    self._do_delete_track(self._track)
+                elif self._shift_pressed:
+                    toggle_arm((self._track), (self.song), exclusive=False)
+                else:
+                    self._select_value_without_modifier(button)
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 
     def _mute_value(self, value):
         if self.is_enabled():

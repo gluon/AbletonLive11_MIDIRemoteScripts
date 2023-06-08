@@ -1,3 +1,13 @@
+<<<<<<< HEAD
+=======
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/_Framework/MessageScheduler.py
+# Compiled at: 2022-01-27 16:28:16
+# Size of source mod 2**32: 9234 bytes
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 from __future__ import absolute_import, print_function, unicode_literals
 from builtins import object
 from collections import namedtuple
@@ -26,6 +36,7 @@ class MessageScheduler(object):
                     self._send_message_callback(request.message)
                     return True
                 return False
+<<<<<<< HEAD
         else:
             if request.action == 'grab':
                 if self._state == 'idle':
@@ -63,6 +74,42 @@ class MessageScheduler(object):
                                 self._timer.start(request.timeout, self.handle_timeout)
                                 return True
                         return False
+=======
+        elif request.action == 'grab':
+            if self._state == 'idle':
+                self._state = 'grabbed'
+                self._owner = request.owner
+                self._owner.send_reply('grab', '1')
+                return True
+            if self._state == 'grabbed':
+                request.owner.report_error('unexpected grab')
+                return True
+            return False
+        elif request.action == 'release':
+            if self._state == 'idle':
+                request.owner.report_error('unexpected release')
+                return True
+            if self._state == 'grabbed':
+                self._owner.send_reply('release', '1')
+                self._state = 'idle'
+                self._owner = None
+                return True
+            return False
+        elif request.action == 'send_receive':
+            if self._state == 'idle':
+                self._send_message_callback(request.message)
+                self._state = 'wait'
+                self._owner = request.owner
+                self._timer.start(request.timeout, self.handle_timeout)
+                return True
+            if self._state == 'grabbed':
+                if self._owner == request.owner:
+                    self._send_message_callback(request.message)
+                    self._state = 'grabbed_wait'
+                    self._timer.start(request.timeout, self.handle_timeout)
+                    return True
+            return False
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 
     def _queue(self, request):
         if request.owner is not None:
@@ -106,6 +153,7 @@ class MessageScheduler(object):
     def handle_message(self, message):
         if self._state == 'idle':
             pass
+<<<<<<< HEAD
         else:
             if self._state == 'wait':
                 if self._owner.is_expected_reply(message):
@@ -126,6 +174,25 @@ class MessageScheduler(object):
                             self._process_queue()
                         else:
                             self._owner.send_reply('received', message)
+=======
+        elif self._state == 'wait':
+            if self._owner.is_expected_reply(message):
+                self._owner.send_reply('send_receive', message)
+                self._state = 'idle'
+                self._owner = None
+                self._timer.cancel()
+                self._process_queue()
+        elif self._state == 'grabbed':
+            self._owner.send_reply('received', message)
+        elif self._state == 'grabbed_wait':
+            if self._owner.is_expected_reply(message):
+                self._owner.send_reply('send_receive', message)
+                self._state = 'grabbed'
+                self._timer.cancel()
+                self._process_queue()
+            else:
+                self._owner.send_reply('received', message)
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 
     def handle_timeout(self):
         if self._state == 'wait':
@@ -133,11 +200,18 @@ class MessageScheduler(object):
             self._state = 'idle'
             self._owner = None
             self._process_queue()
+<<<<<<< HEAD
         else:
             if self._state == 'grabbed_wait':
                 self._owner.send_reply('send_receive', 'timeout')
                 self._state = 'grabbed'
                 self._process_queue()
+=======
+        elif self._state == 'grabbed_wait':
+            self._owner.send_reply('send_receive', 'timeout')
+            self._state = 'grabbed'
+            self._process_queue()
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 
     def disconnect(self, owner):
         if self._state != 'idle':

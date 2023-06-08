@@ -1,3 +1,13 @@
+<<<<<<< HEAD
+=======
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Launchpad_Pro_MK3/elements.py
+# Compiled at: 2022-01-27 16:28:16
+# Size of source mod 2**32: 7238 bytes
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 from __future__ import absolute_import, print_function, unicode_literals
 from builtins import range
 from ableton.v2.control_surface import PrioritizedResource
@@ -84,12 +94,19 @@ class Elements(LaunchpadElements):
         self.print_to_clip_element = SysexElement(name='Print_To_Clip_Element',
           sysex_identifier=print_to_clip_identifier,
           send_message_generator=(lambda v: print_to_clip_identifier + (
+<<<<<<< HEAD
          v, sysex.SYSEX_END_BYTE)
 ))
         self.print_to_clip_enabler_element = SysexElement(name='Print_To_Clip_Enabler',
           send_message_generator=(lambda v: sysex.STD_MSG_HEADER + (
          self.model_id, sysex.PRINT_ENABLE_COMMAND_BYTE, v, sysex.SYSEX_END_BYTE)
 ),
+=======
+         v, sysex.SYSEX_END_BYTE)))
+        self.print_to_clip_enabler_element = SysexElement(name='Print_To_Clip_Enabler',
+          send_message_generator=(lambda v: sysex.STD_MSG_HEADER + (
+         self.model_id, sysex.PRINT_ENABLE_COMMAND_BYTE, v, sysex.SYSEX_END_BYTE)),
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
           default_value=0)
         self.fader_setup_element = SysexElement(name='Fader_Setup_Element',
           send_message_generator=(self._fader_setup_message_generator))

@@ -1,3 +1,13 @@
+<<<<<<< HEAD
+=======
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Push2/colors.py
+# Compiled at: 2022-01-27 16:28:16
+# Size of source mod 2**32: 16832 bytes
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 from __future__ import absolute_import, print_function, unicode_literals
 from builtins import object
 from past.utils import old_div
@@ -56,7 +66,11 @@ def translate_color_index(index):
 
 
 def inverse_translate_color_index(translated_index):
+<<<<<<< HEAD
     return PUSH_INDEX_TO_COLOR_INDEX[translated_index - 1]
+=======
+    return PUSH_INDEX_TO_COLOR_INDEX[(translated_index - 1)]
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 
 
 class SelectedDrumPadColor(DynamicColorBase):
@@ -137,8 +151,12 @@ class SelectedDeviceChainColorFactory(DynamicColorFactory):
 def make_color_factory_func(factory_class):
 
     def make_color_factory(shade_level=0):
+<<<<<<< HEAD
         return factory_class(transformation=(lambda color_index: determine_shaded_color_index(translate_color_index(color_index), shade_level)
 ))
+=======
+        return factory_class(transformation=(lambda color_index: determine_shaded_color_index(translate_color_index(color_index), shade_level)))
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 
     return make_color_factory
 
@@ -208,12 +226,19 @@ class ScreenColor(object):
 )
 
     def normalise(self):
+<<<<<<< HEAD
         return self.map_channels(lambda component: old_div(float(component), 255.0)
 )
 
     def denormalise(self):
         return self.map_channels(lambda component: int(old_round(255 * component))
 )
+=======
+        return self.map_channels(lambda component: old_div(float(component), 255.0))
+
+    def denormalise(self):
+        return self.map_channels(lambda component: int(old_round(255 * component)))
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 
     def adjust_saturation(self, amount):
         h, s, v = self.as_hsv()

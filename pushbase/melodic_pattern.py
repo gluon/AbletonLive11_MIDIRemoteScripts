@@ -1,3 +1,13 @@
+<<<<<<< HEAD
+=======
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/pushbase/melodic_pattern.py
+# Compiled at: 2022-01-27 16:28:17
+# Size of source mod 2**32: 4485 bytes
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 from __future__ import absolute_import, division, print_function, unicode_literals
 from builtins import range, str
 from past.utils import old_div
@@ -11,8 +21,13 @@ NOTE_NAMES = ('C', 'D♭', 'D', 'E♭', 'E', 'F', 'G♭', 'G', 'A♭', 'A', 'B�
 
 def pitch_index_to_string(index):
     if index is not None:
+<<<<<<< HEAD
         if 0<= index < 128:
             return NOTE_NAMES[index % 12] + str(old_div(index, 12) - 2)
+=======
+        if 0 <= index < 128:
+            return NOTE_NAMES[(index % 12)] + str(old_div(index, 12) - 2)
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
     return consts.CHAR_ELLIPSIS
 
 
@@ -96,7 +111,11 @@ class MelodicPattern(NamedTuple):
         scale = self.extended_scale
         scale_size = len(scale)
         octave = old_div(index, scale_size)
+<<<<<<< HEAD
         note = scale[index % scale_size]
+=======
+        note = scale[(index % scale_size)]
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
         return (
          octave, note)
 
@@ -114,7 +133,11 @@ class MelodicPattern(NamedTuple):
     def _get_note_info(self, octave_note, root_note, channel=0):
         octave, note = octave_note
         note_index = 12 * octave + note + root_note
+<<<<<<< HEAD
         if 0<= note_index <= 127:
+=======
+        if 0 <= note_index <= 127:
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
             return NoteInfo(index=note_index,
               channel=channel,
               color=(self._color_for_note(note)))

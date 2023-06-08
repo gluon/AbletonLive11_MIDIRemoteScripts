@@ -1,9 +1,24 @@
+<<<<<<< HEAD
 from __future__ import absolute_import, print_function, unicode_literals
 from itertools import chain
 from ...base import arm_track, find_if, is_track_armed, liveobj_changed, liveobj_valid
 from .. import Component
 from ..controls import ButtonControl, MappedButtonControl, MappedControl, control_list
 from ..skin import LiveObjSkinEntry
+=======
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/ableton/v3/control_surface/components/channel_strip.py
+# Compiled at: 2022-01-28 05:06:24
+# Size of source mod 2**32: 8271 bytes
+from __future__ import absolute_import, print_function, unicode_literals
+from itertools import chain
+from ...base import find_if, liveobj_changed, liveobj_valid
+from .. import Component
+from ..controls import ButtonControl, MappedButtonControl, MappedControl, control_list
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 MAX_NUM_SENDS = 12
 CROSSFADE_COLORS = ('Mixer.CrossfadeA', 'Mixer.CrossfadeOff', 'Mixer.CrossfadeB')
 
@@ -12,6 +27,7 @@ class ChannelStripComponent(Component):
 
     @staticmethod
     def other_arm_buttons_pressed(strip):
+<<<<<<< HEAD
         return find_if(lambda x: x is not strip and x.arm_button.is_pressed
 , ChannelStripComponent._active_instances) is not None
 
@@ -20,10 +36,32 @@ class ChannelStripComponent(Component):
         return find_if(lambda x: x is not strip and x.solo_button.is_pressed
 , ChannelStripComponent._active_instances) is not None
 
+=======
+        return find_if(lambda x: x is not strip and x.arm_button.is_pressed, ChannelStripComponent._active_instances) is not None
+
+    @staticmethod
+    def other_solo_buttons_pressed(strip):
+        return find_if(lambda x: x is not strip and x.solo_button.is_pressed, ChannelStripComponent._active_instances) is not None
+
+    track_select_button = ButtonControl(disabled_color='Mixer.Empty',
+      color='Mixer.NotSelected',
+      on_color='Mixer.Selected')
+    mute_button = MappedButtonControl(disabled_color='Mixer.Empty',
+      color='Mixer.MuteOff',
+      on_color='Mixer.MuteOn')
+    solo_button = ButtonControl(disabled_color='Mixer.Empty',
+      color='Mixer.SoloOff',
+      on_color='Mixer.SoloOn')
+    arm_button = ButtonControl(disabled_color='Mixer.Empty',
+      color='Mixer.ArmOff',
+      on_color='Mixer.ArmOn')
+    crossfade_cycle_button = ButtonControl(disabled_color='Mixer.Empty')
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
     volume_control = MappedControl()
     pan_control = MappedControl()
     send_controls = control_list(MappedControl, control_count=MAX_NUM_SENDS)
     indexed_send_controls = control_list(MappedControl, control_count=MAX_NUM_SENDS)
+<<<<<<< HEAD
     track_select_button = ButtonControl(disabled_color='Mixer.NoTrack')
     mute_button = MappedButtonControl(disabled_color='Mixer.NoTrack',
       color='Mixer.MuteOff',
@@ -36,10 +74,16 @@ class ChannelStripComponent(Component):
       on_color='Mixer.ArmOn')
     crossfade_cycle_button = ButtonControl(disabled_color='Mixer.NoTrack')
     shift_button = ButtonControl(color=None)
+=======
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 
     def __init__(self, *a, **k):
         (super().__init__)(*a, **k)
         ChannelStripComponent._active_instances.append(self)
+<<<<<<< HEAD
+=======
+        self._shift_button = None
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
         self._track = None
         self.register_slot(self.song.view, self._update_track_select_button, 'selected_track')
 
@@ -49,9 +93,13 @@ class ChannelStripComponent(Component):
         self._track_property_slots = [
          make_property_slot('solo', self._update_solo_button),
          make_property_slot('arm', self._update_arm_button),
+<<<<<<< HEAD
          make_property_slot('implicit_arm', self._update_arm_button),
          make_property_slot('input_routing_type', self._update_arm_button),
          make_property_slot('color', self._update_track_select_button)]
+=======
+         make_property_slot('input_routing_type', self._update_arm_button)]
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
         self._mixer_device_property_slots = [
          make_property_slot('crossfade_assign', self._update_crossfade_cycle_button),
          make_property_slot('sends', self.update)]
@@ -59,13 +107,25 @@ class ChannelStripComponent(Component):
     def disconnect(self):
         ChannelStripComponent._active_instances.remove(self)
         self._track = None
+<<<<<<< HEAD
         super().disconnect()
 
     @property
+=======
+        self._shift_button = None
+        super().disconnect()
+
+    @property
+    def shift_pressed(self):
+        return self._shift_button is not None and self._shift_button.is_pressed()
+
+    @property
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
     def track(self):
         return self._track
 
     def set_track(self, track):
+<<<<<<< HEAD
         if liveobj_changed(track, self._track):
             self._track = track if liveobj_valid(track) else None
             for slot in self._track_property_slots:
@@ -79,6 +139,23 @@ class ChannelStripComponent(Component):
     def set_indexed_send_control(self, control_element, index):
         if index < MAX_NUM_SENDS:
             self.indexed_send_controls.set_control_element_at_index(control_element, index)
+=======
+        self._track = track if liveobj_valid(track) else None
+        for slot in self._track_property_slots:
+            slot.subject = track
+
+        for slot in self._mixer_device_property_slots:
+            slot.subject = track.mixer_device if track else None
+
+        self.update()
+
+    def set_shift_button(self, button):
+        self._shift_button = button
+
+    def set_indexed_send_control(self, control, index):
+        if index < MAX_NUM_SENDS:
+            self.indexed_send_controls.set_control_element_at_index(control, index)
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
             self.update()
 
     @track_select_button.pressed
@@ -88,7 +165,11 @@ class ChannelStripComponent(Component):
 
     @solo_button.pressed
     def solo_button(self, _):
+<<<<<<< HEAD
         solo_exclusive = self.song.exclusive_solo != self.shift_button.is_pressed and not ChannelStripComponent.other_solo_buttons_pressed(self)
+=======
+        solo_exclusive = self.song.exclusive_solo != self.shift_pressed and not ChannelStripComponent.other_solo_buttons_pressed(self)
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
         new_value = not self._track.solo
         for track in chain(self.song.tracks, self.song.return_tracks):
             if not (track == self._track or self._track).is_part_of_selection or track.is_part_of_selection:
@@ -100,8 +181,21 @@ class ChannelStripComponent(Component):
 
     @arm_button.pressed
     def arm_button(self, _):
+<<<<<<< HEAD
         arm_exclusive = self.song.exclusive_arm != self.shift_button.is_pressed and not ChannelStripComponent.other_arm_buttons_pressed(self)
         arm_track((self._track), exclusive=arm_exclusive)
+=======
+        arm_exclusive = self.song.exclusive_arm != self.shift_pressed and not ChannelStripComponent.other_arm_buttons_pressed(self)
+        new_value = not self._track.arm
+        for track in self.song.tracks:
+            if track.can_be_armed:
+                if not (track == self._track or self._track).is_part_of_selection or track.is_part_of_selection:
+                    track.arm = new_value
+                else:
+                    if arm_exclusive:
+                        if track.arm:
+                            track.arm = False
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 
     @crossfade_cycle_button.pressed
     def crossfade_cycle_button(self, _):
@@ -149,11 +243,16 @@ class ChannelStripComponent(Component):
                 send_control.mapped_parameter = None
 
     def _update_track_select_button(self):
+<<<<<<< HEAD
         has_track = liveobj_valid(self._track)
         self.track_select_button.enabled = has_track
         if has_track:
             is_selected = self.song.view.selected_track == self._track
             self.track_select_button.color = LiveObjSkinEntry('Mixer.{}'.format('Selected' if is_selected else 'NotSelected'), self._track)
+=======
+        self.track_select_button.enabled = liveobj_valid(self._track)
+        self.track_select_button.is_on = self.song.view.selected_track == self._track
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 
     def _update_solo_button(self):
         track_valid = liveobj_valid(self._track) and self._track != self.song.master_track
@@ -165,8 +264,12 @@ class ChannelStripComponent(Component):
         track_valid = liveobj_valid(self._track) and self._track.can_be_armed
         self.arm_button.enabled = track_valid
         if track_valid:
+<<<<<<< HEAD
             self.arm_button.on_color = 'Mixer.ArmOn' if self._track.arm else 'Mixer.ImplicitArmOn'
             self.arm_button.is_on = is_track_armed(self._track)
+=======
+            self.arm_button.is_on = self._track.arm
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 
     def _update_crossfade_cycle_button(self):
         track_valid = liveobj_valid(self._track) and self._track != self.song.master_track

@@ -1,3 +1,13 @@
+<<<<<<< HEAD
+=======
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/KeyLab_Essential/keylab_essential.py
+# Compiled at: 2022-01-27 16:28:16
+# Size of source mod 2**32: 10554 bytes
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 from __future__ import absolute_import, print_function, unicode_literals
 from builtins import range
 import Live
@@ -53,6 +63,7 @@ class KeyLabEssential(ControlSurface):
 
     def _create_controls(self):
         self._hardware_live_mode_switch = SysexElement(send_message_generator=(lambda b: sysex.LIVE_MODE_MESSAGE_HEADER + (
+<<<<<<< HEAD
          b, sysex.END_BYTE)
 ),
           default_value=(sysex.OFF_VALUE),
@@ -60,6 +71,13 @@ class KeyLabEssential(ControlSurface):
         self._memory_preset_switch = SysexElement(send_message_generator=(lambda b: sysex.MEMORY_PRESET_SWITCH_MESSAGE_HEADER + (
          b, sysex.END_BYTE)
 ),
+=======
+         b, sysex.END_BYTE)),
+          default_value=(sysex.OFF_VALUE),
+          name='Hardware_Live_Mode_Switch')
+        self._memory_preset_switch = SysexElement(send_message_generator=(lambda b: sysex.MEMORY_PRESET_SWITCH_MESSAGE_HEADER + (
+         b, sysex.END_BYTE)),
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
           sysex_identifier=(sysex.MEMORY_PRESET_SWITCH_MESSAGE_HEADER),
           name='Memory_Preset_Switch')
         self._memory_preset_select_mode_switch = SysexElement(sysex_identifier=(sysex.MEMORY_PRESET_SELECT_MODE_MESSAGE_HEADER),

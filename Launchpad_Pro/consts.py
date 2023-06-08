@@ -1,3 +1,13 @@
+<<<<<<< HEAD
+=======
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Launchpad_Pro/consts.py
+# Compiled at: 2022-01-27 16:28:16
+# Size of source mod 2**32: 1983 bytes
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 from __future__ import absolute_import, print_function, unicode_literals
 SYSEX_IDENTITY_REQUEST = (240, 126, 127, 6, 1, 247)
 DEVICE_CODE = (81, 0)
@@ -32,6 +42,7 @@ ACTION_BUTTON_COLORS = dict(color='DefaultButton.Off',
 USER_MODE_CHANNELS = (5, 6, 7, 13, 14, 15)
 USER_MATRIX_IDENTIFIERS = [
  [
+<<<<<<< HEAD
   64,65,66,67,96,97,98,99],
  [
   60,61,62,63,92,93,94,95],
@@ -47,6 +58,23 @@ USER_MATRIX_IDENTIFIERS = [
   40,41,42,43,72,73,74,75],
  [
   36,37,38,39,68,69,70,71]]
+=======
+  64, 65, 66, 67, 96, 97, 98, 99],
+ [
+  60, 61, 62, 63, 92, 93, 94, 95],
+ [
+  56, 57, 58, 59, 88, 89, 90, 91],
+ [
+  52, 53, 54, 55, 84, 85, 86, 87],
+ [
+  48, 49, 50, 51, 80, 81, 82, 83],
+ [
+  44, 45, 46, 47, 76, 77, 78, 79],
+ [
+  40, 41, 42, 43, 72, 73, 74, 75],
+ [
+  36, 37, 38, 39, 68, 69, 70, 71]]
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 CHROM_MAP_CHANNEL = 3
 DEVICE_MAP_CHANNEL = 4
 VOLUME_MAP_CHANNEL = 8

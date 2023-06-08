@@ -1,9 +1,25 @@
+<<<<<<< HEAD
 from __future__ import absolute_import, print_function, unicode_literals
 from functools import partial
 import Live
 from ..base import chunks, flatten, is_iterable, recursive_map
 from . import ControlElement, PrioritizedResource
 from .elements import ButtonElement, ButtonMatrixElement, ComboElement, EncoderElement, SysexElement, SysexSendingButtonElement
+=======
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/ableton/v3/control_surface/elements_base.py
+# Compiled at: 2022-01-28 05:06:24
+# Size of source mod 2**32: 10935 bytes
+from __future__ import absolute_import, print_function, unicode_literals
+from functools import partial
+import Live
+from ..base import chunks, depends, flatten, is_iterable, recursive_map
+from . import ControlElement, PrioritizedResource
+from .elements import ButtonElement, ButtonMatrixElement, ComboElement, EncoderElement, SysexElement
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 
 class MapMode:
     Absolute = Live.MidiMap.MapMode.absolute
@@ -18,18 +34,26 @@ class MapMode:
     LinearTwoCompliment = Live.MidiMap.MapMode.relative_smooth_two_compliment
 
 
+<<<<<<< HEAD
+=======
+@depends(skin=None)
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 def create_button(identifier, name, **k):
     return ButtonElement(identifier, name=name, **k)
 
 
+<<<<<<< HEAD
 def create_sysex_sending_button(identifier, name, sysex_identifier, **k):
     return SysexSendingButtonElement(identifier, sysex_identifier, name=name, **k)
 
 
+=======
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 def create_encoder(identifier, name, **k):
     return EncoderElement(identifier, name=name, **k)
 
 
+<<<<<<< HEAD
 def create_sysex_element(identifier, name, send_message_generator=None, is_private=True, **k):
     return SysexElement(**, **k)
 
@@ -41,6 +65,18 @@ def create_combo_element(control=None, modifier=None, name=None, is_private=True
       modifier=modifier,
       name=name,
       is_private=is_private)
+=======
+def create_sysex_element(identifier, name, send_message_generator=None, **k):
+    return SysexElement(sysex_identifier=identifier, 
+     send_message_generator=send_message_generator, 
+     name=name, **k)
+
+
+def create_combo_element(control=None, modifier=None, name=None):
+    if not name:
+        name = create_name_for_modified_control(control=control, modifier=modifier)
+    return ComboElement(control=control, modifier=modifier, name=name)
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 
 
 def create_matrix_identifiers(start, stop, width=1, flip_rows=False):
@@ -54,7 +90,11 @@ def create_name_for_modified_control(control=None, modifier=None):
     modifier_name = modifier.name
     if modifier_name.lower().endswith('button'):
         modifier_name = modifier_name[:-7]
+<<<<<<< HEAD
     preposition = 'With' if any((c.isupper() for c in control.name)) else 'with'
+=======
+    preposition = 'With' if control.name[0].isupper() else 'with'
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
     return '{}_{}_{}'.format(control.name, preposition, modifier_name)
 
 
@@ -85,6 +125,7 @@ class ElementsBase:
     def add_modifier_button(self, identifier, name, *a, **k):
         (self.add_button)(identifier, name, *a, resource_type=PrioritizedResource, **k)
 
+<<<<<<< HEAD
     def add_modified_control(self, control=None, modifier=None, name=None, is_private=True):
         if isinstance(control, ButtonMatrixElement):
             self._add_modified_matrix(control, modifier, name, is_private)
@@ -110,6 +151,30 @@ class ElementsBase:
         name_factory = name_factory or (two_dimensional_name if len(identifiers) > 1 else one_dimensional_name)
         sub_element_name = base_name[:-1] if base_name.endswith('s') else base_name
         elements = [[element_factory(identifier, name=name_factory(sub_element_name, column, row), channel=channel, **k) for column, (identifier, channel) in enumerate(zip(inner_identifiers, inner_channels))] for row, (inner_identifiers, inner_channels) in enumerate(zip(identifiers, channels))]
+=======
+    def add_modified_control(self, control=None, modifier=None, name=None):
+        if isinstance(control, ButtonMatrixElement):
+            self._add_modified_matrix(control, modifier, name=name)
+        else:
+            element = create_combo_element(control=control, modifier=modifier, name=name)
+            attr_name = self._create_attribute_name(element.name)
+            setattr(self, attr_name, element)
+
+    def add_matrix(self, identifiers, base_name, channels=None, element_factory=create_button, **k):
+        channels = channels if channels is not None else self._global_channel
+        if not is_iterable(channels):
+            channels = [[channels] * len(row) for row in identifiers]
+        sub_element_name = base_name[:-1] if base_name.endswith('s') else base_name
+
+        def one_dimensional_name(x, _):
+            return '{}_{}'.format(sub_element_name, x)
+
+        def two_dimensional_name(x, y):
+            return '{}_{}_{}'.format(x, sub_element_name, y)
+
+        name_factory = two_dimensional_name if len(identifiers) > 1 else one_dimensional_name
+        elements = [[element_factory(identifier, name=name_factory(column, row), channel=channel, **k) for column, (identifier, channel) in enumerate(zip(inner_identifiers, inner_channels))] for row, (inner_identifiers, inner_channels) in enumerate(zip(identifiers, channels))]
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
         attr_name = self._create_attribute_name(base_name)
         self._add_raw_elements(attr_name, elements)
         setattr(self, attr_name, ButtonMatrixElement(name=base_name, rows=elements))
@@ -124,7 +189,11 @@ class ElementsBase:
  identifiers, 
  base_name, *a, channels=channels, element_factory=create_encoder, **k)
 
+<<<<<<< HEAD
     def add_submatrix(self, matrix, name, columns=None, rows=None, is_private=True):
+=======
+    def add_submatrix(self, matrix, name, columns=None, rows=None):
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
         if not columns:
             columns = (
              0, matrix.width() + 1)
@@ -133,17 +202,29 @@ class ElementsBase:
              0, matrix.height() + 1)
         submatrix = matrix.submatrix[columns[0]:columns[1], rows[0]:rows[1]]
         submatrix.name = name
+<<<<<<< HEAD
         submatrix.is_private = is_private
         attr_name = self._create_attribute_name(name)
         setattr(self, attr_name, submatrix)
 
     def _add_modified_matrix(self, matrix, modifier, name, is_private):
         modified_elements = recursive_map(partial(create_combo_element, modifier=modifier, is_private=is_private), matrix._orig_buttons)
+=======
+        attr_name = self._create_attribute_name(name)
+        setattr(self, attr_name, submatrix)
+
+    def _add_modified_matrix(self, matrix, modifier, name):
+        modified_elements = recursive_map(partial(create_combo_element, modifier=modifier), matrix._orig_buttons)
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
         if not name:
             name = create_name_for_modified_control(control=matrix, modifier=modifier)
         attr_name = self._create_attribute_name(name)
         self._add_raw_elements(attr_name, modified_elements)
+<<<<<<< HEAD
         setattr(self, attr_name, ButtonMatrixElement(name=name, rows=modified_elements, is_private=is_private))
+=======
+        setattr(self, attr_name, ButtonMatrixElement(name=name, rows=modified_elements))
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 
     def _add_raw_elements(self, base_name, elements):
         setattr(self, '{}_raw'.format(base_name), list(flatten(elements)))

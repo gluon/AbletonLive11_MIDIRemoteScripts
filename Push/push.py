@@ -1,3 +1,13 @@
+<<<<<<< HEAD
+=======
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Push/push.py
+# Compiled at: 2022-01-27 16:28:16
+# Size of source mod 2**32: 41401 bytes
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 from __future__ import absolute_import, print_function, unicode_literals
 from builtins import object, range, str
 import logging, weakref
@@ -7,7 +17,11 @@ from ableton.v2.base import get_slice, listens, listens_group, mixin, nop, task
 from ableton.v2.control_surface import BackgroundLayer, DeviceDecoratorFactory, Layer
 from ableton.v2.control_surface.default_bank_definitions import BANK_DEFINITIONS
 from ableton.v2.control_surface.defaults import TIMER_DELAY
+<<<<<<< HEAD
 from ableton.v2.control_surface.device_provider import DeviceProvider as DeviceProviderBase
+=======
+import ableton.v2.control_surface.device_provider as DeviceProviderBase
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 from ableton.v2.control_surface.device_provider import device_to_appoint
 from ableton.v2.control_surface.elements import ComboElement, NullFullVelocity, NullPlayhead, NullVelocityLevels
 from ableton.v2.control_surface.mode import AddLayerMode, EnablingModesComponent, LazyEnablingMode, ModesComponent
@@ -314,8 +328,12 @@ class Push(PushBase):
          self._when_track_is_not_frozen(self._enable_stop_mute_solo_as_modifiers, partial(self._view_control.show_view, 'Browser'), self._browser_back_to_top, self._browser_hotswap_mode, self._browser_mode, self._browser_reset_load_memory)],
           groups=[
          'add_effect', 'add_track', 'browse'],
+<<<<<<< HEAD
           behaviour=(mixin(DynamicBehaviourMixin, CancellableBehaviour)(lambda: not self._browser_hotswap_mode._mode.can_hotswap() and 'add_effect_left'
 )))
+=======
+          behaviour=(mixin(DynamicBehaviourMixin, CancellableBehaviour)(lambda: not self._browser_hotswap_mode._mode.can_hotswap() and 'add_effect_left')))
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
         self._main_modes.add_mode('add_effect_right',
           [
          self._when_track_is_not_frozen(self._enable_stop_mute_solo_as_modifiers, self._browser_back_to_top, LazyEnablingMode(self._create_create_device_right))],
@@ -351,7 +369,11 @@ class Push(PushBase):
 
     @listens('browse_mode')
     def _on_browse_mode_changed(self):
+<<<<<<< HEAD
         if self.application.browser.hotswap_target or self._main_modes.selected_mode == 'browse' or self._browser_hotswap_mode.is_entered:
+=======
+        if self.application.browser.hotswap_target or (self._main_modes.selected_mode == 'browse' or self._browser_hotswap_mode.is_entered):
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
             self._main_modes.selected_mode = 'device'
 
     def _create_browser(self):

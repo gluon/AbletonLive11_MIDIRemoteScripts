@@ -1,3 +1,13 @@
+<<<<<<< HEAD
+=======
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/pushbase/elements.py
+# Compiled at: 2022-01-27 16:28:17
+# Size of source mod 2**32: 11525 bytes
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 from __future__ import absolute_import, print_function, unicode_literals
 from builtins import object, range, str
 from ableton.v2.base import depends, recursive_map
@@ -89,11 +99,17 @@ class Elements(object):
         self.double_press_matrix = ButtonMatrixElement(name='Double_Press_Matrix',
           rows=double_press_rows)
         self.single_press_event_matrix = ButtonMatrixElement(name='Single_Press_Event_Matrix',
+<<<<<<< HEAD
           rows=(recursive_map(lambda x: x.single_press
 , double_press_rows)))
         self.double_press_event_matrix = ButtonMatrixElement(name='Double_Press_Event_Matrix',
           rows=(recursive_map(lambda x: x.double_press
 , double_press_rows)))
+=======
+          rows=(recursive_map(lambda x: x.single_press, double_press_rows)))
+        self.double_press_event_matrix = ButtonMatrixElement(name='Double_Press_Event_Matrix',
+          rows=(recursive_map(lambda x: x.double_press, double_press_rows)))
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
         self.tempo_control_tap = create_note_button(10, 'Tempo_Control_Tap')
         self.tempo_control = TouchEncoderElement(channel=0,
           identifier=14,

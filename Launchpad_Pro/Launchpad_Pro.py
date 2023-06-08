@@ -1,3 +1,13 @@
+<<<<<<< HEAD
+=======
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Launchpad_Pro/Launchpad_Pro.py
+# Compiled at: 2022-01-27 16:28:16
+# Size of source mod 2**32: 48219 bytes
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 from __future__ import absolute_import, print_function, unicode_literals
 from builtins import range, str
 from functools import partial
@@ -116,11 +126,18 @@ class MidiMap(SpecialMidiMap):
          'Arrow_Down_Button',
          'Arrow_Left_Button',
          'Arrow_Right_Button']
+<<<<<<< HEAD
         arrow_button_states = {
           'Pressed': 'DefaultButton.On',
           'Enabled': 'DefaultButton.Off',
           True: 'DefaultButton.On',
           False: 'DefaultButton.Disabled'}
+=======
+        arrow_button_states = {'Pressed':'DefaultButton.On', 
+         'Enabled':'DefaultButton.Off', 
+         True:'DefaultButton.On', 
+         False:'DefaultButton.Disabled'}
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
         for index, val in enumerate(self._arrow_button_names):
             self.add_button(val,
               0, (index + 91), MIDI_CC_TYPE, default_states=arrow_button_states)
@@ -690,11 +707,18 @@ class Launchpad_Pro(IdentifiableControlSurface, OptimizedControlSurface):
         drum_device = self._drum_group_finder.drum_group
         if track is None or track.is_foldable or track in self.song().return_tracks or track == self.song().master_track or track.is_frozen or track.has_audio_input:
             self._note_modes.selected_mode = 'audio_mode'
+<<<<<<< HEAD
         else:
             if drum_device:
                 self._note_modes.selected_mode = 'drum_mode'
             else:
                 self._note_modes.selected_mode = 'chromatic_mode'
+=======
+        elif drum_device:
+            self._note_modes.selected_mode = 'drum_mode'
+        else:
+            self._note_modes.selected_mode = 'chromatic_mode'
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
         self._modes.update()
         if self._note_modes.selected_mode == 'audio_mode':
             self.release_controlled_track()
@@ -821,6 +845,7 @@ class Launchpad_Pro(IdentifiableControlSurface, OptimizedControlSurface):
     def handle_sysex(self, midi_bytes):
         if len(midi_bytes) < 7:
             pass
+<<<<<<< HEAD
         else:
             if self._is_challenge_response(midi_bytes) and self._is_response_valid(midi_bytes):
                 self._on_handshake_successful()
@@ -834,3 +859,15 @@ class Launchpad_Pro(IdentifiableControlSurface, OptimizedControlSurface):
                         pass
                     else:
                         super(Launchpad_Pro, self).handle_sysex(midi_bytes)
+=======
+        elif self._is_challenge_response(midi_bytes) and self._is_response_valid(midi_bytes):
+            self._on_handshake_successful()
+        elif midi_bytes[6] == consts.SYSEX_STATUS_BYTE_LAYOUT and midi_bytes[7] == consts.NOTE_LAYOUT_SYSEX_BYTE[0]:
+            self._update_hardware()
+        elif midi_bytes[6] in (
+         consts.SYSEX_STATUS_BYTE_MODE,
+         consts.SYSEX_STATUS_BYTE_LAYOUT):
+            pass
+        else:
+            super(Launchpad_Pro, self).handle_sysex(midi_bytes)
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34

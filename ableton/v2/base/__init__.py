@@ -1,3 +1,13 @@
+<<<<<<< HEAD
+=======
+# decompyle3 version 3.8.0
+# Python bytecode 3.7.0 (3394)
+# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
+# [Clang 13.1.6 (clang-1316.0.21.2.3)]
+# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/ableton/v2/base/__init__.py
+# Compiled at: 2022-01-27 16:28:17
+# Size of source mod 2**32: 3064 bytes
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 from __future__ import absolute_import, print_function, unicode_literals
 from .abl_signal import Signal
 from .dependency import DependencyError, depends, inject
@@ -20,7 +30,13 @@ __all__ = ('Bindable', 'BooleanContext', 'CompoundDisconnectable', 'DependencyEr
            'is_iterable', 'is_matrix', 'is_parameter_bipolar', 'isclose', 'lazy_attribute',
            'linear', 'listenable_property', 'listens', 'listens_group', 'liveobj_changed',
            'liveobj_valid', 'maybe', 'memoize', 'mixin', 'monkeypatch', 'monkeypatch_extend',
+<<<<<<< HEAD
            'move_current_song_time', 'negate', 'next', 'nop', 'overlaymap', 'old_round',
            'old_hasattr', 'print_message', 'product', 'recursive_map', 'refget',
            'remove_if', 'second', 'sign', 'slice_size', 'slicer', 'third', 'to_slice',
            'trace_value', 'union')
+=======
+           'negate', 'next', 'nop', 'overlaymap', 'old_round', 'old_hasattr', 'print_message',
+           'product', 'recursive_map', 'refget', 'remove_if', 'second', 'sign', 'slice_size',
+           'slicer', 'third', 'to_slice', 'trace_value', 'union')
+>>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
