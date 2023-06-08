@@ -1,4 +1,4 @@
-# Ableton Live 11.1 MIDI Remote Scripts 
+# Ableton Live 11.2.11 MIDI Remote Scripts 
 
 Unofficial repository for Ableton Live 11 MIDI Remote Scripts Python Sources decompiled by Julien Bayle
 
@@ -15,7 +15,7 @@ NOUS PROPOSONS DES FORMATIONS FINANÇABLES À MARSEILLE OU EN LIGNE :**
 [ABLETON LIVE SUITE 11](https://structure-void.com/formations/ableton-live)  ET  [MAX FOR LIVE](https://structure-void.com/formations/max-for-live)
 
 
-## UPDATED on 22/04/2022
+## UPDATED on 08/06/2023
 
 ===> **NO support given, ONLY source files !**
 
