@@ -1,22 +1,24 @@
-<<<<<<< HEAD
-=======
-# decompyle3 version 3.8.0
-# Python bytecode 3.7.0 (3394)
-# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
-# [Clang 13.1.6 (clang-1316.0.21.2.3)]
-# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/ableton/v3/control_surface/default_skin.py
-# Compiled at: 2022-01-28 05:06:24
-# Size of source mod 2**32: 6117 bytes
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
+# decompyle3 version 3.9.0
+# Python bytecode version base 3.7.0 (3394)
+# Decompiled from: Python 3.8.0 (tags/v3.8.0:fa919fd, Oct 14 2019, 19:37:50) [MSC v.1916 64 bit (AMD64)]
+# Embedded file name: ..\..\..\output\Live\win_64_static\Release\python-bundle\MIDI Remote Scripts\ableton\v3\control_surface\default_skin.py
+# Compiled at: 2023-09-17 09:50:55
+# Size of source mod 2**32: 9437 bytes
 from __future__ import absolute_import, print_function, unicode_literals
 from .colors import BasicColors
-from .skin import Skin
+from .skin import Skin, merge_skins
 
-<<<<<<< HEAD
+def create_skin(skin=None, colors=None):
+    skins = [
+     default_skin]
+    if skin:
+        skins.append(Skin(skin))
+    if colors:
+        skins.append(Skin(colors))
+    return merge_skins(*skins)
+
+
 class DefaultColors:
-=======
-class DefaultSkin:
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 
     class DefaultButton:
         On = BasicColors.ON
@@ -30,26 +32,10 @@ class DefaultSkin:
     class Transport:
         PlayOn = BasicColors.ON
         PlayOff = BasicColors.OFF
-        ContinueOn = BasicColors.ON
-        ContinueOff = BasicColors.OFF
         StopOn = BasicColors.ON
         StopOff = BasicColors.OFF
-        ArrangementRecordingOn = BasicColors.ON
-        ArrangementRecordingOff = BasicColors.OFF
-<<<<<<< HEAD
-        SessionRecordingOn = BasicColors.ON
-        SessionRecordingTransition = BasicColors.ON
-        SessionRecordingOff = BasicColors.OFF
-        OverdubOn = BasicColors.ON
-        OverdubOff = BasicColors.OFF
         AutomationArmOn = BasicColors.ON
         AutomationArmOff = BasicColors.OFF
-=======
-        OverdubOn = BasicColors.ON
-        OverdubOff = BasicColors.OFF
-        CaptureOn = BasicColors.ON
-        CaptureOff = BasicColors.OFF
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
         LoopOn = BasicColors.ON
         LoopOff = BasicColors.OFF
         MetronomeOn = BasicColors.ON
@@ -62,28 +48,28 @@ class DefaultSkin:
         Nudge = BasicColors.OFF
         SeekPressed = BasicColors.ON
         Seek = BasicColors.OFF
-<<<<<<< HEAD
         CanReEnableAutomation = BasicColors.ON
         CanCaptureMidi = BasicColors.ON
-=======
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
         CanJumpToCue = BasicColors.ON
         CannotJumpToCue = BasicColors.OFF
         SetCuePressed = BasicColors.ON
         SetCue = BasicColors.OFF
+        RecordQuantizeOn = BasicColors.ON
+        RecordQuantizeOff = BasicColors.OFF
 
-<<<<<<< HEAD
-=======
     class Recording:
-        On = BasicColors.ON
-        Transition = BasicColors.ON
-        Off = BasicColors.OFF
+        ArrangementRecordOn = BasicColors.ON
+        ArrangementRecordOff = BasicColors.OFF
+        ArrangementOverdubOn = BasicColors.ON
+        ArrangementOverdubOff = BasicColors.OFF
+        SessionRecordOn = BasicColors.ON
+        SessionRecordTransition = BasicColors.ON
+        SessionRecordOff = BasicColors.OFF
+        SessionOverdubOn = BasicColors.ON
+        SessionOverdubOff = BasicColors.OFF
+        NewPressed = BasicColors.ON
+        New = BasicColors.OFF
 
-    class Automation:
-        On = BasicColors.ON
-        Off = BasicColors.OFF
-
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
     class UndoRedo:
         UndoPressed = BasicColors.ON
         Undo = BasicColors.OFF
@@ -109,10 +95,7 @@ class DefaultSkin:
     class Mixer:
         ArmOn = BasicColors.ON
         ArmOff = BasicColors.OFF
-<<<<<<< HEAD
         ImplicitArmOn = BasicColors.ON
-=======
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
         MuteOn = BasicColors.ON
         MuteOff = BasicColors.OFF
         SoloOn = BasicColors.ON
@@ -122,7 +105,6 @@ class DefaultSkin:
         CrossfadeA = BasicColors.ON
         CrossfadeB = BasicColors.ON
         CrossfadeOff = BasicColors.OFF
-<<<<<<< HEAD
         CycleSendIndexPressed = BasicColors.OFF
         CycleSendIndex = BasicColors.ON
         CycleSendIndexDisabled = BasicColors.OFF
@@ -140,24 +122,6 @@ class DefaultSkin:
         Scene = BasicColors.OFF
         SceneTriggered = BasicColors.ON
         NoScene = BasicColors.OFF
-=======
-        Empty = BasicColors.OFF
-        CycleSendIndexPressed = BasicColors.OFF
-        CycleSendIndex = BasicColors.ON
-        CycleSendIndexDisabled = BasicColors.OFF
-
-    class Session:
-        ClipEmpty = BasicColors.OFF
-        ClipStopped = BasicColors.OFF
-        ClipTriggeredPlay = BasicColors.ON
-        ClipTriggeredRecord = BasicColors.ON
-        ClipStarted = BasicColors.ON
-        ClipRecording = BasicColors.ON
-        ClipRecordButton = BasicColors.OFF
-        Scene = BasicColors.OFF
-        SceneEmpty = BasicColors.OFF
-        SceneTriggered = BasicColors.ON
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
         StopClipTriggered = BasicColors.ON
         StopClip = BasicColors.OFF
         StopClipDisabled = BasicColors.OFF
@@ -172,17 +136,16 @@ class DefaultSkin:
         Playing = BasicColors.ON
         Empty = BasicColors.OFF
 
-<<<<<<< HEAD
     class ClipActions:
         Delete = BasicColors.OFF
         DeletePressed = BasicColors.ON
         Double = BasicColors.OFF
         DoublePressed = BasicColors.ON
+        Duplicate = BasicColors.OFF
+        DuplicatePressed = BasicColors.ON
         Quantize = BasicColors.OFF
         QuantizedPressed = BasicColors.ON
 
-=======
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
     class Device:
         On = BasicColors.ON
         Off = BasicColors.OFF
@@ -209,7 +172,6 @@ class DefaultSkin:
         PadMutedSelected = BasicColors.ON
         PadSoloed = BasicColors.ON
         PadSoloedSelected = BasicColors.ON
-<<<<<<< HEAD
         PadAction = BasicColors.ON
         ScrollPressed = BasicColors.ON
         Scroll = BasicColors.ON
@@ -223,6 +185,31 @@ class DefaultSkin:
         ScrollPressed = BasicColors.ON
         Scroll = BasicColors.ON
 
+    class NoteEditor:
+        NoClip = BasicColors.OFF
+        StepDisabled = BasicColors.OFF
+        StepEmpty = BasicColors.OFF
+        StepFilled = BasicColors.ON
+        StepMuted = BasicColors.OFF
+
+        class Resolution:
+            Selected = BasicColors.ON
+            NotSelected = BasicColors.OFF
+
+    class LoopSelector:
+        InsideLoopSelected = BasicColors.ON
+        InsideLoop = BasicColors.OFF
+        OutsideLoopSelected = BasicColors.ON
+        OutsideLoop = BasicColors.OFF
+        Playhead = BasicColors.OFF
+        PlayheadRecord = BasicColors.OFF
+        NavigationPressed = BasicColors.ON
+        Navigation = BasicColors.OFF
+
+    class Clipboard:
+        Empty = BasicColors.OFF
+        Filled = BasicColors.ON
+
     class Translation:
 
         class Channel:
@@ -231,14 +218,3 @@ class DefaultSkin:
 
 
 default_skin = Skin(DefaultColors)
-=======
-        MutePressed = BasicColors.ON
-        Mute = BasicColors.OFF
-        SoloPressed = BasicColors.ON
-        Solo = BasicColors.OFF
-        ScrollPressed = BasicColors.ON
-        Scroll = BasicColors.ON
-
-
-default_skin = Skin(DefaultSkin)
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34

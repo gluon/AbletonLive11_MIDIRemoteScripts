@@ -1,13 +1,9 @@
-<<<<<<< HEAD
-=======
-# decompyle3 version 3.8.0
-# Python bytecode 3.7.0 (3394)
-# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
-# [Clang 13.1.6 (clang-1316.0.21.2.3)]
-# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/_Framework/SessionRecordingComponent.py
-# Compiled at: 2022-01-27 16:28:16
-# Size of source mod 2**32: 11723 bytes
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
+# decompyle3 version 3.9.0
+# Python bytecode version base 3.7.0 (3394)
+# Decompiled from: Python 3.8.0 (tags/v3.8.0:fa919fd, Oct 14 2019, 19:37:50) [MSC v.1916 64 bit (AMD64)]
+# Embedded file name: ..\..\..\output\Live\win_64_static\Release\python-bundle\MIDI Remote Scripts\_Framework\SessionRecordingComponent.py
+# Compiled at: 2022-11-29 09:57:03
+# Size of source mod 2**32: 12035 bytes
 from __future__ import absolute_import, print_function, unicode_literals
 import Live
 from .CompoundComponent import CompoundComponent
@@ -124,12 +120,8 @@ class SessionRecordingComponent(CompoundComponent):
         if self._new_scene_button:
             if self.is_enabled():
                 song = self.song()
-<<<<<<< HEAD
                 track_is_playing = find_if(lambda x: x.playing_slot_index >= 0
 , song.tracks)
-=======
-                track_is_playing = find_if(lambda x: x.playing_slot_index >= 0, song.tracks)
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
                 can_new = not song.view.selected_scene.is_empty or track_is_playing
                 self._new_scene_button.set_light(can_new or 'DefaultButton.Disabled')
 
@@ -140,18 +132,11 @@ class SessionRecordingComponent(CompoundComponent):
                 status = song.session_record_status
                 if status == Live.Song.SessionRecordStatus.transition:
                     self._record_button.set_light('Recording.Transition')
-<<<<<<< HEAD
                 else:
                     if status == Live.Song.SessionRecordStatus.on or song.session_record:
                         self._record_button.turn_on()
                     else:
                         self._record_button.turn_off()
-=======
-                elif status == Live.Song.SessionRecordStatus.on or song.session_record:
-                    self._record_button.turn_on()
-                else:
-                    self._record_button.turn_off()
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 
     @subject_slot('value')
     def _on_re_enable_automation_value(self, value):

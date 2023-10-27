@@ -1,13 +1,9 @@
-<<<<<<< HEAD
-=======
-# decompyle3 version 3.8.0
-# Python bytecode 3.7.0 (3394)
-# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
-# [Clang 13.1.6 (clang-1316.0.21.2.3)]
-# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/ableton/v2/control_surface/components/drum_group.py
-# Compiled at: 2022-01-27 16:28:17
-# Size of source mod 2**32: 11924 bytes
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
+# decompyle3 version 3.9.0
+# Python bytecode version base 3.7.0 (3394)
+# Decompiled from: Python 3.8.0 (tags/v3.8.0:fa919fd, Oct 14 2019, 19:37:50) [MSC v.1916 64 bit (AMD64)]
+# Embedded file name: ..\..\..\output\Live\win_64_static\Release\python-bundle\MIDI Remote Scripts\ableton\v2\control_surface\components\drum_group.py
+# Compiled at: 2022-11-29 09:57:03
+# Size of source mod 2**32: 12274 bytes
 from __future__ import absolute_import, print_function, unicode_literals
 from builtins import map, range
 from ...base import clamp, depends, find_if, first, listens, listens_group, liveobj_changed, liveobj_valid
@@ -73,7 +69,7 @@ class DrumGroupComponent(PlayableComponent, SlideComponent, Slideable):
     @property
     def max_pitch(self):
         if self.assigned_drum_pads:
-            return self.assigned_drum_pads[(-1)].note
+            return self.assigned_drum_pads[-1].note
         return BASE_DRUM_RACK_NOTE
 
     def _update_assigned_drum_pads(self):
@@ -143,18 +139,13 @@ class DrumGroupComponent(PlayableComponent, SlideComponent, Slideable):
         button.color = self._color_for_pad(pad) if pad else 'DefaultButton.On'
 
     def _color_for_pad(self, pad):
-<<<<<<< HEAD
         has_soloed_pads = bool(find_if(lambda pad: pad.solo
 , self._all_drum_pads))
-=======
-        has_soloed_pads = bool(find_if(lambda pad: pad.solo, self._all_drum_pads))
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
         button_color = 'DrumGroup.PadEmpty'
         if pad == self._selected_drum_pad:
             button_color = 'DrumGroup.PadSelected'
             if has_soloed_pads and not pad.solo or pad.mute:
                 button_color = 'DrumGroup.PadSelectedNotSoloed'
-<<<<<<< HEAD
             else:
                 if pad.mute and not pad.solo:
                     button_color = 'DrumGroup.PadMutedSelected'
@@ -173,21 +164,6 @@ class DrumGroupComponent(PlayableComponent, SlideComponent, Slideable):
                         if has_soloed_pads:
                             if pad.solo:
                                 button_color = 'DrumGroup.PadSoloed'
-=======
-            elif pad.mute and not pad.solo:
-                button_color = 'DrumGroup.PadMutedSelected'
-            elif not has_soloed_pads or pad.solo:
-                button_color = 'DrumGroup.PadSoloedSelected'
-        elif pad.chains:
-            button_color = 'DrumGroup.PadFilled'
-            if has_soloed_pads and not pad.solo:
-                button_color = 'DrumGroup.PadFilled' if (not pad.mute) else 'DrumGroup.PadMuted'
-            elif not has_soloed_pads or pad.mute:
-                button_color = 'DrumGroup.PadMuted'
-            elif has_soloed_pads:
-                if pad.solo:
-                    button_color = 'DrumGroup.PadSoloed'
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
         return button_color
 
     def _button_coordinates_to_pad_index(self, first_note, coordinates):
@@ -195,7 +171,6 @@ class DrumGroupComponent(PlayableComponent, SlideComponent, Slideable):
         y = self.height - y - 1
         if x < 4 and y >= 4:
             first_note += 16
-<<<<<<< HEAD
         else:
             if x >= 4 and y < 4:
                 first_note += 4 * self.width
@@ -203,13 +178,6 @@ class DrumGroupComponent(PlayableComponent, SlideComponent, Slideable):
                 if x >= 4:
                     if y >= 4:
                         first_note += 4 * self.width + 16
-=======
-        elif x >= 4 and y < 4:
-            first_note += 4 * self.width
-        elif x >= 4:
-            if y >= 4:
-                first_note += 4 * self.width + 16
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
         index = x % 4 + y % 4 * 4 + first_note
         return index
 
@@ -229,7 +197,7 @@ class DrumGroupComponent(PlayableComponent, SlideComponent, Slideable):
             self._drum_group_device.view.selected_drum_pad = selected_drum_pad
             self.select_drum_pad(selected_drum_pad)
             super(DrumGroupComponent, self)._on_matrix_pressed(button)
-        if self.mute_button.is_pressed or (self.solo_button.is_pressed):
+        if self.mute_button.is_pressed or self.solo_button.is_pressed:
             self._update_led_feedback()
 
     @listens('visible_drum_pads')

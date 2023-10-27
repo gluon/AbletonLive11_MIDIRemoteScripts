@@ -1,13 +1,9 @@
-<<<<<<< HEAD
-=======
-# decompyle3 version 3.8.0
-# Python bytecode 3.7.0 (3394)
-# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
-# [Clang 13.1.6 (clang-1316.0.21.2.3)]
-# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Push2/parameter_mapping_sensitivities.py
-# Compiled at: 2022-01-27 16:28:16
-# Size of source mod 2**32: 7225 bytes
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
+# decompyle3 version 3.9.0
+# Python bytecode version base 3.7.0 (3394)
+# Decompiled from: Python 3.8.0 (tags/v3.8.0:fa919fd, Oct 14 2019, 19:37:50) [MSC v.1916 64 bit (AMD64)]
+# Embedded file name: ..\..\..\output\Live\win_64_static\Release\python-bundle\MIDI Remote Scripts\Push2\parameter_mapping_sensitivities.py
+# Compiled at: 2023-10-06 16:19:02
+# Size of source mod 2**32: 7591 bytes
 from __future__ import absolute_import, print_function, unicode_literals
 from past.utils import old_div
 from ableton.v2.control_surface import is_parameter_quantized
@@ -68,15 +64,9 @@ PARAMETER_SENSITIVITIES = {'UltraAnalog':{'OSC1 Octave':{DEFAULT_SENSITIVITY_KEY
   'Filt < Key':{DEFAULT_SENSITIVITY_KEY: 0.5}, 
   'Filt < LFO':{DEFAULT_SENSITIVITY_KEY: 0.5}, 
   'Fe < Env':{DEFAULT_SENSITIVITY_KEY: 0.5}, 
-<<<<<<< HEAD
   'L R < Key':{DEFAULT_SENSITIVITY_KEY: 0.5}, 
   'Vol < LFO':{DEFAULT_SENSITIVITY_KEY: 0.5}, 
   'Pan < Rnd':{DEFAULT_SENSITIVITY_KEY: 0.5}, 
-=======
-  'LR < Key':{DEFAULT_SENSITIVITY_KEY: 0.5}, 
-  'Vol < LFO':{DEFAULT_SENSITIVITY_KEY: 0.5}, 
-  'Pan < RND':{DEFAULT_SENSITIVITY_KEY: 0.5}, 
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
   'Pan < LFO':{DEFAULT_SENSITIVITY_KEY: 0.5}, 
   'L Sync Rate':{DEFAULT_SENSITIVITY_KEY: 0.5}}, 
  'Operator':{'Oscillator':{DEFAULT_SENSITIVITY_KEY: 0.5}, 
@@ -132,11 +122,7 @@ PARAMETER_SENSITIVITIES = {'UltraAnalog':{'OSC1 Octave':{DEFAULT_SENSITIVITY_KEY
  'Flanger':{'Sync Rate': {DEFAULT_SENSITIVITY_KEY: 0.1}}, 
  'GrainDelay':{'Pitch': {DEFAULT_SENSITIVITY_KEY: 0.5}}, 
  'Phaser':{'LFO Sync Rate': {DEFAULT_SENSITIVITY_KEY: 0.1}}, 
-<<<<<<< HEAD
  'PhaserNew':{'Mode': {DEFAULT_SENSITIVITY_KEY: 0.03}}, 
-=======
- 'PhaserNew':{'Ph/Fl Mode': {DEFAULT_SENSITIVITY_KEY: 0.03}}, 
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
  'Resonator':{'II Pitch':{DEFAULT_SENSITIVITY_KEY: 0.5}, 
   'III Pitch':{DEFAULT_SENSITIVITY_KEY: 0.5}, 
   'IV Pitch':{DEFAULT_SENSITIVITY_KEY: 0.5}, 
@@ -145,4 +131,7 @@ PARAMETER_SENSITIVITIES = {'UltraAnalog':{'OSC1 Octave':{DEFAULT_SENSITIVITY_KEY
   'Osc 2 Pitch':{DEFAULT_SENSITIVITY_KEY: 10.0, FINE_GRAINED_SENSITIVITY_KEY: 0.4}}, 
  'Shifter':{'Mode':{DEFAULT_SENSITIVITY_KEY: 0.05}, 
   'Pitch Bend Range':{DEFAULT_SENSITIVITY_KEY: 10.0}}, 
- 'Transmute':{'Pitch Bend Range': {DEFAULT_SENSITIVITY_KEY: 10.0}}}
+ 'StringStudio':{'Octave':{DEFAULT_SENSITIVITY_KEY: 0.05}, 
+  'Semitone':{DEFAULT_SENSITIVITY_KEY: 0.1}}, 
+ 'Transmute':{'Pitch Bend Range': {DEFAULT_SENSITIVITY_KEY: 10.0}}, 
+ 'Drift':{'PB Range': {DEFAULT_SENSITIVITY_KEY: 10.0}}}

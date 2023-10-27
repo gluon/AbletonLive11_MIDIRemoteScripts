@@ -1,13 +1,9 @@
-<<<<<<< HEAD
-=======
-# decompyle3 version 3.8.0
-# Python bytecode 3.7.0 (3394)
-# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
-# [Clang 13.1.6 (clang-1316.0.21.2.3)]
-# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Launchpad_Pro/DrumGroupComponent.py
-# Compiled at: 2022-01-27 16:28:16
-# Size of source mod 2**32: 16405 bytes
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
+# decompyle3 version 3.9.0
+# Python bytecode version base 3.7.0 (3394)
+# Decompiled from: Python 3.8.0 (tags/v3.8.0:fa919fd, Oct 14 2019, 19:37:50) [MSC v.1916 64 bit (AMD64)]
+# Embedded file name: ..\..\..\output\Live\win_64_static\Release\python-bundle\MIDI Remote Scripts\Launchpad_Pro\DrumGroupComponent.py
+# Compiled at: 2022-11-29 09:57:03
+# Size of source mod 2**32: 16865 bytes
 from __future__ import absolute_import, print_function, unicode_literals
 from builtins import map, range
 from _Framework.Control import ButtonControl, PlayableControl, control_matrix
@@ -229,7 +225,6 @@ class DrumGroupComponent(ResettableSlideComponent, Slideable):
         if pad == self._selected_drum_pad:
             if soloed_pads and not pad.solo or pad.mute:
                 button_color = 'DrumGroup.PadSelectedNotSoloed'
-<<<<<<< HEAD
             else:
                 if pad.mute and not pad.solo:
                     button_color = 'DrumGroup.PadMutedSelected'
@@ -255,28 +250,6 @@ class DrumGroupComponent(ResettableSlideComponent, Slideable):
                             button_color = 'DrumGroup.PadFilled'
             else:
                 button_color = 'DrumGroup.PadEmpty'
-=======
-            elif pad.mute and not pad.solo:
-                button_color = 'DrumGroup.PadMutedSelected'
-            elif soloed_pads and pad.solo:
-                button_color = 'DrumGroup.PadSoloedSelected'
-            else:
-                button_color = 'DrumGroup.PadSelected'
-        elif pad.chains:
-            if soloed_pads and not pad.solo:
-                if not pad.mute:
-                    button_color = 'DrumGroup.PadFilled'
-                else:
-                    button_color = 'DrumGroup.PadMuted'
-            elif not soloed_pads or pad.mute:
-                button_color = 'DrumGroup.PadMuted'
-            elif soloed_pads and pad.solo:
-                button_color = 'DrumGroup.PadSoloed'
-            else:
-                button_color = 'DrumGroup.PadFilled'
-        else:
-            button_color = 'DrumGroup.PadEmpty'
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
         button.color = button_color
 
     def _button_coordinates_to_pad_index(self, first_note, coordinates):
@@ -284,7 +257,6 @@ class DrumGroupComponent(ResettableSlideComponent, Slideable):
         y = self.height - y - 1
         if x < 4 and y >= 4:
             first_note += 16
-<<<<<<< HEAD
         else:
             if x >= 4 and y < 4:
                 first_note += 4 * self.width
@@ -292,13 +264,6 @@ class DrumGroupComponent(ResettableSlideComponent, Slideable):
                 if x >= 4:
                     if y >= 4:
                         first_note += 4 * self.width + 16
-=======
-        elif x >= 4 and y < 4:
-            first_note += 4 * self.width
-        elif x >= 4:
-            if y >= 4:
-                first_note += 4 * self.width + 16
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
         index = x % 4 + y % 4 * 4 + first_note
         return index
 
@@ -338,7 +303,7 @@ class DrumGroupComponent(ResettableSlideComponent, Slideable):
             if len(self._selected_pads) == 1:
                 self._update_control_from_script()
             self.notify_pressed_pads()
-        if self.mute_button.is_pressed or (self.solo_button.is_pressed):
+        if self.mute_button.is_pressed or self.solo_button.is_pressed:
             self._update_led_feedback()
 
     @subject_slot('visible_drum_pads')

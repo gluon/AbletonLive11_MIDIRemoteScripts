@@ -1,13 +1,21 @@
+# decompyle3 version 3.9.0
+# Python bytecode version base 3.7.0 (3394)
+# Decompiled from: Python 3.8.0 (tags/v3.8.0:fa919fd, Oct 14 2019, 19:37:50) [MSC v.1916 64 bit (AMD64)]
+# Embedded file name: ..\..\..\output\Live\win_64_static\Release\python-bundle\MIDI Remote Scripts\ableton\v3\control_surface\components\sliced_simpler.py
+# Compiled at: 2023-09-17 09:50:55
+# Size of source mod 2**32: 9890 bytes
 from __future__ import absolute_import, print_function, unicode_literals
 from Live.Sample import SlicingStyle
-from ...base import delete_notes_with_pitch, depends, listens, liveobj_changed, liveobj_valid, task
+from ...base import depends, listens, task
+from ...live import action, liveobj_changed, liveobj_valid
 from ..controls import ButtonControl
+from ..display import Renderable
 from ..skin import LiveObjSkinEntry
-from . import Pageable, PageComponent, PlayableComponent
+from . import Pageable, PageComponent, PitchProvider, PlayableComponent
 DEFAULT_SIMPLER_TRANSLATION_CHANNEL = 14
 BASE_SLICING_NOTE = 36
 
-class SlicedSimplerComponent(PlayableComponent, PageComponent, Pageable):
+class SlicedSimplerComponent(PlayableComponent, PageComponent, Pageable, PitchProvider, Renderable):
     delete_button = ButtonControl(color=None)
     position_count = 16
     page_length = 4
@@ -50,18 +58,35 @@ class SlicedSimplerComponent(PlayableComponent, PageComponent, Pageable):
             self._SlicedSimplerComponent__on_slices_changed.subject = sample
             self._SlicedSimplerComponent__on_slicing_style_changed.subject = sample
             self._SlicedSimplerComponent__on_track_color_changed.subject = self._target_track.target_track if simpler_device else None
-            self._update_led_feedback()
             self.update()
         if not liveobj_valid(self._simpler_device):
-            self._update_led_feedback()
             self.update()
+
+    def scroll_page_up(self):
+        super().scroll_page_up()
+        self.notify(self.notifications.Simpler.Page.up)
+
+    def scroll_page_down(self):
+        super().scroll_page_down()
+        self.notify(self.notifications.Simpler.Page.down)
+
+    def scroll_up(self):
+        super().scroll_up()
+        self.notify(self.notifications.Simpler.Scroll.up)
+
+    def scroll_down(self):
+        super().scroll_down()
+        self.notify(self.notifications.Simpler.Scroll.down)
 
     def _on_matrix_pressed(self, button):
         if self._simpler_setup_is_valid():
             slice_index = self._coordinate_to_slice_index(button.coordinate)
             if self.delete_button.is_pressed:
                 button.color = 'SlicedSimpler.PadAction'
-                delete_notes_with_pitch(self._target_track.target_clip, button.identifier)
+                if action.delete_notes_with_pitch(self._target_track.target_clip, button.identifier):
+                    self.notify(self.notifications.Simpler.Slice.delete_notes, slice_index + 1)
+                else:
+                    self._delete_slice_at_index(slice_index)
             if self.select_button.is_pressed:
                 self._select_slice_at_index(slice_index)
                 super()._on_matrix_pressed(button)
@@ -70,13 +95,27 @@ class SlicedSimplerComponent(PlayableComponent, PageComponent, Pageable):
     def delete_button(self, _, button):
         self._set_control_pads_from_script(button.is_pressed)
 
+    def _any_modifier_pressed(self):
+        return self.select_button.is_pressed or self.delete_button.is_pressed
+
+    def _set_control_pads_from_script(self, takeover_pads):
+        super()._set_control_pads_from_script(takeover_pads or self._any_modifier_pressed())
+
     def _select_slice_at_index(self, index):
         slices = self._slices()
         if len(slices) > index:
             try:
-                self._simpler_device.view.selected_slice = slices[index]
+                if liveobj_changed(self._simpler_device.view.selected_slice, slices[index]):
+                    self._simpler_device.view.selected_slice = slices[index]
+                    self.notify(self.notifications.Simpler.Slice.select, index + 1)
             except RuntimeError:
                 pass
+
+    def _delete_slice_at_index(self, index):
+        slices = self._slices()
+        if len(slices) > index:
+            self._simpler_device.sample.remove_slice(slices[index])
+            self.notify(self.notifications.Simpler.Slice.delete, index + 1)
 
     def _slices(self):
         if self._simpler_setup_is_valid():
@@ -93,6 +132,20 @@ class SlicedSimplerComponent(PlayableComponent, PageComponent, Pageable):
 
     def _simpler_setup_is_valid(self):
         return liveobj_valid(self._simpler_device) and liveobj_valid(self._simpler_device.sample)
+
+    def update(self):
+        if self._position * self.page_length > len(self._slices()):
+            self.position = 0
+        super().update()
+        self._update_provided_pitches()
+        self._update_led_feedback()
+
+    def _update_provided_pitches(self):
+        slices = self._slices()
+        selected_slice = self._selected_slice()
+        if slices:
+            offset = slices.index(selected_slice) if selected_slice in slices else 0
+            self.pitches = [BASE_SLICING_NOTE + offset]
 
     def _update_button_color(self, button):
         index = self._coordinate_to_slice_index(button.coordinate)
@@ -121,19 +174,19 @@ class SlicedSimplerComponent(PlayableComponent, PageComponent, Pageable):
     @listens('sample')
     def __on_file_changed(self):
         self._SlicedSimplerComponent__on_slices_changed.subject = self._simpler_device.sample if liveobj_valid(self._simpler_device) else None
-        self._update_led_feedback()
+        self.update()
 
     @listens('view.selected_slice')
     def __on_selected_slice_changed(self):
-        self._update_led_feedback()
+        self.update()
 
     @listens('pad_slicing')
     def __on_pad_slicing_changed(self):
-        self._update_led_feedback()
+        self.update()
 
     @listens('slices')
     def __on_slices_changed(self):
-        self._update_led_feedback()
+        self.update()
 
     @listens('slicing_style')
     def __on_slicing_style_changed(self):

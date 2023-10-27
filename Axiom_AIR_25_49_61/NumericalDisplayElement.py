@@ -1,13 +1,9 @@
-<<<<<<< HEAD
-=======
-# decompyle3 version 3.8.0
-# Python bytecode 3.7.0 (3394)
-# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
-# [Clang 13.1.6 (clang-1316.0.21.2.3)]
-# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Axiom_AIR_25_49_61/NumericalDisplayElement.py
-# Compiled at: 2022-01-27 16:28:16
-# Size of source mod 2**32: 2183 bytes
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
+# decompyle3 version 3.9.0
+# Python bytecode version base 3.7.0 (3394)
+# Decompiled from: Python 3.8.0 (tags/v3.8.0:fa919fd, Oct 14 2019, 19:37:50) [MSC v.1916 64 bit (AMD64)]
+# Embedded file name: ..\..\..\output\Live\win_64_static\Release\python-bundle\MIDI Remote Scripts\Axiom_AIR_25_49_61\NumericalDisplayElement.py
+# Compiled at: 2022-11-29 09:57:02
+# Size of source mod 2**32: 2246 bytes
 from __future__ import absolute_import, division, print_function, unicode_literals
 from builtins import range
 from future.utils import string_types
@@ -16,7 +12,6 @@ import _Framework.PhysicalDisplayElement as PhysicalDisplayElement
 from .NumericalDisplaySegment import NumericalDisplaySegment
 
 class NumericalDisplayElement(PhysicalDisplayElement):
-<<<<<<< HEAD
     _ascii_translations = {
       '0': 48,
       '1': 49,
@@ -28,18 +23,6 @@ class NumericalDisplayElement(PhysicalDisplayElement):
       '7': 55,
       '8': 56,
       '9': 57}
-=======
-    _ascii_translations = {'0':48, 
-     '1':49, 
-     '2':50, 
-     '3':51, 
-     '4':52, 
-     '5':53, 
-     '6':54, 
-     '7':55, 
-     '8':56, 
-     '9':57}
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 
     def __init__(self, width_in_chars, num_segments):
         PhysicalDisplayElement.__init__(self, width_in_chars, num_segments)

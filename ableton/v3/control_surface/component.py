@@ -1,3 +1,9 @@
+# decompyle3 version 3.9.0
+# Python bytecode version base 3.7.0 (3394)
+# Decompiled from: Python 3.8.0 (tags/v3.8.0:fa919fd, Oct 14 2019, 19:37:50) [MSC v.1916 64 bit (AMD64)]
+# Embedded file name: ..\..\..\output\Live\win_64_static\Release\python-bundle\MIDI Remote Scripts\ableton\v3\control_surface\component.py
+# Compiled at: 2023-09-13 04:24:51
+# Size of source mod 2**32: 7191 bytes
 from __future__ import absolute_import, print_function, unicode_literals
 import Live
 from ..base import BooleanContext, depends, is_iterable, lazy_attribute, task
@@ -6,6 +12,7 @@ from .controls import ControlManager
 class Component(ControlManager):
     __events__ = ('enabled', )
     canonical_parent = None
+    num_layers = 0
 
     @depends(register_component=None, song=None)
     def __init__(self, name='', parent=None, register_component=None, song=None, layer=None, is_enabled=True, is_private=True, *a, **k):

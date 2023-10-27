@@ -1,7 +1,14 @@
+# decompyle3 version 3.9.0
+# Python bytecode version base 3.7.0 (3394)
+# Decompiled from: Python 3.8.0 (tags/v3.8.0:fa919fd, Oct 14 2019, 19:37:50) [MSC v.1916 64 bit (AMD64)]
+# Embedded file name: ..\..\..\output\Live\win_64_static\Release\python-bundle\MIDI Remote Scripts\MiniLab_3\display.py
+# Compiled at: 2023-04-03 14:43:04
+# Size of source mod 2**32: 4725 bytes
 from __future__ import absolute_import, print_function, unicode_literals
-from ableton.v3.base import MultiSlot, depends, listens, scene_display_name, task
+from ableton.v3.base import MultiSlot, depends, listens, task
 from ableton.v3.control_surface import Component
 from ableton.v3.control_surface.controls import ButtonControl
+from ableton.v3.live import display_name
 from .display_util import make_full_screen_message
 NOTIFICATION_DURATION = 1
 
@@ -45,7 +52,7 @@ class DisplayComponent(Component):
 
     def _do_show_static_display(self):
         track = self._target_track.target_track
-        self._send_message(make_full_screen_message(track.name, scene_display_name(self._session_ring.scenes[0]), track))
+        self._send_message(make_full_screen_message(track.name, display_name(self._session_ring.scenes[0]), track))
 
     def _show_notification_display(self, line_1, line_2):
         track = self._target_track.target_track

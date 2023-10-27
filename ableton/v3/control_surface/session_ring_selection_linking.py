@@ -1,60 +1,36 @@
-<<<<<<< HEAD
-from __future__ import absolute_import, print_function, unicode_literals
-from ..base import EventObject, depends, index_if, listens, scene_index
-=======
-# decompyle3 version 3.8.0
-# Python bytecode 3.7.0 (3394)
-# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
-# [Clang 13.1.6 (clang-1316.0.21.2.3)]
-# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/ableton/v3/control_surface/session_ring_selection_linking.py
-# Compiled at: 2022-01-28 05:06:24
-# Size of source mod 2**32: 2897 bytes
+# decompyle3 version 3.9.0
+# Python bytecode version base 3.7.0 (3394)
+# Decompiled from: Python 3.8.0 (tags/v3.8.0:fa919fd, Oct 14 2019, 19:37:50) [MSC v.1916 64 bit (AMD64)]
+# Embedded file name: ..\..\..\output\Live\win_64_static\Release\python-bundle\MIDI Remote Scripts\ableton\v3\control_surface\session_ring_selection_linking.py
+# Compiled at: 2023-04-03 14:43:04
+# Size of source mod 2**32: 3409 bytes
 from __future__ import absolute_import, print_function, unicode_literals
 from ..base import EventObject, depends, index_if, listens
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
+from ..live import scene_index
 
 class SessionRingSelectionLinking(EventObject):
 
     @depends(song=None, session_ring=None)
-<<<<<<< HEAD
     def __init__(self, song=None, session_ring=None, selection_changed_notifier=None, link_to_track_selection=True, link_to_scene_selection=False, *a, **k):
         (super().__init__)(*a, **k)
         self.song = song
         self._session_ring = session_ring
         if link_to_track_selection:
             self._SessionRingSelectionLinking__on_track_selection_scrolled.subject = selection_changed_notifier
-=======
-    def __init__(self, song=None, session_ring=None, selection_changed_notifier=None, link_to_scene_selection=False, *a, **k):
-        (super().__init__)(*a, **k)
-        self.song = song
-        self._session_ring = session_ring
-        self._SessionRingSelectionLinking__on_track_selection_scrolled.subject = selection_changed_notifier
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
         if link_to_scene_selection:
             self._SessionRingSelectionLinking__on_scene_selection_scrolled.subject = selection_changed_notifier
 
     @listens('track_selection_scrolled')
     def __on_track_selection_scrolled(self):
-<<<<<<< HEAD
         if self.song.view.selected_track not in self._session_ring.tracks_to_use():
             return
         track_index = index_if(lambda t: t == self.song.view.selected_track
 , self._session_ring.tracks_to_use())
-=======
-        if self.song.view.selected_track == self.song.master_track:
-            return
-        track_index = index_if(lambda t: t == self.song.view.selected_track, self._session_ring.tracks_to_use())
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
         self._link_session_ring_with_minimal_travel('track', track_index)
 
     @listens('scene_selection_scrolled')
     def __on_scene_selection_scrolled(self):
-<<<<<<< HEAD
         self._link_session_ring_with_minimal_travel('scene', scene_index())
-=======
-        scene_index = list(self.song.scenes).index(self.song.view.selected_scene)
-        self._link_session_ring_with_minimal_travel('scene', scene_index)
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 
     def _link_session_ring_with_minimal_travel(self, axis_name, current_index):
         ring_axis_offset = getattr(self._session_ring, '{}_offset'.format(axis_name))

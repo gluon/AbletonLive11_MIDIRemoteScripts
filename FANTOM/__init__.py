@@ -1,9 +1,14 @@
-<<<<<<< HEAD
+# decompyle3 version 3.9.0
+# Python bytecode version base 3.7.0 (3394)
+# Decompiled from: Python 3.8.0 (tags/v3.8.0:fa919fd, Oct 14 2019, 19:37:50) [MSC v.1916 64 bit (AMD64)]
+# Embedded file name: ..\..\..\output\Live\win_64_static\Release\python-bundle\MIDI Remote Scripts\FANTOM\__init__.py
+# Compiled at: 2023-09-13 04:24:51
+# Size of source mod 2**32: 2487 bytes
 from __future__ import absolute_import, print_function, unicode_literals
+from ableton.v3.control_surface import ControlSurface, ControlSurfaceSpecification, create_skin
 from ableton.v3.control_surface.capabilities import CONTROLLER_ID_KEY, NOTES_CC, PORTS_KEY, REMOTE, SCRIPT, controller_id, inport, outport
 from ableton.v3.control_surface.components import DEFAULT_DRUM_TRANSLATION_CHANNEL
 from ableton.v3.control_surface.legacy_bank_definitions import best_of_banks
-from universal import UniversalControlSurface, UniversalControlSurfaceSpecification, create_skin
 from . import sysex
 from .colors import Rgb, Skin
 from .elements import NUM_SCENES, NUM_TRACKS, Elements
@@ -11,18 +16,6 @@ from .mappings import create_mappings
 from .mixer import MixerComponent
 from .session import SessionComponent
 from .transport import TransportComponent
-=======
-# decompyle3 version 3.8.0
-# Python bytecode 3.7.0 (3394)
-# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
-# [Clang 13.1.6 (clang-1316.0.21.2.3)]
-# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/FANTOM/__init__.py
-# Compiled at: 2022-01-27 16:28:16
-# Size of source mod 2**32: 811 bytes
-from __future__ import absolute_import, print_function, unicode_literals
-from ableton.v3.control_surface.capabilities import CONTROLLER_ID_KEY, NOTES_CC, PORTS_KEY, REMOTE, SCRIPT, controller_id, inport, outport
-from .fantom import FANTOM
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 
 def get_capabilities():
     return {CONTROLLER_ID_KEY: controller_id(vendor_id=1410,
@@ -42,7 +35,7 @@ def create_instance(c_instance):
     return FANTOM(c_instance=c_instance)
 
 
-class Specification(UniversalControlSurfaceSpecification):
+class Specification(ControlSurfaceSpecification):
     elements_type = Elements
     control_surface_skin = create_skin(skin=Skin, colors=Rgb)
     num_tracks = NUM_TRACKS
@@ -62,7 +55,7 @@ class Specification(UniversalControlSurfaceSpecification):
      'Transport':TransportComponent}
 
 
-class FANTOM(UniversalControlSurface):
+class FANTOM(ControlSurface):
 
     def __init__(self, *a, **k):
         (super().__init__)(a, specification=Specification, **k)

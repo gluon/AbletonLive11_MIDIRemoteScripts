@@ -1,13 +1,9 @@
-<<<<<<< HEAD
-=======
-# decompyle3 version 3.8.0
-# Python bytecode 3.7.0 (3394)
-# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
-# [Clang 13.1.6 (clang-1316.0.21.2.3)]
-# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Push2/custom_bank_definitions.py
-# Compiled at: 2022-01-28 05:06:23
-# Size of source mod 2**32: 344428 bytes
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
+# decompyle3 version 3.9.0
+# Python bytecode version base 3.7.0 (3394)
+# Decompiled from: Python 3.8.0 (tags/v3.8.0:fa919fd, Oct 14 2019, 19:37:50) [MSC v.1916 64 bit (AMD64)]
+# Embedded file name: ..\..\..\output\Live\win_64_static\Release\python-bundle\MIDI Remote Scripts\Push2\custom_bank_definitions.py
+# Compiled at: 2023-10-06 16:19:02
+# Size of source mod 2**32: 390578 bytes
 from __future__ import absolute_import, print_function, unicode_literals
 from ableton.v2.base.collection import IndexedDict
 from ableton.v2.control_surface import BANK_MAIN_KEY, BANK_PARAMETERS_KEY, use
@@ -24,451 +20,125 @@ BANK_DEFINITIONS = {'AudioEffectGroupDevice':RACK_BANKS,
  'UltraAnalog':IndexedDict((
   (
    BANK_MAIN_KEY,
-   {BANK_PARAMETERS_KEY: (
-                          use('OSC1 Shape').if_parameter('OSC1 On/Off').has_value('On').else_use('OSC2 Shape').if_parameter('OSC2 On/Off').has_value('On'),
-                          use('OSC1 Octave').if_parameter('OSC1 On/Off').has_value('On').else_use('OSC2 Octave').if_parameter('OSC2 On/Off').has_value('On'),
-                          use('OSC2 Shape').if_parameter('OSC1 On/Off').has_value('On').and_parameter('OSC2 On/Off').has_value('On').else_use('OSC1 Semi').if_parameter('OSC1 On/Off').has_value('On').else_use('OSC2 Semi').if_parameter('OSC2 On/Off').has_value('On'),
-                          use('OSC2 Octave').if_parameter('OSC1 On/Off').has_value('On').and_parameter('OSC2 On/Off').has_value('On').else_use('OSC1 Detune').if_parameter('OSC1 On/Off').has_value('On').else_use('OSC2 Detune').if_parameter('OSC2 On/Off').has_value('On'),
-                          use('F1 Type').if_parameter('F1 On/Off').has_value('On').else_use('F2 Type').if_parameter('F2 On/Off').has_value('On'),
-<<<<<<< HEAD
-                          use('F1 Freq').with_name('F1 Frequency').if_parameter('F1 On/Off').has_value('On').else_use('F2 Freq').with_name('F2 Frequency').if_parameter('F2 On/Off').has_value('On'),
-=======
-                          use('F1 Freq').if_parameter('F1 On/Off').has_value('On').else_use('F2 Freq').if_parameter('F2 On/Off').has_value('On'),
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
-                          use('F1 Resonance').if_parameter('F1 On/Off').has_value('On').else_use('F2 Resonance').if_parameter('F2 On/Off').has_value('On'),
-                          'Volume')}),
+   {BANK_PARAMETERS_KEY: ('OSC1 Shape', 'OSC1 Octave', 'OSC2 Shape', 'OSC2 Octave', 'F1 Type', 'F1 Freq', 'F1 Resonance',
+ 'Volume')}),
   (
-   'Osc. 1 Shape',
+   'Oscillators',
    {BANK_PARAMETERS_KEY: (
-<<<<<<< HEAD
-                          use('OSC1 On/Off').with_name('Oscillator 1'),
-                          use('OSC1 Shape').with_name('Shape').if_parameter('OSC1 On/Off').has_value('On'),
-                          use('').if_parameter('OSC1 On/Off').has_value('Off').else_use('OSC1 PW').with_name('Pulse Width').if_parameter('OSC1 Shape').has_value('Rect'),
-                          use('').if_parameter('OSC1 On/Off').has_value('Off').else_use('O1 PW < LFO').with_name('LFO → PW').if_parameter('OSC1 Shape').has_value('Rect').else_use('').if_parameter('LFO1 On/Off').has_value('Off'),
-                          use('').if_parameter('OSC1 On/Off').has_value('Off').else_use('').if_parameter('OSC1 Shape').has_value('Noise').else_use('').if_parameter('OSC1 Shape').has_value('Sine').else_use('OSC1 Mode').with_name('Mode'),
-                          use('').if_parameter('OSC1 On/Off').has_value('Off').else_use('').if_parameter('OSC1 Shape').has_value('Noise').else_use('O1 Sub/Sync').with_name('Sub/Sync'),
-                          use('OSC1 Balance').with_name('Balance').if_parameter('OSC1 On/Off').has_value('On'),
-                          use('OSC1 Level').with_name('Level').if_parameter('OSC1 On/Off').has_value('On'))}),
+                          'Osc Select',
+                          use('OSC1 Shape').if_parameter('Osc Select').has_value('Osc 1').else_use('OSC2 Shape').if_parameter('Osc Select').has_value('Osc 2'),
+                          use('OSC1 PW').if_parameter('Osc Select').has_value('Osc 1').else_use('OSC2 PW'),
+                          use('O1 PW < LFO').if_parameter('Osc Select').has_value('Osc 1').else_use('O2 PW < LFO'),
+                          use('O1 Sub/Sync').if_parameter('Osc Select').has_value('Osc 1').and_parameter('OSC1 Shape').has_value('Rect').else_use('O2 Sub/Sync'),
+                          use('OSC1 Octave').if_parameter('Osc Select').has_value('Osc 1').else_use('OSC2 Octave'),
+                          use('OSC1 Semi').if_parameter('Osc Select').has_value('Osc 1').else_use('OSC2 Semi'),
+                          use('OSC1 Detune').if_parameter('Osc Select').has_value('Osc 1').else_use('OSC2 Detune')), 
+    
+    OPTIONS_KEY: (
+                  use('Osc 1').if_parameter('Osc Select').has_value('Osc 1').else_use('Osc 2'),
+                  '',
+                  '',
+                  use('OSC1 Mode').if_parameter('Osc Select').has_value('Osc 1').else_use('OSC2 Mode'),
+                  '',
+                  '',
+                  '')}),
   (
-   'Osc. 1 Pitch',
+   'Mix',
    {BANK_PARAMETERS_KEY: (
-                          use('OSC1 On/Off').with_name('Oscillator 1'),
-                          use('OSC1 Octave').with_name('Octave').if_parameter('OSC1 On/Off').has_value('On'),
-                          use('OSC1 Semi').with_name('Semi').if_parameter('OSC1 On/Off').has_value('On'),
-                          use('OSC1 Detune').with_name('Detune').if_parameter('OSC1 On/Off').has_value('On'),
-                          use('PEG1 Amount').with_name('Env 1 Amount').if_parameter('OSC1 On/Off').has_value('On'),
-                          use('PEG1 Time').with_name('Env 1 Time').if_parameter('OSC1 On/Off').has_value('On'),
-                          use('O1 Keytrack').with_name('Keytracking').if_parameter('OSC1 On/Off').has_value('On'),
-                          use('').if_parameter('OSC1 On/Off').has_value('Off').else_use('').if_parameter('LFO1 On/Off').has_value('Off').else_use('OSC1 < LFO').with_name('LFO → Osc 1'))}),
+                          'Osc / Amp',
+                          use('OSC1 Level').if_parameter('Osc / Amp').has_value('Osc').else_use('AMP1 Level'),
+                          use('OSC1 Balance').if_parameter('Osc / Amp').has_value('Osc').else_use('AMP1 Pan'),
+                          use('OSC2 Level').if_parameter('Osc / Amp').has_value('Osc').else_use('AMP2 Level'),
+                          use('OSC2 Balance').if_parameter('Osc / Amp').has_value('Osc').else_use('AMP2 Pan'),
+                          use('Noise Level').if_parameter('Osc / Amp').has_value('Osc').else_use(''),
+                          use('Noise Balance').if_parameter('Osc / Amp').has_value('Osc').else_use(''),
+                          use('Noise Color').if_parameter('Osc / Amp').has_value('Osc').else_use('')), 
+    
+    OPTIONS_KEY: (
+                  use('Osc 1').if_parameter('Osc / Amp').has_value('Osc').else_use('Amp 1'),
+                  '',
+                  use('Osc 2').if_parameter('Osc / Amp').has_value('Osc').else_use('Amp 2'),
+                  '',
+                  use('Noise').if_parameter('Osc / Amp').has_value('Osc').else_use(''),
+                  '',
+                  '')}),
   (
-   'Osc. 2 Shape',
-   {BANK_PARAMETERS_KEY: (
-                          use('OSC2 On/Off').with_name('Oscillator 2'),
-                          use('OSC2 Shape').with_name('Shape').if_parameter('OSC2 On/Off').has_value('On'),
-                          use('').if_parameter('OSC2 On/Off').has_value('Off').else_use('OSC2 PW').with_name('Pulse Width').if_parameter('OSC2 Shape').has_value('Rect'),
-                          use('').if_parameter('OSC2 On/Off').has_value('Off').else_use('O2 PW < LFO').with_name('LFO → PW').if_parameter('OSC2 Shape').has_value('Rect').else_use('').if_parameter('LFO2 On/Off').has_value('Off'),
-                          use('').if_parameter('OSC2 On/Off').has_value('Off').else_use('').if_parameter('OSC2 Shape').has_value('Noise').else_use('').if_parameter('OSC2 Shape').has_value('Sine').else_use('OSC2 Mode').with_name('Mode'),
-                          use('').if_parameter('OSC2 On/Off').has_value('Off').else_use('').if_parameter('OSC2 Shape').has_value('Noise').else_use('O2 Sub/Sync').with_name('Sub/Sync'),
-                          use('OSC2 Balance').with_name('Balance').if_parameter('OSC2 On/Off').has_value('On'),
-                          use('OSC2 Level').with_name('Level').if_parameter('OSC2 On/Off').has_value('On'))}),
+   'Filter',
+   {BANK_PARAMETERS_KEY: ('F1 Type', 'F1 Freq', 'F1 Resonance', 'F1 Drive', 'F2 Type', 'F2 Freq', 'F2 Resonance',
+ 'F2 Drive'), 
+    
+    OPTIONS_KEY: ('Filter 1', '', '', '', 'Filter 2', '', 'Flt 2 Follow')}),
   (
-   'Osc. 2 Pitch',
+   'Envelopes',
    {BANK_PARAMETERS_KEY: (
-                          use('OSC2 On/Off').with_name('Oscillator 2'),
-                          use('OSC2 Octave').with_name('Octave').if_parameter('OSC2 On/Off').has_value('On'),
-                          use('OSC2 Semi').with_name('Semi').if_parameter('OSC2 On/Off').has_value('On'),
-                          use('OSC2 Detune').with_name('Detune').if_parameter('OSC2 On/Off').has_value('On'),
-                          use('PEG2 Amount').with_name('Env 2 Amount').if_parameter('OSC2 On/Off').has_value('On'),
-                          use('PEG2 Time').with_name('Env 2 Time').if_parameter('OSC2 On/Off').has_value('On'),
-                          use('O2 Keytrack').with_name('Keytracking').if_parameter('OSC2 On/Off').has_value('On'),
-                          use('').if_parameter('OSC2 On/Off').has_value('Off').else_use('').if_parameter('LFO2 On/Off').has_value('Off').else_use('OSC2 < LFO').with_name('LFO → Osc 2'))}),
+                          'Env Select',
+                          use('AEG1 Attack').if_parameter('Env Select').has_value('Amp 1').else_use('AEG2 Attack').if_parameter('Env Select').has_value('Amp 2').else_use('FEG1 Attack').if_parameter('Env Select').has_value('Flt 1').else_use('FEG2 Attack').if_parameter('Env Select').has_value('Flt 2'),
+                          use('AEG1 Decay').if_parameter('Env Select').has_value('Amp 1').else_use('AEG2 Decay').if_parameter('Env Select').has_value('Amp 2').else_use('FEG1 Decay').if_parameter('Env Select').has_value('Flt 1').else_use('FEG2 Decay').if_parameter('Env Select').has_value('Flt 2'),
+                          use('AEG1 Sustain').if_parameter('Env Select').has_value('Amp 1').else_use('AEG2 Sustain').if_parameter('Env Select').has_value('Amp 2').else_use('FEG1 Sustain').if_parameter('Env Select').has_value('Flt 1').else_use('FEG2 Sustain').if_parameter('Env Select').has_value('Flt 2'),
+                          use('AEG1 S Time').if_parameter('Env Select').has_value('Amp 1').else_use('AEG2 S Time').if_parameter('Env Select').has_value('Amp 2').else_use('FEG1 S Time').if_parameter('Env Select').has_value('Flt 1').else_use('FEG2 S Time').if_parameter('Env Select').has_value('Flt 2'),
+                          use('AEG1 Rel').if_parameter('Env Select').has_value('Amp 1').else_use('AEG2 Rel').if_parameter('Env Select').has_value('Amp 2').else_use('FEG1 Rel').if_parameter('Env Select').has_value('Flt 1').else_use('FEG2 Rel').if_parameter('Env Select').has_value('Flt 2'),
+                          use('AEG1 Loop').if_parameter('Env Select').has_value('Amp 1').else_use('AEG2 Loop').if_parameter('Env Select').has_value('Amp 2').else_use('FEG1 Loop').if_parameter('Env Select').has_value('Flt 1').else_use('FEG2 Loop').if_parameter('Env Select').has_value('Flt 2'),
+                          use('AEG1 A < Vel').if_parameter('Env Select').has_value('Amp 1').else_use('AEG2 A < Vel').if_parameter('Env Select').has_value('Amp 2').else_use('FEG1 A < Vel').if_parameter('Env Select').has_value('Flt 1').else_use('FEG2 A < Vel').if_parameter('Env Select').has_value('Flt 2')), 
+    
+    OPTIONS_KEY: (
+                  use('Osc 1').if_parameter('Env Select').has_value('Amp 1').else_use('Osc 2').if_parameter('Env Select').has_value('Amp 2').else_use('Filter 1').if_parameter('Env Select').has_value('Flt 1').else_use('Filter 2').if_parameter('Env Select').has_value('Flt 2'),
+                  use('AEG1 Exp').if_parameter('Env Select').has_value('Amp 1').else_use('AEG2 Exp').if_parameter('Env Select').has_value('Amp 2').else_use('FEG1 Exp').if_parameter('Env Select').has_value('Flt 1').else_use('FEG2 Exp').if_parameter('Env Select').has_value('Flt 2'),
+                  use('Amp 1 Legato').if_parameter('Env Select').has_value('Amp 1').else_use('Amp 2 Legato').if_parameter('Env Select').has_value('Amp 2').else_use('Flt 1 Legato').if_parameter('Env Select').has_value('Flt 1').else_use('Flt 2 Legato').if_parameter('Env Select').has_value('Flt 2'),
+                  use('Amp 1 Free').if_parameter('Env Select').has_value('Amp 1').else_use('Amp 2 Free').if_parameter('Env Select').has_value('Amp 2').else_use('Flt 1 Free').if_parameter('Env Select').has_value('Flt 1').else_use('Flt 2 Free').if_parameter('Env Select').has_value('Flt 2'),
+                  '',
+                  '',
+                  '')}),
   (
-   'Filter 1',
+   'LFO',
    {BANK_PARAMETERS_KEY: (
-                          use('F1 On/Off').with_name('Filter 1'),
-                          use('F1 Type').if_parameter('F1 On/Off').has_value('On'),
-                          use('F1 Freq').if_parameter('F1 On/Off').has_value('On'),
-                          use('F1 Resonance').with_name('Resonance').if_parameter('F1 On/Off').has_value('On'),
-                          use('F1 Freq < LFO').with_name('LFO → Freq').if_parameter('F1 On/Off').has_value('On'),
-                          use('F1 Freq < Env').with_name('Env → Freq').if_parameter('F1 On/Off').has_value('On'),
-                          use('F1 Res < LFO').with_name('LFO → Res').if_parameter('F1 On/Off').has_value('On'),
-                          '')}),
+                          'LFO Select',
+                          use('LFO1 Shape').if_parameter('LFO Select').has_value('LFO 1').else_use('LFO2 Shape'),
+                          use('LFO1 PW').if_parameter('LFO Select').has_value('LFO 1').else_use('LFO2 PW'),
+                          use('LFO1 Speed').if_parameter('LFO Select').has_value('LFO 1').and_parameter('LFO1 Sync').has_value('Hertz').else_use('LFO1 SncRate').if_parameter('LFO Select').has_value('LFO 1').and_parameter('LFO1 Sync').has_value('Beat').else_use('LFO2 Speed').if_parameter('LFO Select').has_value('LFO 2').and_parameter('LFO2 Sync').has_value('Hertz').else_use('LFO2 SncRate').if_parameter('LFO Select').has_value('LFO 2').and_parameter('LFO2 Sync').has_value('Beat'),
+                          use('LFO1 Phase').if_parameter('LFO Select').has_value('LFO 1').else_use('LFO2 Phase'),
+                          use('LFO1 Delay').if_parameter('LFO Select').has_value('LFO 1').else_use('LFO2 Delay'),
+                          use('LFO1 Fade In').if_parameter('LFO Select').has_value('LFO 1').else_use('LFO2 Fade In'),
+                          ''), 
+    
+    OPTIONS_KEY: (
+                  use('LFO 1').if_parameter('LFO Select').has_value('LFO 1').else_use('LFO 2'),
+                  '',
+                  use('LFO1 Sync').if_parameter('LFO Select').has_value('LFO 1').else_use('LFO2 Sync'),
+                  use('LFO 1 Retrig').if_parameter('LFO Select').has_value('LFO 1').else_use('LFO 2 Retrig'),
+                  '',
+                  '',
+                  '')}),
   (
-   'Filt. 1 Env.',
+   'Modulation',
    {BANK_PARAMETERS_KEY: (
-                          use('F1 On/Off').with_name('Filter 1'),
-                          use('FEG1 < Vel').with_name('Vel → Env').if_parameter('F1 On/Off').has_value('On'),
-                          use('FEG1 A < Vel').with_name('Vel → Attack').if_parameter('F1 On/Off').has_value('On'),
-                          use('FEG1 Attack').with_name('Attack').if_parameter('F1 On/Off').has_value('On'),
-                          use('FEG1 Decay').with_name('Decay').if_parameter('F1 On/Off').has_value('On'),
-                          use('FEG1 Sustain').with_name('Sustain').if_parameter('F1 On/Off').has_value('On'),
-                          use('FEG1 S Time').with_name('Sustain Time').if_parameter('F1 On/Off').has_value('On'),
-                          use('FEG1 Rel').with_name('Release').if_parameter('F1 On/Off').has_value('On'))}),
-  (
-   'Filter 2',
-   {BANK_PARAMETERS_KEY: (
-                          use('F2 On/Off').with_name('Filter 2'),
-                          use('F2 Type').if_parameter('F2 On/Off').has_value('On'),
-                          use('F2 Freq').if_parameter('F2 On/Off').has_value('On'),
-                          use('F2 Resonance').if_parameter('F2 On/Off').has_value('On'),
-                          use('F2 Freq < LFO').with_name('LFO → Freq').if_parameter('F2 On/Off').has_value('On'),
-                          use('F2 Freq < Env').with_name('Env → Freq').if_parameter('F2 On/Off').has_value('On'),
-                          use('F2 Res < LFO').with_name('LFO → Res').if_parameter('F2 On/Off').has_value('On'),
-                          '')}),
-  (
-   'Filt. 2 Env.',
-   {BANK_PARAMETERS_KEY: (
-                          use('F2 On/Off').with_name('Filter 2'),
-                          use('FEG2 < Vel').with_name('Vel → Env').if_parameter('F2 On/Off').has_value('On'),
-                          use('FEG2 A < Vel').with_name('Vel → Attack').if_parameter('F2 On/Off').has_value('On'),
-                          use('FEG2 Attack').with_name('Attack').if_parameter('F2 On/Off').has_value('On'),
-                          use('FEG2 Decay').with_name('Decay').if_parameter('F2 On/Off').has_value('On'),
-                          use('FEG2 Sustain').with_name('Sustain').if_parameter('F2 On/Off').has_value('On'),
-                          use('FEG2 S Time').with_name('Sustain Time').if_parameter('F2 On/Off').has_value('On'),
-                          use('FEG2 Rel').with_name('Release').if_parameter('F2 On/Off').has_value('On'))}),
-  (
-   'Amp',
-   {BANK_PARAMETERS_KEY: (
-                          use('AMP1 Level').with_name('Amp 1 Level').if_parameter('AMP1 On/Off').has_value('On'),
-                          use('AMP1 Pan').with_name('Amp 1 Pan').if_parameter('AMP1 On/Off').has_value('On'),
-                          use('AMP1 < LFO').if_parameter('AMP1 On/Off').has_value('On'),
-                          use('').if_parameter('LFO1 On/Off').has_value('Off').else_use('LFO1 Speed').with_name('LFO 1 Speed').if_parameter('LFO1 Sync').has_value('Hertz').else_use('LFO1 SncRate').with_name('LFO 1 Sync Rate'),
-                          use('AMP2 Level').with_name('Amp 2 Level').if_parameter('AMP2 On/Off').has_value('On'),
-                          use('AMP2 Pan').with_name('Amp 2 Pan').if_parameter('AMP2 On/Off').has_value('On'),
-                          use('AMP2 < LFO').if_parameter('AMP2 On/Off').has_value('On'),
-                          use('').if_parameter('LFO2 On/Off').has_value('Off').else_use('LFO2 Speed').with_name('LFO 2 Speed').if_parameter('LFO2 Sync').has_value('Hertz').else_use('LFO2 SncRate').with_name('LFO 2 Sync Rate'))}),
-  (
-   'Amp 1 Envelope',
-   {BANK_PARAMETERS_KEY: (
-                          use('AMP1 On/Off').with_name('Amp 1'),
-                          use('AEG1 < Vel').with_name('Vel → Env').if_parameter('AMP1 On/Off').has_value('On'),
-                          use('AEG1 A < Vel').with_name('Vel → Attack').if_parameter('AMP1 On/Off').has_value('On'),
-                          use('AEG1 Attack').with_name('Attack').if_parameter('AMP1 On/Off').has_value('On'),
-                          use('AEG1 Decay').with_name('Decay').if_parameter('AMP1 On/Off').has_value('On'),
-                          use('AEG1 Sustain').with_name('Sustain').if_parameter('AMP1 On/Off').has_value('On'),
-                          use('AEG1 S Time').with_name('Sustain Time').if_parameter('AMP1 On/Off').has_value('On'),
-                          use('AEG1 Rel').with_name('Release').if_parameter('AMP1 On/Off').has_value('On'))}),
-  (
-   'Amp 2 Envelope',
-   {BANK_PARAMETERS_KEY: (
-                          use('AMP2 On/Off').with_name('Amp 2'),
-                          use('AEG2 < Vel').with_name('Vel → Env').if_parameter('AMP2 On/Off').has_value('On'),
-                          use('AEG2 A < Vel').with_name('Vel → Attack').if_parameter('AMP2 On/Off').has_value('On'),
-                          use('AEG2 Attack').with_name('Attack').if_parameter('AMP2 On/Off').has_value('On'),
-                          use('AEG2 Decay').with_name('Decay').if_parameter('AMP2 On/Off').has_value('On'),
-                          use('AEG2 Sustain').with_name('Sustain').if_parameter('AMP2 On/Off').has_value('On'),
-                          use('AEG2 S Time').with_name('Sustain Time').if_parameter('AMP2 On/Off').has_value('On'),
-                          use('AEG2 Rel').with_name('Release').if_parameter('AMP2 On/Off').has_value('On'))}),
-  (
-   'Noise & Unison',
-   {BANK_PARAMETERS_KEY: (
-                          use('Noise On/Off').with_name('Noise'),
-                          use('Noise Level').if_parameter('Noise On/Off').has_value('On'),
-                          use('Noise Color').if_parameter('Noise On/Off').has_value('On'),
-                          use('Noise Balance').if_parameter('Noise On/Off').has_value('On'),
-                          use('Unison On/Off').with_name('Unison'),
-=======
-                          'OSC1 On/Off',
-                          use('OSC1 Shape').if_parameter('OSC1 On/Off').has_value('On'),
-                          use('').if_parameter('OSC1 On/Off').has_value('Off').else_use('OSC1 PW').if_parameter('OSC1 Shape').has_value('Rect'),
-                          use('').if_parameter('OSC1 On/Off').has_value('Off').else_use('O1 PW < LFO').if_parameter('OSC1 Shape').has_value('Rect').else_use('').if_parameter('LFO1 On/Off').has_value('Off'),
-                          use('').if_parameter('OSC1 On/Off').has_value('Off').else_use('').if_parameter('OSC1 Shape').has_value('Noise').else_use('').if_parameter('OSC1 Shape').has_value('Sine').else_use('OSC1 Mode'),
-                          use('').if_parameter('OSC1 On/Off').has_value('Off').else_use('').if_parameter('OSC1 Shape').has_value('Noise').else_use('O1 Sub/Sync'),
-                          use('OSC1 Balance').if_parameter('OSC1 On/Off').has_value('On'),
-                          use('OSC1 Level').if_parameter('OSC1 On/Off').has_value('On'))}),
-  (
-   'Osc. 1 Pitch',
-   {BANK_PARAMETERS_KEY: (
-                          'OSC1 On/Off',
-                          use('OSC1 Octave').if_parameter('OSC1 On/Off').has_value('On'),
-                          use('OSC1 Semi').if_parameter('OSC1 On/Off').has_value('On'),
-                          use('OSC1 Detune').if_parameter('OSC1 On/Off').has_value('On'),
-                          use('PEG1 Amount').if_parameter('OSC1 On/Off').has_value('On'),
-                          use('PEG1 Time').if_parameter('OSC1 On/Off').has_value('On'),
-                          use('O1 Keytrack').if_parameter('OSC1 On/Off').has_value('On'),
-                          use('').if_parameter('OSC1 On/Off').has_value('Off').else_use('').if_parameter('LFO1 On/Off').has_value('Off').else_use('OSC1 < LFO'))}),
-  (
-   'Osc. 2 Shape',
-   {BANK_PARAMETERS_KEY: (
-                          'OSC2 On/Off',
-                          use('OSC2 Shape').if_parameter('OSC2 On/Off').has_value('On'),
-                          use('').if_parameter('OSC2 On/Off').has_value('Off').else_use('OSC2 PW').if_parameter('OSC2 Shape').has_value('Rect'),
-                          use('').if_parameter('OSC2 On/Off').has_value('Off').else_use('O2 PW < LFO').if_parameter('OSC2 Shape').has_value('Rect').else_use('').if_parameter('LFO2 On/Off').has_value('Off'),
-                          use('').if_parameter('OSC2 On/Off').has_value('Off').else_use('').if_parameter('OSC2 Shape').has_value('Noise').else_use('').if_parameter('OSC2 Shape').has_value('Sine').else_use('OSC2 Mode'),
-                          use('').if_parameter('OSC2 On/Off').has_value('Off').else_use('').if_parameter('OSC2 Shape').has_value('Noise').else_use('O2 Sub/Sync'),
-                          use('OSC2 Balance').if_parameter('OSC2 On/Off').has_value('On'),
-                          use('OSC2 Level').if_parameter('OSC2 On/Off').has_value('On'))}),
-  (
-   'Osc. 2 Pitch',
-   {BANK_PARAMETERS_KEY: (
-                          'OSC2 On/Off',
-                          use('OSC2 Octave').if_parameter('OSC2 On/Off').has_value('On'),
-                          use('OSC2 Semi').if_parameter('OSC2 On/Off').has_value('On'),
-                          use('OSC2 Detune').if_parameter('OSC2 On/Off').has_value('On'),
-                          use('PEG2 Amount').if_parameter('OSC2 On/Off').has_value('On'),
-                          use('PEG2 Time').if_parameter('OSC2 On/Off').has_value('On'),
-                          use('O2 Keytrack').if_parameter('OSC2 On/Off').has_value('On'),
-                          use('').if_parameter('OSC2 On/Off').has_value('Off').else_use('').if_parameter('LFO2 On/Off').has_value('Off').else_use('OSC2 < LFO'))}),
-  (
-   'Filters',
-   {BANK_PARAMETERS_KEY: (
-                          'F1 On/Off',
-                          use('F1 Type').if_parameter('F1 On/Off').has_value('On'),
-                          use('F1 Freq').if_parameter('F1 On/Off').has_value('On'),
-                          use('F1 Resonance').if_parameter('F1 On/Off').has_value('On'),
-                          'F2 On/Off',
-                          use('F2 Type').if_parameter('F2 On/Off').has_value('On'),
-                          use('F2 Freq').if_parameter('F2 On/Off').has_value('On'),
-                          use('F2 Resonance').if_parameter('F2 On/Off').has_value('On'))}),
-  (
-   'Filt. 1 Env.',
-   {BANK_PARAMETERS_KEY: (
-                          'F1 On/Off',
-                          use('FEG1 < Vel').if_parameter('F1 On/Off').has_value('On'),
-                          use('FEG1 A < Vel').if_parameter('F1 On/Off').has_value('On'),
-                          use('FEG1 Attack').if_parameter('F1 On/Off').has_value('On'),
-                          use('FEG1 Decay').if_parameter('F1 On/Off').has_value('On'),
-                          use('FEG1 Sustain').if_parameter('F1 On/Off').has_value('On'),
-                          use('FEG1 S Time').if_parameter('F1 On/Off').has_value('On'),
-                          use('FEG1 Rel').if_parameter('F1 On/Off').has_value('On'))}),
-  (
-   'Filt. 2 Env.',
-   {BANK_PARAMETERS_KEY: (
-                          'F2 On/Off',
-                          use('FEG2 < Vel').if_parameter('F2 On/Off').has_value('On'),
-                          use('FEG2 A < Vel').if_parameter('F2 On/Off').has_value('On'),
-                          use('FEG2 Attack').if_parameter('F2 On/Off').has_value('On'),
-                          use('FEG2 Decay').if_parameter('F2 On/Off').has_value('On'),
-                          use('FEG2 Sustain').if_parameter('F2 On/Off').has_value('On'),
-                          use('FEG2 S Time').if_parameter('F2 On/Off').has_value('On'),
-                          use('FEG2 Rel').if_parameter('F2 On/Off').has_value('On'))}),
-  (
-   'Filt. Modulation',
-   {BANK_PARAMETERS_KEY: (
-                          'F1 On/Off',
-                          use('F1 Freq < LFO').if_parameter('F1 On/Off').has_value('On'),
-                          use('F1 Freq < Env').if_parameter('F1 On/Off').has_value('On'),
-                          use('F1 Res < LFO').if_parameter('F1 On/Off').has_value('On'),
-                          'F2 On/Off',
-                          use('F2 Freq < LFO').if_parameter('F2 On/Off').has_value('On'),
-                          use('F2 Freq < Env').if_parameter('F2 On/Off').has_value('On'),
-                          use('F2 Res < LFO').if_parameter('F2 On/Off').has_value('On'))}),
-  (
-   'Amp',
-   {BANK_PARAMETERS_KEY: (
-                          use('AMP1 Level').if_parameter('AMP1 On/Off').has_value('On'),
-                          use('AMP1 Pan').if_parameter('AMP1 On/Off').has_value('On'),
-                          use('AMP1 < LFO').if_parameter('AMP1 On/Off').has_value('On'),
-                          use('').if_parameter('LFO1 On/Off').has_value('Off').else_use('LFO1 Speed').if_parameter('LFO1 Sync').has_value('Hertz').else_use('LFO1 SncRate'),
-                          use('AMP2 Level').if_parameter('AMP2 On/Off').has_value('On'),
-                          use('AMP2 Pan').if_parameter('AMP2 On/Off').has_value('On'),
-                          use('AMP2 < LFO').if_parameter('AMP2 On/Off').has_value('On'),
-                          use('').if_parameter('LFO2 On/Off').has_value('Off').else_use('LFO2 Speed').if_parameter('LFO2 Sync').has_value('Hertz').else_use('LFO2 SncRate'))}),
-  (
-   'Amp 1 Envelope',
-   {BANK_PARAMETERS_KEY: (
-                          'AMP1 On/Off',
-                          use('AEG1 < Vel').if_parameter('AMP1 On/Off').has_value('On'),
-                          use('AEG1 A < Vel').if_parameter('AMP1 On/Off').has_value('On'),
-                          use('AEG1 Attack').if_parameter('AMP1 On/Off').has_value('On'),
-                          use('AEG1 Decay').if_parameter('AMP1 On/Off').has_value('On'),
-                          use('AEG1 Sustain').if_parameter('AMP1 On/Off').has_value('On'),
-                          use('AEG1 S Time').if_parameter('AMP1 On/Off').has_value('On'),
-                          use('AEG1 Rel').if_parameter('AMP1 On/Off').has_value('On'))}),
-  (
-   'Amp 2 Envelope',
-   {BANK_PARAMETERS_KEY: (
-                          'AMP2 On/Off',
-                          use('AEG2 < Vel').if_parameter('AMP2 On/Off').has_value('On'),
-                          use('AEG2 A < Vel').if_parameter('AMP2 On/Off').has_value('On'),
-                          use('AEG2 Attack').if_parameter('AMP2 On/Off').has_value('On'),
-                          use('AEG2 Decay').if_parameter('AMP2 On/Off').has_value('On'),
-                          use('AEG2 Sustain').if_parameter('AMP2 On/Off').has_value('On'),
-                          use('AEG2 S Time').if_parameter('AMP2 On/Off').has_value('On'),
-                          use('AEG2 Rel').if_parameter('AMP2 On/Off').has_value('On'))}),
-  (
-   'Noise & Unison',
-   {BANK_PARAMETERS_KEY: (
-                          'Noise On/Off',
-                          use('Noise Level').if_parameter('Noise On/Off').has_value('On'),
-                          use('Noise Color').if_parameter('Noise On/Off').has_value('On'),
-                          use('Noise Balance').if_parameter('Noise On/Off').has_value('On'),
-                          'Unison On/Off',
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
-                          use('Unison Detune').if_parameter('Unison On/Off').has_value('On'),
-                          use('Unison Voices').if_parameter('Unison On/Off').has_value('On'),
-                          use('Unison Delay').if_parameter('Unison On/Off').has_value('On'))}),
-  (
-   'LFO 1',
-   {BANK_PARAMETERS_KEY: (
-<<<<<<< HEAD
-                          use('LFO1 On/Off').with_name('LFO 1'),
-                          use('LFO1 Sync').with_name('Sync').if_parameter('LFO1 On/Off').has_value('On'),
-                          use('').if_parameter('LFO1 On/Off').has_value('Off').else_use('LFO1 Speed').with_name('Speed').if_parameter('LFO1 Sync').has_value('Hertz').else_use('LFO1 SncRate').with_name('Sync Rate'),
-                          use('LFO1 Shape').with_name('Shape').if_parameter('LFO1 On/Off').has_value('On'),
-                          use('').if_parameter('LFO1 On/Off').has_value('Off').else_use('LFO1 PW').with_name('Pulse Width').if_parameter('LFO1 Shape').has_value('Rect').else_use('LFO1 PW').with_name('Pulse Width').if_parameter('LFO1 Shape').has_value('Tri'),
-                          use('LFO1 Phase').with_name('Phase').if_parameter('LFO1 On/Off').has_value('On'),
-                          use('LFO1 Delay').with_name('Delay').if_parameter('LFO1 On/Off').has_value('On'),
-                          use('LFO1 Fade In').with_name('Fade In').if_parameter('LFO1 On/Off').has_value('On'))}),
-  (
-   'LFO 2',
-   {BANK_PARAMETERS_KEY: (
-                          use('LFO2 On/Off').with_name('LFO 2'),
-                          use('LFO2 Sync').with_name('Sync').if_parameter('LFO2 On/Off').has_value('On'),
-                          use('').if_parameter('LFO2 On/Off').has_value('Off').else_use('LFO2 Speed').with_name('Speed').if_parameter('LFO2 Sync').has_value('Hertz').else_use('LFO2 SncRate').with_name('Sync Rate'),
-                          use('LFO2 Shape').with_name('Shape').if_parameter('LFO2 On/Off').has_value('On'),
-                          use('').if_parameter('LFO2 On/Off').has_value('Off').else_use('LFO2 PW').with_name('Pulse Width').if_parameter('LFO2 Shape').has_value('Rect').else_use('LFO2 PW').with_name('Pulse Width').if_parameter('LFO2 Shape').has_value('Tri'),
-                          use('LFO2 Phase').with_name('Phase').if_parameter('LFO2 On/Off').has_value('On'),
-                          use('LFO2 Delay').with_name('Delay').if_parameter('LFO2 On/Off').has_value('On'),
-                          use('LFO2 Fade In').with_name('Fade In').if_parameter('LFO2 On/Off').has_value('On'))}),
-  (
-   'Glide',
-   {BANK_PARAMETERS_KEY: (
-                          use('Glide On/Off').with_name('Glide'),
-                          use('Glide Time').with_name('Time').if_parameter('Glide On/Off').has_value('On'),
-                          use('Glide Mode').with_name('Mode').if_parameter('Glide On/Off').has_value('On'),
-                          use('Glide Legato').with_name('Legato').if_parameter('Glide On/Off').has_value('On'),
-=======
-                          'LFO1 On/Off',
-                          use('LFO1 Sync').if_parameter('LFO1 On/Off').has_value('On'),
-                          use('').if_parameter('LFO1 On/Off').has_value('Off').else_use('LFO1 Speed').if_parameter('LFO1 Sync').has_value('Hertz').else_use('LFO1 SncRate'),
-                          use('LFO1 Shape').if_parameter('LFO1 On/Off').has_value('On'),
-                          use('').if_parameter('LFO1 On/Off').has_value('Off').else_use('LFO1 PW').if_parameter('LFO1 Shape').has_value('Rect').else_use('LFO1 PW').if_parameter('LFO1 Shape').has_value('Tri'),
-                          use('LFO1 Phase').if_parameter('LFO1 On/Off').has_value('On'),
-                          use('LFO1 Delay').if_parameter('LFO1 On/Off').has_value('On'),
-                          use('LFO1 Fade In').if_parameter('LFO1 On/Off').has_value('On'))}),
-  (
-   'LFO 2',
-   {BANK_PARAMETERS_KEY: (
-                          'LFO2 On/Off',
-                          use('LFO2 Sync').if_parameter('LFO2 On/Off').has_value('On'),
-                          use('').if_parameter('LFO2 On/Off').has_value('Off').else_use('LFO2 Speed').if_parameter('LFO2 Sync').has_value('Hertz').else_use('LFO2 SncRate'),
-                          use('LFO2 Shape').if_parameter('LFO2 On/Off').has_value('On'),
-                          use('').if_parameter('LFO2 On/Off').has_value('Off').else_use('LFO2 PW').if_parameter('LFO2 Shape').has_value('Rect').else_use('LFO2 PW').if_parameter('LFO2 Shape').has_value('Tri'),
-                          use('LFO2 Phase').if_parameter('LFO2 On/Off').has_value('On'),
-                          use('LFO2 Delay').if_parameter('LFO2 On/Off').has_value('On'),
-                          use('LFO2 Fade In').if_parameter('LFO2 On/Off').has_value('On'))}),
-  (
-   'Glide',
-   {BANK_PARAMETERS_KEY: (
-                          'Glide On/Off',
-                          use('Glide Time').if_parameter('Glide On/Off').has_value('On'),
-                          use('Glide Mode').if_parameter('Glide On/Off').has_value('On'),
-                          use('Glide Legato').if_parameter('Glide On/Off').has_value('On'),
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
-                          '',
-                          '',
+                          'Mod Source',
+                          use('PB Range').if_parameter('Mod Source').has_value('PB').else_use('Press Dest A').if_parameter('Mod Source').has_value('Press').else_use('Slide Dest A').if_parameter('Mod Source').has_value('Slide').else_use('Mod Dest'),
+                          use('AMP1 < Key').if_parameter('Mod Source').has_value('Key').and_parameter('Mod Dest').has_value('Amp').else_use('F1 Freq < Key').if_parameter('Mod Source').has_value('Key').and_parameter('Mod Dest').has_value('Filter').else_use('O1 Keytrack').if_parameter('Mod Source').has_value('Key').and_parameter('Mod Dest').has_value('Osc').else_use('F1 Freq < Env').if_parameter('Mod Source').has_value('Env').and_parameter('Mod Dest').has_value('Filter').else_use('PEG1 Amount').if_parameter('Mod Source').has_value('Env').and_parameter('Mod Dest').has_value('Osc').else_use('AMP1 < LFO').if_parameter('Mod Source').has_value('LFO').and_parameter('Mod Dest').has_value('Amp').else_use('F1 Freq < LFO').if_parameter('Mod Source').has_value('LFO').and_parameter('Mod Dest').has_value('Filter').else_use('OSC1 < LFO').if_parameter('Mod Source').has_value('LFO').and_parameter('Mod Dest').has_value('Osc').else_use('Note PB Range').if_parameter('Mod Source').has_value('PB').else_use('Press Amt A').if_parameter('Mod Source').has_value('Press').else_use('Slide Amt A').if_parameter('Mod Source').has_value('Slide').else_use(''),
+                          use('AMP2 < Key').if_parameter('Mod Source').has_value('Key').and_parameter('Mod Dest').has_value('Amp').else_use('F2 Freq < Key').if_parameter('Mod Source').has_value('Key').and_parameter('Mod Dest').has_value('Filter').else_use('O2 Keytrack').if_parameter('Mod Source').has_value('Key').and_parameter('Mod Dest').has_value('Osc').else_use('F2 Freq < Env').if_parameter('Mod Source').has_value('Env').and_parameter('Mod Dest').has_value('Filter').else_use('PEG1 Time').if_parameter('Mod Source').has_value('Env').and_parameter('Mod Dest').has_value('Osc').else_use('AMP2 < LFO').if_parameter('Mod Source').has_value('LFO').and_parameter('Mod Dest').has_value('Amp').else_use('F2 Freq < LFO').if_parameter('Mod Source').has_value('LFO').and_parameter('Mod Dest').has_value('Filter').else_use('OSC2 < LFO').if_parameter('Mod Source').has_value('LFO').and_parameter('Mod Dest').has_value('Osc').else_use('Press Dest B').if_parameter('Mod Source').has_value('Press').else_use('Slide Dest B').if_parameter('Mod Source').has_value('Slide').else_use(''),
+                          use('A1 Pan < Key').if_parameter('Mod Source').has_value('Key').and_parameter('Mod Dest').has_value('Amp').else_use('F1 Reso < Key').if_parameter('Mod Source').has_value('Key').and_parameter('Mod Dest').has_value('Filter').else_use('A1 Pan < Env').if_parameter('Mod Source').has_value('Env').and_parameter('Mod Dest').has_value('Amp').else_use('F1 Res < Env').if_parameter('Mod Source').has_value('Env').and_parameter('Mod Dest').has_value('Filter').else_use('PEG2 Amount').if_parameter('Mod Source').has_value('Env').and_parameter('Mod Dest').has_value('Osc').else_use('A1 Pan < LFO').if_parameter('Mod Source').has_value('LFO').and_parameter('Mod Dest').has_value('Amp').else_use('F1 Res < LFO').if_parameter('Mod Source').has_value('LFO').and_parameter('Mod Dest').has_value('Filter').else_use('O1 PW < LFO').if_parameter('Mod Source').has_value('LFO').and_parameter('Mod Dest').has_value('Osc').else_use('Press Amt B').if_parameter('Mod Source').has_value('Press').else_use('Slide Amt B').if_parameter('Mod Source').has_value('Slide').else_use(''),
+                          use('A2 Pan < Key').if_parameter('Mod Source').has_value('Key').and_parameter('Mod Dest').has_value('Amp').else_use('F2 Reso < Key').if_parameter('Mod Source').has_value('Key').and_parameter('Mod Dest').has_value('Filter').else_use('A2 Pan < Env').if_parameter('Mod Source').has_value('Env').and_parameter('Mod Dest').has_value('Amp').else_use('F2 Res < Env').if_parameter('Mod Source').has_value('Env').and_parameter('Mod Dest').has_value('Filter').else_use('PEG2 Time').if_parameter('Mod Source').has_value('Env').and_parameter('Mod Dest').has_value('Osc').else_use('A2 Pan < LFO').if_parameter('Mod Source').has_value('LFO').and_parameter('Mod Dest').has_value('Amp').else_use('F2 Res < LFO').if_parameter('Mod Source').has_value('LFO').and_parameter('Mod Dest').has_value('Filter').else_use('O2 PW < LFO').if_parameter('Mod Source').has_value('LFO').and_parameter('Mod Dest').has_value('Osc').else_use(''),
                           '',
                           '')}),
   (
-   'Keyboard',
-   {BANK_PARAMETERS_KEY: ('Octave', 'Semitone', 'Detune', 'PB Range', 'Key Stretch', 'Key Error', 'Key Priority',
- 'Voices')}),
-  (
-   'Vibrato',
+   'Global',
    {BANK_PARAMETERS_KEY: (
-<<<<<<< HEAD
-                          use('Vib On/Off').with_name('Vibrato'),
-                          use('Vib Amount').with_name('Amount').if_parameter('Vib On/Off').has_value('On'),
-                          use('Vib Speed').with_name('Speed').if_parameter('Vib On/Off').has_value('On'),
-                          use('Vib Delay').with_name('Delay').if_parameter('Vib On/Off').has_value('On'),
-                          use('Vib Fade-In').with_name('Fade-in').if_parameter('Vib On/Off').has_value('On'),
-                          use('Vib Error').with_name('Error').if_parameter('Vib On/Off').has_value('On'),
-                          use('Vib < ModWh').with_name('Mod → Vibrato').if_parameter('Vib On/Off').has_value('On'),
-=======
-                          'Vib On/Off',
-                          use('Vib Amount').if_parameter('Vib On/Off').has_value('On'),
-                          use('Vib Speed').if_parameter('Vib On/Off').has_value('On'),
-                          use('Vib Delay').if_parameter('Vib On/Off').has_value('On'),
-                          use('Vib Fade-In').if_parameter('Vib On/Off').has_value('On'),
-                          use('Vib Error').if_parameter('Vib On/Off').has_value('On'),
-                          use('Vib < ModWh').if_parameter('Vib On/Off').has_value('On'),
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
-                          '')}),
-  (
-   'Filt. 1 Other',
-   {BANK_PARAMETERS_KEY: (
-<<<<<<< HEAD
-                          use('F1 On/Off').with_name('Filter 1'),
-                          use('FEG1 Exp').with_name('Exp Slope').if_parameter('F1 On/Off').has_value('On'),
-                          use('FEG1 Legato').with_name('Legato Mode').if_parameter('F1 On/Off').has_value('On'),
-                          use('FEG1 Free').with_name('Free Run Mode').if_parameter('F1 On/Off').has_value('On'),
-                          use('FEG1 Loop').with_name('Env Loop Mode').if_parameter('F1 On/Off').has_value('On'),
-                          use('F1 Drive').with_name('Drive').if_parameter('F1 On/Off').has_value('On'),
-=======
-                          'F1 On/Off',
-                          use('FEG1 Exp').if_parameter('F1 On/Off').has_value('On'),
-                          use('FEG1 Legato').if_parameter('F1 On/Off').has_value('On'),
-                          use('FEG1 Free').if_parameter('F1 On/Off').has_value('On'),
-                          use('FEG1 Loop').if_parameter('F1 On/Off').has_value('On'),
-                          use('F1 Drive').if_parameter('F1 On/Off').has_value('On'),
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
-                          '',
-                          '')}),
-  (
-   'Filt. 2 Other',
-   {BANK_PARAMETERS_KEY: (
-<<<<<<< HEAD
-                          use('F2 On/Off').with_name('Filter 2'),
-                          use('FEG2 Exp').with_name('Exp Slope').if_parameter('F2 On/Off').has_value('On'),
-                          use('FEG2 Legato').with_name('Legato Mode').if_parameter('F2 On/Off').has_value('On'),
-                          use('FEG2 Free').with_name('Free Run Mode').if_parameter('F2 On/Off').has_value('On'),
-                          use('FEG2 Loop').with_name('Env Loop Mode').if_parameter('F2 On/Off').has_value('On'),
-                          use('F2 Drive').with_name('Drive').if_parameter('F2 On/Off').has_value('On'),
-=======
-                          'F2 On/Off',
-                          use('FEG2 Exp').if_parameter('F2 On/Off').has_value('On'),
-                          use('FEG2 Legato').if_parameter('F2 On/Off').has_value('On'),
-                          use('FEG2 Free').if_parameter('F2 On/Off').has_value('On'),
-                          use('FEG2 Loop').if_parameter('F2 On/Off').has_value('On'),
-                          use('F2 Drive').if_parameter('F2 On/Off').has_value('On'),
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
-                          '',
-                          '')}),
-  (
-   'Amp 1 Other',
-   {BANK_PARAMETERS_KEY: (
-<<<<<<< HEAD
-                          use('AMP1 On/Off').with_name('Amp 1'),
-                          use('AEG1 Exp').with_name('Exp Slope').if_parameter('AMP1 On/Off').has_value('On'),
-                          use('AEG1 Legato').with_name('Legato Mode').if_parameter('AMP1 On/Off').has_value('On'),
-                          use('AEG1 Free').with_name('Free Run Mode').if_parameter('AMP1 On/Off').has_value('On'),
-                          use('AEG1 Loop').with_name('Env Loop Mode').if_parameter('AMP1 On/Off').has_value('On'),
-                          use('A1 Pan < LFO').with_name('LFO → Pan').if_parameter('AMP1 On/Off').has_value('On'),
-                          use('A1 Pan < Key').with_name('Pitch → Pan').if_parameter('AMP1 On/Off').has_value('On'),
-                          use('A1 Pan < Env').with_name('Env → Pan').if_parameter('AMP1 On/Off').has_value('On'))}),
-  (
-   'Amp 2 Other',
-   {BANK_PARAMETERS_KEY: (
-                          use('AMP2 On/Off').with_name('Amp 2'),
-                          use('AEG2 Exp').with_name('Exp Slope').if_parameter('AMP2 On/Off').has_value('On'),
-                          use('AEG2 Legato').with_name('Legato Mode').if_parameter('AMP2 On/Off').has_value('On'),
-                          use('AEG2 Free').with_name('Free Run Mode').if_parameter('AMP2 On/Off').has_value('On'),
-                          use('AEG2 Loop').with_name('Env Loop Mode').if_parameter('AMP2 On/Off').has_value('On'),
-                          use('A2 Pan < LFO').with_name('LFO → Pan').if_parameter('AMP2 On/Off').has_value('On'),
-                          use('A2 Pan < Key').with_name('Pitch → Pan').if_parameter('AMP2 On/Off').has_value('On'),
-                          use('A2 Pan < Env').with_name('Env → Pan').if_parameter('AMP2 On/Off').has_value('On'))}))), 
-=======
-                          'AMP1 On/Off',
-                          use('AEG1 Exp').if_parameter('AMP1 On/Off').has_value('On'),
-                          use('AEG1 Legato').if_parameter('AMP1 On/Off').has_value('On'),
-                          use('AEG1 Free').if_parameter('AMP1 On/Off').has_value('On'),
-                          use('AEG1 Loop').if_parameter('AMP1 On/Off').has_value('On'),
-                          use('A1 Pan < LFO').if_parameter('AMP1 On/Off').has_value('On'),
-                          use('A1 Pan < Key').if_parameter('AMP1 On/Off').has_value('On'),
-                          use('A1 Pan < Env').if_parameter('AMP1 On/Off').has_value('On'))}),
-  (
-   'Amp 2 Other',
-   {BANK_PARAMETERS_KEY: (
-                          'AMP2 On/Off',
-                          use('AEG2 Exp').if_parameter('AMP2 On/Off').has_value('On'),
-                          use('AEG2 Legato').if_parameter('AMP2 On/Off').has_value('On'),
-                          use('AEG2 Free').if_parameter('AMP2 On/Off').has_value('On'),
-                          use('AEG2 Loop').if_parameter('AMP2 On/Off').has_value('On'),
-                          use('A2 Pan < LFO').if_parameter('AMP2 On/Off').has_value('On'),
-                          use('A2 Pan < Key').if_parameter('AMP2 On/Off').has_value('On'),
-                          use('A2 Pan < Env').if_parameter('AMP2 On/Off').has_value('On'))}))), 
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
+                          'Select',
+                          use('Voices').if_parameter('Select').has_value('Voice').else_use('Octave').if_parameter('Select').has_value('Pitch').else_use('Unison Detune').if_parameter('Select').has_value('Unison').else_use('Vib Amount').if_parameter('Select').has_value('Vibrato'),
+                          use('Key Stretch').if_parameter('Select').has_value('Voice').else_use('Semitone').if_parameter('Select').has_value('Pitch').else_use('Unison Voices').if_parameter('Select').has_value('Unison').else_use('Vib Speed').if_parameter('Select').has_value('Vibrato'),
+                          use('Key Error').if_parameter('Select').has_value('Voice').else_use('Detune').if_parameter('Select').has_value('Pitch').else_use('Unison Delay').if_parameter('Select').has_value('Unison').else_use('Vib Delay').if_parameter('Select').has_value('Vibrato'),
+                          use('Key Priority').if_parameter('Select').has_value('Voice').else_use('Vib Fade-In').if_parameter('Select').has_value('Vibrato').else_use(''),
+                          use('Glide Time').if_parameter('Select').has_value('Voice').else_use('Vib Error').if_parameter('Select').has_value('Vibrato').else_use(''),
+                          use('Glide Mode').if_parameter('Select').has_value('Voice').else_use('Vib < ModWh').if_parameter('Select').has_value('Vibrato').else_use(''),
+                          ''), 
+    
+    OPTIONS_KEY: (
+                  use('Vibrato').if_parameter('Select').has_value('Vibrato').else_use('Unison').if_parameter('Select').has_value('Unison'),
+                  '',
+                  '',
+                  '',
+                  use('Glide').if_parameter('Select').has_value('Voice'),
+                  use('Legato').if_parameter('Select').has_value('Voice'),
+                  '')}))), 
  'ChannelEq':IndexedDict((
   (
    BANK_MAIN_KEY,
@@ -485,253 +155,103 @@ BANK_DEFINITIONS = {'AudioEffectGroupDevice':RACK_BANKS,
   (
    BANK_MAIN_KEY,
    {BANK_PARAMETERS_KEY: (
-                          use('Res 1 Type').if_parameter('Res 1 On/Off').has_value('On'),
-<<<<<<< HEAD
-                          use('').if_parameter('Res 1 On/Off').has_value('Off').else_use('').if_parameter('Res 1 Type').has_value('Tube').else_use('').if_parameter('Res 1 Type').has_value('Pipe').else_use('Res 1 Brightness').with_name('Brightness'),
-                          use('').if_parameter('Res 1 On/Off').has_value('Off').else_use('').if_parameter('Res 1 Type').has_value('Tube').else_use('Res 1 Opening').with_name('Opening').if_parameter('Res 1 Type').has_value('Pipe').else_use('Res 1 Inharmonics').with_name('Inharmonics'),
-                          use('Res 1 Decay').with_name('Decay').if_parameter('Res 1 On/Off').has_value('On'),
-                          use('').if_parameter('Res 1 On/Off').has_value('Off').else_use('Res 1 Radius').with_name('Radius').if_parameter('Res 1 Type').has_value('Tube').else_use('Res 1 Radius').with_name('Radius').if_parameter('Res 1 Type').has_value('Pipe').else_use('Res 1 Material').with_name('Material'),
-                          use('Mallet Stiffness').if_parameter('Mallet On/Off').has_value('On'),
-                          use('Mallet Noise Amount').with_name('Mallet Noise').if_parameter('Mallet On/Off').has_value('On'),
-=======
-                          use('').if_parameter('Res 1 On/Off').has_value('Off').else_use('').if_parameter('Res 1 Type').has_value('Tube').else_use('').if_parameter('Res 1 Type').has_value('Pipe').else_use('Res 1 Brightness'),
-                          use('').if_parameter('Res 1 On/Off').has_value('Off').else_use('').if_parameter('Res 1 Type').has_value('Tube').else_use('Res 1 Opening').if_parameter('Res 1 Type').has_value('Pipe').else_use('Res 1 Inharmonics'),
-                          use('Res 1 Decay').if_parameter('Res 1 On/Off').has_value('On'),
-                          use('').if_parameter('Res 1 On/Off').has_value('Off').else_use('Res 1 Radius').if_parameter('Res 1 Type').has_value('Tube').else_use('Res 1 Radius').if_parameter('Res 1 Type').has_value('Pipe').else_use('Res 1 Material'),
-                          use('Mallet Stiffness').if_parameter('Mallet On/Off').has_value('On'),
-                          use('Mallet Noise Amount').if_parameter('Mallet On/Off').has_value('On'),
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
-                          'Volume')}),
-  (
-   'Mix',
-   {BANK_PARAMETERS_KEY: (
-                          use('Res 1 Volume').if_parameter('Res 1 On/Off').has_value('On'),
-                          use('Panorama').if_parameter('Res 1 On/Off').has_value('On'),
-                          use('Res 1 Bleed').if_parameter('Res 1 On/Off').has_value('On'),
-                          use('Res 2 Volume').if_parameter('Res 2 On/Off').has_value('On'),
-                          use('Res 2 Panorama').if_parameter('Res 2 On/Off').has_value('On'),
-                          use('Res 2 Bleed').if_parameter('Res 2 On/Off').has_value('On'),
-                          'Structure',
+                          'Res 1 Type',
+                          'Res 1 Brightness',
+                          use('Res 1 Opening').if_parameter('Res 1 Type').has_value('Pipe').else_use('Res 1 Opening').if_parameter('Res 1 Type').has_value('Tube').else_use('Res 1 Inharmonics'),
+                          'Res 1 Decay',
+                          use('Res 1 Radius').if_parameter('Res 1 Type').has_value('Pipe').else_use('Res 1 Radius').if_parameter('Res 1 Type').has_value('Tube').else_use('Res 1 Material'),
+                          'Mallet Stiffness',
+                          'Mallet Noise Amount',
                           'Volume')}),
   (
    'Mallet',
+   {BANK_PARAMETERS_KEY: ('Mallet Noise Amount', 'Mallet Noise Color', 'Mallet Stiffness', '', '', '', '', 'Mallet Volume'), 
+    
+    OPTIONS_KEY: ('Mallet', '', '', '', '', '', '')}),
+  (
+   'Noise',
+   {BANK_PARAMETERS_KEY: ('Noise Filter Type', 'Noise Filter Freq', 'Noise Filter Q', 'Noise Attack', 'Noise Decay',
+ 'Noise Sustain', 'Noise Release', 'Noise Volume'), 
+    
+    OPTIONS_KEY: ('Noise', '', '', '', '', '', '')}),
+  (
+   'Res Body',
    {BANK_PARAMETERS_KEY: (
-<<<<<<< HEAD
-                          use('Mallet On/Off').with_name('Mallet'),
-                          use('Mallet Volume').with_name('Volume').if_parameter('Mallet On/Off').has_value('On'),
-                          use('Mallet Noise Amount').with_name('Noise Amount').if_parameter('Mallet On/Off').has_value('On'),
-                          use('Mallet Stiffness').with_name('Stiffness').if_parameter('Mallet On/Off').has_value('On'),
-                          use('Mallet Noise Color').with_name('Noise Color').if_parameter('Mallet On/Off').has_value('On'),
+                          'Resonator',
+                          use('Res 1 Type').if_parameter('Resonator').has_value('Res 1').else_use('Res 2 Type'),
+                          use('Res 1 Quality').if_parameter('Resonator').has_value('Res 1').else_use('Res 2 Quality'),
+                          use('Res 1 Decay').if_parameter('Resonator').has_value('Res 1').else_use('Res 2 Decay'),
+                          use('Res 1 Radius').if_parameter('Res 1 Type').has_value('Pipe').and_parameter('Resonator').has_value('Res 1').else_use('Res 1 Radius').if_parameter('Res 1 Type').has_value('Tube').and_parameter('Resonator').has_value('Res 1').else_use('Res 1 Material').if_parameter('Res 1 Type').has_value('Beam').and_parameter('Resonator').has_value('Res 1').else_use('Res 1 Material').if_parameter('Res 1 Type').has_value('Marimba').and_parameter('Resonator').has_value('Res 1').else_use('Res 1 Material').if_parameter('Res 1 Type').has_value('String').and_parameter('Resonator').has_value('Res 1').else_use('Res 1 Material').if_parameter('Res 1 Type').has_value('Membrane').and_parameter('Resonator').has_value('Res 1').else_use('Res 1 Material').if_parameter('Res 1 Type').has_value('Plate').and_parameter('Resonator').has_value('Res 1').else_use('Res 2 Radius').if_parameter('Res 2 Type').has_value('Pipe').and_parameter('Resonator').has_value('Res 2').else_use('Res 2 Radius').if_parameter('Res 2 Type').has_value('Tube').and_parameter('Resonator').has_value('Res 2').else_use('Res 2 Material').if_parameter('Res 2 Type').has_value('Beam').and_parameter('Resonator').has_value('Res 2').else_use('Res 2 Material').if_parameter('Res 2 Type').has_value('Marimba').and_parameter('Resonator').has_value('Res 2').else_use('Res 2 Material').if_parameter('Res 2 Type').has_value('String').and_parameter('Resonator').has_value('Res 2').else_use('Res 2 Material').if_parameter('Res 2 Type').has_value('Membrane').and_parameter('Resonator').has_value('Res 2').else_use('Res 2 Material').if_parameter('Res 2 Type').has_value('Plate').and_parameter('Resonator').has_value('Res 2'),
+                          use('Res 1 Listening L').if_parameter('Resonator').has_value('Res 1').else_use('Res 2 Listening L'),
+                          use('Res 1 Listening R').if_parameter('Resonator').has_value('Res 1').else_use('Res 2 Listening R'),
+                          use('Res 1 Volume').if_parameter('Resonator').has_value('Res 1').else_use('Res 2 Volume')), 
+    
+    OPTIONS_KEY: (
+                  use('Res 1').if_parameter('Resonator').has_value('Res 1').else_use('Res 2'),
+                  '',
+                  '',
+                  '',
+                  '',
+                  '',
+                  'Structure')}),
+  (
+   'Res Tone',
+   {BANK_PARAMETERS_KEY: (
+                          'Resonator',
+                          use('Res 1 Brightness').if_parameter('Resonator').has_value('Res 1').else_use('Res 2 Brightness'),
+                          use('Res 1 Opening').if_parameter('Resonator').has_value('Res 1').and_parameter('Res 1 Type').has_value('Pipe').else_use('Res 1 Opening').if_parameter('Resonator').has_value('Res 1').and_parameter('Res 1 Type').has_value('Tube').else_use('Res 1 Inharmonics').if_parameter('Resonator').has_value('Res 1').else_use('Res 2 Opening').if_parameter('Resonator').has_value('Res 2').and_parameter('Res 1 Type').has_value('Pipe').else_use('Res 2 Opening').if_parameter('Resonator').has_value('Res 2').and_parameter('Res 1 Type').has_value('Tube').else_use('Res 2 Inharmonics').if_parameter('Resonator').has_value('Res 2'),
+                          use('Res 1 Ratio').if_parameter('Resonator').has_value('Res 1').else_use('Res 2 Ratio'),
+                          use('Res 1 Hit').if_parameter('Resonator').has_value('Res 1').else_use('Res 2 Hit'),
+                          use('Res 1 Hit < Random').if_parameter('Resonator').has_value('Res 1').else_use('Res 2 Hit < Random'),
+                          use('Res 1 Tune').if_parameter('Resonator').has_value('Res 1').else_use('Res 2 Tune'),
+                          use('Res 1 Fine Tune').if_parameter('Resonator').has_value('Res 1').else_use('Res 2 Fine Tune')), 
+    
+    OPTIONS_KEY: (
+                  use('Res 1').if_parameter('Resonator').has_value('Res 1').else_use('Res 2'),
+                  '',
+                  '',
+                  '',
+                  '',
+                  '',
+                  'Structure')}),
+  (
+   'Mix',
+   {BANK_PARAMETERS_KEY: ('Volume', 'Res 1 Volume', 'Res 1 Pan', 'Res 1 Bleed', 'Res 2 Volume', 'Res 2 Pan',
+ 'Res 2 Bleed', ''), 
+    
+    OPTIONS_KEY: ('Res 1', '', '', 'Res 2', '', '', '')}),
+  (
+   'LFO',
+   {BANK_PARAMETERS_KEY: (
+                          'LFO Select',
+                          use('LFO 1 Shape').if_parameter('LFO Select').has_value('LFO 1').else_use('LFO 2 Shape'),
+                          use('LFO 1 Sync').if_parameter('LFO Select').has_value('LFO 1').else_use('LFO 2 Sync'),
+                          use('LFO 1 Rate').if_parameter('LFO Select').has_value('LFO 1').and_parameter('LFO 1 Sync').has_value('Free').else_use('LFO 1 Sync Rate').if_parameter('LFO Select').has_value('LFO 1').and_parameter('LFO 1 Sync').has_value('Sync').else_use('LFO 2 Rate').if_parameter('LFO Select').has_value('LFO 2').and_parameter('LFO 2 Sync').has_value('Free').else_use('LFO 2 Sync Rate').if_parameter('LFO Select').has_value('LFO 2').and_parameter('LFO 2 Sync').has_value('Sync'),
+                          use('LFO 1 Depth').if_parameter('LFO Select').has_value('LFO 1').else_use('LFO 2 Depth'),
+                          use('LFO 1 Offset').if_parameter('LFO Select').has_value('LFO 1').else_use('LFO 2 Offset'),
+                          use('LFO 1 Dest A').if_parameter('LFO Select').has_value('LFO 1').else_use('LFO 2 Dest A'),
+                          use('LFO 1 Amt A').if_parameter('LFO Select').has_value('LFO 1').else_use('LFO 2 Amt A')), 
+    
+    OPTIONS_KEY: (
+                  use('LFO 1').if_parameter('LFO Select').has_value('LFO 1').else_use('LFO 2'),
+                  '',
+                  use('LFO 1 Retrig').if_parameter('LFO Select').has_value('LFO 1').else_use('LFO 2 Retrig'),
+                  '',
+                  '',
+                  '')}),
+  (
+   'Modulation',
+   {BANK_PARAMETERS_KEY: (
+                          'Mod Source',
+                          use('Res 1 Pitch Env.').if_parameter('Mod Source').has_value('Env').else_use('LFO 1 Dest A').if_parameter('Mod Source').has_value('LFO 1').else_use('LFO 2 Dest A').if_parameter('Mod Source').has_value('LFO 2').else_use('PB Dest A').if_parameter('Mod Source').has_value('PB').else_use('MW Dest A').if_parameter('Mod Source').has_value('Modwheel').else_use('Press Dest A').if_parameter('Mod Source').has_value('Press').else_use('Slide Dest A').if_parameter('Mod Source').has_value('Slide').else_use('Mod Dest'),
+                          use('Mallet Volume < Key').if_parameter('Mod Source').has_value('Key').and_parameter('Mod Dest').has_value('Mallet').else_use('Noise Volume < Key').if_parameter('Mod Source').has_value('Key').and_parameter('Mod Dest').has_value('Noise').else_use('Res 1 Decay < Key').if_parameter('Mod Source').has_value('Key').and_parameter('Mod Dest').has_value('Res 1').else_use('Res 2 Decay < Key').if_parameter('Mod Source').has_value('Key').and_parameter('Mod Dest').has_value('Res 2').else_use('LFO 1 Rate < Key').if_parameter('Mod Source').has_value('Key').and_parameter('Mod Dest').has_value('LFO').else_use('Mallet Volume < Vel').if_parameter('Mod Source').has_value('Vel').and_parameter('Mod Dest').has_value('Mallet').else_use('Noise Volume < Vel').if_parameter('Mod Source').has_value('Vel').and_parameter('Mod Dest').has_value('Noise').else_use('Res 1 Decay < Vel').if_parameter('Mod Source').has_value('Vel').and_parameter('Mod Dest').has_value('Res 1').else_use('Res 2 Decay < Vel').if_parameter('Mod Source').has_value('Vel').and_parameter('Mod Dest').has_value('Res 2').else_use('LFO 1 Depth < Vel').if_parameter('Mod Source').has_value('Vel').and_parameter('Mod Dest').has_value('LFO').else_use('Res 1 Pitch Env. Time').if_parameter('Mod Source').has_value('Env').else_use('LFO 1 Amt A').if_parameter('Mod Source').has_value('LFO 1').else_use('LFO 2 Amt A').if_parameter('Mod Source').has_value('LFO 2').else_use('PB Amt A').if_parameter('Mod Source').has_value('PB').else_use('MW Amt A').if_parameter('Mod Source').has_value('Modwheel').else_use('Press Amt A').if_parameter('Mod Source').has_value('Press').else_use('Slide Amt A').if_parameter('Mod Source').has_value('Slide'),
+                          use('Mallet Stiffness < Key').if_parameter('Mod Source').has_value('Key').and_parameter('Mod Dest').has_value('Mallet').else_use('Noise Freq < Key').if_parameter('Mod Source').has_value('Key').and_parameter('Mod Dest').has_value('Noise').else_use('Res 1 Material < Key').if_parameter('Mod Source').has_value('Key').and_parameter('Mod Dest').has_value('Res 1').else_use('Res 2 Material < Key').if_parameter('Mod Source').has_value('Key').and_parameter('Mod Dest').has_value('Res 2').else_use('LFO 2 Rate < Key').if_parameter('Mod Source').has_value('Key').and_parameter('Mod Dest').has_value('LFO').else_use('Mallet Stiffness < Vel').if_parameter('Mod Source').has_value('Vel').and_parameter('Mod Dest').has_value('Mallet').else_use('Noise Freq < Vel').if_parameter('Mod Source').has_value('Vel').and_parameter('Mod Dest').has_value('Noise').else_use('Res 1 Material < Vel').if_parameter('Mod Source').has_value('Vel').and_parameter('Mod Dest').has_value('Res 1').else_use('Res 2 Material < Vel').if_parameter('Mod Source').has_value('Vel').and_parameter('Mod Dest').has_value('Res 2').else_use('LFO 2 Depth < Vel').if_parameter('Mod Source').has_value('Vel').and_parameter('Mod Dest').has_value('LFO').else_use('Res 2 Pitch Env.').if_parameter('Mod Source').has_value('Env').else_use('LFO 1 Dest B').if_parameter('Mod Source').has_value('LFO 1').else_use('LFO 2 Dest B').if_parameter('Mod Source').has_value('LFO 2').else_use('PB Range').if_parameter('Mod Source').has_value('PB').else_use('MW Dest B').if_parameter('Mod Source').has_value('Modwheel').else_use('Press Dest B').if_parameter('Mod Source').has_value('Press').else_use('Slide Dest B').if_parameter('Mod Source').has_value('Slide'),
+                          use('Mallet Noise Amount < Key').if_parameter('Mod Source').has_value('Key').and_parameter('Mod Dest').has_value('Mallet').else_use('Res 1 Tune < Key').if_parameter('Mod Source').has_value('Key').and_parameter('Mod Dest').has_value('Res 1').else_use('Res 2 Tune < Key').if_parameter('Mod Source').has_value('Key').and_parameter('Mod Dest').has_value('Res 2').else_use('Mallet Noise Amount < Vel').if_parameter('Mod Source').has_value('Vel').and_parameter('Mod Dest').has_value('Mallet').else_use('Res 1 Pitch Env. < Vel').if_parameter('Mod Source').has_value('Vel').and_parameter('Mod Dest').has_value('Res 1').else_use('Res 2 Pitch Env. < Vel').if_parameter('Mod Source').has_value('Vel').and_parameter('Mod Dest').has_value('Res 2').else_use('Res 2 Pitch Env. Time').if_parameter('Mod Source').has_value('Env').else_use('LFO 1 Amt B').if_parameter('Mod Source').has_value('LFO 1').else_use('LFO 2 Amt B').if_parameter('Mod Source').has_value('LFO 2').else_use('Note PB Range').if_parameter('Mod Source').has_value('PB').else_use('MW Amt B').if_parameter('Mod Source').has_value('Modwheel').else_use('Press Amt B').if_parameter('Mod Source').has_value('Press').else_use('Slide Amt B').if_parameter('Mod Source').has_value('Slide').else_use(''),
+                          use('Res 1 Pan < Key').if_parameter('Mod Source').has_value('Key').and_parameter('Mod Dest').has_value('Res 1').else_use('Res 2 Pan < Key').if_parameter('Mod Source').has_value('Key').and_parameter('Mod Dest').has_value('Res 2').else_use('Res 1 Inharmonics < Vel').if_parameter('Mod Source').has_value('Vel').and_parameter('Mod Dest').has_value('Res 1').else_use('Res 2 Inharmonics < Vel').if_parameter('Mod Source').has_value('Vel').and_parameter('Mod Dest').has_value('Res 2').else_use(''),
                           '',
-                          use('Mallet Volume < Vel').with_name('Vel → Volume').if_parameter('Mallet On/Off').has_value('On'),
-                          use('Mallet Noise Amount < Vel').with_name('Vel → Noise').if_parameter('Mallet On/Off').has_value('On'))}),
-  (
-   'Noise Envelope',
-   {BANK_PARAMETERS_KEY: (
-                          use('Noise On/Off').with_name('Noise'),
-                          use('Noise Volume').if_parameter('Noise On/Off').has_value('On'),
-                          use('Noise Volume < Key').with_name('Pitch → Noise').if_parameter('Noise On/Off').has_value('On'),
-                          use('Noise Volume < Vel').with_name('Vel → Noise').if_parameter('Noise On/Off').has_value('On'),
-                          use('Noise Attack').with_name('Attack').if_parameter('Noise On/Off').has_value('On'),
-                          use('Noise Decay').with_name('Decay').if_parameter('Noise On/Off').has_value('On'),
-                          use('Noise Sustain').with_name('Sustain').if_parameter('Noise On/Off').has_value('On'),
-                          use('Noise Release').with_name('Release').if_parameter('Noise On/Off').has_value('On'))}),
-  (
-   'Noise Filter',
-   {BANK_PARAMETERS_KEY: (
-                          use('Noise On/Off').with_name('Noise'),
-                          use('Noise Volume').if_parameter('Noise On/Off').has_value('On'),
-                          use('Noise Filter Type').with_name('Type').if_parameter('Noise On/Off').has_value('On'),
-                          use('Noise Filter Freq').with_name('Frequency').if_parameter('Noise On/Off').has_value('On'),
-                          use('Noise Filter Q').with_name('Resonance').if_parameter('Noise On/Off').has_value('On'),
-                          use('Noise Freq < Key').with_name('Pitch → Freq').if_parameter('Noise On/Off').has_value('On'),
-                          use('Noise Freq < Vel').with_name('Vel → Freq').if_parameter('Noise On/Off').has_value('On'),
-                          use('Noise Freq < Env').with_name('Env → Freq').if_parameter('Noise On/Off').has_value('On'))}),
-  (
-   'Res. 1 Body',
-   {BANK_PARAMETERS_KEY: (
-                          use('Res 1 On/Off').with_name('Resonator 1'),
-                          use('Res 1 Type').with_name('Type').if_parameter('Res 1 On/Off').has_value('On'),
-                          use('').if_parameter('Res 1 On/Off').has_value('Off').else_use('Res 1 Ratio').with_name('Ratio').if_parameter('Res 1 Type').has_value('Plate').else_use('Res 1 Ratio').with_name('Ratio').if_parameter('Res 1 Type').has_value('Membrane'),
-                          use('Res 1 Decay').with_name('Decay').if_parameter('Res 1 On/Off').has_value('On'),
-                          use('').if_parameter('Res 1 On/Off').has_value('Off').else_use('Res 1 Radius').with_name('Radius').if_parameter('Res 1 Type').has_value('Tube').else_use('Res 1 Radius').with_name('Radius').if_parameter('Res 1 Type').has_value('Pipe').else_use('Res 1 Material').with_name('Material'),
-                          use('').if_parameter('Res 1 On/Off').has_value('Off').else_use('').if_parameter('Res 1 Type').has_value('Tube').else_use('').if_parameter('Res 1 Type').has_value('Pipe').else_use('Res 1 Listening L').with_name('Listening L'),
-                          use('').if_parameter('Res 1 On/Off').has_value('Off').else_use('').if_parameter('Res 1 Type').has_value('Tube').else_use('').if_parameter('Res 1 Type').has_value('Pipe').else_use('Res 1 Listening R').with_name('Listening R'),
-                          use('').if_parameter('Res 1 On/Off').has_value('Off').else_use('').if_parameter('Res 1 Type').has_value('Tube').else_use('').if_parameter('Res 1 Type').has_value('Pipe').else_use('Res 1 Hit').with_name('Hit'))}),
-  (
-   'Res. 1 Tune',
-   {BANK_PARAMETERS_KEY: (
-                          use('Res 1 On/Off').with_name('Resonator 1'),
-                          use('').if_parameter('Res 1 On/Off').has_value('Off').else_use('').if_parameter('Res 1 Type').has_value('Tube').else_use('').if_parameter('Res 1 Type').has_value('Pipe').else_use('Res 1 Brightness').with_name('Brightness'),
-                          use('Res 1 Quality').with_name('Quality').if_parameter('Res 1 On/Off').has_value('On'),
-                          use('').if_parameter('Res 1 On/Off').has_value('Off').else_use('').if_parameter('Res 1 Type').has_value('Tube').else_use('Res 1 Opening').with_name('Opening').if_parameter('Res 1 Type').has_value('Pipe').else_use('Res 1 Inharmonics').with_name('Inharmonics'),
-                          use('Res 1 Tune').with_name('Tune').if_parameter('Res 1 On/Off').has_value('On'),
-                          use('Res 1 Fine Tune').with_name('Fine Tune').if_parameter('Res 1 On/Off').has_value('On'),
-                          use('Res 1 Pitch Env.').with_name('Pitch Envelope').if_parameter('Res 1 On/Off').has_value('On'),
-                          use('Res 1 Pitch Env. Time').with_name('Pitch Env Time').if_parameter('Res 1 On/Off').has_value('On'))}),
-  (
-   'Res. 2 Body',
-   {BANK_PARAMETERS_KEY: (
-                          use('Res 2 On/Off').with_name('Resonator 2'),
-                          use('Res 2 Type').with_name('Type').if_parameter('Res 2 On/Off').has_value('On'),
-                          use('').if_parameter('Res 2 On/Off').has_value('Off').else_use('Res 2 Ratio').with_name('Ratio').if_parameter('Res 2 Type').has_value('Plate').else_use('Res 2 Ratio').with_name('Ratio').if_parameter('Res 2 Type').has_value('Membrane'),
-                          use('Res 2 Decay').with_name('Decay').if_parameter('Res 2 On/Off').has_value('On'),
-                          use('').if_parameter('Res 2 On/Off').has_value('Off').else_use('Res 2 Radius').with_name('Radius').if_parameter('Res 2 Type').has_value('Tube').else_use('Res 2 Radius').with_name('Radius').if_parameter('Res 2 Type').has_value('Pipe').else_use('Res 2 Material').with_name('Material'),
-                          use('').if_parameter('Res 2 On/Off').has_value('Off').else_use('').if_parameter('Res 2 Type').has_value('Tube').else_use('').if_parameter('Res 2 Type').has_value('Pipe').else_use('Res 2 Listening L').with_name('Listening L'),
-                          use('').if_parameter('Res 2 On/Off').has_value('Off').else_use('').if_parameter('Res 2 Type').has_value('Tube').else_use('').if_parameter('Res 2 Type').has_value('Pipe').else_use('Res 2 Listening R').with_name('Listening R'),
-                          use('').if_parameter('Res 2 On/Off').has_value('Off').else_use('').if_parameter('Res 2 Type').has_value('Tube').else_use('').if_parameter('Res 2 Type').has_value('Pipe').else_use('Res 2 Hit').with_name('Hit'))}),
-  (
-   'Res. 2 Tune',
-   {BANK_PARAMETERS_KEY: (
-                          use('Res 2 On/Off').with_name('Resonator 2'),
-                          use('').if_parameter('Res 2 On/Off').has_value('Off').else_use('').if_parameter('Res 2 Type').has_value('Tube').else_use('').if_parameter('Res 2 Type').has_value('Pipe').else_use('Res 2 Brightness').with_name('Brightness'),
-                          use('Res 2 Quality').with_name('Quality').if_parameter('Res 2 On/Off').has_value('On'),
-                          use('').if_parameter('Res 2 On/Off').has_value('Off').else_use('').if_parameter('Res 2 Type').has_value('Tube').else_use('Res 2 Opening').with_name('Opening').if_parameter('Res 2 Type').has_value('Pipe').else_use('Res 2 Inharmonics').with_name('Inharmonics'),
-                          use('Res 2 Tune').with_name('Tune').if_parameter('Res 2 On/Off').has_value('On'),
-                          use('Res 2 Fine Tune').with_name('Fine Tune').if_parameter('Res 2 On/Off').has_value('On'),
-                          use('Res 2 Pitch Env.').with_name('Pitch Envelope').if_parameter('Res 2 On/Off').has_value('On'),
-                          use('Res 2 Pitch Env. Time').with_name('Pitch Env Time').if_parameter('Res 2 On/Off').has_value('On'))}),
-  (
-   'LFO 1',
-   {BANK_PARAMETERS_KEY: (
-                          use('LFO 1 On/Off').with_name('LFO 1'),
-                          use('LFO 1 Depth').with_name('Depth').if_parameter('LFO 1 On/Off').has_value('On'),
-                          use('LFO 1 Shape').with_name('Shape').if_parameter('LFO 1 On/Off').has_value('On'),
-                          use('LFO 1 Sync').with_name('Sync').if_parameter('LFO 1 On/Off').has_value('On'),
-                          use('').if_parameter('LFO 1 On/Off').has_value('Off').else_use('LFO 1 Sync Rate').with_name('Sync Rate').if_parameter('LFO 1 Sync').has_value('Sync').else_use('LFO 1 Rate').with_name('Rate'),
-                          use('LFO 1 Offset').with_name('Offset').if_parameter('LFO 1 On/Off').has_value('On'),
-                          use('LFO 1 Destination A').with_name('Destination A').if_parameter('LFO 1 On/Off').has_value('On'),
-                          use('LFO 1 Destination A Amount').with_name('Dest A Amount').if_parameter('LFO 1 On/Off').has_value('On'))}),
-  (
-   'LFO 2',
-   {BANK_PARAMETERS_KEY: (
-                          use('LFO 2 On/Off').with_name('LFO 2'),
-                          use('LFO 2 Depth').with_name('Depth').if_parameter('LFO 2 On/Off').has_value('On'),
-                          use('LFO 2 Shape').with_name('Shape').if_parameter('LFO 2 On/Off').has_value('On'),
-                          use('LFO 2 Sync').with_name('Sync').if_parameter('LFO 2 On/Off').has_value('On'),
-                          use('').if_parameter('LFO 2 On/Off').has_value('Off').else_use('LFO 2 Sync Rate').with_name('Sync Rate').if_parameter('LFO 2 Sync').has_value('Sync').else_use('LFO 2 Rate').with_name('Rate'),
-                          use('LFO 2 Offset').with_name('Offset').if_parameter('LFO 2 On/Off').has_value('On'),
-                          use('LFO 2 Destination A').with_name('Destination A').if_parameter('LFO 2 On/Off').has_value('On'),
-                          use('LFO 2 Destination A Amount').with_name('Dest A Amount').if_parameter('LFO 2 On/Off').has_value('On'))}),
-  (
-   'Mallet Mod.',
-   {BANK_PARAMETERS_KEY: (
-                          use('Mallet On/Off').with_name('Mallet'),
-                          use('Mallet Volume < Key').with_name('Pitch → Vol').if_parameter('Mallet On/Off').has_value('On'),
-                          use('Mallet Volume < Vel').with_name('Vel → Vol').if_parameter('Mallet On/Off').has_value('On'),
-                          use('Mallet Noise Amount < Key').with_name('Pitch → Noise').if_parameter('Mallet On/Off').has_value('On'),
-                          use('Mallet Noise Amount < Vel').with_name('Vel → Noise').if_parameter('Mallet On/Off').has_value('On'),
-                          use('Mallet Stiffness < Key').with_name('Pitch → Stiffness').if_parameter('Mallet On/Off').has_value('On'),
-                          use('Mallet Stiffness < Vel').with_name('Vel → Stiffness').if_parameter('Mallet On/Off').has_value('On'),
-=======
-                          'Mallet On/Off',
-                          use('Mallet Volume').if_parameter('Mallet On/Off').has_value('On'),
-                          use('Mallet Noise Amount').if_parameter('Mallet On/Off').has_value('On'),
-                          use('Mallet Stiffness').if_parameter('Mallet On/Off').has_value('On'),
-                          use('Mallet Noise Color').if_parameter('Mallet On/Off').has_value('On'),
-                          use('Mallet Modulation').if_parameter('Mallet On/Off').has_value('On'),
-                          use('Mallet Volume < Vel').if_parameter('Mallet On/Off').has_value('On'),
-                          use('Mallet Noise Amount < Vel').if_parameter('Mallet On/Off').has_value('On'))}),
-  (
-   'Noise Envelope',
-   {BANK_PARAMETERS_KEY: (
-                          'Noise On/Off',
-                          use('Noise Volume').if_parameter('Noise On/Off').has_value('On'),
-                          use('Noise Volume < Key').if_parameter('Noise On/Off').has_value('On'),
-                          use('Noise Volume < Vel').if_parameter('Noise On/Off').has_value('On'),
-                          use('Noise Attack').if_parameter('Noise On/Off').has_value('On'),
-                          use('Noise Sustain').if_parameter('Noise On/Off').has_value('On'),
-                          use('Noise Decay').if_parameter('Noise On/Off').has_value('On'),
-                          use('Noise Release').if_parameter('Noise On/Off').has_value('On'))}),
-  (
-   'Noise Filter',
-   {BANK_PARAMETERS_KEY: (
-                          'Noise On/Off',
-                          use('Noise Volume').if_parameter('Noise On/Off').has_value('On'),
-                          use('Noise Filter Type').if_parameter('Noise On/Off').has_value('On'),
-                          use('Noise Filter Freq').if_parameter('Noise On/Off').has_value('On'),
-                          use('Noise Filter Q').if_parameter('Noise On/Off').has_value('On'),
-                          use('Noise Freq < Key').if_parameter('Noise On/Off').has_value('On'),
-                          use('Noise Freq < Vel').if_parameter('Noise On/Off').has_value('On'),
-                          use('Noise Freq < Env').if_parameter('Noise On/Off').has_value('On'))}),
-  (
-   'Res. 1 Body',
-   {BANK_PARAMETERS_KEY: (
-                          'Res 1 On/Off',
-                          use('Res 1 Type').if_parameter('Res 1 On/Off').has_value('On'),
-                          use('').if_parameter('Res 1 On/Off').has_value('Off').else_use('Res 1 Ratio').if_parameter('Res 1 Type').has_value('Plate').else_use('Res 1 Ratio').if_parameter('Res 1 Type').has_value('Membrane'),
-                          use('Res 1 Decay').if_parameter('Res 1 On/Off').has_value('On'),
-                          use('').if_parameter('Res 1 On/Off').has_value('Off').else_use('Res 1 Radius').if_parameter('Res 1 Type').has_value('Tube').else_use('Res 1 Radius').if_parameter('Res 1 Type').has_value('Pipe').else_use('Res 1 Material'),
-                          use('').if_parameter('Res 1 On/Off').has_value('Off').else_use('').if_parameter('Res 1 Type').has_value('Tube').else_use('').if_parameter('Res 1 Type').has_value('Pipe').else_use('Res 1 Listening L'),
-                          use('').if_parameter('Res 1 On/Off').has_value('Off').else_use('').if_parameter('Res 1 Type').has_value('Tube').else_use('').if_parameter('Res 1 Type').has_value('Pipe').else_use('Res 1 Listening R'),
-                          use('').if_parameter('Res 1 On/Off').has_value('Off').else_use('').if_parameter('Res 1 Type').has_value('Tube').else_use('').if_parameter('Res 1 Type').has_value('Pipe').else_use('Res 1 Hit'))}),
-  (
-   'Res. 1 Tune',
-   {BANK_PARAMETERS_KEY: (
-                          'Res 1 On/Off',
-                          use('').if_parameter('Res 1 On/Off').has_value('Off').else_use('').if_parameter('Res 1 Type').has_value('Tube').else_use('').if_parameter('Res 1 Type').has_value('Pipe').else_use('Res 1 Brightness'),
-                          use('Res 1 Quality').if_parameter('Res 1 On/Off').has_value('On'),
-                          use('').if_parameter('Res 1 On/Off').has_value('Off').else_use('').if_parameter('Res 1 Type').has_value('Tube').else_use('Res 1 Opening').if_parameter('Res 1 Type').has_value('Pipe').else_use('Res 1 Inharmonics'),
-                          use('Res 1 Tune').if_parameter('Res 1 On/Off').has_value('On'),
-                          use('Res 1 Fine Tune').if_parameter('Res 1 On/Off').has_value('On'),
-                          use('Res 1 Pitch Env.').if_parameter('Res 1 On/Off').has_value('On'),
-                          use('Res 1 Pitch Env. Time').if_parameter('Res 1 On/Off').has_value('On'))}),
-  (
-   'Res. 2 Body',
-   {BANK_PARAMETERS_KEY: (
-                          'Res 2 On/Off',
-                          use('Res 2 Type').if_parameter('Res 2 On/Off').has_value('On'),
-                          use('').if_parameter('Res 2 On/Off').has_value('Off').else_use('Res 2 Ratio').if_parameter('Res 2 Type').has_value('Plate').else_use('Res 2 Ratio').if_parameter('Res 2 Type').has_value('Membrane'),
-                          use('Res 2 Decay').if_parameter('Res 2 On/Off').has_value('On'),
-                          use('').if_parameter('Res 2 On/Off').has_value('Off').else_use('Res 2 Radius').if_parameter('Res 2 Type').has_value('Tube').else_use('Res 2 Radius').if_parameter('Res 2 Type').has_value('Pipe').else_use('Res 2 Material'),
-                          use('').if_parameter('Res 2 On/Off').has_value('Off').else_use('').if_parameter('Res 2 Type').has_value('Tube').else_use('').if_parameter('Res 2 Type').has_value('Pipe').else_use('Res 2 Listening L'),
-                          use('').if_parameter('Res 2 On/Off').has_value('Off').else_use('').if_parameter('Res 2 Type').has_value('Tube').else_use('').if_parameter('Res 2 Type').has_value('Pipe').else_use('Res 2 Listening R'),
-                          use('').if_parameter('Res 2 On/Off').has_value('Off').else_use('').if_parameter('Res 2 Type').has_value('Tube').else_use('').if_parameter('Res 2 Type').has_value('Pipe').else_use('Res 2 Hit'))}),
-  (
-   'Res. 2 Tune',
-   {BANK_PARAMETERS_KEY: (
-                          'Res 2 On/Off',
-                          use('').if_parameter('Res 2 On/Off').has_value('Off').else_use('').if_parameter('Res 2 Type').has_value('Tube').else_use('').if_parameter('Res 2 Type').has_value('Pipe').else_use('Res 2 Brightness'),
-                          use('Res 2 Quality').if_parameter('Res 2 On/Off').has_value('On'),
-                          use('').if_parameter('Res 2 On/Off').has_value('Off').else_use('').if_parameter('Res 2 Type').has_value('Tube').else_use('Res 2 Opening').if_parameter('Res 2 Type').has_value('Pipe').else_use('Res 2 Inharmonics'),
-                          use('Res 2 Tune').if_parameter('Res 2 On/Off').has_value('On'),
-                          use('Res 2 Fine Tune').if_parameter('Res 2 On/Off').has_value('On'),
-                          use('Res 2 Pitch Env.').if_parameter('Res 2 On/Off').has_value('On'),
-                          use('Res 2 Pitch Env. Time').if_parameter('Res 2 On/Off').has_value('On'))}),
-  (
-   'LFO 1',
-   {BANK_PARAMETERS_KEY: (
-                          'LFO 1 On/Off',
-                          use('LFO 1 Depth').if_parameter('LFO 1 On/Off').has_value('On'),
-                          use('LFO 1 Shape').if_parameter('LFO 1 On/Off').has_value('On'),
-                          use('LFO 1 Sync').if_parameter('LFO 1 On/Off').has_value('On'),
-                          use('').if_parameter('LFO 1 On/Off').has_value('Off').else_use('LFO 1 Sync Rate').if_parameter('LFO 1 Sync').has_value('Sync').else_use('LFO 1 Rate'),
-                          use('LFO 1 Offset').if_parameter('LFO 1 On/Off').has_value('On'),
-                          use('LFO 1 Destination A').if_parameter('LFO 1 On/Off').has_value('On'),
-                          use('LFO 1 Destination A Amount').if_parameter('LFO 1 On/Off').has_value('On'))}),
-  (
-   'LFO 2',
-   {BANK_PARAMETERS_KEY: (
-                          'LFO 2 On/Off',
-                          use('LFO 2 Depth').if_parameter('LFO 2 On/Off').has_value('On'),
-                          use('LFO 2 Shape').if_parameter('LFO 2 On/Off').has_value('On'),
-                          use('LFO 2 Sync').if_parameter('LFO 2 On/Off').has_value('On'),
-                          use('').if_parameter('LFO 2 On/Off').has_value('Off').else_use('LFO 2 Sync Rate').if_parameter('LFO 2 Sync').has_value('Sync').else_use('LFO 2 Rate'),
-                          use('LFO 2 Offset').if_parameter('LFO 2 On/Off').has_value('On'),
-                          use('LFO 2 Destination A').if_parameter('LFO 2 On/Off').has_value('On'),
-                          use('LFO 2 Destination A Amount').if_parameter('LFO 2 On/Off').has_value('On'))}),
-  (
-   'Mallet Mod.',
-   {BANK_PARAMETERS_KEY: (
-                          'Mallet On/Off',
-                          use('Mallet Volume < Key').if_parameter('Mallet On/Off').has_value('On'),
-                          use('Mallet Volume < Vel').if_parameter('Mallet On/Off').has_value('On'),
-                          use('Mallet Noise Amount < Key').if_parameter('Mallet On/Off').has_value('On'),
-                          use('Mallet Noise Amount < Vel').if_parameter('Mallet On/Off').has_value('On'),
-                          use('Mallet Stiffness < Key').if_parameter('Mallet On/Off').has_value('On'),
-                          use('Mallet Stiffness < Vel').if_parameter('Mallet On/Off').has_value('On'),
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
-                          '')}))), 
+                          ''), 
+    
+    OPTIONS_KEY: ('', '', '', '', '', '', '')}))), 
  'DrumBuss':IndexedDict((
   (
    BANK_MAIN_KEY,
@@ -742,10 +262,30 @@ BANK_DEFINITIONS = {'AudioEffectGroupDevice':RACK_BANKS,
   (
    'Gains',
    {BANK_PARAMETERS_KEY: ('Trim', '', '', '', '', 'Damping Freq', 'Output Gain', 'Dry/Wet')}))), 
+ 'DrumCell':IndexedDict((
+  (
+   BANK_MAIN_KEY,
+   {BANK_PARAMETERS_KEY: (
+                          'Select',
+                          use('Attack').if_parameter('Select').has_value('Env').else_use('Flt Type').if_parameter('Select').has_value('Filter').else_use('').if_parameter('Select').has_value('Mod').else_use('Start').if_parameter('Select').has_value('Sample'),
+                          use('Hold').if_parameter('Select').has_value('Env').else_use('Flt Freq').if_parameter('Select').has_value('Filter').else_use('').if_parameter('Select').has_value('Mod').else_use('Transpose').if_parameter('Select').has_value('Sample'),
+                          use('Decay').if_parameter('Select').has_value('Env').else_use('Flt Reso').if_parameter('Select').has_value('Filter').else_use('Vel > Vol').if_parameter('Select').has_value('Mod').else_use('Detune').if_parameter('Select').has_value('Sample'),
+                          'Volume',
+                          '',
+                          '',
+                          ''), 
+    
+    OPTIONS_KEY: (
+                  use('Filter').if_parameter('Select').has_value('Filter').else_use('Env Mode').if_parameter('Select').has_value('Env').else_use(''),
+                  '',
+                  '',
+                  '',
+                  '',
+                  '',
+                  '')}),)), 
  'LoungeLizard':IndexedDict((
   (
    BANK_MAIN_KEY,
-<<<<<<< HEAD
    {BANK_PARAMETERS_KEY: (
                           use('M Stiffness').with_name('Mallet Stiffness'),
                           use('M Force').with_name('Mallet Force'),
@@ -810,32 +350,9 @@ BANK_DEFINITIONS = {'AudioEffectGroupDevice':RACK_BANKS,
                           use('F Tine < Key').with_name('Pitch → Tine'),
                           use('P Amp < Key').with_name('Pitch → Output'),
                           'Volume')}),
-=======
-   {BANK_PARAMETERS_KEY: ('M Stiffness', 'M Force', 'Noise Amount', 'F Tine Vol', 'F Tone Vol', 'F Release',
- 'P Symmetry', 'Volume')}),
-  (
-   'Mallet',
-   {BANK_PARAMETERS_KEY: ('M Stiffness', 'M Force', 'Noise Pitch', 'Noise Decay', 'Noise Amount', 'M Stiff < Vel',
- 'M Force < Vel', 'Volume')}),
-  (
-   'Fork',
-   {BANK_PARAMETERS_KEY: ('F Tine Color', 'F Tine Decay', 'F Tine Vol', 'F Tone Vol', 'F Tone Decay', 'F Release',
- 'F Tine < Key', 'Volume')}),
-  (
-   'Damper',
-   {BANK_PARAMETERS_KEY: ('Damp Tone', 'Damp Balance', 'Damp Amount', '', '', '', '', 'Volume')}),
-  (
-   'Pickup',
-   {BANK_PARAMETERS_KEY: ('P Symmetry', 'P Distance', 'P Amp In', 'P Amp Out', 'Pickup Model', 'P Amp < Key',
- '', 'Volume')}),
-  (
-   'Modulation',
-   {BANK_PARAMETERS_KEY: ('M Stiff < Vel', 'M Stiff < Key', 'M Force < Vel', 'M Force < Key', 'Noise < Key',
- 'F Tine < Key', 'P Amp < Key', 'Volume')}),
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
   (
    'Global',
-   {BANK_PARAMETERS_KEY: ('KB Stretch', 'PB Range', '', '', 'Voices', 'Semitone', 'Detune', 'Volume')}))), 
+   {BANK_PARAMETERS_KEY: ('KB Stretch', 'PB Range', 'Note PB Range', '', 'Voices', 'Semitone', 'Detune', 'Volume')}))), 
  'InstrumentImpulse':IndexedDict((
   (
    BANK_MAIN_KEY,
@@ -1375,280 +892,79 @@ BANK_DEFINITIONS = {'AudioEffectGroupDevice':RACK_BANKS,
   (
    BANK_MAIN_KEY,
    {BANK_PARAMETERS_KEY: (
-<<<<<<< HEAD
-                          use('Exciter Type').if_parameter('Exc On/Off').has_value('On'),
-                          use('Exc ForceMassProt').if_parameter('Exc On/Off').has_value('On'),
-                          use('Exc FricStiff').if_parameter('Exc On/Off').has_value('On'),
-                          use('Exc Velocity').if_parameter('Exc On/Off').has_value('On'),
-                          use('E Pos').with_name('Exc Position').if_parameter('Exc On/Off').has_value('On'),
-                          'String Decay',
-                          use('Str Damping').with_name('String Damping').if_parameter('Exciter Type').does_not_have_value('Bow').else_use(''),
-                          'Volume')}),
-  (
-   'Exciter',
-   {BANK_PARAMETERS_KEY: (
-                          use('Exc On/Off').with_name('Exciter'),
-                          use('Exciter Type').with_name('Type').if_parameter('Exc On/Off').has_value('On'),
-                          use('Exc ForceMassProt').with_name('Force').if_parameter('Exciter Type').has_value('Bow').and_parameter('Exc On/Off').has_value('On').else_use('Exc ForceMassProt').with_name('Mass').if_parameter('Exciter Type').has_value('Hammer').and_parameter('Exc On/Off').has_value('On').else_use('Exc ForceMassProt').with_name('Mass').if_parameter('Exciter Type').has_value('Hammer (bouncing)').and_parameter('Exc On/Off').has_value('On').else_use('Exc ForceMassProt').with_name('Protrusion').if_parameter('Exciter Type').has_value('Plectrum').and_parameter('Exc On/Off').has_value('On'),
-                          use('Exc FricStiff').with_name('Friction').if_parameter('Exc On/Off').has_value('On').and_parameter('Exciter Type').has_value('Bow').else_use('Exc FricStiff').with_name('Stiffness').if_parameter('Exc On/Off').has_value('On'),
-                          use('Exc Velocity').with_name('Velocity').if_parameter('Exc On/Off').has_value('On'),
-                          use('E Pos').with_name('Position').if_parameter('Exc On/Off').has_value('On'),
-                          use('E Pos Abs').with_name('Fixed Position').if_parameter('Exc On/Off').has_value('On'),
-=======
-                          use('Excitator Type').if_parameter('Exc On/Off').has_value('On'),
-                          use('Exc ForceMassProt').if_parameter('Exc On/Off').has_value('On'),
-                          use('Exc FricStiff').if_parameter('Exc On/Off').has_value('On'),
-                          use('Exc Velocity').if_parameter('Exc On/Off').has_value('On'),
-                          use('E Pos').if_parameter('Exc On/Off').has_value('On'),
-                          'String Decay',
-                          'Str Damping',
-                          'Volume')}),
-  (
-   'Excitator',
-   {BANK_PARAMETERS_KEY: (
-                          'Exc On/Off',
-                          use('Excitator Type').if_parameter('Exc On/Off').has_value('On'),
-                          use('Exc ForceMassProt').if_parameter('Exc On/Off').has_value('On'),
-                          use('Exc FricStiff').if_parameter('Exc On/Off').has_value('On'),
-                          use('Exc Velocity').if_parameter('Exc On/Off').has_value('On'),
-                          use('E Pos').if_parameter('Exc On/Off').has_value('On'),
-                          use('E Pos Abs').if_parameter('Exc On/Off').has_value('On'),
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
-                          'Volume')}),
-  (
-   'String & Pickup',
-   {BANK_PARAMETERS_KEY: (
-                          'String Decay',
-<<<<<<< HEAD
-                          use('S Decay < Key').with_name('Pitch → Decay'),
-                          use('S Decay Ratio').with_name('Decay Ratio'),
-                          use('Str Inharmon').with_name('Inharmonicity'),
-                          use('Str Damping').with_name('Damping'),
-                          use('S Damp < Key').with_name('Pitch → Damping'),
-=======
-                          'S Decay < Key',
-                          'S Decay Ratio',
-                          'Str Inharmon',
-                          'Str Damping',
-                          'S Damp < Key',
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
-                          'Pickup On/Off',
-                          use('Pickup Pos').if_parameter('Pickup On/Off').has_value('On'))}),
-  (
-   'Damper',
-   {BANK_PARAMETERS_KEY: (
-<<<<<<< HEAD
-                          use('Damper On').with_name('Damper'),
-                          use('Damper Mass').with_name('Mass').if_parameter('Damper On').has_value('On'),
-                          use('D Stiffness').with_name('Stiffness').if_parameter('Damper On').has_value('On'),
-                          use('Damp Pos').with_name('Position').if_parameter('Damper On').has_value('On'),
-                          use('D Damping').with_name('Damping').if_parameter('Damper On').has_value('On'),
-                          use('Damper Gated').with_name('Gated Damper').if_parameter('Damper On').has_value('On'),
-                          use('').if_parameter('Damper On').has_value('Off').else_use('D Velocity').with_name('Velocity').if_parameter('Damper Gated').has_value('On').else_use(''),
-                          use('D Pos Abs').with_name('Fixed Position').if_parameter('Damper On').has_value('On'))}),
-  (
-   'Termination',
-   {BANK_PARAMETERS_KEY: (
-                          use('Term On/Off').with_name('Termination'),
-                          use('Term Mass').with_name('Finger Mass').if_parameter('Term On/Off').has_value('On'),
-                          use('Term Fng Stiff').with_name('Finger Stiffness').if_parameter('Term On/Off').has_value('On'),
-                          use('Term Fret Stiff').with_name('Fret Stiffness').if_parameter('Term On/Off').has_value('On'),
-                          use('T Mass < Vel').with_name('Vel → Fing Mass').if_parameter('Term On/Off').has_value('On'),
-                          use('T Mass < Key').with_name('Pitch → Fing Mass').if_parameter('Term On/Off').has_value('On'),
-=======
-                          'Damper On',
-                          use('Damper Mass').if_parameter('Damper On').has_value('On'),
-                          use('D Stiffness').if_parameter('Damper On').has_value('On'),
-                          use('Damp Pos').if_parameter('Damper On').has_value('On'),
-                          use('D Damping').if_parameter('Damper On').has_value('On'),
-                          use('Damper Gated').if_parameter('Damper On').has_value('On'),
-                          use('').if_parameter('Damper On').has_value('Off').else_use('D Velocity').if_parameter('Damper Gated').has_value('On').else_use(''),
-                          use('D Pos Abs').if_parameter('Damper On').has_value('On'))}),
-  (
-   'Termination',
-   {BANK_PARAMETERS_KEY: (
-                          'Term On/Off',
-                          use('Term Mass').if_parameter('Term On/Off').has_value('On'),
-                          use('Term Fng Stiff').if_parameter('Term On/Off').has_value('On'),
-                          use('Term Fret Stiff').if_parameter('Term On/Off').has_value('On'),
-                          use('T Mass < Vel').if_parameter('Term On/Off').has_value('On'),
-                          use('T Mass < Key').if_parameter('Term On/Off').has_value('On'),
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
-                          '',
-                          'Volume')}),
-  (
-   'Body',
-   {BANK_PARAMETERS_KEY: (
-<<<<<<< HEAD
-                          use('Body On/Off').with_name('Body'),
-                          use('Body Type').with_name('Type').if_parameter('Body On/Off').has_value('On'),
-                          use('Body Size').with_name('Size').if_parameter('Body On/Off').has_value('On'),
-                          use('Body Decay').with_name('Decay').if_parameter('Body On/Off').has_value('On'),
-                          use('Body Low-Cut').with_name('Low-cut').if_parameter('Body On/Off').has_value('On'),
-                          use('Body High-Cut').with_name('High-cut').if_parameter('Body On/Off').has_value('On'),
-                          use('Body Mix').with_name('Mix').if_parameter('Body On/Off').has_value('On'),
-=======
-                          'Body On/Off',
-                          use('Body Type').if_parameter('Body On/Off').has_value('On'),
-                          use('Body Size').if_parameter('Body On/Off').has_value('On'),
-                          use('Body Decay').if_parameter('Body On/Off').has_value('On'),
-                          use('Body Low-Cut').if_parameter('Body On/Off').has_value('On'),
-                          use('Body High-Cut').if_parameter('Body On/Off').has_value('On'),
-                          use('Body Mix').if_parameter('Body On/Off').has_value('On'),
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
-                          'Volume')}),
+                          'Section',
+                          use('Exciter Type').if_parameter('Section').has_value('Exciter').else_use('String Decay').if_parameter('Section').has_value('String').else_use('Damper Mass').if_parameter('Section').has_value('Damper').else_use('Term Mass').if_parameter('Section').has_value('Termination').else_use('Body Type').if_parameter('Section').has_value('Body'),
+                          use('Exc ForceMassProt').with_name('Force').if_parameter('Exciter Type').has_value('Bow').and_parameter('Section').has_value('Exciter').else_use('Exc ForceMassProt').with_name('Mass').if_parameter('Exciter Type').has_value('Hammer').and_parameter('Section').has_value('Exciter').else_use('Exc ForceMassProt').with_name('Mass').if_parameter('Exciter Type').has_value('Hammer (bouncing)').and_parameter('Section').has_value('Exciter').else_use('Exc ForceMassProt').with_name('Protrusion').if_parameter('Exciter Type').has_value('Plectrum').and_parameter('Section').has_value('Exciter').else_use('S Decay Ratio').if_parameter('Section').has_value('String').else_use('D Stiffness').if_parameter('Section').has_value('Damper').else_use('Term Fng Stiff').if_parameter('Section').has_value('Termination').else_use('Body Size').if_parameter('Section').has_value('Body'),
+                          use('Exc FricStiff').with_name('Friction').if_parameter('Exciter Type').has_value('Bow').and_parameter('Section').has_value('Exciter').else_use('Exc FricStiff').with_name('Stiffness').if_parameter('Exciter Type').has_value('Plectrum').and_parameter('Section').has_value('Exciter').else_use('Exc FricStiff').with_name('Stiffness').if_parameter('Exciter Type').has_value('Hammer').and_parameter('Section').has_value('Exciter').else_use('Exc FricStiff').with_name('Stiffness').if_parameter('Exciter Type').has_value('Hammer (bouncing)').and_parameter('Section').has_value('Exciter').else_use('Str Inharmon').if_parameter('Section').has_value('String').else_use('D Velocity').if_parameter('Section').has_value('Damper').else_use('Term Fret Stiff').if_parameter('Section').has_value('Termination').else_use('Body Mix').if_parameter('Section').has_value('Body'),
+                          use('Exc Velocity').if_parameter('Section').has_value('Exciter').else_use('Str Damping').if_parameter('Section').has_value('String').else_use('Damp Pos').if_parameter('Section').has_value('Damper').else_use('Pickup Pos').if_parameter('Section').has_value('Termination').else_use('Body Decay').if_parameter('Section').has_value('Body'),
+                          use('E Pos').if_parameter('Section').has_value('Exciter').else_use('D Damping').if_parameter('Section').has_value('Damper').else_use('Body Low-Cut').if_parameter('Section').has_value('Body'),
+                          use('Exc Damping').if_parameter('Section').has_value('Exciter').else_use('Body High-Cut').if_parameter('Section').has_value('Body'),
+                          'Volume'), 
+    
+    OPTIONS_KEY: (
+                  use('Exciter').if_parameter('Section').has_value('Exciter').else_use('Damper').if_parameter('Section').has_value('Damper').else_use('Termination').if_parameter('Section').has_value('Termination').else_use('Body').if_parameter('Section').has_value('Body'),
+                  '',
+                  use('Gated').if_parameter('Section').has_value('Damper'),
+                  use('Pickup').if_parameter('Section').has_value('Termination'),
+                  use('Fixed Exc').if_parameter('Section').has_value('Exciter').else_use('Fixed Damp').if_parameter('Section').has_value('Damper'),
+                  '',
+                  '')}),
   (
    'Filter',
-   {BANK_PARAMETERS_KEY: (
-<<<<<<< HEAD
-                          use('Filter On/Off').with_name('Filter'),
-                          use('Filter Type').with_name('Type').if_parameter('Filter On/Off').has_value('On'),
-                          use('Filter Freq').with_name('Frequency').if_parameter('Filter On/Off').has_value('On'),
-                          use('Filter Reso').with_name('Resonance').if_parameter('Filter On/Off').has_value('On'),
-                          use('Freq < Env').with_name('Env → Freq').if_parameter('Filter On/Off').has_value('On'),
-                          use('Freq < LFO').with_name('LFO → Freq').if_parameter('Filter On/Off').has_value('On'),
-                          use('Reso < Env').with_name('Env → Res').if_parameter('Filter On/Off').has_value('On'),
-                          use('Reso < LFO').with_name('LFO → Res').if_parameter('Filter On/Off').has_value('On'))}),
+   {BANK_PARAMETERS_KEY: ('Filter Type', 'Filter Freq', 'Filter Reso', 'Freq < Env', 'FEG Attack', 'FEG Decay',
+ 'FEG Sustain', 'FEG Release'), 
+    
+    OPTIONS_KEY: ('Filter', '', '', 'Filt Env', '', '', '')}),
   (
    'LFO',
    {BANK_PARAMETERS_KEY: (
-                          use('LFO On/Off').with_name('LFO'),
-                          use('LFO Shape').with_name('Shape').if_parameter('LFO On/Off').has_value('On'),
-                          use('LFO Sync On').with_name('Rate Mode').if_parameter('LFO On/Off').has_value('On'),
-                          use('').if_parameter('LFO On/Off').has_value('Off').else_use('LFO SyncRate').with_name('Sync Rate').if_parameter('LFO Sync On').has_value('Beat').else_use('LFO Speed').with_name('Speed'),
-                          use('LFO Delay').with_name('Delay').if_parameter('LFO On/Off').has_value('On'),
-                          use('LFO Fade In').with_name('Fade In').if_parameter('LFO On/Off').has_value('On'),
-=======
-                          'Filter On/Off',
-                          use('Filter Type').if_parameter('Filter On/Off').has_value('On'),
-                          use('Filter Freq').if_parameter('Filter On/Off').has_value('On'),
-                          use('Filter Reso').if_parameter('Filter On/Off').has_value('On'),
-                          use('Freq < Env').if_parameter('Filter On/Off').has_value('On'),
-                          use('Freq < LFO').if_parameter('Filter On/Off').has_value('On'),
-                          use('Reso < Env').if_parameter('Filter On/Off').has_value('On'),
-                          use('Reso < LFO').if_parameter('Filter On/Off').has_value('On'))}),
+                          'LFO Shape',
+                          use('LFO Speed').if_parameter('LFO Sync On').has_value('Hertz').else_use('LFO SyncRate'),
+                          'LFO Fade In',
+                          'LFO Delay',
+                          '',
+                          '',
+                          '',
+                          ''), 
+    
+    OPTIONS_KEY: ('LFO Sync On', 'LFO', '', '', '', '', '')}),
   (
-   'LFO',
+   'Vib & Uni',
    {BANK_PARAMETERS_KEY: (
-                          'LFO On/Off',
-                          use('LFO Shape').if_parameter('LFO On/Off').has_value('On'),
-                          use('LFO Sync On').if_parameter('LFO On/Off').has_value('On'),
-                          use('').if_parameter('LFO On/Off').has_value('Off').else_use('LFO SyncRate').if_parameter('LFO Sync On').has_value('Beat').else_use('LFO Speed'),
-                          use('LFO Delay').if_parameter('LFO On/Off').has_value('On'),
-                          use('LFO Fade In').if_parameter('LFO On/Off').has_value('On'),
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
+                          'Vib & Uni',
+                          use('Vib Delay').if_parameter('Vib & Uni').has_value('Vib').else_use('Uni Delay'),
+                          use('Vib Fade-In').if_parameter('Vib & Uni').has_value('Vib').else_use('Unison Voices'),
+                          use('Vib Speed').if_parameter('Vib & Uni').has_value('Vib').else_use('Uni Detune'),
+                          use('Vib Amount').if_parameter('Vib & Uni').has_value('Vib').else_use('Porta Time'),
+                          use('Vib Error').if_parameter('Vib & Uni').has_value('Vib'),
+                          use('Vib < ModWh').if_parameter('Vib & Uni').has_value('Vib'),
+                          ''), 
+    
+    OPTIONS_KEY: (
+                  use('Vibrato').if_parameter('Vib & Uni').has_value('Vib').else_use('Unison'),
+                  use('Unison Voices').if_parameter('Vib & Uni').has_value('Uni'),
+                  '',
+                  use('Portamento').if_parameter('Vib & Uni').has_value('Uni'),
+                  use('Proportional').if_parameter('Vib & Uni').has_value('Uni'),
+                  use('Legato').if_parameter('Vib & Uni').has_value('Uni'),
+                  '')}),
+  (
+   'Modulation',
+   {BANK_PARAMETERS_KEY: (
+                          'Mod Source',
+                          use('Key Dest').if_parameter('Mod Source').has_value('Key').else_use('Vel Dest').if_parameter('Mod Source').has_value('Vel').else_use('PB Range').if_parameter('Mod Source').has_value('PB').else_use('Press Dest A').if_parameter('Mod Source').has_value('Press').else_use('Slide Dest A').if_parameter('Mod Source').has_value('Slide'),
+                          use('Exc ForceMassProt < Key').if_parameter('Mod Source').has_value('Key').and_parameter('Key Dest').has_value('Exciter').else_use('D Mass < Key').if_parameter('Mod Source').has_value('Key').and_parameter('Key Dest').has_value('Damper').else_use('T Mass < Key').if_parameter('Mod Source').has_value('Key').and_parameter('Key Dest').has_value('Term/String').else_use('Exc ForceMassProt < Vel').if_parameter('Mod Source').has_value('Vel').and_parameter('Vel Dest').has_value('Exciter').else_use('T Mass < Vel').if_parameter('Mod Source').has_value('Vel').and_parameter('Vel Dest').has_value('Term/Damp').else_use('FEG Att < Vel').if_parameter('Mod Source').has_value('Vel').and_parameter('Vel Dest').has_value('Env').else_use('Note PB Range').if_parameter('Mod Source').has_value('PB').else_use('Press Amt A').if_parameter('Mod Source').has_value('Press').else_use('Slide Amt A').if_parameter('Mod Source').has_value('Slide'),
+                          use('Exc FricStiff < Key').if_parameter('Mod Source').has_value('Key').and_parameter('Key Dest').has_value('Exciter').else_use('D Stiff < Key').if_parameter('Mod Source').has_value('Key').and_parameter('Key Dest').has_value('Damper').else_use('S Decay < Key').if_parameter('Mod Source').has_value('Key').and_parameter('Key Dest').has_value('Term/String').else_use('Exc FricStiff < Vel').if_parameter('Mod Source').has_value('Vel').and_parameter('Vel Dest').has_value('Exciter').else_use('D Pos < Vel').if_parameter('Mod Source').has_value('Vel').and_parameter('Vel Dest').has_value('Term/Damp').else_use('FEG < Vel').if_parameter('Mod Source').has_value('Vel').and_parameter('Vel Dest').has_value('Env').else_use('Press Dest B').if_parameter('Mod Source').has_value('Press').else_use('Slide Dest B').if_parameter('Mod Source').has_value('Slide'),
+                          use('Exc Vel < Key').if_parameter('Mod Source').has_value('Key').and_parameter('Key Dest').has_value('Exciter').else_use('D Velo < Key').if_parameter('Mod Source').has_value('Key').and_parameter('Key Dest').has_value('Damper').else_use('S Damp < Key').if_parameter('Mod Source').has_value('Key').and_parameter('Key Dest').has_value('Term/String').else_use('Exc Vel < Vel').if_parameter('Mod Source').has_value('Vel').and_parameter('Vel Dest').has_value('Exciter').else_use('Press Amt B').if_parameter('Mod Source').has_value('Press').else_use('Slide Amt B').if_parameter('Mod Source').has_value('Slide'),
+                          use('E Pos < Key').if_parameter('Mod Source').has_value('Key').and_parameter('Key Dest').has_value('Exciter').else_use('D Pos < Key').if_parameter('Mod Source').has_value('Key').and_parameter('Key Dest').has_value('Damper').else_use('E Pos < Vel').if_parameter('Mod Source').has_value('Vel').and_parameter('Vel Dest').has_value('Exciter'),
                           '',
                           '')}),
-  (
-   'Vibrato',
-   {BANK_PARAMETERS_KEY: (
-<<<<<<< HEAD
-                          use('Vibrato On/Off').with_name('Vibrato'),
-                          use('Vib Delay').with_name('Delay').if_parameter('Vibrato On/Off').has_value('On'),
-                          use('Vib Fade-In').with_name('Fade-in').if_parameter('Vibrato On/Off').has_value('On'),
-                          use('Vib Speed').with_name('Speed').if_parameter('Vibrato On/Off').has_value('On'),
-                          use('Vib Amount').with_name('Amount').if_parameter('Vibrato On/Off').has_value('On'),
-                          use('Vib < ModWh').with_name('ModWh → Vibrato').if_parameter('Vibrato On/Off').has_value('On'),
-                          use('Vib Error').with_name('Error').if_parameter('Vibrato On/Off').has_value('On'),
-=======
-                          'Vibrato On/Off',
-                          use('Vib Delay').if_parameter('Vibrato On/Off').has_value('On'),
-                          use('Vib Fade-In').if_parameter('Vibrato On/Off').has_value('On'),
-                          use('Vib Speed').if_parameter('Vibrato On/Off').has_value('On'),
-                          use('Vib Amount').if_parameter('Vibrato On/Off').has_value('On'),
-                          use('Vib < ModWh').if_parameter('Vibrato On/Off').has_value('On'),
-                          use('Vib Error').if_parameter('Vibrato On/Off').has_value('On'),
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
-                          '')}),
-  (
-   'Unison & Portamento',
-   {BANK_PARAMETERS_KEY: (
-<<<<<<< HEAD
-                          use('Unison On/Off').with_name('Unison'),
-                          use('Unison Voices').with_name('Voices').if_parameter('Unison On/Off').has_value('On'),
-                          use('Uni Delay').with_name('Delay').if_parameter('Unison On/Off').has_value('On'),
-                          use('Uni Detune').with_name('Detune').if_parameter('Unison On/Off').has_value('On'),
-                          use('Porta On/Off').with_name('Portamento'),
-                          use('Porta Time').with_name('Time').if_parameter('Porta On/Off').has_value('On'),
-                          use('Porta Legato').with_name('Legato').if_parameter('Porta On/Off').has_value('On'),
-                          use('Porta Prop').with_name('Proportional').if_parameter('Porta On/Off').has_value('On'))}),
-=======
-                          'Unison On/Off',
-                          use('Unison Voices').if_parameter('Unison On/Off').has_value('On'),
-                          use('Uni Delay').if_parameter('Unison On/Off').has_value('On'),
-                          use('Uni Detune').if_parameter('Unison On/Off').has_value('On'),
-                          'Porta On/Off',
-                          use('Porta Time').if_parameter('Porta On/Off').has_value('On'),
-                          use('Porta Legato').if_parameter('Porta On/Off').has_value('On'),
-                          use('Porta Prop').if_parameter('Porta On/Off').has_value('On'))}),
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
   (
    'Global',
-   {BANK_PARAMETERS_KEY: ('Octave', 'Semitone', 'Fine Tune', 'Voices', 'PB Depth', 'Stretch', 'Error', 'Key Priority')}),
-  (
-   'Filt. Env.',
-   {BANK_PARAMETERS_KEY: (
-<<<<<<< HEAD
-                          use('FEG On/Off').with_name('Filter Envelope'),
-                          use('FEG Attack').with_name('Attack').if_parameter('FEG On/Off').has_value('On'),
-                          use('FEG Decay').with_name('Decay').if_parameter('FEG On/Off').has_value('On'),
-                          use('FEG Sustain').with_name('Sustain').if_parameter('FEG On/Off').has_value('On'),
-                          use('FEG Release').with_name('Release').if_parameter('FEG On/Off').has_value('On'),
-                          use('FEG Att < Vel').with_name('Vel → Attack').if_parameter('FEG On/Off').has_value('On'),
-                          use('FEG < Vel').with_name('Vel → Env').if_parameter('FEG On/Off').has_value('On'),
-                          '')}),
-  (
-   'Exciter Mod.',
-   {BANK_PARAMETERS_KEY: (
-                          use('Exc ForceMassProt < Vel').with_name('Vel → Protrusion').if_parameter('Exc On/Off').has_value('On'),
-                          use('Exc ForceMassProt < Key').with_name('Pitch → Protrusion').if_parameter('Exc On/Off').has_value('On'),
-                          use('Exc FricStiff < Vel').with_name('Vel → Stiffness').if_parameter('Exc On/Off').has_value('On'),
-                          use('Exc FricStiff < Key').with_name('Pitch → Stiffness').if_parameter('Exc On/Off').has_value('On'),
-                          use('Exc Vel < Vel').with_name('Vel → Exc Vel').if_parameter('Exc On/Off').has_value('On'),
-                          use('Exc Vel < Key').with_name('Pitch → Exc Vel').if_parameter('Exc On/Off').has_value('On'),
-                          use('E Pos < Vel').with_name('Vel → Position').if_parameter('Exc On/Off').has_value('On'),
-                          use('E Pos < Key').with_name('Pitch → Position').if_parameter('Exc On/Off').has_value('On'))}),
-  (
-   'Mass Mod.',
-   {BANK_PARAMETERS_KEY: (
-                          use('D Mass < Key').with_name('Pitch → Mass').if_parameter('Damper On').has_value('On'),
-                          use('D Stiff < Key').with_name('Pitch → Stiffness').if_parameter('Damper On').has_value('On'),
-                          use('D Pos < Key').with_name('Pitch → Damp Pos').if_parameter('Damper On').has_value('On'),
-                          use('D Pos < Vel').with_name('Vel → Damp Pos').if_parameter('Damper On').has_value('On'),
-                          use('Damper Gated').with_name('Gated Damper').if_parameter('Damper On').has_value('On'),
-                          use('').if_parameter('Damper On').has_value('Off').else_use('D Velo < Key').with_name('Pitch → Damp Vel').if_parameter('Damper Gated').has_value('On').else_use(''),
-=======
-                          'FEG On/Off',
-                          use('FEG Attack').if_parameter('FEG On/Off').has_value('On'),
-                          use('FEG Decay').if_parameter('FEG On/Off').has_value('On'),
-                          use('FEG Sustain').if_parameter('FEG On/Off').has_value('On'),
-                          use('FEG Release').if_parameter('FEG On/Off').has_value('On'),
-                          use('FEG Att < Vel').if_parameter('FEG On/Off').has_value('On'),
-                          use('FEG < Vel').if_parameter('FEG On/Off').has_value('On'),
-                          '')}),
-  (
-   'Excitator Mod.',
-   {BANK_PARAMETERS_KEY: (
-                          use('Exc Prot < Vel').if_parameter('Exc On/Off').has_value('On'),
-                          use('Exc Prot < Key').if_parameter('Exc On/Off').has_value('On'),
-                          use('Exc Stiff < Vel').if_parameter('Exc On/Off').has_value('On'),
-                          use('Exc Stiff < Key').if_parameter('Exc On/Off').has_value('On'),
-                          use('Exc Vel < Vel').if_parameter('Exc On/Off').has_value('On'),
-                          use('Exc Vel < Key').if_parameter('Exc On/Off').has_value('On'),
-                          use('E Pos < Vel').if_parameter('Exc On/Off').has_value('On'),
-                          use('E Pos < Key').if_parameter('Exc On/Off').has_value('On'))}),
-  (
-   'Mass Mod.',
-   {BANK_PARAMETERS_KEY: (
-                          use('D Mass < Key').if_parameter('Damper On').has_value('On'),
-                          use('D Stiff < Key').if_parameter('Damper On').has_value('On'),
-                          use('D Pos < Key').if_parameter('Damper On').has_value('On'),
-                          use('D Pos < Vel').if_parameter('Damper On').has_value('On'),
-                          use('Damper Gated').if_parameter('Damper On').has_value('On'),
-                          use('').if_parameter('Damper On').has_value('Off').else_use('D Velo < Key').if_parameter('Damper Gated').has_value('On').else_use(''),
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
-                          '',
-                          '')}))), 
+   {BANK_PARAMETERS_KEY: ('Octave', 'Semitone', 'Fine Tune', 'PB Range', 'Note PB Range', 'Voices', 'Stretch',
+ 'Error'), 
+    
+    OPTIONS_KEY: ('', '', '', '', 'Key Priority', '', '')}))), 
  'Hybrid':IndexedDict((
   (
    BANK_MAIN_KEY,
@@ -1872,9 +1188,9 @@ BANK_DEFINITIONS = {'AudioEffectGroupDevice':RACK_BANKS,
                           'Modulation Target Names',
                           'Current Mod Target',
                           use('MIDI Velocity Mod Amount').with_name('Velocity'),
-                          use('MIDI Note Mod Amount').with_name('Pitch'),
-                          use('MIDI Pitch Bend Mod Amount').with_name('Pitch Bend'),
-                          use('MIDI Aftertouch Mod Amount').with_name('Aftertouch'),
+                          use('MIDI Note Mod Amount').with_name('Key'),
+                          use('MIDI Pitch Bend Mod Amount').with_name('PB Range'),
+                          use('MIDI Aftertouch Mod Amount').with_name('Pressure'),
                           use('MIDI Mod Wheel Mod Amount').with_name('Mod Wheel'),
                           use('MIDI Random On Note On').with_name('Random')), 
     
@@ -1945,10 +1261,9 @@ BANK_DEFINITIONS = {'AudioEffectGroupDevice':RACK_BANKS,
  'Amp':IndexedDict((
   (
    'Global',
-   {BANK_PARAMETERS_KEY: ('Amp Type', 'Bass', 'Middle', 'Treble', 'Presence', 'Gain', 'Volume', 'Dry/Wet')}),
-  (
-   'Dual/Mono',
-   {BANK_PARAMETERS_KEY: ('Dual Mono', '', '', '', '', '', '', '')}))), 
+   {BANK_PARAMETERS_KEY: ('Amp Type', 'Bass', 'Middle', 'Treble', 'Presence', 'Gain', 'Volume', 'Dry/Wet'), 
+    
+    OPTIONS_KEY: ('', '', '', '', '', '', 'Dual Mono')}),)), 
  'AutoFilter':IndexedDict((
   (
    BANK_MAIN_KEY,
@@ -1996,97 +1311,114 @@ BANK_DEFINITIONS = {'AudioEffectGroupDevice':RACK_BANKS,
   (
    'Sidechain',
    {BANK_PARAMETERS_KEY: ('S/C On', 'S/C Mix', 'S/C Gain', '', '', '', '', '')}))), 
-<<<<<<< HEAD
- 'SubZero':IndexedDict((
+ 'Drift':IndexedDict((
   (
    BANK_MAIN_KEY,
    {BANK_PARAMETERS_KEY: (
-                          use('Oscillator1 Type').with_name('Osc 1 Wave'),
-                          use('Oscillator1 Shape').with_name('Osc 1 Shape'),
-                          use('Oscillator1 ShapeMod').with_name('Shape Mod'),
-                          use('Osc Gain 2').with_name('Osc 2 Gain '),
-                          use('Filter Freq').with_name('LP Freq'),
-                          use('Filter Res').with_name('LP Reso'),
-                          use('EG1 Attack').with_name('Env 1 Attack'),
-                          use('EG1 Release').with_name('Env 1 Release')), 
+                          'Osc Select',
+                          use('Osc 1 Wave').if_parameter('Osc Select').has_value('Osc 1').else_use('Osc 2 Wave'),
+                          use('Osc 1 Shape').if_parameter('Osc Select').has_value('Osc 1').else_use('Osc 2 Detune'),
+                          use('Osc 1 Oct').if_parameter('Osc Select').has_value('Osc 1').else_use('Osc 2 Oct'),
+                          use('Osc 1 Gain').if_parameter('Osc Select').has_value('Osc 1').else_use('Osc 2 Gain'),
+                          'LP Freq',
+                          'LP Reso',
+                          'Volume'), 
     
-    OPTIONS_KEY: ('', '', 'Oscillator2 Type', '', '', '', '')}),
+    OPTIONS_KEY: (
+                  'Osc Retrig',
+                  '',
+                  '',
+                  use('Osc 1').if_parameter('Osc Select').has_value('Osc 1').else_use('Osc 2'),
+                  '',
+                  '',
+                  '')}),
   (
    'Oscillator',
    {BANK_PARAMETERS_KEY: (
-                          use('Oscillator1 Type').with_name('Osc 1 Wave'),
-                          use('Oscillator1 Shape').with_name('Osc 1 Shape'),
-                          use('Oscillator1 Transpose').with_name('Osc 1 Octave'),
-                          use('Oscillator2 Transpose').with_name('Osc 2 Octave'),
-                          use('Oscillator2 Detune').with_name('Osc 2 Detune'),
-                          use('Osc Gain 1').with_name('Osc 1 Gain'),
-                          use('Osc Gain 2').with_name('Osc 2 Gain'),
-                          use('Noise Level').with_name('Noise Gain')), 
+                          'Osc Select',
+                          use('Osc 1 Wave').if_parameter('Osc Select').has_value('Osc 1').else_use('Osc 2 Wave'),
+                          use('Osc 1 Shape').if_parameter('Osc Select').has_value('Osc 1').else_use('Osc 2 Detune'),
+                          use('Osc 1 Oct').if_parameter('Osc Select').has_value('Osc 1').else_use('Osc 2 Oct'),
+                          use('Osc 1 Gain').if_parameter('Osc Select').has_value('Osc 1').else_use('Osc 2 Gain'),
+                          use('Shape Mod Src').if_parameter('Osc Select').has_value('Osc 1').else_use(''),
+                          use('Osc 1 Shape Mod Amt').if_parameter('Osc Select').has_value('Osc 1').else_use(''),
+                          'Noise Gain'), 
     
-    OPTIONS_KEY: ('Osc Retrig', '', 'Oscillator2 Type', '', 'Osc 1', 'Osc 2', 'Noise')}),
+    OPTIONS_KEY: (
+                  'Osc Retrig',
+                  '',
+                  '',
+                  use('Osc 1').if_parameter('Osc Select').has_value('Osc 1').else_use('Osc 2'),
+                  '',
+                  '',
+                  'Noise')}),
   (
    'Filter',
-   {BANK_PARAMETERS_KEY: (
-                          '',
-                          use('Filter Freq').with_name('LP Freq'),
-                          use('Filter Res').with_name('LP Reso'),
-                          use('Filter HiPassFreq').with_name('HP Freq'),
-                          '',
-                          use('Filter ModAmount1').with_name('LP Mod Amt 1'),
-                          '',
-                          use('Filter ModAmount2').with_name('LP Mod Amt 2')), 
+   {BANK_PARAMETERS_KEY: ('LP Type', 'LP Freq', 'LP Reso', 'HP Freq', 'LP Mod Src 1', 'LP Mod Amt 1', 'LP Mod Src 2',
+ 'LP Mod Amt 2'), 
     
-    OPTIONS_KEY: ('Osc 1 Flt', 'Osc 2 Flt', 'Filter Noise', '', '', '')}),
+    OPTIONS_KEY: ('Osc 1 Flt', 'Osc 2 Flt', 'Noise Flt', '', '', '', '')}),
   (
    'Envelopes',
    {BANK_PARAMETERS_KEY: (
-                          use('EG1 Attack').with_name('Env 1 Attack'),
-                          use('EG1 Decay').with_name('Env 1 Decay'),
-                          use('EG1 Sustain').with_name('Env 1 Sustain'),
-                          use('EG1 Release').with_name('Env 1 Release'),
-                          use('EG2 Attack').with_name('Env 2 Attack'),
-                          use('EG2 Decay').with_name('Env 2 Decay'),
-                          use('EG2 Sustain').with_name('Env 2 Sustain'),
-                          use('EG2 Release').with_name('Env 2 Release'))}),
+                          'Env 1 Attack',
+                          'Env 1 Decay',
+                          'Env 1 Sustain',
+                          'Env 1 Release',
+                          use('Env 2 Attack').if_parameter('Env 2 Cyc On').has_value('Env').else_use('Cyc Env Tilt'),
+                          use('Env 2 Decay').if_parameter('Env 2 Cyc On').has_value('Env').else_use('Cyc Env Hold'),
+                          use('Env 2 Sustain').if_parameter('Env 2 Cyc On').has_value('Env').else_use('Cyc Env Time Mode'),
+                          use('Env 2 Release').if_parameter('Env 2 Cyc On').has_value('Env').else_use('Cyc Env Rate').if_parameter('Env 2 Cyc On').has_value('Cyc').and_parameter('Cyc Env Time Mode').has_value('Freq').else_use('Cyc Env Ratio').if_parameter('Env 2 Cyc On').has_value('Cyc').and_parameter('Cyc Env Time Mode').has_value('Ratio').else_use('Cyc Env Time').if_parameter('Env 2 Cyc On').has_value('Cyc').and_parameter('Cyc Env Time Mode').has_value('Time').else_use('Cyc Env Synced').if_parameter('Env 2 Cyc On').has_value('Cyc').and_parameter('Cyc Env Time Mode').has_value('Sync')), 
+    
+    OPTIONS_KEY: ('', '', '', 'Env 2 Cyc On', '', '', '')}),
   (
    'LFOs',
    {BANK_PARAMETERS_KEY: (
-                          use('Lfo Shape').with_name('LFO Wave'),
+                          'LFO Wave',
+                          'LFO Time Mode',
+                          use('LFO Rate').if_parameter('LFO Time Mode').has_value('Freq').else_use('LFO Ratio').if_parameter('LFO Time Mode').has_value('Ratio').else_use('LFO Time').if_parameter('LFO Time Mode').has_value('Time').else_use('LFO Synced').if_parameter('LFO Time Mode').has_value('Sync'),
+                          'LFO Amt',
+                          'LFO Mod Src',
+                          'LFO Mod Amt',
                           '',
-                          use('Lfo Rate').with_name('LFO Rate'),
-                          use('Lfo Amount').with_name('LFO Amount'),
-                          use('Lfo ModAmount').with_name('LFO Mod Amt'),
-                          use('CyclingEG MidPoint').with_name('Cyc Env Tilt'),
-                          use('CyclingEG Hold').with_name('Cyc Env Hold'),
-                          use('CyclingEG Rate').with_name('Cyc Env Rate')), 
+                          ''), 
     
     OPTIONS_KEY: ('LFO Retrig', '', '', '', '', '', '')}),
   (
-   'Modulation',
+   'Fixed Mod',
    {BANK_PARAMETERS_KEY: (
-                          use('Oscillator1 ShapeMod').with_name('Shape Mod Amt'),
-                          use('PitchMod Amt1').with_name('P Mod Amt 1'),
-                          use('PitchMod Amt2').with_name('P Mod Amt 2'),
-                          use('Filter ModAmount1').with_name('LP Mod Amt 1'),
-                          use('Filter ModAmount2').with_name('LP Mod Amt 2'),
-                          use('Lfo ModAmount').with_name('LFO Mod Amt'),
-                          use('ModMatrix Amount 1').with_name('Custom Mod 1'),
-                          use('ModMatrix Amount 2').with_name('Custom Mod 2'))}),
+                          'Mod Dest',
+                          use('Shape Mod Src').if_parameter('Mod Dest').has_value('Shape').else_use('LP Mod Src 1').if_parameter('Mod Dest').has_value('Filter').else_use('Pitch Mod Src 1').if_parameter('Mod Dest').has_value('Pitch').else_use('LFO Mod Src').if_parameter('Mod Dest').has_value('LFO'),
+                          use('Osc 1 Shape Mod Amt').if_parameter('Mod Dest').has_value('Shape').else_use('LP Mod Amt 1').if_parameter('Mod Dest').has_value('Filter').else_use('Pitch Mod Amt 1').if_parameter('Mod Dest').has_value('Pitch').else_use('LFO Mod Amt').if_parameter('Mod Dest').has_value('LFO'),
+                          use('LP Mod Src 2').if_parameter('Mod Dest').has_value('Filter').else_use('Pitch Mod Src 2').if_parameter('Mod Dest').has_value('Pitch').else_use(''),
+                          use('LP Mod Amt 2').if_parameter('Mod Dest').has_value('Filter').else_use('Pitch Mod Amt 2').if_parameter('Mod Dest').has_value('Pitch').else_use(''),
+                          use('Key > LPF').if_parameter('Mod Dest').has_value('Filter').else_use(''),
+                          '',
+                          'Vel > Vol')}),
+  (
+   'Custom Mod',
+   {BANK_PARAMETERS_KEY: (
+                          'Mod Slot',
+                          use('Mod Source 1').if_parameter('Mod Slot').has_value('1').else_use('Mod Source 2').if_parameter('Mod Slot').has_value('2').else_use('Mod Source 3').if_parameter('Mod Slot').has_value('3'),
+                          use('Mod Matrix Amt 1').if_parameter('Mod Slot').has_value('1').else_use('Mod Matrix Amt 2').if_parameter('Mod Slot').has_value('2').else_use('Mod Matrix Amt 3').if_parameter('Mod Slot').has_value('3'),
+                          use('Mod Dest 1').if_parameter('Mod Slot').has_value('1').else_use('Mod Dest 2').if_parameter('Mod Slot').has_value('2').else_use('Mod Dest 3').if_parameter('Mod Slot').has_value('3'),
+                          '',
+                          '',
+                          '',
+                          '')}),
   (
    'Global',
    {BANK_PARAMETERS_KEY: (
-                          '',
-                          '',
-                          '',
-                          use('Global Glide').with_name('Glide Time'),
-                          '',
-                          use('Global Drift Depth').with_name('Drift'),
-                          use('Global Transpose').with_name('Transpose'),
-                          use('Global Volume').with_name('Volume')), 
+                          'Voice Mode',
+                          use('').if_parameter('Voice Mode').has_value('Poly').else_use('Thickness').if_parameter('Voice Mode').has_value('Mono').else_use('Spread').if_parameter('Voice Mode').has_value('Stereo').else_use('Strength').if_parameter('Voice Mode').has_value('Unison'),
+                          'Voice Count',
+                          'Glide Time',
+                          'PB Range',
+                          'Drift',
+                          'Transpose',
+                          'Volume'), 
     
-    OPTIONS_KEY: ('', '', 'Legato', '', '', '', '')}))), 
-=======
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
+    OPTIONS_KEY: ('', '', 'Legato', 'Note PB', '', '', '')}))), 
  'AutoPan':IndexedDict((
   (
    BANK_MAIN_KEY,
@@ -2102,13 +1434,15 @@ BANK_DEFINITIONS = {'AudioEffectGroupDevice':RACK_BANKS,
  'BeatRepeat':IndexedDict((
   (
    BANK_MAIN_KEY,
-   {BANK_PARAMETERS_KEY: ('Grid', 'Interval', 'Offset', 'Gate', 'Pitch', 'Pitch Decay', 'Variation', 'Chance')}),
+   {BANK_PARAMETERS_KEY: ('Interval', 'Offset', 'Grid', 'Variation', 'Variation Type', 'Gate', 'Chance', 'Volume'), 
+    
+    OPTIONS_KEY: ('', 'Triplets', '', '', '', 'Repeat', 'Mix Type')}),
   (
-   'Filt/Mix',
-   {BANK_PARAMETERS_KEY: ('Filter On', 'Filter Freq', 'Filter Width', '', 'Mix Type', 'Volume', 'Decay', 'Chance')}),
-  (
-   'Repeat Rate',
-   {BANK_PARAMETERS_KEY: ('Repeat', 'Interval', 'Offset', 'Gate', 'Grid', 'Block Triplets', 'Variation', 'Variation Type')}))), 
+   'Filt/Pitch',
+   {BANK_PARAMETERS_KEY: ('Interval', 'Filter Freq', 'Filter Width', 'Pitch', 'Pitch Decay', 'Decay', 'Chance',
+ 'Volume'), 
+    
+    OPTIONS_KEY: ('Filter', '', '', '', '', '', '')}))), 
  'Cabinet':IndexedDict((
   (
    BANK_MAIN_KEY,
@@ -2137,11 +1471,7 @@ BANK_DEFINITIONS = {'AudioEffectGroupDevice':RACK_BANKS,
                           'Rate',
                           'Amount',
                           use('Offset').if_parameter('Mode').has_value('Vibrato').else_use('Width'),
-<<<<<<< HEAD
                           use('Shape').if_parameter('Mode').has_value('Vibrato').else_use(''),
-=======
-                          use('Shaping').if_parameter('Mode').has_value('Vibrato').else_use(''),
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
                           use('HPF Freq').with_name('HP Freq'),
                           use('').if_parameter('Mode').has_value('Vibrato').else_use('Feedback'),
                           'Dry/Wet'), 
@@ -2243,13 +1573,8 @@ BANK_DEFINITIONS = {'AudioEffectGroupDevice':RACK_BANKS,
    'Filter & Mix',
    {BANK_PARAMETERS_KEY: (
                           'Filter On/Off',
-<<<<<<< HEAD
                           use('Mid Freq').with_name('Frequency').if_parameter('Filter On/Off').has_value('On').else_use(''),
                           use('Width').with_name('Bandwidth').if_parameter('Filter On/Off').has_value('On').else_use(''),
-=======
-                          use('Mid Freq').with_name('Frequency').else_use(''),
-                          use('Width').with_name('Bandwidth').else_use(''),
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
                           '',
                           '',
                           'Bleed',
@@ -2483,9 +1808,9 @@ BANK_DEFINITIONS = {'AudioEffectGroupDevice':RACK_BANKS,
  'FilterEQ3':IndexedDict((
   (
    'EQ',
-   {BANK_PARAMETERS_KEY: ('LowOn', 'MidOn', 'HighOn', 'GainLo', 'GainMid', 'GainHi', 'FreqLo', 'FreqHi')}),
-  (
-   'Slope', {BANK_PARAMETERS_KEY: ('Slope', '', '', '', '', '', '', '')}))), 
+   {BANK_PARAMETERS_KEY: ('FreqLo', 'GainLo', 'GainMid', 'GainHi', 'FreqHi', '', '', ''), 
+    
+    OPTIONS_KEY: ('Low', 'Mid', 'High', 'Slope', '', '', '')}),)), 
  'Erosion':IndexedDict((
   (
    BANK_MAIN_KEY,
@@ -2506,50 +1831,23 @@ BANK_DEFINITIONS = {'AudioEffectGroupDevice':RACK_BANKS,
   (
    BANK_MAIN_KEY,
    {BANK_PARAMETERS_KEY: (
-                          '2 Filter Freq',
-                          '2 Filter Width',
-                          '2 Delay Mode',
-                          use('2 Time Delay').if_parameter('2 Delay Mode').has_value('Off').else_use('2 Beat Delay'),
-                          '2 Feedback',
-                          use('1 Volume').if_parameter('1 Input On').has_value('On').else_use('2 Pan'),
-                          '2 Volume',
-                          use('3 Volume').if_parameter('3 Input On').has_value('On').else_use('Dry'))}),
-  (
-   'L Filter',
-   {BANK_PARAMETERS_KEY: (
-                          '1 Input On',
-                          '1 Filter Freq',
-                          '1 Filter Width',
-                          '1 Feedback',
-                          '1 Delay Mode',
-                          use('1 Time Delay').if_parameter('1 Delay Mode').has_value('Off').else_use('1 Beat Delay'),
-                          use('1 Beat Swing').if_parameter('1 Delay Mode').has_value('On').else_use(''),
-                          '1 Volume')}),
-  (
-   'L+R Filter',
-   {BANK_PARAMETERS_KEY: (
-                          '2 Input On',
-                          '2 Filter Freq',
-                          '2 Filter Width',
-                          '2 Feedback',
-                          '2 Delay Mode',
-                          use('2 Time Delay').if_parameter('2 Delay Mode').has_value('Off').else_use('2 Beat Delay'),
-                          use('2 Beat Swing').if_parameter('2 Delay Mode').has_value('On').else_use(''),
-                          '2 Volume')}),
-  (
-   'R Filter',
-   {BANK_PARAMETERS_KEY: (
-                          '3 Input On',
-                          '3 Filter Freq',
-                          '3 Filter Width',
-                          '3 Feedback',
-                          '3 Delay Mode',
-                          use('3 Time Delay').if_parameter('3 Delay Mode').has_value('Off').else_use('3 Beat Delay'),
-                          use('3 Beat Swing').if_parameter('3 Delay Mode').has_value('On').else_use(''),
-                          '3 Volume')}),
-  (
-   'Mix',
-   {BANK_PARAMETERS_KEY: ('1 Pan', '2 Pan', '3 Pan', '', '1 Volume', '2 Volume', '3 Volume', 'Dry')}))), 
+                          'Chan Select',
+                          use('1 Filter Freq').if_parameter('Chan Select').has_value('L').else_use('2 Filter Freq').if_parameter('Chan Select').has_value('L+R').else_use('3 Filter Freq').if_parameter('Chan Select').has_value('R').else_use(''),
+                          use('1 Filter Width').if_parameter('Chan Select').has_value('L').else_use('2 Filter Width').if_parameter('Chan Select').has_value('L+R').else_use('3 Filter Width').if_parameter('Chan Select').has_value('R').else_use(''),
+                          use('1 Beat Delay').if_parameter('Chan Select').has_value('L').and_parameter('1 Delay Mode').has_value('On').else_use('1 Time Delay').if_parameter('Chan Select').has_value('L').and_parameter('1 Delay Mode').has_value('Off').else_use('2 Beat Delay').if_parameter('Chan Select').has_value('L+R').and_parameter('2 Delay Mode').has_value('On').else_use('2 Time Delay').if_parameter('Chan Select').has_value('L+R').and_parameter('2 Delay Mode').has_value('Off').else_use('3 Beat Delay').if_parameter('Chan Select').has_value('R').and_parameter('3 Delay Mode').has_value('On').else_use('3 Time Delay').if_parameter('Chan Select').has_value('R').and_parameter('3 Delay Mode').has_value('Off').else_use(''),
+                          use('1 Beat Swing').if_parameter('Chan Select').has_value('L').and_parameter('1 Delay Mode').has_value('On').else_use('2 Beat Swing').if_parameter('Chan Select').has_value('L+R').and_parameter('2 Delay Mode').has_value('On').else_use('3 Beat Swing').if_parameter('Chan Select').has_value('R').and_parameter('3 Delay Mode').has_value('On').else_use(''),
+                          use('1 Feedback').if_parameter('Chan Select').has_value('L').else_use('2 Feedback').if_parameter('Chan Select').has_value('L+R').else_use('3 Feedback').if_parameter('Chan Select').has_value('R').else_use(''),
+                          use('1 Pan').if_parameter('Chan Select').has_value('L').else_use('2 Pan').if_parameter('Chan Select').has_value('L+R').else_use('3 Pan').if_parameter('Chan Select').has_value('R').else_use(''),
+                          use('1 Volume').if_parameter('Chan Select').has_value('L').else_use('2 Volume').if_parameter('Chan Select').has_value('L+R').else_use('3 Volume').if_parameter('Chan Select').has_value('R').else_use('Dry')), 
+    
+    OPTIONS_KEY: (
+                  use('L Filter').if_parameter('Chan Select').has_value('L').else_use('L+R Filter').if_parameter('Chan Select').has_value('L+R').else_use('R Filter').if_parameter('Chan Select').has_value('R').else_use(''),
+                  '',
+                  use('L Sync').if_parameter('Chan Select').has_value('L').else_use('L+R Sync').if_parameter('Chan Select').has_value('L+R').else_use('R Sync').if_parameter('Chan Select').has_value('R').else_use(''),
+                  '',
+                  '',
+                  '',
+                  use('L Channel').if_parameter('Chan Select').has_value('L').else_use('L+R Channel').if_parameter('Chan Select').has_value('L+R').else_use('R Channel').if_parameter('Chan Select').has_value('R').else_use(''))}),)), 
  'Flanger':IndexedDict((
   (
    BANK_MAIN_KEY,
@@ -2632,27 +1930,18 @@ BANK_DEFINITIONS = {'AudioEffectGroupDevice':RACK_BANKS,
                           use('S/C EQ Gain').if_parameter('S/C EQ Type').has_value('Low Shelf').else_use('S/C EQ Gain').if_parameter('S/C EQ Type').has_value('High Shelf').else_use('S/C EQ Gain').if_parameter('S/C EQ Type').has_value('Bell').else_use('S/C EQ Q'))}))), 
  'GrainDelay':IndexedDict((
   (
-   'Pitch',
+   BANK_MAIN_KEY,
    {BANK_PARAMETERS_KEY: (
+                          'Spray',
                           'Frequency',
                           'Pitch',
-                          'Delay Mode',
-                          use('Time Delay').if_parameter('Delay Mode').has_value('Off').else_use('Beat Delay'),
                           'Random',
-                          'Spray',
                           'Feedback',
-                          'DryWet')}),
-  (
-   'Time',
-   {BANK_PARAMETERS_KEY: (
-                          'Delay Mode',
                           use('Time Delay').if_parameter('Delay Mode').has_value('Off').else_use('Beat Delay'),
                           'Beat Swing',
-                          'Feedback',
-                          '',
-                          '',
-                          '',
-                          'DryWet')}))), 
+                          'DryWet'), 
+    
+    OPTIONS_KEY: ('', '', '', '', 'Sync', '', '')}),)), 
  'Limiter':IndexedDict((
   (
    BANK_MAIN_KEY,
@@ -2727,19 +2016,11 @@ BANK_DEFINITIONS = {'AudioEffectGroupDevice':RACK_BANKS,
   (
    BANK_MAIN_KEY,
    {BANK_PARAMETERS_KEY: (
-<<<<<<< HEAD
                           'Mode',
                           use('Mod Rate').with_name('Rate').if_parameter('Mod Sync').has_value('On').else_use('Mod Freq').with_name('Freq'),
                           'Amount',
                           'Feedback',
                           use('Notches').if_parameter('Mode').has_value('Phaser').else_use('Flange Time').with_name('Time').if_parameter('Mode').has_value('Flanger').else_use('Doubler Time').with_name('Time').if_parameter('Mode').has_value('Doubler'),
-=======
-                          'Ph/Fl Mode',
-                          use('Mod Rate').with_name('Rate').if_parameter('Mod Sync').has_value('On').else_use('Mod Freq').with_name('Freq'),
-                          'Amount',
-                          'Feedback',
-                          use('Notches').if_parameter('Ph/Fl Mode').has_value('Phaser').else_use('Flange Time').with_name('Time').if_parameter('Ph/Fl Mode').has_value('Flanger').else_use('Doubler Time').with_name('Time').if_parameter('Ph/Fl Mode').has_value('Doubler'),
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
                           'Warmth',
                           use('Output Gain').with_name('Gain'),
                           'Dry/Wet'), 
@@ -2748,7 +2029,6 @@ BANK_DEFINITIONS = {'AudioEffectGroupDevice':RACK_BANKS,
   (
    'Details',
    {BANK_PARAMETERS_KEY: (
-<<<<<<< HEAD
                           'Mode',
                           use('Mod Rate').with_name('Rate').if_parameter('Mod Sync').has_value('On').else_use('Mod Freq').with_name('Freq'),
                           'Amount',
@@ -2757,16 +2037,6 @@ BANK_DEFINITIONS = {'AudioEffectGroupDevice':RACK_BANKS,
                           use('Center Freq').with_name('Center').if_parameter('Mode').has_value('Phaser').else_use(''),
                           use('Spread').if_parameter('Mode').has_value('Phaser').else_use('Output Gain').with_name('Gain'),
                           use('Mod Blend').with_name('Blend').if_parameter('Mode').has_value('Phaser').else_use('Dry/Wet')), 
-=======
-                          'Ph/Fl Mode',
-                          use('Mod Rate').with_name('Rate').if_parameter('Mod Sync').has_value('On').else_use('Mod Freq').with_name('Freq'),
-                          'Amount',
-                          'Feedback',
-                          use('Notches').if_parameter('Ph/Fl Mode').has_value('Phaser').else_use('Flange Time').with_name('Time').if_parameter('Ph/Fl Mode').has_value('Flanger').else_use('Doubler Time').with_name('Time').if_parameter('Ph/Fl Mode').has_value('Doubler'),
-                          use('Center Freq').with_name('Center').if_parameter('Ph/Fl Mode').has_value('Phaser').else_use(''),
-                          use('Spread').if_parameter('Ph/Fl Mode').has_value('Phaser').else_use('Output Gain').with_name('Gain'),
-                          use('Mod Blend').with_name('Blend').if_parameter('Ph/Fl Mode').has_value('Phaser').else_use('Dry/Wet')), 
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
     
     OPTIONS_KEY: ('Sync', '', 'FB Inv', '', '', '', '')}),
   (
@@ -2816,11 +2086,7 @@ BANK_DEFINITIONS = {'AudioEffectGroupDevice':RACK_BANKS,
                           'DC Shift',
                           'Pre-Filter On',
                           'Post-Filter',
-<<<<<<< HEAD
                           'Dry/Wet'), 
-=======
-                          use('Dry Wet').with_name('Dry/Wet')), 
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
     
     OPTIONS_KEY: ('', '', '', '', '', 'Post-Filter', '')}),)), 
  'Transmute':IndexedDict((
@@ -2888,7 +2154,6 @@ BANK_DEFINITIONS = {'AudioEffectGroupDevice':RACK_BANKS,
   (
    BANK_MAIN_KEY,
    {BANK_PARAMETERS_KEY: (
-<<<<<<< HEAD
                           'Predelay',
                           'In Filter Freq',
                           'In Filter Width',
@@ -2936,46 +2201,15 @@ BANK_DEFINITIONS = {'AudioEffectGroupDevice':RACK_BANKS,
                           'Dry/Wet'), 
     
     OPTIONS_KEY: ('', '', 'Chorus', '', '', '', '')}))), 
-=======
-                          'PreDelay',
-                          use('In Filter Freq').if_parameter('In LowCut On').has_value('On').else_use('ER Shape').if_parameter('In HighCut On').has_value('Off').else_use('In Filter Freq'),
-                          use('Chorus Amount').if_parameter('Chorus On').has_value('On').else_use('ER Level'),
-                          'Stereo Image',
-                          'Room Size',
-                          'DecayTime',
-                          use('HiShelf Gain').if_parameter('HiShelf On').has_value('On').else_use('Diffuse Level'),
-                          'Dry/Wet')}),
-  (
-   'Global',
-   {BANK_PARAMETERS_KEY: ('Chorus On', 'Chorus Rate', 'Chorus Amount', 'Quality', 'Freeze On', 'Flat On', 'ER Level',
- 'Diffuse Level')}),
-  (
-   'Diffusion Network',
-   {BANK_PARAMETERS_KEY: ('HiShelf On', 'HiShelf Freq', 'HiShelf Gain', 'LowShelf On', 'LowShelf Freq', 'LowShelf Gain',
- 'Density', 'Scale')}),
-  (
-   'Input/Reflections',
-   {BANK_PARAMETERS_KEY: ('In LowCut On', 'In HighCut On', 'In Filter Freq', 'In Filter Width', 'ER Spin On',
- 'ER Spin Rate', 'ER Spin Amount', 'ER Shape')}))), 
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
  'Saturator':IndexedDict((
   (
    BANK_MAIN_KEY,
-   {BANK_PARAMETERS_KEY: ('Drive', 'Type', 'Color', 'Base', 'Frequency', 'Width', 'Depth', 'Output')}),
+   {BANK_PARAMETERS_KEY: ('Type', 'Drive', 'Base', 'Frequency', 'Width', 'Depth', 'Output', 'Dry/Wet'), 
+    
+    OPTIONS_KEY: ('', 'Color', '', '', '', 'Soft Clip', '')}),
   (
    'Waveshaper',
-   {BANK_PARAMETERS_KEY: (
-                          'Type',
-                          use('WS Drive').if_parameter('Type').has_value('Waveshaper'),
-                          use('WS Curve').if_parameter('Type').has_value('Waveshaper'),
-                          use('WS Depth').if_parameter('Type').has_value('Waveshaper'),
-                          use('WS Lin').if_parameter('Type').has_value('Waveshaper'),
-                          use('WS Damp').if_parameter('Type').has_value('Waveshaper'),
-                          use('WS Period').if_parameter('Type').has_value('Waveshaper'),
-                          'Dry/Wet')}),
-  (
-   'Output',
-   {BANK_PARAMETERS_KEY: ('', '', '', '', '', 'Soft Clip', 'Output', 'Dry/Wet')}))), 
+   {BANK_PARAMETERS_KEY: ('Type', 'WS Drive', 'WS Curve', 'WS Depth', 'WS Lin', 'WS Damp', 'WS Period', 'Dry/Wet')}))), 
  'Shifter':IndexedDict((
   (
    BANK_MAIN_KEY,
@@ -3153,12 +2387,25 @@ BANK_DEFINITIONS = {'AudioEffectGroupDevice':RACK_BANKS,
  'Vinyl':IndexedDict((
   (
    'Global',
-   {BANK_PARAMETERS_KEY: ('Tracing On', 'Tracing Drive', 'Tracing Freq.', 'Tracing Width', 'Pinch On', 'Global Drive',
- 'Crackle Density', 'Crackle Volume')}),
-  (
-   'Pinch',
-   {BANK_PARAMETERS_KEY: ('Pinch On', 'Pinch Soft On', 'Pinch Mono On', 'Pinch Width', 'Pinch Drive', 'Pinch Freq.',
- 'Crackle Density', 'Crackle Volume')}))), 
+   {BANK_PARAMETERS_KEY: (
+                          'Module',
+                          use('Tracing Drive').if_parameter('Module').has_value('Tracing').else_use('Pinch Drive'),
+                          use('Tracing Freq.').if_parameter('Module').has_value('Tracing').else_use('Pinch Freq.'),
+                          use('Tracing Width').if_parameter('Module').has_value('Tracing').else_use('Pinch Width'),
+                          '',
+                          'Global Drive',
+                          'Crackle Density',
+                          'Crackle Volume'), 
+    
+    OPTIONS_KEY: (
+                  use('Tracing').if_parameter('Module').has_value('Tracing').else_use('Pinch'),
+                  use('Pinch Mode').if_parameter('Module').has_value('Pinch').else_use(''),
+                  use('Pinch Ch').if_parameter('Module').has_value('Pinch').else_use(''),
+                  '',
+                  '',
+                  '',
+                  '',
+                  '')}),)), 
  'Vocoder':IndexedDict((
   (
    BANK_MAIN_KEY,
@@ -3176,7 +2423,6 @@ BANK_DEFINITIONS = {'AudioEffectGroupDevice':RACK_BANKS,
    'Filters/Voicing',
    {BANK_PARAMETERS_KEY: ('Filter Bandwidth', 'Upper Filter Band', 'Lower Filter Band', 'Precise/Retro', 'Unvoiced Level',
  'Unvoiced Sensitivity', 'Unvoiced Speed', 'Enhance')})))}
-<<<<<<< HEAD
 PARAMETERS_BLACKLIST_FOR_CPP_SANITY_CHECK = {
   'OriginalSimpler': ('Start', 'End', 'Sensitivity', 'Mode', 'Playback', 'Pad Slicing', 'Multi Sample', 'Zoom', 'Env. Type', 'Warp', 'Warp Mode', 'Voices', 'Preserve', 'Loop Mode', 'Envelope', 'Grain Size Tones', 'Grain Size Texture', 'Flux', 'Formants', 'Envelope Complex Pro', 'Gain'),
   'Operator': ('Oscillator', 'Envelope Feature Time/Level', 'Envelope Feature Time/Slope/Level'),
@@ -3187,28 +2433,11 @@ PARAMETERS_BLACKLIST_FOR_CPP_SANITY_CHECK = {
   'Shifter': ('Pitch Bend Range', 'Pitch Mode'),
   'Transmute': ('Frequency Dial Mode', 'Midi Gate', 'Mod Mode', 'Mono Poly', 'Pitch Mode', 'Pitch Bend Range', 'Polyphony'),
   'Echo': ('Channel Toggle',),
-  'Delay': ('Channel', 'L Sync Enum', 'R Sync Enum', 'Link Switch')}
-=======
-PARAMETERS_BLACKLIST_FOR_CPP_SANITY_CHECK = {'OriginalSimpler':('Start', 'End', 'Sensitivity', 'Mode', 'Playback', 'Pad Slicing', 'Multi Sample',
- 'Zoom', 'Env. Type', 'Warp', 'Warp Mode', 'Voices', 'Preserve', 'Loop Mode', 'Envelope',
- 'Grain Size Tones', 'Grain Size Texture', 'Flux', 'Formants', 'Envelope Complex Pro',
- 'Gain'), 
- 'Operator':('Oscillator', 'Envelope Feature Time/Level', 'Envelope Feature Time/Slope/Level'), 
- 'Eq8':('Band', 'Eq Mode', 'Edit Mode', 'Oversampling'), 
- 'Compressor2':('Input Type', 'Input Channel', 'Position'), 
- 'InstrumentVector':('Oscillator', 'Osc 1 Effect Type', 'Osc 2 Effect Type', 'Osc 1 Table', 'Osc 2 Table',
- 'Osc 1 Pitch', 'Osc 2 Pitch', 'Filter', 'Envelopes', 'LFO', 'Amp Env View', 'Mod Env View',
- 'Modulation Target Names', 'Amp Env Mod Amount', 'Env 2 Mod Amount', 'Env 3 Mod Amount',
- 'Lfo 1 Mod Amount', 'Lfo 2 Mod Amount', 'MIDI Velocity Mod Amount', 'MIDI Note Mod Amount',
- 'MIDI Pitch Bend Mod Amount', 'MIDI Aftertouch Mod Amount', 'MIDI Mod Wheel Mod Amount',
- 'MIDI Random On Note On', 'Current Mod Target', 'Unison Mode', 'Unison Voices',
- 'Mono On', 'Poly Voices', 'Filter Routing'), 
- 'Hybrid':('Band', 'Section', 'Shape', 'IR', 'IR Category', 'Ir Attack Time', 'Ir Decay Time',
- 'Ir Size Factor', 'Vintage Copy', 'Routing Eq Off', 'Routing Eq On PreAlgo Off',
- 'Routing Eq On PreAlgo On'), 
- 'Shifter':('Pitch Bend Range', 'Pitch Mode'), 
- 'Transmute':('Frequency Dial Mode', 'Midi Gate', 'Mod Mode', 'Mono Poly', 'Pitch Mode', 'Pitch Bend Range',
- 'Polyphony'), 
- 'Echo':('Channel Toggle', ), 
- 'Delay':('Channel', 'L Sync Enum', 'R Sync Enum', 'Link Switch')}
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
+  'Delay': ('Channel', 'L Sync Enum', 'R Sync Enum', 'Link Switch'),
+  'Drift': ('Osc Select', 'LP Mod Src 1', 'LP Mod Src 2', 'LFO Mod Src', 'Mod Dest', 'Mod Slot', 'Voice Mode', 'Voice Count', 'PB Range', 'Shape Mod Src', 'Pitch Mod Src 1', 'Pitch Mod Src 2', 'Mod Source 1', 'Mod Source 2', 'Mod Source 3', 'Mod Dest 1', 'Mod Dest 2', 'Mod Dest 3'),
+  'UltraAnalog': ('Osc Select', 'Osc / Amp', 'Env Select', 'LFO Select', 'Mod Source', 'Mod Dest', 'Select'),
+  'Collision': ('Resonator', 'LFO Select', 'Mod Source', 'Mod Dest'),
+  'StringStudio': ('Section', 'Vib & Uni', 'Mod Source'),
+  'FilterDelay': 'Chan Select',
+  'Vinyl': 'Module',
+  'DrumCell': 'Select'}

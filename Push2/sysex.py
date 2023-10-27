@@ -1,13 +1,9 @@
-<<<<<<< HEAD
-=======
-# decompyle3 version 3.8.0
-# Python bytecode 3.7.0 (3394)
-# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
-# [Clang 13.1.6 (clang-1316.0.21.2.3)]
-# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Push2/sysex.py
-# Compiled at: 2022-01-27 16:28:16
-# Size of source mod 2**32: 8706 bytes
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
+# decompyle3 version 3.9.0
+# Python bytecode version base 3.7.0 (3394)
+# Decompiled from: Python 3.8.0 (tags/v3.8.0:fa919fd, Oct 14 2019, 19:37:50) [MSC v.1916 64 bit (AMD64)]
+# Embedded file name: ..\..\..\output\Live\win_64_static\Release\python-bundle\MIDI Remote Scripts\Push2\sysex.py
+# Compiled at: 2022-11-29 09:57:03
+# Size of source mod 2**32: 8971 bytes
 from __future__ import absolute_import, print_function, unicode_literals
 from ableton.v2.base import chunks
 from ableton.v2.control_surface import midi
@@ -50,7 +46,6 @@ def make_touch_strip_mode_message(mode):
     mode_bytes = ()
     if mode == TouchStripModes.CUSTOM_PITCHBEND:
         mode_bytes = int('1111001', 2)
-<<<<<<< HEAD
     else:
         if mode == TouchStripModes.CUSTOM_VOLUME:
             mode_bytes = int('0000001', 2)
@@ -71,22 +66,6 @@ def make_touch_strip_mode_message(mode):
                                 mode_bytes = int('1111000', 2)
                             else:
                                 raise RuntimeError('Touch strip mode %i not supported' % mode)
-=======
-    elif mode == TouchStripModes.CUSTOM_VOLUME:
-        mode_bytes = int('0000001', 2)
-    elif mode == TouchStripModes.CUSTOM_PAN:
-        mode_bytes = int('0010001', 2)
-    elif mode == TouchStripModes.CUSTOM_DISCRETE:
-        mode_bytes = int('0011001', 2)
-    elif mode == TouchStripModes.CUSTOM_FREE:
-        mode_bytes = int('0001011', 2)
-    elif mode == TouchStripModes.MODWHEEL:
-        mode_bytes = int('0000100', 2)
-    elif mode == TouchStripModes.PITCHBEND:
-        mode_bytes = int('1111000', 2)
-    else:
-        raise RuntimeError('Touch strip mode %i not supported' % mode)
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
     return make_message(23, (mode_bytes,))
 
 

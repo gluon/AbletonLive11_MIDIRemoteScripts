@@ -1,4 +1,9 @@
-<<<<<<< HEAD
+# decompyle3 version 3.9.0
+# Python bytecode version base 3.7.0 (3394)
+# Decompiled from: Python 3.8.0 (tags/v3.8.0:fa919fd, Oct 14 2019, 19:37:50) [MSC v.1916 64 bit (AMD64)]
+# Embedded file name: ..\..\..\output\Live\win_64_static\Release\python-bundle\MIDI Remote Scripts\ableton\v3\control_surface\components\session_ring.py
+# Compiled at: 2023-09-14 15:51:08
+# Size of source mod 2**32: 9522 bytes
 from __future__ import absolute_import, print_function, unicode_literals
 from functools import partial
 from ...base import const, depends, index_if, listenable_property, listens, nop
@@ -27,10 +32,9 @@ class SessionRingModel:
 
 
 class SessionRingComponent(Component, Renderable):
-    __events__ = ('offset', )
 
     @depends(set_session_highlight=(const(nop)))
-    def __init__(self, name='Session_Ring', num_tracks=0, num_scenes=0, include_returns=False, include_master=False, right_align_non_player_tracks=False, tracks_to_use=None, always_snap_track_offset=False, set_session_highlight=nop, is_private=False, *a, **k):
+    def __init__(self, name='Session_Ring', num_tracks=0, num_scenes=0, include_returns=False, include_master=False, right_align_non_player_tracks=False, tracks_to_use=None, snap_track_offset=False, set_session_highlight=nop, is_private=False, *a, **k):
         (super().__init__)(a, name=name, is_private=is_private, **k)
         self._session_ring = SessionRingModel(num_tracks,
           num_scenes,
@@ -46,7 +50,7 @@ class SessionRingComponent(Component, Renderable):
             self._controlled_tracks_formatter = self._pad_tracks
         self._cached_track_list = []
         self._update_track_list()
-        self._snap_track_offset = always_snap_track_offset
+        self._snap_track_offset = snap_track_offset
         self.notify_offset(0, 0)
         if self.is_enabled():
             self._update_highlight()
@@ -77,6 +81,11 @@ class SessionRingComponent(Component, Renderable):
     @scene_offset.setter
     def scene_offset(self, offset):
         self.set_offsets(self.track_offset, offset)
+
+    @listenable_property
+    def offset(self):
+        return (
+         self.track_offset, self.scene_offset)
 
     def tracks_to_use(self):
         return self._cached_track_list
@@ -109,7 +118,7 @@ class SessionRingComponent(Component, Renderable):
             tracks = tracks - tracks % self.num_tracks
         self._session_ring.move(tracks, scenes)
         self._update_highlight()
-        self.notify_offset(self._session_ring.track_offset, self._session_ring.scene_offset)
+        self.notify_offset(self.track_offset, self.scene_offset)
         self.notify_tracks()
         self.notify_scenes()
 
@@ -158,24 +167,3 @@ class SessionRingComponent(Component, Renderable):
         new_offset = min(self.scene_offset, len(self.song.scenes) - 1)
         if new_offset != self.scene_offset:
             self.scene_offset = new_offset
-=======
-# decompyle3 version 3.8.0
-# Python bytecode 3.7.0 (3394)
-# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
-# [Clang 13.1.6 (clang-1316.0.21.2.3)]
-# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/ableton/v3/control_surface/components/session_ring.py
-# Compiled at: 2022-01-27 16:28:17
-# Size of source mod 2**32: 753 bytes
-from __future__ import absolute_import, print_function, unicode_literals
-import ableton.v2.control_surface.components as SessionRingComponentBase
-from ...base import depends
-
-class SessionRingComponent(SessionRingComponentBase):
-
-    @depends(song=None)
-    def __init__(self, name='Session_Ring', include_returns=False, tracks_to_use=None, song=None, *a, **k):
-        if tracks_to_use is None:
-            if include_returns:
-                tracks_to_use = lambda: tuple(song.visible_tracks) + tuple(song.return_tracks)
-        (super().__init__)(a, name=name, song=song, tracks_to_use=tracks_to_use, **k)
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34

@@ -1,17 +1,19 @@
+# decompyle3 version 3.9.0
+# Python bytecode version base 3.7.0 (3394)
+# Decompiled from: Python 3.8.0 (tags/v3.8.0:fa919fd, Oct 14 2019, 19:37:50) [MSC v.1916 64 bit (AMD64)]
+# Embedded file name: ..\..\..\output\Live\win_64_static\Release\python-bundle\MIDI Remote Scripts\ATOMSQ\elements.py
+# Compiled at: 2023-08-04 12:30:20
+# Size of source mod 2**32: 5008 bytes
 from __future__ import absolute_import, print_function, unicode_literals
+from functools import partial
 from ableton.v3.control_surface import MIDI_NOTE_TYPE, MIDI_PB_TYPE, ElementsBase, MapMode, create_button
+from ableton.v3.control_surface.display import Text
 from . import midi
-from .simple_display import SimpleDisplayElement
 from .touch_strip import TouchStripElement
 SESSION_WIDTH = 16
 SESSION_HEIGHT = 1
 BANK_BUTTON_NAMES = ['bank_{}_button'.format(ltr) for ltr in 'abcdefgh']
 TOUCH_STRIP_LED_CC_RANGE = range(55, 80)
-
-def create_display_element(strip_id, name=None, **_):
-    return SimpleDisplayElement((midi.DISPLAY_HEADER + (strip_id, 0, 91, 91, 1)),
-      (midi.SYSEX_END_BYTE,), name=name)
-
 
 class Elements(ElementsBase):
 
@@ -61,14 +63,7 @@ class Elements(ElementsBase):
           'Encoders',
           map_mode=(MapMode.LinearSignedBit),
           sensitivity_modifier=(self.shift_button))
-        self.add_matrix([
-         [
-          0,1,2,11,12,13]],
-          'Button_Label_Displays',
-          element_factory=create_display_element)
         self.add_submatrix((self.encoders), 'Encoders_2_thru_7', columns=(2, 8))
-        self.add_element('Track_Name_Display', create_display_element, 6)
-        self.add_element('Device_Name_Display', create_display_element, 7)
         self.add_sysex_element(midi.LOWER_FIRMWARE_TOGGLE_HEADER, 'Lower_Firmware_Toggle_Switch', lambda v: midi.LOWER_FIRMWARE_TOGGLE_HEADER + (v, midi.SYSEX_END_BYTE)
 )
         self.add_sysex_element(midi.UPPER_FIRMWARE_TOGGLE_HEADER, 'Upper_Firmware_Toggle_Switch', lambda v: midi.UPPER_FIRMWARE_TOGGLE_HEADER + (v, midi.SYSEX_END_BYTE)
@@ -79,3 +74,18 @@ class Elements(ElementsBase):
           channel=15,
           needs_takeover=False,
           leds=[create_button(led_id, name=('Touch_Strip_LED_{}'.format(index))) for index, led_id in enumerate(TOUCH_STRIP_LED_CC_RANGE)])
+
+        def make_display_line(name, display_id, default_formatting):
+
+            def generate_display_message(display_id, ascii_bytes):
+                return midi.DISPLAY_HEADER + (display_id, 0, 91, 91, 1) + ascii_bytes + (midi.SYSEX_END_BYTE,)
+
+            self.add_sysex_display_line((midi.DISPLAY_HEADER + (display_id, 0, 91, 91, 1)),
+              name,
+              (partial(generate_display_message, display_id)),
+              default_formatting=default_formatting)
+
+        make_display_line('Track_Name_Display', 6, Text(max_width=18))
+        make_display_line('Device_Name_Display', 7, Text(max_width=18))
+        for i, display_id in enumerate((0, 1, 2, 11, 12, 13)):
+            make_display_line('Button_Label_Display_{}'.format(i), display_id, Text(max_width=14, justification=(Text.Justification.CENTER)))

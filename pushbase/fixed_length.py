@@ -1,13 +1,9 @@
-<<<<<<< HEAD
-=======
-# decompyle3 version 3.8.0
-# Python bytecode 3.7.0 (3394)
-# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
-# [Clang 13.1.6 (clang-1316.0.21.2.3)]
-# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/pushbase/fixed_length.py
-# Compiled at: 2022-01-27 16:28:17
-# Size of source mod 2**32: 9141 bytes
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
+# decompyle3 version 3.9.0
+# Python bytecode version base 3.7.0 (3394)
+# Decompiled from: Python 3.8.0 (tags/v3.8.0:fa919fd, Oct 14 2019, 19:37:50) [MSC v.1916 64 bit (AMD64)]
+# Embedded file name: ..\..\..\output\Live\win_64_static\Release\python-bundle\MIDI Remote Scripts\pushbase\fixed_length.py
+# Compiled at: 2022-11-29 09:57:03
+# Size of source mod 2**32: 9396 bytes
 from __future__ import absolute_import, division, print_function, unicode_literals
 from past.utils import old_div
 from functools import partial
@@ -149,7 +145,6 @@ class FixedLengthComponent(Component, Messenger):
                         launch_quantization = Quantization.q_no_q
                         if duration_needed_to_finish_recording_bar < 0.5:
                             launch_quantization = Quantization.q_half
-<<<<<<< HEAD
                         else:
                             if duration_needed_to_finish_recording_bar < 1:
                                 launch_quantization = Quantization.q_bar
@@ -162,16 +157,6 @@ class FixedLengthComponent(Component, Messenger):
                                     else:
                                         if duration_needed_to_finish_recording_bar < 8:
                                             launch_quantization = Quantization.q_8_bars
-=======
-                        elif duration_needed_to_finish_recording_bar < 1:
-                            launch_quantization = Quantization.q_bar
-                        elif duration_needed_to_finish_recording_bar < 2:
-                            launch_quantization = Quantization.q_2_bars
-                        elif duration_needed_to_finish_recording_bar < 4:
-                            launch_quantization = Quantization.q_4_bars
-                        elif duration_needed_to_finish_recording_bar < 8:
-                            launch_quantization = Quantization.q_8_bars
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
                     self._tasks.add(task.sequence(task.delay(0), task.run(partial((slot.fire),
                       force_legato=True,
                       launch_quantization=launch_quantization))))

@@ -1,13 +1,9 @@
-<<<<<<< HEAD
-=======
-# decompyle3 version 3.8.0
-# Python bytecode 3.7.0 (3394)
-# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
-# [Clang 13.1.6 (clang-1316.0.21.2.3)]
-# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/ableton/v2/base/util.py
-# Compiled at: 2022-01-28 05:06:24
-# Size of source mod 2**32: 23718 bytes
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
+# decompyle3 version 3.9.0
+# Python bytecode version base 3.7.0 (3394)
+# Decompiled from: Python 3.8.0 (tags/v3.8.0:fa919fd, Oct 14 2019, 19:37:50) [MSC v.1916 64 bit (AMD64)]
+# Embedded file name: ..\..\..\output\Live\win_64_static\Release\python-bundle\MIDI Remote Scripts\ableton\v2\base\util.py
+# Compiled at: 2022-11-29 09:57:03
+# Size of source mod 2**32: 24651 bytes
 from __future__ import absolute_import, print_function, unicode_literals
 from future.builtins import map, range
 from future.moves.itertools import zip_longest
@@ -72,15 +68,9 @@ def slice_size(slice, width):
     return len(range(width)[slice])
 
 
-<<<<<<< HEAD
 def chunks(lst, chunk_size):
     for i in range(0, len(lst), chunk_size):
         yield lst[i:i + chunk_size]
-=======
-def chunks(l, chunk_size):
-    for i in range(0, len(l), chunk_size):
-        (yield l[i:i + chunk_size])
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 
 
 def maybe(fn):
@@ -251,13 +241,8 @@ def union(a, b):
 def product(iter_a, iter_b):
     for a in iter_a:
         for b in iter_b:
-<<<<<<< HEAD
             yield (
              a, b)
-=======
-            (yield (
-             a, b))
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 
 
 def next(iter):
@@ -276,24 +261,16 @@ def recursive_map(fn, element, sequence_type=None):
     if sequence_type is None:
         return recursive_map(fn, element, type(element))
     if isinstance(element, sequence_type):
-<<<<<<< HEAD
         return list(map(lambda x: recursive_map(fn, x, sequence_type)
 , element))
-=======
-        return list(map(lambda x: recursive_map(fn, x, sequence_type), element))
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
     return fn(element)
 
 
 def is_matrix(iterable):
     if is_iterable(iterable):
         if len(iterable) > 0:
-<<<<<<< HEAD
             return all(map(lambda x: is_iterable(x) and len(iterable[0]) == len(x) and len(x) > 0
 , iterable))
-=======
-            return all(map(lambda x: is_iterable(x) and len(iterable[0]) == len(x) and len(x) > 0, iterable))
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
     return False
 
 
@@ -310,12 +287,8 @@ def third(seq):
 
 
 def compose(*funcs):
-<<<<<<< HEAD
     return lambda x: reduce(lambda x, f: f(x)
 , funcs[::-1], x)
-=======
-    return lambda x: reduce(lambda x, f: f(x), funcs[::-1], x)
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 
 
 def is_contextmanager(value):
@@ -346,7 +319,7 @@ def aggregate_contexts(handlers):
     err = None
     exc_info = (None, None, None)
     try:
-        (yield)
+        yield
     except BaseException as e:
         try:
             exc_info = sys.exc_info()
@@ -413,9 +386,9 @@ class OutermostOnlyContext(object):
         self._entered_count += 1
         if self._entered_count == 1:
             with context as result:
-                (yield result)
+                yield result
         else:
-            (yield)
+            yield
         self._entered_count -= 1
 
 
@@ -451,12 +424,8 @@ class NamedTuple(object):
     def _eq_dict(self):
 
         def public(objdict):
-<<<<<<< HEAD
             return dict(filter(lambda kv: not kv[0].startswith('_')
 , iteritems(objdict)))
-=======
-            return dict(filter(lambda kv: not kv[0].startswith('_'), iteritems(objdict)))
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 
         return reduce(lambda a, b: union(b, a)
 , map(lambda c: public(c.__dict__)
@@ -550,7 +519,7 @@ class overlaymap(object):
 
     def iteritems(self):
         for key in self.keys():
-            (yield (key, self[key]))
+            yield (key, self[key])
 
 
 def trace_value(value, msg='Value: '):

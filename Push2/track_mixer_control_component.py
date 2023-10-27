@@ -1,13 +1,9 @@
-<<<<<<< HEAD
-=======
-# decompyle3 version 3.8.0
-# Python bytecode 3.7.0 (3394)
-# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
-# [Clang 13.1.6 (clang-1316.0.21.2.3)]
-# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Push2/track_mixer_control_component.py
-# Compiled at: 2022-01-27 16:28:16
-# Size of source mod 2**32: 6751 bytes
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
+# decompyle3 version 3.9.0
+# Python bytecode version base 3.7.0 (3394)
+# Decompiled from: Python 3.8.0 (tags/v3.8.0:fa919fd, Oct 14 2019, 19:37:50) [MSC v.1916 64 bit (AMD64)]
+# Embedded file name: ..\..\..\output\Live\win_64_static\Release\python-bundle\MIDI Remote Scripts\Push2\track_mixer_control_component.py
+# Compiled at: 2022-11-29 09:57:03
+# Size of source mod 2**32: 6956 bytes
 from __future__ import absolute_import, print_function, unicode_literals
 from builtins import range
 from ableton.v2.base import clamp, depends, listens, liveobj_valid
@@ -108,11 +104,7 @@ class TrackMixerControlComponent(Component):
             delta = min(new_number_return_tracks - self._number_return_tracks, 0)
             self._scroll_controls(delta)
         else:
-<<<<<<< HEAD
             if new_number_return_tracks < max_return_tracks or self._tracks_provider.selected_item == self.song.master_track:
-=======
-            if new_number_return_tracks < max_return_tracks or (self._tracks_provider.selected_item == self.song.master_track):
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
                 self._scroll_offset = 0
         self._update_controls()
         self._update_scroll_buttons()
