@@ -1,44 +1,23 @@
-<<<<<<< HEAD
-=======
-# decompyle3 version 3.8.0
-# Python bytecode 3.7.0 (3394)
-# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
-# [Clang 13.1.6 (clang-1316.0.21.2.3)]
-# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/ATOM/colors.py
-# Compiled at: 2022-01-27 16:28:16
-# Size of source mod 2**32: 3892 bytes
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
+# decompyle3 version 3.9.0
+# Python bytecode version base 3.7.0 (3394)
+# Decompiled from: Python 3.8.0 (tags/v3.8.0:fa919fd, Oct 14 2019, 19:37:50) [MSC v.1916 64 bit (AMD64)]
+# Embedded file name: ..\..\..\output\Live\win_64_static\Release\python-bundle\MIDI Remote Scripts\ATOM\colors.py
+# Compiled at: 2023-04-03 14:43:04
+# Size of source mod 2**32: 4368 bytes
 from __future__ import absolute_import, print_function, unicode_literals
-from ableton.v3.base import liveobj_valid
 from ableton.v3.control_surface import BasicColors
 from ableton.v3.control_surface.elements import ColorPart, ComplexColor, FallbackColor
+from ableton.v3.live import liveobj_valid
 from . import midi
 BLINK_VALUE = 1
 PULSE_VALUE = 2
 
-<<<<<<< HEAD
 def create_color(red, green, blue, on_value=127):
     return ComplexColor((
      ColorPart(red, channel=(midi.RED_MIDI_CHANNEL)),
      ColorPart(green, channel=(midi.GREEN_MIDI_CHANNEL)),
      ColorPart(blue, channel=(midi.BLUE_MIDI_CHANNEL)),
      ColorPart(on_value)))
-=======
-class RgbColor(Color):
-
-    def __init__(self, red, green, blue, on_value=127, *a, **k):
-        (super(RgbColor, self).__init__)(*a, **k)
-        self._red = red
-        self._green = green
-        self._blue = blue
-        self._on_value = on_value
-
-    def draw(self, interface):
-        interface.send_value((self._red), channel=(midi.RED_MIDI_CHANNEL))
-        interface.send_value((self._green), channel=(midi.GREEN_MIDI_CHANNEL))
-        interface.send_value((self._blue), channel=(midi.BLUE_MIDI_CHANNEL))
-        interface.send_value(self._on_value if (self._red or self._green or self._blue) else 0)
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 
 
 def create_color_for_liveobj(obj, is_scene=False):
@@ -73,7 +52,6 @@ class Rgb:
     PINK = create_color(127, 17, 30)
 
 
-<<<<<<< HEAD
 LIVE_COLOR_INDEX_TO_RGB = {0:create_color(102, 46, 46), 
  1:create_color(127, 34, 0), 
  2:create_color(51, 51, 0), 
@@ -144,75 +122,3 @@ LIVE_COLOR_INDEX_TO_RGB = {0:create_color(102, 46, 46),
  67:create_color(51, 0, 51), 
  68:create_color(102, 23, 55), 
  69:create_color(30, 30, 30)}
-=======
-LIVE_COLOR_INDEX_TO_RGB = {0:RgbColor(102, 46, 46), 
- 1:RgbColor(127, 34, 0), 
- 2:RgbColor(51, 51, 0), 
- 3:RgbColor(123, 122, 57), 
- 4:RgbColor(95, 125, 0), 
- 5:RgbColor(0, 39, 0), 
- 6:RgbColor(25, 127, 25), 
- 7:RgbColor(46, 127, 116), 
- 8:RgbColor(0, 76, 76), 
- 9:RgbColor(0, 51, 102), 
- 10:RgbColor(16, 89, 85), 
- 11:RgbColor(69, 21, 113), 
- 12:RgbColor(110, 10, 30), 
- 13:RgbColor(127, 127, 127), 
- 14:RgbColor(127, 0, 0), 
- 15:RgbColor(127, 32, 0), 
- 16:RgbColor(51, 51, 0), 
- 17:RgbColor(127, 82, 0), 
- 18:RgbColor(17, 69, 17), 
- 19:RgbColor(0, 31, 0), 
- 20:RgbColor(0, 76, 38), 
- 21:RgbColor(0, 127, 127), 
- 22:RgbColor(0, 51, 102), 
- 23:RgbColor(0, 0, 51), 
- 24:RgbColor(38, 0, 76), 
- 25:RgbColor(51, 0, 51), 
- 26:RgbColor(110, 10, 30), 
- 27:RgbColor(104, 104, 104), 
- 28:RgbColor(89, 17, 17), 
- 29:RgbColor(127, 49, 35), 
- 30:RgbColor(105, 86, 56), 
- 31:RgbColor(118, 127, 87), 
- 32:RgbColor(86, 127, 23), 
- 33:RgbColor(86, 127, 23), 
- 34:RgbColor(86, 127, 23), 
- 35:RgbColor(106, 126, 112), 
- 36:RgbColor(102, 120, 124), 
- 37:RgbColor(127, 76, 127), 
- 38:RgbColor(127, 76, 127), 
- 39:RgbColor(127, 25, 127), 
- 40:RgbColor(114, 110, 112), 
- 41:RgbColor(84, 84, 84), 
- 42:RgbColor(127, 49, 35), 
- 43:RgbColor(51, 51, 0), 
- 44:RgbColor(51, 51, 0), 
- 45:RgbColor(77, 102, 25), 
- 46:RgbColor(86, 127, 23), 
- 47:RgbColor(38, 76, 0), 
- 48:RgbColor(30, 89, 56), 
- 49:RgbColor(23, 69, 43), 
- 50:RgbColor(23, 69, 43), 
- 51:RgbColor(23, 69, 43), 
- 52:RgbColor(119, 65, 119), 
- 53:RgbColor(119, 65, 119), 
- 54:RgbColor(89, 17, 17), 
- 55:RgbColor(61, 61, 61), 
- 56:RgbColor(69, 0, 0), 
- 57:RgbColor(82, 21, 21), 
- 58:RgbColor(51, 51, 0), 
- 59:RgbColor(127, 82, 0), 
- 60:RgbColor(0, 50, 0), 
- 61:RgbColor(0, 50, 0), 
- 62:RgbColor(5, 78, 71), 
- 63:RgbColor(17, 49, 66), 
- 64:RgbColor(0, 0, 127), 
- 65:RgbColor(0, 51, 102), 
- 66:RgbColor(38, 0, 76), 
- 67:RgbColor(51, 0, 51), 
- 68:RgbColor(102, 23, 55), 
- 69:RgbColor(30, 30, 30)}
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34

@@ -1,13 +1,9 @@
-<<<<<<< HEAD
-=======
-# decompyle3 version 3.8.0
-# Python bytecode 3.7.0 (3394)
-# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
-# [Clang 13.1.6 (clang-1316.0.21.2.3)]
-# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/pushbase/push_base.py
-# Compiled at: 2022-01-27 16:28:17
-# Size of source mod 2**32: 76504 bytes
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
+# decompyle3 version 3.9.0
+# Python bytecode version base 3.7.0 (3394)
+# Decompiled from: Python 3.8.0 (tags/v3.8.0:fa919fd, Oct 14 2019, 19:37:50) [MSC v.1916 64 bit (AMD64)]
+# Embedded file name: ..\..\..\output\Live\win_64_static\Release\python-bundle\MIDI Remote Scripts\pushbase\push_base.py
+# Compiled at: 2022-11-29 09:57:03
+# Size of source mod 2**32: 78483 bytes
 from __future__ import absolute_import, print_function, unicode_literals
 from builtins import range
 from past.utils import old_div
@@ -113,7 +109,7 @@ class PushBase(ControlSurface):
                 with self._element_injector:
                     song_view = self.song.view
                     old_selected_track = song_view.selected_track
-                    (yield)
+                    yield
                     if song_view.selected_track != old_selected_track:
                         self._track_selection_changed_by_action()
 
@@ -160,12 +156,8 @@ class PushBase(ControlSurface):
           show_notification=(const(self.show_notification)),
           selection=(lambda: PushSelection(application=(self.application),
           device_component=(self._device_component),
-<<<<<<< HEAD
           navigation_component=(self._device_navigation))
 ))
-=======
-          navigation_component=(self._device_navigation))))
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 
     def _create_skin(self):
         return make_default_skin()
@@ -471,15 +463,6 @@ class PushBase(ControlSurface):
         if note_mode == 'instrument':
             mode = {'play':self._instrument.play_modes,  'sequence':self._instrument.sequence_modes, 
              'split_melodic_sequencer':self._split_sequencer_mode}.get(self._instrument.selected_mode, None)
-<<<<<<< HEAD
-=======
-        elif note_mode == 'drums':
-            mode = {'64pads':self._drum_64pads_modes,  'sequencer_loop':self._drum_loop_modes, 
-             'sequencer_velocity_levels':self._drum_velocity_levels_modes}.get(self._drum_modes.selected_mode, None)
-        elif note_mode == 'slicing':
-            mode = {'64pads':self._slicing_64pads_modes,  'sequencer_loop':self._slicing_loop_modes, 
-             'sequencer_velocity_levels':self._slicing_velocity_levels_modes}.get(self._slicing_modes.selected_mode, None)
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
         else:
             if note_mode == 'drums':
                 mode = {'64pads':self._drum_64pads_modes,  'sequencer_loop':self._drum_loop_modes, 
@@ -802,14 +785,9 @@ class PushBase(ControlSurface):
         editor_setting = None
         if mode == 'clip':
             editor_setting = 'note_settings'
-<<<<<<< HEAD
         else:
             if mode in self._automateable_main_modes():
                 editor_setting = 'automation'
-=======
-        elif mode in self._automateable_main_modes():
-            editor_setting = 'automation'
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
         self._note_editor_settings_component.selected_setting = editor_setting
         self._note_editor_settings_component.update_view_state_based_on_selected_setting(editor_setting)
 
@@ -1197,15 +1175,10 @@ class PushBase(ControlSurface):
           (self.song),
           display_label='Swing Amount:',
           display_format='%d%%',
-<<<<<<< HEAD
           model_transform=(lambda x: clamp(old_div(x, 200.0), 0.0, 0.5)
 ),
           view_transform=(lambda x: x * 200.0
 ),
-=======
-          model_transform=(lambda x: clamp(old_div(x, 200.0), 0.0, 0.5)),
-          view_transform=(lambda x: x * 200.0),
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
           encoder_factor=100.0,
           encoder_touch_delay=TEMPO_SWING_TOUCH_DELAY)
         self._swing_amount.layer = Layer(encoder='swing_control')
@@ -1216,12 +1189,8 @@ class PushBase(ControlSurface):
           display_format='%0.2f BPM',
           encoder_factor=128.0,
           encoder_touch_delay=TEMPO_SWING_TOUCH_DELAY,
-<<<<<<< HEAD
           model_transform=(lambda x: clamp(x, tempo_param.min, tempo_param.max)
 ))
-=======
-          model_transform=(lambda x: clamp(x, tempo_param.min, tempo_param.max)))
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
         self._tempo.layer = Layer(encoder='tempo_control', shift_button='shift_button')
         self._master_vol = ParameterValueComponent((self.song.master_track.mixer_device.volume),
           display_label='Master Volume:',
@@ -1259,19 +1228,12 @@ class PushBase(ControlSurface):
     def _save_default_note_layout(self, track):
         if self._note_modes.selected_mode == 'drums':
             track.set_data('push-selected-note-mode', 'sequencer_loop')
-<<<<<<< HEAD
         else:
             if self._note_modes.selected_mode == 'slicing':
                 track.set_data('push-selected-note-mode', '64pads')
             else:
                 if self._note_modes.selected_mode == 'instrument':
                     track.set_data('push-selected-note-mode', 'play')
-=======
-        elif self._note_modes.selected_mode == 'slicing':
-            track.set_data('push-selected-note-mode', '64pads')
-        elif self._note_modes.selected_mode == 'instrument':
-            track.set_data('push-selected-note-mode', 'play')
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 
     def _load_alternative_note_layout(self):
         current_alternative_mode = self._get_current_alternative_layout_mode()
@@ -1280,16 +1242,10 @@ class PushBase(ControlSurface):
             if self.song.view.selected_track.get_data('alternative_mode_locked', False) and alternative_mode:
                 current_alternative_mode.selected_mode = alternative_mode
                 self._note_layout_switcher.cycle_button.color = 'DefaultButton.Alert'
-<<<<<<< HEAD
             else:
                 if default_mode:
                     current_alternative_mode.selected_mode = default_mode
                     self._note_layout_switcher.cycle_button.color = 'DefaultButton.On'
-=======
-            elif default_mode:
-                current_alternative_mode.selected_mode = default_mode
-                self._note_layout_switcher.cycle_button.color = 'DefaultButton.On'
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
         else:
             self._note_layout_switcher.cycle_button.color = 'DefaultButton.On'
 
@@ -1396,7 +1352,6 @@ class PushBase(ControlSurface):
         self._slicing_component.set_simpler(sliced_simpler)
         if track == None or track.is_foldable or track in self.song.return_tracks or track == self.song.master_track or track.is_frozen:
             self._note_modes.selected_mode = 'disabled'
-<<<<<<< HEAD
         else:
             if track and track.has_audio_input:
                 self._note_modes.selected_mode = 'looper'
@@ -1408,16 +1363,6 @@ class PushBase(ControlSurface):
                         self._note_modes.selected_mode = 'slicing'
                     else:
                         self._note_modes.selected_mode = 'instrument'
-=======
-        elif track and track.has_audio_input:
-            self._note_modes.selected_mode = 'looper'
-        elif drum_device:
-            self._note_modes.selected_mode = 'drums'
-        elif sliced_simpler:
-            self._note_modes.selected_mode = 'slicing'
-        else:
-            self._note_modes.selected_mode = 'instrument'
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
         self.recall_or_save_note_layout()
         self.reset_controlled_track()
 
@@ -1437,18 +1382,14 @@ class PushBase(ControlSurface):
 
     @listens_group('value')
     def __on_param_encoder_touched(self, value, encoder):
-<<<<<<< HEAD
         if any(map(lambda e: e.is_pressed()
 , self.elements.global_param_touch_buttons_raw)):
-=======
-        if any(map(lambda e: e.is_pressed(), self.elements.global_param_touch_buttons_raw)):
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
             self._accidental_touch_prevention_layer.grab(self)
         else:
             self._accidental_touch_prevention_layer.release(self)
 
     def get_matrix_button(self, column, row):
-        return self.elements.matrix_rows_raw[(7 - row)][column]
+        return self.elements.matrix_rows_raw[7 - row][column]
 
     def expect_dialog(self, message):
         self.schedule_message(1, partial(self._dialog.expect_dialog, message))

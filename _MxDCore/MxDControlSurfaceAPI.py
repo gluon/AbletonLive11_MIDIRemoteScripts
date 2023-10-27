@@ -1,3 +1,9 @@
+# decompyle3 version 3.9.0
+# Python bytecode version base 3.7.0 (3394)
+# Decompiled from: Python 3.8.0 (tags/v3.8.0:fa919fd, Oct 14 2019, 19:37:50) [MSC v.1916 64 bit (AMD64)]
+# Embedded file name: ..\..\..\output\Live\win_64_static\Release\python-bundle\MIDI Remote Scripts\_MxDCore\MxDControlSurfaceAPI.py
+# Compiled at: 2023-07-07 03:08:57
+# Size of source mod 2**32: 7513 bytes
 from __future__ import absolute_import, print_function, unicode_literals
 from builtins import map, object, str
 from future.utils import string_types
@@ -79,7 +85,7 @@ class MxDControlSurfaceAPI(object):
         lom_object.mxd_midi_scheduler.release(self.MxDMidiOwner(device_id, object_id, self._mxdcore))
 
     def release_control_surface_midi(self, device_id, object_id):
-        for control_surface in get_control_surfaces():
+        for control_surface in map(self._wrapper_registry.wrap, get_control_surfaces()):
             if old_hasattr(control_surface, 'mxd_midi_scheduler'):
                 control_surface.mxd_midi_scheduler.disconnect(self.MxDMidiOwner(device_id, object_id, self._mxdcore))
 

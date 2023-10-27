@@ -1,19 +1,13 @@
-<<<<<<< HEAD
+# decompyle3 version 3.9.0
+# Python bytecode version base 3.7.0 (3394)
+# Decompiled from: Python 3.8.0 (tags/v3.8.0:fa919fd, Oct 14 2019, 19:37:50) [MSC v.1916 64 bit (AMD64)]
+# Embedded file name: ..\..\..\output\Live\win_64_static\Release\python-bundle\MIDI Remote Scripts\SL_MkIII\physical_display.py
+# Compiled at: 2022-11-29 09:57:03
+# Size of source mod 2**32: 1816 bytes
 from __future__ import absolute_import, print_function, unicode_literals
-=======
-# decompyle3 version 3.8.0
-# Python bytecode 3.7.0 (3394)
-# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
-# [Clang 13.1.6 (clang-1316.0.21.2.3)]
-# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/SL_MkIII/physical_display.py
-# Compiled at: 2022-01-27 16:28:16
-# Size of source mod 2**32: 1833 bytes
-from __future__ import absolute_import, print_function, unicode_literals
-from builtins import map, str
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 from itertools import chain
 from ableton.v2.base import first
-import ableton.v2.control_surface.elements as PhysicalDisplayElementBase
+from ableton.v2.control_surface.elements import PhysicalDisplayElement as PhysicalDisplayElementBase
 from .sysex import TEXT_PROPERTY_BYTE
 
 class PhysicalDisplayElement(PhysicalDisplayElementBase):
@@ -25,11 +19,7 @@ class PhysicalDisplayElement(PhysicalDisplayElementBase):
 class ConfigurablePhysicalDisplayElement(PhysicalDisplayElement):
 
     def __init__(self, v_position=0, *a, **k):
-<<<<<<< HEAD
         (super().__init__)(*a, **k)
-=======
-        (super(ConfigurablePhysicalDisplayElement, self).__init__)(*a, **k)
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
         self._v_position = v_position
 
     def _build_display_message(self, display):

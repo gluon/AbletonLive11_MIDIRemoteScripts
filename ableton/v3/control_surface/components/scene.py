@@ -1,16 +1,24 @@
+# decompyle3 version 3.9.0
+# Python bytecode version base 3.7.0 (3394)
+# Decompiled from: Python 3.8.0 (tags/v3.8.0:fa919fd, Oct 14 2019, 19:37:50) [MSC v.1916 64 bit (AMD64)]
+# Embedded file name: ..\..\..\output\Live\win_64_static\Release\python-bundle\MIDI Remote Scripts\ableton\v3\control_surface\components\scene.py
+# Compiled at: 2023-09-13 04:24:51
+# Size of source mod 2**32: 5393 bytes
 from __future__ import absolute_import, print_function, unicode_literals
-import Live
-from ...base import depends, listens, liveobj_changed, liveobj_valid, scene_index
+from ...base import depends, listens
+from ...live import action, display_name, liveobj_changed, liveobj_valid, scene_index
 from .. import Component
 from ..controls import ButtonControl
+from ..display import Renderable
 from ..skin import LiveObjSkinEntry
 from . import ClipSlotComponent
 
-class SceneComponent(Component):
+class SceneComponent(Component, Renderable):
     launch_button = ButtonControl()
     select_button = ButtonControl(color=None)
     delete_button = ButtonControl(color=None)
     duplicate_button = ButtonControl(color=None)
+    include_in_top_level_state = False
 
     @depends(session_ring=None)
     def __init__(self, session_ring=None, clip_slot_component_type=None, *a, **k):
@@ -44,58 +52,31 @@ class SceneComponent(Component):
         self._on_launch_button_pressed()
 
     def _on_launch_button_pressed(self):
+        scene_name = display_name(self._scene) if liveobj_valid(self._scene) else ''
         if self.select_button.is_pressed:
-            self._do_select_scene()
+            if action.select(self._scene):
+                self.notify(self.notifications.Scene.select, scene_name)
         else:
-            if liveobj_valid(self._scene):
-                if self.duplicate_button.is_pressed:
-                    self._do_duplicate_scene()
+            if self.duplicate_button.is_pressed:
+                action.duplicate(self._scene)
+            else:
+                if self.delete_button.is_pressed:
+                    if action.delete(self._scene):
+                        self.notify(self.notifications.Scene.delete, scene_name)
                 else:
-                    if self.delete_button.is_pressed:
-                        self._do_delete_scene()
-                    else:
-                        self._do_launch_scene(True)
-                        self._show_launched_scene_as_selected_scene()
+                    self._do_launch_scene()
+
+    def _do_launch_scene(self):
+        action.fire((self._scene), button_state=True)
 
     @launch_button.released
     def launch_button(self, _):
         self._on_launch_button_released()
 
     def _on_launch_button_released(self):
-        if liveobj_valid(self._scene):
-            if self.launch_button.is_momentary:
-                if not self._any_modifier_pressed():
-                    self._do_launch_scene(False)
-
-    def _do_launch_scene(self, fire_state):
-        self._scene.set_fire_button_state(fire_state)
-
-    def _do_select_scene(self):
-        self._select_scene_in_song()
-
-    def _do_delete_scene(self):
-        try:
-            if liveobj_valid(self._scene):
-                song = self.song
-                song.delete_scene(list(song.scenes).index(self._scene))
-        except RuntimeError:
-            pass
-
-    def _do_duplicate_scene(self):
-        try:
-            song = self.song
-            song.duplicate_scene(list(song.scenes).index(self._scene))
-        except (Live.Base.LimitationError, IndexError, RuntimeError):
-            pass
-
-    def _show_launched_scene_as_selected_scene(self):
-        if self.song.select_on_launch:
-            self._select_scene_in_song()
-
-    def _select_scene_in_song(self):
-        if liveobj_valid(self._scene):
-            if liveobj_changed(self.song.view.selected_scene, self._scene):
-                self.song.view.selected_scene = self._scene
+        if self.launch_button.is_momentary:
+            if not self._any_modifier_pressed():
+                action.fire((self._scene), button_state=False)
 
     def _any_modifier_pressed(self):
         return self.select_button.is_pressed or self.delete_button.is_pressed or self.duplicate_button.is_pressed

@@ -1,13 +1,9 @@
-<<<<<<< HEAD
-=======
-# decompyle3 version 3.8.0
-# Python bytecode 3.7.0 (3394)
-# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
-# [Clang 13.1.6 (clang-1316.0.21.2.3)]
-# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/LV2_LX2_LC2_LD2/Devices.py
-# Compiled at: 2022-01-28 05:06:23
-# Size of source mod 2**32: 22531 bytes
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
+# decompyle3 version 3.9.0
+# Python bytecode version base 3.7.0 (3394)
+# Decompiled from: Python 3.8.0 (tags/v3.8.0:fa919fd, Oct 14 2019, 19:37:50) [MSC v.1916 64 bit (AMD64)]
+# Embedded file name: ..\..\..\output\Live\win_64_static\Release\python-bundle\MIDI Remote Scripts\LV2_LX2_LC2_LD2\Devices.py
+# Compiled at: 2022-11-29 09:57:02
+# Size of source mod 2**32: 23730 bytes
 from __future__ import absolute_import, print_function, unicode_literals
 import Live
 RCK_BANK1 = ('Macro 1', 'Macro 2', 'Macro 3', 'Macro 4', 'Macro 5', 'Macro 6', 'Macro 7',
@@ -74,11 +70,7 @@ OPR_BANKS = (
 OPR_BOBS = OPR_BOB
 OPR_BNK_NAMES = ('Oscillator A', 'Oscillator B', 'Oscillator C', 'Oscillator D', 'LFO',
                  'Filter', 'Pitch Modulation', 'Routing')
-<<<<<<< HEAD
 TEN_BOB = ('Exciter Type', 'Exc ForceMassProt', 'String Decay', 'Str Damping', 'Vib Amount',
-=======
-TEN_BOB = ('Excitator Type', 'Exc ForceMassProt', 'String Decay', 'Str Damping', 'Vib Amount',
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
            'Filter Freq', 'Filter Reso', 'Volume')
 TEN_BOBS = TEN_BOB
 ANA_BOB = ('F1 Freq', 'F1 Resonance', 'OSC1 Octave', 'Vib On/Off', 'AEG1 Attack', 'AEG1 Rel',
@@ -298,7 +290,6 @@ UTL_BANK2 = ('Bass Mono', 'Bass Freq', 'DC Filter', '', '', '', '', '')
 UTL_BANKS = (UTL_BANK1, UTL_BANK2)
 UTL_BOBS = (UTL_BANK1,)
 UTL_BANK_NAMES = ('General Controls', 'Low Frequency')
-<<<<<<< HEAD
 RVB_BANK1 = ('In Filter Freq', 'In Filter Width', 'Predelay', 'ER Spin On', 'ER Spin Rate',
              'ER Spin Amount', 'ER Shape', 'Decay Time')
 RVB_BANK2 = ('HiFilter Freq', 'LowShelf Freq', 'Chorus Rate', 'Diffusion', 'HiShelf Gain',
@@ -306,15 +297,6 @@ RVB_BANK2 = ('HiFilter Freq', 'LowShelf Freq', 'Chorus Rate', 'Diffusion', 'HiSh
 RVB_BANK3 = ('Decay Time', 'Freeze On', 'Room Size', 'Stereo Image', 'Reflect Level',
              'Diffuse Level', 'Dry/Wet', 'Density')
 RVB_BOB = ('Decay Time', 'Room Size', 'Chorus Amount', 'In Filter Freq', 'HiFilter Freq',
-=======
-RVB_BANK1 = ('In Filter Freq', 'In Filter Width', 'PreDelay', 'ER Spin On', 'ER Spin Rate',
-             'ER Spin Amount', 'ER Shape', 'DecayTime')
-RVB_BANK2 = ('HiShelf Freq', 'LowShelf Freq', 'Chorus Rate', 'Density', 'HiShelf Gain',
-             'LowShelf Gain', 'Chorus Amount', 'Scale')
-RVB_BANK3 = ('DecayTime', 'Freeze On', 'Room Size', 'Stereo Image', 'ER Level', 'Diffuse Level',
-             'Dry/Wet', 'Quality')
-RVB_BOB = ('DecayTime', 'Room Size', 'Chorus Amount', 'In Filter Freq', 'HiShelf Freq',
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
            'HiShelf Gain', 'Stereo Image', 'Dry/Wet')
 RVB_BANKS = (
  RVB_BANK1, RVB_BANK2, RVB_BANK3)
@@ -331,7 +313,6 @@ PPG_BANK1 = ('Filter Freq', 'Filter Width', 'Time Delay', 'Beat Delay', 'Beat Sw
              'Delay Mode', 'Feedback', 'Dry/Wet')
 PPG_BANKS = PPG_BANK1
 PPG_BOBS = PPG_BANK1
-<<<<<<< HEAD
 DEVICE_DICT = {
   'AudioEffectGroupDevice': RCK_BANKS,
   'MidiEffectGroupDevice': RCK_BANKS,
@@ -497,168 +478,6 @@ FIVETOSIX_DICT = {
   'Simpler': 'OriginalSimpler',
   'Impulse': 'InstrumentImpulse',
   'Operator': 'Operator'}
-=======
-DEVICE_DICT = {'AudioEffectGroupDevice':RCK_BANKS, 
- 'MidiEffectGroupDevice':RCK_BANKS, 
- 'DrumGroupDevice':RCK_BANKS, 
- 'InstrumentGroupDevice':RCK_BANKS, 
- 'InstrumentImpulse':IMP_BANKS, 
- 'Operator':OPR_BANKS, 
- 'OriginalSimpler':SIM_BANKS, 
- 'MultiSampler':SAM_BANKS, 
- 'MidiArpeggiator':ARP_BANKS, 
- 'MidiChord':CRD_BANKS, 
- 'MidiNoteLength':NTL_BANKS, 
- 'MidiPitcher':PIT_BANKS, 
- 'MidiRandom':RND_BANKS, 
- 'MidiScale':SCL_BANKS, 
- 'MidiVelocity':VEL_BANKS, 
- 'AutoFilter':AFL_BANKS, 
- 'AutoPan':APN_BANKS, 
- 'BeatRepeat':BRP_BANKS, 
- 'Chorus':CHR_BANKS, 
- 'Compressor2':CP2_BANKS, 
- 'Tube':DTB_BANKS, 
- 'Eq8':EQ8_BANKS, 
- 'FilterEQ3':EQ3_BANKS, 
- 'Erosion':ERO_BANKS, 
- 'FilterDelay':FLD_BANKS, 
- 'Flanger':FLG_BANKS, 
- 'GrainDelay':GRD_BANKS, 
- 'Phaser':PHS_BANKS, 
- 'Redux':RDX_BANKS, 
- 'Saturator':SAT_BANKS, 
- 'Resonator':RSN_BANKS, 
- 'StereoGain':UTL_BANKS, 
- 'Tube':DTB_BANKS, 
- 'Reverb':RVB_BANKS, 
- 'Vinyl':VDS_BANKS, 
- 'Gate':GTE_BANKS}
-DEVICE_BOB_DICT = {'AudioEffectGroupDevice':RCK_BOBS, 
- 'MidiEffectGroupDevice':RCK_BOBS, 
- 'InstrumentGroupDevice':RCK_BOBS, 
- 'DrumGroupDevice':RCK_BOBS, 
- 'InstrumentImpulse':IMP_BOBS, 
- 'Operator':OPR_BOBS, 
- 'OriginalSimpler':SIM_BOBS, 
- 'MultiSampler':SAM_BOBS, 
- 'UltraAnalog':ANA_BOBS, 
- 'StringStudio':TEN_BOBS, 
- 'LoungeLizard':ELEC_BOBS, 
- 'ProxyInstrumentDevice':EXTINST_BOBS, 
- 'MidiArpeggiator':ARP_BOBS, 
- 'MidiChord':CRD_BOBS, 
- 'MidiNoteLength':NTL_BOBS, 
- 'MidiPitcher':PIT_BOBS, 
- 'MidiRandom':RND_BOBS, 
- 'MidiScale':SCL_BOBS, 
- 'MidiVelocity':VEL_BOBS, 
- 'AutoFilter':AFL_BOBS, 
- 'AutoPan':APN_BOBS, 
- 'BeatRepeat':BRP_BOBS, 
- 'Chorus':CHR_BOBS, 
- 'Compressor2':CP2_BOBS, 
- 'Tube':DTB_BOBS, 
- 'Eq8':EQ8_BOBS, 
- 'FilterEQ3':EQ3_BOBS, 
- 'Erosion':ERO_BOBS, 
- 'FilterDelay':FLD_BOBS, 
- 'Flanger':FLG_BOBS, 
- 'GrainDelay':GRD_BOBS, 
- 'Phaser':PHS_BOBS, 
- 'Redux':RDX_BOBS, 
- 'Saturator':SAT_BOBS, 
- 'ProxyAudioEffectDevice':EXTEFFECT_BOBS, 
- 'Resonator':RSN_BOBS, 
- 'StereoGain':UTL_BOBS, 
- 'Tube':DTB_BOBS, 
- 'Reverb':RVB_BOBS, 
- 'Vinyl':VDS_BOBS, 
- 'Gate':GTE_BOBS}
-BANK_NAME_DICT = {'AudioEffectGroupDevice':RCK_BNK_NAMES, 
- 'MidiEffectGroupDevice':RCK_BNK_NAMES, 
- 'InstrumentGroupDevice':RCK_BNK_NAMES, 
- 'DrumGroupDevice':RCK_BNK_NAMES, 
- 'InstrumentImpulse':IMP_BNK_NAMES, 
- 'Operator':OPR_BNK_NAMES, 
- 'OriginalSimpler':SIM_BNK_NAMES, 
- 'MultiSampler':SAM_BNK_NAMES, 
- 'MidiArpeggiator':ARP_BNK_NAMES, 
- 'MidiChord':CRD_BNK_NAMES, 
- 'BeatRepeat':BRP_BNK_NAMES, 
- 'Eq8':EQ8_BNK_NAMES, 
- 'FilterDelay':FLD_BNK_NAMES, 
- 'Flanger':FLG_BNK_NAMES, 
- 'Phaser':PHS_BNK_NAMES, 
- 'Saturator':SAT_BNK_NAMES, 
- 'Resonator':RSN_BNK_NAMES, 
- 'Reverb':RVB_BNK_NAMES, 
- 'StereoGain':UTL_BANK_NAMES}
-DEVICE_DICT = {'AudioEffectGroupDevice':RCK_BANKS, 
- 'MidiEffectGroupDevice':RCK_BANKS, 
- 'InstrumentGroupDevice':RCK_BANKS, 
- 'InstrumentImpulse':IMP_BANKS, 
- 'Operator':OPR_BANKS, 
- 'OriginalSimpler':SIM_BANKS, 
- 'MultiSampler':SAM_BANKS, 
- 'MidiArpeggiator':ARP_BANKS, 
- 'MidiChord':CRD_BANKS, 
- 'MidiNoteLength':NTL_BANKS, 
- 'MidiPitcher':PIT_BANKS, 
- 'MidiRandom':RND_BANKS, 
- 'MidiScale':SCL_BANKS, 
- 'MidiVelocity':VEL_BANKS, 
- 'AutoFilter':AFL_BANKS, 
- 'AutoPan':APN_BANKS, 
- 'BeatRepeat':BRP_BANKS, 
- 'Chorus':CHR_BANKS, 
- 'Compressor2':CP2_BANKS, 
- 'Tube':DTB_BANKS, 
- 'Eq8':EQ8_BANKS, 
- 'FilterEQ3':EQ3_BANKS, 
- 'Erosion':ERO_BANKS, 
- 'FilterDelay':FLD_BANKS, 
- 'Flanger':FLG_BANKS, 
- 'GrainDelay':GRD_BANKS, 
- 'Phaser':PHS_BANKS, 
- 'Redux':RDX_BANKS, 
- 'Saturator':SAT_BANKS, 
- 'Resonator':RSN_BANKS, 
- 'StereoGain':UTL_BANKS, 
- 'Tube':DTB_BANKS, 
- 'Reverb':RVB_BANKS, 
- 'Vinyl':VDS_BANKS, 
- 'Gate':GTE_BANKS}
-FIVETOSIX_DICT = {'Auto Filter':'AutoFilter', 
- 'Auto Pan':'AutoPan', 
- 'Beat Repeat':'BeatRepeat', 
- 'Chorus':'Chorus', 
- 'Compressor I':'Compressor', 
- 'Compressor II':'Compressor2', 
- 'EQ Four':'Eq8', 
- 'EQ Three':'FilterEQ3', 
- 'Erosion':'Erosion', 
- 'Filter Delay':'FilterDelay', 
- 'Flanger':'Flanger', 
- 'Gate':'Gate', 
- 'Grain Delay':'GrainDelay', 
- 'Phaser':'Phaser', 
- 'Redux':'Redux', 
- 'Resonators':'Resonator', 
- 'Reverb':'Reverb', 
- 'Saturator':'Saturator', 
- 'Utility':'StereoGain', 
- 'Vinyl Distortion':'Vinyl', 
- 'Arpeggiator':'MidiArpeggiator', 
- 'Chord':'MidiChord', 
- 'Pitch':'MidiPitcher', 
- 'Random':'MidiRandom', 
- 'Scale':'MidiScale', 
- 'Velocity':'MidiVelocity', 
- 'Simpler':'OriginalSimpler', 
- 'Impulse':'InstrumentImpulse', 
- 'Operator':'Operator'}
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 INVERT_QUANT_PARAM = {'FilterDelay.1 Beat Delay':1, 
  'FilterDelay.2 Beat Delay':1, 
  'FilterDelay.3 Beat Delay':1}

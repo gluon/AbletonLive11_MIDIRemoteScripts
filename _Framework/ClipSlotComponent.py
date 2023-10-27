@@ -1,13 +1,9 @@
-<<<<<<< HEAD
-=======
-# decompyle3 version 3.8.0
-# Python bytecode 3.7.0 (3394)
-# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
-# [Clang 13.1.6 (clang-1316.0.21.2.3)]
-# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/_Framework/ClipSlotComponent.py
-# Compiled at: 2022-01-27 16:28:16
-# Size of source mod 2**32: 10216 bytes
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
+# decompyle3 version 3.9.0
+# Python bytecode version base 3.7.0 (3394)
+# Decompiled from: Python 3.8.0 (tags/v3.8.0:fa919fd, Oct 14 2019, 19:37:50) [MSC v.1916 64 bit (AMD64)]
+# Embedded file name: ..\..\..\output\Live\win_64_static\Release\python-bundle\MIDI Remote Scripts\_Framework\ClipSlotComponent.py
+# Compiled at: 2022-11-29 09:57:03
+# Size of source mod 2**32: 10719 bytes
 from __future__ import absolute_import, print_function, unicode_literals
 from builtins import zip
 import Live
@@ -61,16 +57,10 @@ class ClipSlotComponent(ControlSurfaceComponent):
         self._on_clip_slot_color_changed.subject = clip_slot
         track = clip_slot.canonical_parent if clip_slot else None
         if track:
-<<<<<<< HEAD
             if track in self.song().tracks:
                 self._on_arm_value_changed.subject = track
                 self._on_implicit_arm_value_changed.subject = track
                 self._on_input_routing_type_changed.subject = track
-=======
-            if track.can_be_armed:
-                self._on_arm_value_changed.subject = track
-                self._on_implicit_arm_value_changed.subject = track
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
         self.update()
 
     def set_launch_button(self, button):
@@ -212,13 +202,10 @@ class ClipSlotComponent(ControlSurfaceComponent):
     def _on_implicit_arm_value_changed(self):
         self.update()
 
-<<<<<<< HEAD
     @subject_slot('input_routing_type')
     def _on_input_routing_type_changed(self):
         self.update()
 
-=======
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
     @subject_slot('has_stop_button')
     def _on_has_stop_button_changed(self):
         self.update()
@@ -241,7 +228,6 @@ class ClipSlotComponent(ControlSurfaceComponent):
         if self.is_enabled():
             if self._select_button and self._select_button.is_pressed() and value:
                 self._do_select_clip(self._clip_slot)
-<<<<<<< HEAD
             else:
                 if not self._clip_slot != Noneand self._duplicate_button and self._duplicate_button or value:
                     self._do_duplicate_clip()
@@ -251,15 +237,6 @@ class ClipSlotComponent(ControlSurfaceComponent):
                             self._do_delete_clip()
                     else:
                         self._do_launch_clip(value)
-=======
-            elif not self._clip_slot != Noneand self._duplicate_button and self._duplicate_button or value:
-                self._do_duplicate_clip()
-            elif self._delete_button and self._delete_button.is_pressed():
-                if value:
-                    self._do_delete_clip()
-            else:
-                self._do_launch_clip(value)
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 
     def _do_delete_clip(self):
         if self._clip_slot:
@@ -291,14 +268,9 @@ class ClipSlotComponent(ControlSurfaceComponent):
             self._has_fired_slot = True
         if button.is_momentary():
             object_to_launch.set_fire_button_state(value != 0)
-<<<<<<< HEAD
         else:
             if launch_pressed:
                 object_to_launch.fire()
-=======
-        elif launch_pressed:
-            object_to_launch.fire()
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
         if launch_pressed:
             if self.has_clip():
                 if self.song().select_on_launch:

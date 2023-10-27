@@ -1,11 +1,14 @@
+# decompyle3 version 3.9.0
+# Python bytecode version base 3.7.0 (3394)
+# Decompiled from: Python 3.8.0 (tags/v3.8.0:fa919fd, Oct 14 2019, 19:37:50) [MSC v.1916 64 bit (AMD64)]
+# Embedded file name: ..\..\..\output\Live\win_64_static\Release\python-bundle\MIDI Remote Scripts\ATOMSQ\mappings.py
+# Compiled at: 2023-08-04 12:30:20
+# Size of source mod 2**32: 4303 bytes
 from __future__ import absolute_import, print_function, unicode_literals
 from ableton.v3.control_surface.mode import LatchingBehaviour
 
 def create_mappings(_):
     mappings = {}
-    mappings['Button_Labels'] = dict(display_lines='button_label_displays')
-    mappings['Simple_Device'] = dict(device_name_display='device_name_display')
-    mappings['Mixer'] = dict(target_track_track_name_display='track_name_display')
     mappings['Modifier_Background'] = dict(shift='shift_button')
     mappings['Undo_Redo'] = dict(undo_button='stop_button_with_shift')
     mappings['Session_Navigation'] = dict(up_button='up_button_with_shift',
@@ -14,12 +17,12 @@ def create_mappings(_):
       prev_track_button='left_button',
       next_scene_button='down_button',
       prev_scene_button='up_button')
+    mappings['View_Based_Recording'] = dict(record_button='record_button')
     mappings['Transport'] = dict(arrangement_position_encoder='display_encoder',
       tempo_coarse_encoder='display_encoder_with_shift',
       play_button='play_button',
       loop_button='play_button_with_shift',
       stop_button='stop_button',
-      view_based_record_button='record_button',
       metronome_button='click_button',
       capture_midi_button='record_button_with_shift',
       prev_cue_button='display_left_button',
@@ -33,7 +36,7 @@ def create_mappings(_):
       instrument_button='instrument_mode_button',
       editor_button='editor_mode_button',
       user_button='user_mode_button',
-      instrument=dict(component='Simple_Device', parameter_controls='encoders'),
+      instrument=dict(component='Device', parameter_controls='encoders'),
       song=dict(modes=[
      dict(component='Lower_Pad_Modes'),
      dict(component='View_Toggle',
@@ -57,11 +60,11 @@ def create_mappings(_):
        target_track_arm_button='display_buttons_raw[2]',
        crossfader_control='touch_strip')]),
       editor=dict(modes=[
-     dict(component='Simple_Device', parameter_controls='encoders'),
+     dict(component='Device', parameter_controls='encoders'),
      dict(component='Device_Navigation',
        prev_button='display_buttons_raw[1]',
        next_button='display_buttons_raw[2]'),
-     dict(component='Simple_Device',
+     dict(component='Device',
        device_lock_button='display_buttons_raw[0]',
        device_on_off_button='display_buttons_raw[3]',
        prev_bank_button='display_buttons_raw[4]',

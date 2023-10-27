@@ -1,19 +1,16 @@
-<<<<<<< HEAD
-=======
-# decompyle3 version 3.8.0
-# Python bytecode 3.7.0 (3394)
-# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
-# [Clang 13.1.6 (clang-1316.0.21.2.3)]
-# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/ableton/v2/control_surface/decoration.py
-# Compiled at: 2022-01-28 05:06:24
-# Size of source mod 2**32: 9570 bytes
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
+# decompyle3 version 3.9.0
+# Python bytecode version base 3.7.0 (3394)
+# Decompiled from: Python 3.8.0 (tags/v3.8.0:fa919fd, Oct 14 2019, 19:37:50) [MSC v.1916 64 bit (AMD64)]
+# Embedded file name: ..\..\..\output\Live\win_64_static\Release\python-bundle\MIDI Remote Scripts\ableton\v2\control_surface\decoration.py
+# Compiled at: 2023-06-30 09:18:52
+# Size of source mod 2**32: 14317 bytes
 from __future__ import absolute_import, print_function, unicode_literals
 from builtins import filter, map, round
 from future.utils import iteritems
 import Live
+from Push2.device_options import DeviceOnOffOption, DeviceSwitchOption
 from ..base import CompoundDisconnectable, EventObject, Proxy, clamp, find_if, listenable_property, listens, liveobj_valid, old_hasattr
-from .internal_parameter import InternalParameter
+from .internal_parameter import EnumWrappingParameter, IntegerParameter, InternalParameter
 AutomationState = Live.DeviceParameter.AutomationState
 
 def get_parameter_by_name(decorator, name):
@@ -66,10 +63,13 @@ class LiveObjectDict(dict):
 class LiveObjectDecorator(CompoundDisconnectable, Proxy):
 
     def __init__(self, live_object=None, additional_properties={}):
-        super(LiveObjectDecorator, self).__init__(proxied_object=live_object)
+        super().__init__(proxied_object=live_object)
         self._live_object = live_object
         for name, value in iteritems(additional_properties):
             setattr(self, name, value)
+
+        self._LiveObjectDecorator__decorated_options = {}
+        self._LiveObjectDecorator__decorated_parameters = []
 
     def __eq__(self, other):
         if id(self) == id(other):
@@ -90,6 +90,59 @@ class LiveObjectDecorator(CompoundDisconnectable, Proxy):
 
     def __hash__(self):
         return hash(self._live_object)
+
+    def _add_non_automatable_enum_parameter(self, name, list, index):
+        self._LiveObjectDecorator__decorated_parameters.append(EnumWrappingParameter(name=name,
+          parent=self,
+          values_host=(self._live_object),
+          index_property_host=self,
+          values_property=list,
+          index_property=index))
+        return self._LiveObjectDecorator__decorated_parameters[-1]
+
+    def _add_non_automatable_int_parameter(self, name, property_name, min, max, units):
+        spaced_units = ' ' + units if units != '' else ''
+        self._LiveObjectDecorator__decorated_parameters.append(IntegerParameter(name=name,
+          parent=self,
+          integer_value_host=(self._live_object),
+          integer_value_property_name=property_name,
+          min_value=min,
+          max_value=max,
+          show_as_quantized=False,
+          display_value_conversion=(lambda x: str(x) + spaced_units
+)))
+        return self._LiveObjectDecorator__decorated_parameters[-1]
+
+    def _add_enum_parameter(self, name, values, default_value):
+        enum_type = type(default_value)
+        provider = NotifyingList(available_values=values, default_value=default_value)
+        self._LiveObjectDecorator__decorated_parameters.append(EnumWrappingParameter(name=name,
+          parent=self,
+          values_host=provider,
+          index_property_host=provider,
+          values_property='available_values',
+          index_property='index',
+          value_type=enum_type))
+        return self._LiveObjectDecorator__decorated_parameters[-1]
+
+    def _add_switch_option(self, name, pname, labels):
+        self._LiveObjectDecorator__decorated_options[pname] = DeviceSwitchOption(name=name,
+          parameter=(get_parameter_by_name(self, pname)),
+          labels=labels)
+        return self._LiveObjectDecorator__decorated_options[pname]
+
+    def _add_on_off_option(self, name, pname):
+        self._LiveObjectDecorator__decorated_options[pname] = DeviceOnOffOption(name=name,
+          property_host=(get_parameter_by_name(self, pname)))
+        return self._LiveObjectDecorator__decorated_options[pname]
+
+    @property
+    def parameters(self):
+        return tuple(self._live_object.parameters) + tuple(self._LiveObjectDecorator__decorated_parameters)
+
+    @property
+    def options(self):
+        return tuple(self._LiveObjectDecorator__decorated_options.values())
 
 
 class DecoratorFactory(CompoundDisconnectable):
@@ -137,7 +190,7 @@ class NotifyingList(EventObject):
         return self._index
 
     def _set_index(self, value):
-        if value < 0 or (value >= len(self.available_values)):
+        if value < 0 or value >= len(self.available_values):
             raise IndexError
         self._index = value
         self.notify_index()
@@ -221,7 +274,7 @@ class PitchParameter(InternalParameter):
             self._integer_value_host.value = clamp(new_value, self._integer_value_host.min, self._integer_value_host.max)
 
     def _set_finegrain(self, new_value):
-        if new_value < 0 or (new_value > 1):
+        if new_value < 0 or new_value > 1:
             offset = 1 if new_value < 0 else -1
             new_value += offset
             self._set_coarse(getattr(self._integer_value_host, 'value', 0) - offset)
@@ -257,6 +310,6 @@ class PitchParameter(InternalParameter):
     def automation_state(self):
         integer_host_automation_state = get_parameter_automation_state(self._integer_value_host)
         decimal_host_automation_state = get_parameter_automation_state(self._decimal_value_host)
-        if integer_host_automation_state == AutomationState.playing or (decimal_host_automation_state == AutomationState.playing):
+        if integer_host_automation_state == AutomationState.playing or decimal_host_automation_state == AutomationState.playing:
             return AutomationState.playing
         return integer_host_automation_state or decimal_host_automation_state

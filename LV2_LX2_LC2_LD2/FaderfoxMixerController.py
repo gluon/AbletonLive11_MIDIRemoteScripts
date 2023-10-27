@@ -1,13 +1,9 @@
-<<<<<<< HEAD
-=======
-# decompyle3 version 3.8.0
-# Python bytecode 3.7.0 (3394)
-# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
-# [Clang 13.1.6 (clang-1316.0.21.2.3)]
-# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/LV2_LX2_LC2_LD2/FaderfoxMixerController.py
-# Compiled at: 2022-01-27 16:28:16
-# Size of source mod 2**32: 9491 bytes
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
+# decompyle3 version 3.9.0
+# Python bytecode version base 3.7.0 (3394)
+# Decompiled from: Python 3.8.0 (tags/v3.8.0:fa919fd, Oct 14 2019, 19:37:50) [MSC v.1916 64 bit (AMD64)]
+# Embedded file name: ..\..\..\output\Live\win_64_static\Release\python-bundle\MIDI Remote Scripts\LV2_LX2_LC2_LD2\FaderfoxMixerController.py
+# Compiled at: 2022-11-29 09:57:02
+# Size of source mod 2**32: 9754 bytes
 from __future__ import absolute_import, print_function, unicode_literals
 from builtins import range
 import Live
@@ -51,15 +47,6 @@ class FaderfoxMixerController(FaderfoxComponent):
                 track = tracks[idx]
                 if attr == 'solo':
                     self.helper.solo_track(track)
-<<<<<<< HEAD
-=======
-                elif attr == 'arm':
-                    self.helper.arm_track(track)
-                elif attr == 'monitor':
-                    self.helper.switch_monitor_track(track)
-                elif attr == 'cross_ab':
-                    self.helper.switch_crossfader_ab(track)
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
                 else:
                     if attr == 'arm':
                         self.helper.arm_track(track)
@@ -84,18 +71,11 @@ class FaderfoxMixerController(FaderfoxComponent):
                 tracks = tuple(self.parent.song().tracks) + tuple(self.parent.song().return_tracks)
                 if idx < len(tracks):
                     track = tracks[idx]
-<<<<<<< HEAD
                 else:
                     if self.helper.is_master_track_selected():
                         track = tracks[-1]
                     else:
                         track = self.parent.song().master_track
-=======
-                elif self.helper.is_master_track_selected():
-                    track = tracks[(-1)]
-                else:
-                    track = self.parent.song().master_track
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
                 self.set_selected_track(track)
         if channel == CHANNEL_SETUP2:
             if note_no == MASTER_TRACK_SELECT_NOTE:

@@ -1,10 +1,9 @@
-# decompyle3 version 3.8.0
-# Python bytecode 3.7.0 (3394)
-# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
-# [Clang 13.1.6 (clang-1316.0.21.2.3)]
-# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/ableton/v2/control_surface/components/channel_strip.py
-# Compiled at: 2022-01-28 05:06:24
-# Size of source mod 2**32: 17602 bytes
+# decompyle3 version 3.9.0
+# Python bytecode version base 3.7.0 (3394)
+# Decompiled from: Python 3.8.0 (tags/v3.8.0:fa919fd, Oct 14 2019, 19:37:50) [MSC v.1916 64 bit (AMD64)]
+# Embedded file name: ..\..\..\output\Live\win_64_static\Release\python-bundle\MIDI Remote Scripts\ableton\v2\control_surface\components\channel_strip.py
+# Compiled at: 2022-11-29 09:57:03
+# Size of source mod 2**32: 18161 bytes
 from __future__ import absolute_import, print_function, unicode_literals
 from itertools import chain
 from ...base import EventObject, listens, liveobj_valid, nop
@@ -13,12 +12,12 @@ from ..control import ButtonControl
 from ..elements import DisplayDataSource
 
 def release_control(control):
-    if control != None:
+    if control is not None:
         control.release_parameter()
 
 
 def reset_button(button):
-    if button != None:
+    if button is not None:
         button.reset()
 
 
@@ -134,7 +133,7 @@ class ChannelStripComponent(Component):
              self._solo_button,
              self._arm_button,
              self._crossfade_toggle):
-                if button != None:
+                if button is not None:
                     button.set_light(False)
 
         self.select_button.enabled = True if self._track else False
@@ -217,7 +216,7 @@ class ChannelStripComponent(Component):
         self._update_select_button()
 
     def _update_select_button(self):
-        if liveobj_valid(self._track) or self.empty_color == None:
+        if liveobj_valid(self._track) or self.empty_color is None:
             if self.song.view.selected_track == self._track:
                 self.select_button.color = 'DefaultButton.On'
             else:
@@ -239,14 +238,14 @@ class ChannelStripComponent(Component):
         return self._track
 
     def _connect_parameters(self):
-        if self._pan_control != None:
+        if self._pan_control is not None:
             self._pan_control.connect_to(self._track.mixer_device.panning)
-        if self._volume_control != None:
+        if self._volume_control is not None:
             self._volume_control.connect_to(self._track.mixer_device.volume)
-        if self._send_controls != None:
+        if self._send_controls is not None:
             index = 0
             for send_control in self._send_controls:
-                if send_control != None:
+                if send_control is not None:
                     if index < len(self._track.mixer_device.sends):
                         send_control.connect_to(self._track.mixer_device.sends[index])
                     else:
@@ -315,11 +314,42 @@ class ChannelStripComponent(Component):
                     if not self._mute_button.is_momentary() or value != 0:
                         self._track.mute = not self._track.mute
 
-    def update_solo_state(self, solo_exclusive, new_value, respect_multi_selection, track):
-        if track == self._track or respect_multi_selection and track.is_part_of_selection:
-            track.solo = new_value
-        elif solo_exclusive and track.solo:
-            track.solo = False
+    def update_solo_state--- This code section failed: ---
+
+ L. 379         0  LOAD_FAST                'track'
+                2  LOAD_FAST                'self'
+                4  LOAD_ATTR                _track
+                6  COMPARE_OP               ==
+                8  POP_JUMP_IF_TRUE     20  'to 20'
+
+ L. 380        10  LOAD_FAST                'respect_multi_selection'
+               12  POP_JUMP_IF_FALSE    28  'to 28'
+               14  LOAD_FAST                'track'
+               16  LOAD_ATTR                is_part_of_selection
+               18  POP_JUMP_IF_FALSE    28  'to 28'
+             20_0  COME_FROM             8  '8'
+
+ L. 382        20  LOAD_FAST                'new_value'
+               22  LOAD_FAST                'track'
+               24  STORE_ATTR               solo
+               26  JUMP_FORWARD         44  'to 44'
+             28_0  COME_FROM            18  '18'
+             28_1  COME_FROM            12  '12'
+
+ L. 383        28  LOAD_FAST                'solo_exclusive'
+               30  POP_JUMP_IF_FALSE    44  'to 44'
+               32  LOAD_FAST                'track'
+               34  LOAD_ATTR                solo
+               36  POP_JUMP_IF_FALSE    44  'to 44'
+
+ L. 384        38  LOAD_CONST               False
+               40  LOAD_FAST                'track'
+               42  STORE_ATTR               solo
+             44_0  COME_FROM            36  '36'
+             44_1  COME_FROM            30  '30'
+             44_2  COME_FROM            26  '26'
+
+Parse error at or near `COME_FROM' instruction at offset 44_1
 
     def _solo_value(self, value):
         if self.is_enabled():
@@ -434,7 +464,7 @@ class ChannelStripComponent(Component):
 
  L. 430       148  LOAD_FAST                'track'
               150  LOAD_ATTR                can_be_armed
-              152  POP_JUMP_IF_FALSE_BACK   144  'to 144'
+              152  POP_JUMP_IF_FALSE_LOOP   144  'to 144'
 
  L. 431       154  LOAD_FAST                'track'
               156  LOAD_FAST                'self'
@@ -452,20 +482,20 @@ class ChannelStripComponent(Component):
  L. 434       174  LOAD_FAST                'new_value'
               176  LOAD_FAST                'track'
               178  STORE_ATTR               arm
-              180  JUMP_BACK           144  'to 144'
+              180  JUMP_LOOP           144  'to 144'
             182_0  COME_FROM           172  '172'
             182_1  COME_FROM           166  '166'
 
  L. 436       182  LOAD_FAST                'arm_exclusive'
-              184  POP_JUMP_IF_FALSE_BACK   144  'to 144'
+              184  POP_JUMP_IF_FALSE_LOOP   144  'to 144'
               186  LOAD_FAST                'track'
               188  LOAD_ATTR                arm
-              190  POP_JUMP_IF_FALSE_BACK   144  'to 144'
+              190  POP_JUMP_IF_FALSE_LOOP   144  'to 144'
 
  L. 437       192  LOAD_CONST               False
               194  LOAD_FAST                'track'
               196  STORE_ATTR               arm
-              198  JUMP_BACK           144  'to 144'
+              198  JUMP_LOOP           144  'to 144'
               200  POP_BLOCK        
             202_0  COME_FROM_LOOP      134  '134'
             202_1  COME_FROM            62  '62'
@@ -489,7 +519,7 @@ Parse error at or near `COME_FROM_LOOP' instruction at offset 202_0
             self.update()
 
     def _on_mute_changed(self):
-        if not self.is_enabled() or self._mute_button != None and liveobj_valid(self._track) or self.empty_color == None:
+        if not self.is_enabled() or self._mute_button is not None and liveobj_valid(self._track) or self.empty_color is None:
             if self._track in chain(self.song.tracks, self.song.return_tracks) and self._track.mute != self._invert_mute_feedback:
                 self._mute_button.set_light('Mixer.MuteOff')
             else:
@@ -498,7 +528,7 @@ Parse error at or near `COME_FROM_LOOP' instruction at offset 202_0
             self._mute_button.set_light(self.empty_color)
 
     def _on_solo_changed(self):
-        if not self.is_enabled() or self._solo_button != None and liveobj_valid(self._track) or self.empty_color == None:
+        if not self.is_enabled() or self._solo_button is not None and liveobj_valid(self._track) or self.empty_color is None:
             if self._track in chain(self.song.tracks, self.song.return_tracks) and self._track.solo:
                 self._solo_button.set_light('Mixer.SoloOn')
             else:
@@ -507,7 +537,7 @@ Parse error at or near `COME_FROM_LOOP' instruction at offset 202_0
             self._solo_button.set_light(self.empty_color)
 
     def _on_arm_changed(self):
-        if not self.is_enabled() or self._arm_button != None and liveobj_valid(self._track) or self.empty_color == None:
+        if not self.is_enabled() or self._arm_button is not None and liveobj_valid(self._track) or self.empty_color is None:
             if self._track in self.song.tracks and self._track.can_be_armed and self._track.arm:
                 self._arm_button.set_light('Mixer.ArmOn')
             else:
@@ -521,7 +551,7 @@ Parse error at or near `COME_FROM_LOOP' instruction at offset 202_0
 
     def _on_cf_assign_changed(self):
         if self.is_enabled():
-            if self._crossfade_toggle != None:
+            if self._crossfade_toggle is not None:
                 if liveobj_valid(self._track) and self._track in chain(self.song.tracks, self.song.return_tracks) and self._track.mixer_device.crossfade_assign != 1:
                     self._crossfade_toggle.set_light(True)
                 else:

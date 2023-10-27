@@ -1,13 +1,9 @@
-<<<<<<< HEAD
-=======
-# decompyle3 version 3.8.0
-# Python bytecode 3.7.0 (3394)
-# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
-# [Clang 13.1.6 (clang-1316.0.21.2.3)]
-# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/novation/launchpad_elements.py
-# Compiled at: 2022-01-27 16:28:17
-# Size of source mod 2**32: 5840 bytes
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
+# decompyle3 version 3.9.0
+# Python bytecode version base 3.7.0 (3394)
+# Decompiled from: Python 3.8.0 (tags/v3.8.0:fa919fd, Oct 14 2019, 19:37:50) [MSC v.1916 64 bit (AMD64)]
+# Embedded file name: ..\..\..\output\Live\win_64_static\Release\python-bundle\MIDI Remote Scripts\novation\launchpad_elements.py
+# Compiled at: 2022-11-29 09:57:03
+# Size of source mod 2**32: 6013 bytes
 from __future__ import absolute_import, print_function, unicode_literals
 from builtins import object, range
 from ableton.v2.base import depends
@@ -51,12 +47,8 @@ class LaunchpadElements(object):
           name='Clip_Launch_Matrix')
         self.firmware_mode_switch = SysexElement(name='Firmware_Mode_Switch',
           send_message_generator=(lambda v: sysex.STD_MSG_HEADER + (
-<<<<<<< HEAD
          self.model_id, sysex.FIRMWARE_MODE_COMMAND_BYTE, v, sysex.SYSEX_END_BYTE)
 ),
-=======
-         self.model_id, sysex.FIRMWARE_MODE_COMMAND_BYTE, v, sysex.SYSEX_END_BYTE)),
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
           default_value=(sysex.STANDALONE_MODE_BYTE),
           optimized=True)
         layout_switch_identifier = sysex.STD_MSG_HEADER + (
@@ -64,24 +56,16 @@ class LaunchpadElements(object):
          sysex.LAYOUT_COMMAND_BYTE)
         self.layout_switch = SysexElement(name='Layout_Switch',
           sysex_identifier=layout_switch_identifier,
-<<<<<<< HEAD
           send_message_generator=(lambda v: layout_switch_identifier + (v if type(v) is tuple else (v,)) + (sysex.SYSEX_END_BYTE,)
 ),
-=======
-          send_message_generator=(lambda v: layout_switch_identifier + (v if type(v) is tuple else (v,)) + (sysex.SYSEX_END_BYTE,)),
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
           default_value=(self.default_layout),
           enquire_message=(layout_switch_identifier + (sysex.SYSEX_END_BYTE,)))
 
     def _create_scale_feedback_switch(self):
         self.scale_feedback_switch = SysexElement(name='Scale_Feedback_Switch',
           send_message_generator=(lambda v: sysex.STD_MSG_HEADER + (
-<<<<<<< HEAD
          self.model_id, sysex.SCALE_FEEDBACK_COMMAND_BYTE, v, sysex.SYSEX_END_BYTE)
 ))
-=======
-         self.model_id, sysex.SCALE_FEEDBACK_COMMAND_BYTE, v, sysex.SYSEX_END_BYTE)))
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 
     def _create_drum_pads(self):
         drum_pad_rows = ((64, 65, 66, 67, 96, 97, 98, 99), (60, 61, 62, 63, 92, 93, 94, 95),

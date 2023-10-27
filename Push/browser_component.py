@@ -1,13 +1,9 @@
-<<<<<<< HEAD
-=======
-# decompyle3 version 3.8.0
-# Python bytecode 3.7.0 (3394)
-# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
-# [Clang 13.1.6 (clang-1316.0.21.2.3)]
-# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Push/browser_component.py
-# Compiled at: 2022-01-27 16:28:16
-# Size of source mod 2**32: 19768 bytes
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
+# decompyle3 version 3.9.0
+# Python bytecode version base 3.7.0 (3394)
+# Decompiled from: Python 3.8.0 (tags/v3.8.0:fa919fd, Oct 14 2019, 19:37:50) [MSC v.1916 64 bit (AMD64)]
+# Embedded file name: ..\..\..\output\Live\win_64_static\Release\python-bundle\MIDI Remote Scripts\Push\browser_component.py
+# Compiled at: 2022-11-29 09:57:03
+# Size of source mod 2**32: 20287 bytes
 from __future__ import absolute_import, division, print_function, unicode_literals
 from builtins import map, range, str
 from future.moves.itertools import zip_longest
@@ -26,11 +22,7 @@ FilterType = Live.Browser.FilterType
 DeviceType = Live.Device.DeviceType
 
 def make_stem_cleaner(stem):
-<<<<<<< HEAD
     if stem[-1] == 's':
-=======
-    if stem[(-1)] == 's':
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
         stem = stem[:-1]
     if len(stem) > 2:
         return _memoized_stem_cleaner(stem)
@@ -200,7 +192,7 @@ class BrowserComponent(Component):
                 component.encoders.set_control_element(encoder_controls[index:index + 2])
                 index += 2
 
-            self._list_components[(num_assignable_lists - 1)].encoders.set_control_element(encoder_controls[index:])
+            self._list_components[num_assignable_lists - 1].encoders.set_control_element(encoder_controls[index:])
         else:
             for component in self._list_components:
                 component.encoders.set_control_element([])
@@ -244,7 +236,7 @@ class BrowserComponent(Component):
     def _set_scroll_offset(self, offset):
         self._scroll_offset = offset
         self._on_content_lists_changed()
-        scrollable_list = self._list_components[(-1)].scrollable_list
+        scrollable_list = self._list_components[-1].scrollable_list
         if scrollable_list:
             scrollable_list.request_notify_item_activated()
 
@@ -273,21 +265,13 @@ class BrowserComponent(Component):
                         break
 
         if len(item_name) >= shortening_limit:
-<<<<<<< HEAD
             if item_name[-1] == consts.CHAR_ELLIPSIS:
-=======
-            if item_name[(-1)] == consts.CHAR_ELLIPSIS:
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
                 return item_name[:-1]
         return item_name
 
     def _item_formatter(self, depth, index, item, action_in_progress):
         display_string = ''
-<<<<<<< HEAD
         separator_length = len(self._data_sources[self.COLUMN_SIZE * depth].separator)
-=======
-        separator_length = len(self._data_sources[(self.COLUMN_SIZE * depth)].separator)
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
         shortening_limit = 16 - separator_length
         if item:
             item_name = 'Loading...' if action_in_progress else self._shorten_item_name(shortening_limit, depth + self._scroll_offset, str(item))
@@ -318,14 +302,9 @@ class BrowserComponent(Component):
     def prehear_button(self, toggled, button):
         if not toggled:
             self._browser.stop_preview()
-<<<<<<< HEAD
         else:
             if self._last_selected_item is not None:
                 self._last_selected_item.preview()
-=======
-        elif self._last_selected_item is not None:
-            self._last_selected_item.preview()
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
         self._preferences['browser_prehear'] = toggled
 
     @listens('hotswap_target')

@@ -1,13 +1,9 @@
-<<<<<<< HEAD
-=======
-# decompyle3 version 3.8.0
-# Python bytecode 3.7.0 (3394)
-# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
-# [Clang 13.1.6 (clang-1316.0.21.2.3)]
-# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Push2/hybrid_reverb.py
-# Compiled at: 2022-01-27 16:28:16
-# Size of source mod 2**32: 21766 bytes
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
+# decompyle3 version 3.9.0
+# Python bytecode version base 3.7.0 (3394)
+# Decompiled from: Python 3.8.0 (tags/v3.8.0:fa919fd, Oct 14 2019, 19:37:50) [MSC v.1916 64 bit (AMD64)]
+# Embedded file name: ..\..\..\output\Live\win_64_static\Release\python-bundle\MIDI Remote Scripts\Push2\hybrid_reverb.py
+# Compiled at: 2023-10-06 16:19:02
+# Size of source mod 2**32: 22346 bytes
 from __future__ import absolute_import, print_function, unicode_literals
 import math, re, Live
 from ableton.v2.base import EventObject, clamp, listens
@@ -58,35 +54,21 @@ def to_ms_display(value):
         value = value * 1000
         if value < 10:
             format = '%.2f'
-<<<<<<< HEAD
         else:
             if value < 100:
                 format = '%.1f'
             else:
                 if value < 1000:
                     format = '%.0f'
-=======
-        elif value < 100:
-            format = '%.1f'
-        elif value < 1000:
-            format = '%.0f'
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
         out_str = str(format % value) + ' ms'
     else:
         if value < 10:
             format = '%.2f'
-<<<<<<< HEAD
         else:
             if value < 100:
                 format = '%.1f'
             else:
                 format = '%.0f'
-=======
-        elif value < 100:
-            format = '%.1f'
-        else:
-            format = '%.0f'
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
         out_str = str(format % value) + ' s'
     return out_str
 
@@ -99,11 +81,7 @@ class HybridReverbDeviceDecorator(LiveObjectDecorator, EventObject):
          'Convolution', 'Algo', 'Mix', 'EQ']
         self.routing_full_labels = ['Serial', 'Parallel', 'Algorithm', 'Convolution']
         self.routing_option_labels = ['Ser.', 'Par.', 'Alg.', 'Cv.']
-<<<<<<< HEAD
         self.vintage_labels = ['Off','Subtle','Old','Older','Extreme']
-=======
-        self.vintage_labels = ['Off', 'Subtle', 'Old', 'Older', 'Extreme']
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
         self.band_names_labels = ['1&4', '2&3']
         self.pre_delay_sync_labels = ['Ms', 'Sync']
         self.filter_types_labels = ['Cut', 'Shelf']
@@ -337,7 +315,6 @@ class HybridReverbDeviceComponent(DeviceComponentWithTrackColorViewData):
         eq_is_active = False
         if self._bank.index == 1:
             ir_is_active = True
-<<<<<<< HEAD
         else:
             if self._bank.index == 4:
                 eq_is_active = True
@@ -348,15 +325,6 @@ class HybridReverbDeviceComponent(DeviceComponentWithTrackColorViewData):
                     if self._bank.index == 0:
                         if self._decorated_device.main_section.value == 3:
                             eq_is_active = True
-=======
-        elif self._bank.index == 4:
-            eq_is_active = True
-        elif self._bank.index == 0 and self._decorated_device.main_section.value == 0:
-            ir_is_active = True
-        elif self._bank.index == 0:
-            if self._decorated_device.main_section.value == 3:
-                eq_is_active = True
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
         if self._bank.index == 4:
             if self._decorated_device.band.value == 1:
                 low_and_high_band_is_selected = False
@@ -373,16 +341,10 @@ class HybridReverbDeviceComponent(DeviceComponentWithTrackColorViewData):
             if self.HIGH_BAND_PARAMETERS_NAME.search(parameter.name) is not None:
                 active_filter_index = 4
 
-<<<<<<< HEAD
         return { 'ActiveBandIndex': active_filter_index,
           'LowAndHighBandIsSelected': low_and_high_band_is_selected,
           'IrIsActive': ir_is_active,
           'EqIsActive': eq_is_active}
-=======
-        return {'ActiveBandIndex':active_filter_index,  'LowAndHighBandIsSelected':low_and_high_band_is_selected, 
-         'IrIsActive':ir_is_active, 
-         'EqIsActive':eq_is_active}
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 
     def _set_bank_index(self, bank):
         super(HybridReverbDeviceComponent, self)._set_bank_index(bank)
@@ -416,7 +378,6 @@ class HybridReverbDeviceComponent(DeviceComponentWithTrackColorViewData):
         if self._bank.index == 0 and self._decorated_device.main_section.value == 3:
             range_left, range_right = self._calculate_view_size(self.FILTER_VISUALISATION_CONFIGURATION_IN_MAIN)
         else:
-<<<<<<< HEAD
             if self._bank.index == 0 and self._decorated_device.main_section.value == 0:
                 range_left, range_right = self._calculate_view_size(self.IR_VISUALISATION_CONFIGURATION_IN_MAIN)
             else:
@@ -425,11 +386,6 @@ class HybridReverbDeviceComponent(DeviceComponentWithTrackColorViewData):
                 else:
                     range_left, range_right = self._calculate_view_size(self.FILTER_VISUALISATION_CONFIGURATION_IN_EQ)
         return {'RangeLeft':range_left,  'RangeRight':range_right}
-=======
-            range_left, range_right = self._calculate_view_size(self.FILTER_VISUALISATION_CONFIGURATION_IN_EQ)
-        return {'RangeLeft':range_left, 
-         'RangeRight':range_right}
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 
     def _initial_visualisation_view_data(self):
         view_data = super(HybridReverbDeviceComponent, self)._initial_visualisation_view_data()

@@ -1,13 +1,9 @@
-<<<<<<< HEAD
-=======
-# decompyle3 version 3.8.0
-# Python bytecode 3.7.0 (3394)
-# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
-# [Clang 13.1.6 (clang-1316.0.21.2.3)]
-# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/_Generic/Devices.py
-# Compiled at: 2022-01-28 05:06:23
-# Size of source mod 2**32: 42467 bytes
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
+# decompyle3 version 3.9.0
+# Python bytecode version base 3.7.0 (3394)
+# Decompiled from: Python 3.8.0 (tags/v3.8.0:fa919fd, Oct 14 2019, 19:37:50) [MSC v.1916 64 bit (AMD64)]
+# Embedded file name: ..\..\..\output\Live\win_64_static\Release\python-bundle\MIDI Remote Scripts\_Generic\Devices.py
+# Compiled at: 2023-10-06 16:19:02
+# Size of source mod 2**32: 45086 bytes
 from __future__ import absolute_import, division, print_function, unicode_literals
 from builtins import filter, map, range, str
 from past.utils import old_div
@@ -69,7 +65,7 @@ ELC_BANK3 = ('P Symmetry', 'P Distance', 'P Amp In', 'P Amp Out', 'Pickup Model'
              '', '')
 ELC_BANK4 = ('M Stiff < Vel', 'M Stiff < Key', 'M Force < Vel', 'M Force < Key', 'Noise < Key',
              'F Tine < Key', 'P Amp < Key', '')
-ELC_BANK5 = ('Volume', 'Voices', 'Semitone', 'Detune', 'KB Stretch', 'PB Range', '',
+ELC_BANK5 = ('Volume', 'Voices', 'Semitone', 'Detune', 'KB Stretch', 'PB Range', 'Note PB Range',
              '')
 ELC_BOB = ('M Stiffness', 'M Force', 'Noise Amount', 'F Tine Vol', 'F Tone Vol', 'F Release',
            'P Symmetry', 'Volume')
@@ -183,11 +179,7 @@ SIM_BANKS = (
  SIM_BANK1, SIM_BANK2, SIM_BANK3, SIM_BANK4)
 SIM_BOBS = (SIM_BOB,)
 SIM_BNK_NAMES = ('Amplitude', 'Filter', 'LFO', 'Pitch Modifiers')
-<<<<<<< HEAD
 TNS_BANK1 = ('Exciter Type', 'String Decay', 'Str Inharmon', 'Str Damping', 'Exc ForceMassProt',
-=======
-TNS_BANK1 = ('Excitator Type', 'String Decay', 'Str Inharmon', 'Str Damping', 'Exc ForceMassProt',
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
              'Exc FricStiff', 'Exc Velocity', 'E Pos')
 TNS_BANK2 = ('Damper On', 'Damper Mass', 'D Stiffness', 'D Velocity', 'Damp Pos', 'D Damping',
              'D Pos < Vel', 'D Pos Abs')
@@ -203,13 +195,8 @@ TNS_BANK7 = ('FEG On/Off', 'FEG Attack', 'FEG Decay', 'FEG Sustain', 'FEG Releas
              'LFO On/Off', 'LFO Shape', 'LFO Speed')
 TNS_BANK8 = ('Unison On/Off', 'Uni Detune', 'Porta On/Off', 'Porta Time', 'Voices',
              'Octave', 'Semitone', 'Volume')
-<<<<<<< HEAD
 TNS_BOB = ('Filter Freq', 'Filter Reso', 'Filter Type', 'Exciter Type', 'E Pos', 'String Decay',
            'Str Damping', 'Volume')
-=======
-TNS_BOB = ('Filter Freq', 'Filter Reso', 'Filter Type', 'Excitator Type', 'E Pos',
-           'String Decay', 'Str Damping', 'Volume')
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 TNS_BANKS = (
  TNS_BANK1,
  TNS_BANK2,
@@ -221,11 +208,7 @@ TNS_BANKS = (
  TNS_BANK8)
 TNS_BOBS = (
  TNS_BOB,)
-<<<<<<< HEAD
 TNS_BNK_NAMES = ('Exciter and String', 'Damper', 'Termination and Pickup', 'Body',
-=======
-TNS_BNK_NAMES = ('Excitator and String', 'Damper', 'Termination and Pickup', 'Body',
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
                  'Vibrato', 'Filter', 'Envelope and LFO', 'Global')
 WVT_BANK1 = ('Osc 1 Transp', 'Osc 1 Detune', 'Osc 1 Pos', 'Osc 1 Effect 1', 'Osc 1 Effect 2',
              'Osc 1 Pan', 'Osc 1 Gain', 'Osc 1 On')
@@ -380,7 +363,6 @@ DTB_BANKS = (
 DTB_BOBS = (DTB_BANK1,)
 ECH_BANK1 = ('L Division', 'R Division', 'L Sync Mode', 'R Sync Mode', 'L 16th', 'R 16th',
              'L Sync', 'R Sync')
-<<<<<<< HEAD
 ECH_BANK2 = ('L Time', 'R Time', 'L Offset', 'R Offset', 'Link', 'Channel Mode', '',
              '')
 ECH_BANK3 = ('Gate On', 'Gate Thr', 'Gate Release', 'Duck On', 'Duck Thr', 'Duck Release',
@@ -392,16 +374,6 @@ ECH_BANK5 = ('Feedback', 'Feedback Inv', 'Input Gain', 'Output Gain', 'Clip Dry'
 ECH_BANK6 = ('Filter On', 'HP Freq', 'HP Res', 'LP Freq', 'LP Res', '', '', '')
 ECH_BANK7 = ('Reverb Level', 'Reverb Decay', 'Reverb Loc', 'Stereo Width', '', '',
              '', '')
-=======
-ECH_BANK2 = ('L Time', 'R Time', 'L Offset', 'R Offset', 'Link', 'Channel Mode')
-ECH_BANK3 = ('Gate On', 'Gate Thr', 'Gate Release', 'Duck On', 'Duck Thr', 'Duck Release',
-             'Env Mix')
-ECH_BANK4 = ('Noise On', 'Noise Amt', 'Noise Mrph', 'Wobble On', 'Wobble Amt', 'Wobble Mrph',
-             'Repitch')
-ECH_BANK5 = ('Feedback', 'Feedback Inv', 'Input Gain', 'Output Gain', 'Clip Dry', 'Dry Wet')
-ECH_BANK6 = ('Filter On', 'HP Freq', 'HP Res', 'LP Freq', 'LP Res')
-ECH_BANK7 = ('Reverb Level', 'Reverb Decay', 'Reverb Loc', 'Stereo Width')
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 ECH_BANK8 = ('Mod Wave', 'Mod Sync', 'Mod Rate', 'Mod Freq', 'Mod Phase', 'Dly < Mod',
              'Flt < Mod', 'Mod 4x')
 ECH_BOB = ('L Division', 'R Division', 'L Time', 'R Time', 'Input Gain', 'Feedback',
@@ -560,7 +532,6 @@ RSN_BANKS = (
  RSN_BANK1, RSN_BANK2)
 RSN_BOBS = (RSN_BOB,)
 RSN_BNK_NAMES = ('General / Mode I', 'Modes II-IV')
-<<<<<<< HEAD
 RVB_BANK1 = ('In Filter Freq', 'In Filter Width', 'Predelay', 'ER Spin On', 'ER Spin Rate',
              'ER Spin Amount', 'ER Shape', 'Decay Time')
 RVB_BANK2 = ('HiFilter Freq', 'LowShelf Freq', 'Chorus Rate', 'Diffusion', 'HiShelf Gain',
@@ -569,16 +540,6 @@ RVB_BANK3 = ('Decay Time', 'Freeze On', 'Room Size', 'Stereo Image', 'Reflect Le
              'Diffuse Level', 'Dry/Wet', 'Density')
 RVB_BOB = ('Decay Time', 'Room Size', 'Predelay', 'In Filter Freq', 'Reflect Level',
            'Diffuse Level', 'Stereo Image', 'Dry/Wet')
-=======
-RVB_BANK1 = ('In Filter Freq', 'In Filter Width', 'PreDelay', 'ER Spin On', 'ER Spin Rate',
-             'ER Spin Amount', 'ER Shape', 'DecayTime')
-RVB_BANK2 = ('HiShelf Freq', 'LowShelf Freq', 'Chorus Rate', 'Density', 'HiShelf Gain',
-             'LowShelf Gain', 'Chorus Amount', 'Scale')
-RVB_BANK3 = ('DecayTime', 'Freeze On', 'Room Size', 'Stereo Image', 'ER Level', 'Diffuse Level',
-             'Dry/Wet', 'Quality')
-RVB_BOB = ('DecayTime', 'Room Size', 'PreDelay', 'In Filter Freq', 'ER Level', 'Diffuse Level',
-           'Stereo Image', 'Dry/Wet')
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 RVB_BANKS = (
  RVB_BANK1, RVB_BANK2, RVB_BANK3)
 RVB_BOBS = (RVB_BOB,)
@@ -620,7 +581,6 @@ VOC_BANKS = (
  VOC_BANK1, VOC_BANK2, VOC_BANK3)
 VOC_BOBS = (VOC_BOB,)
 VOC_BNK_NAMES = ('Global', 'Filters/Voicing', 'Carrier')
-<<<<<<< HEAD
 DEVICE_DICT = {
   'AudioEffectGroupDevice': RCK_BANKS,
   'MidiEffectGroupDevice': RCK_BANKS,
@@ -763,147 +723,6 @@ BANK_NAME_DICT = {
   'Echo': ECH_BANK_NAMES,
   'Pedal': PDL_BANK_NAMES,
   'InstrumentVector': WVT_BANK_NAMES}
-=======
-DEVICE_DICT = {'AudioEffectGroupDevice':RCK_BANKS, 
- 'MidiEffectGroupDevice':RCK_BANKS, 
- 'InstrumentGroupDevice':RCK_BANKS, 
- 'DrumGroupDevice':RCK_BANKS, 
- 'InstrumentImpulse':IMP_BANKS, 
- 'Operator':OPR_BANKS, 
- 'UltraAnalog':ALG_BANKS, 
- 'OriginalSimpler':SIM_BANKS, 
- 'MultiSampler':SAM_BANKS, 
- 'MidiArpeggiator':ARP_BANKS, 
- 'LoungeLizard':ELC_BANKS, 
- 'StringStudio':TNS_BANKS, 
- 'Collision':COL_BANKS, 
- 'MidiChord':CRD_BANKS, 
- 'MidiNoteLength':NTL_BANKS, 
- 'MidiPitcher':PIT_BANKS, 
- 'MidiRandom':RND_BANKS, 
- 'MidiScale':SCL_BANKS, 
- 'MidiVelocity':VEL_BANKS, 
- 'AutoFilter':AFL_BANKS, 
- 'AutoPan':APN_BANKS, 
- 'BeatRepeat':BRP_BANKS, 
- 'Chorus':CHR_BANKS, 
- 'Compressor2':CP3_BANKS, 
- 'Corpus':CRP_BANKS, 
- 'Eq8':EQ8_BANKS, 
- 'FilterEQ3':EQ3_BANKS, 
- 'Erosion':ERO_BANKS, 
- 'FilterDelay':FLD_BANKS, 
- 'Flanger':FLG_BANKS, 
- 'FrequencyShifter':FRS_BANKS, 
- 'GrainDelay':GRD_BANKS, 
- 'Looper':LPR_BANKS, 
- 'MultibandDynamics':MBD_BANKS, 
- 'Overdrive':OVR_BANKS, 
- 'Phaser':PHS_BANKS, 
- 'Redux':RDX_BANKS, 
- 'Saturator':SAT_BANKS, 
- 'Resonator':RSN_BANKS, 
- 'StereoGain':UTL_BANKS, 
- 'Tube':DTB_BANKS, 
- 'Reverb':RVB_BANKS, 
- 'Vinyl':VDS_BANKS, 
- 'Gate':GTE_BANKS, 
- 'Vocoder':VOC_BANKS, 
- 'Amp':AMP_BANKS, 
- 'Cabinet':CAB_BANKS, 
- 'GlueCompressor':GLU_BANKS, 
- 'Pedal':PDL_BANKS, 
- 'DrumBuss':DRB_BANKS, 
- 'Echo':ECH_BANKS, 
- 'InstrumentVector':WVT_BANKS}
-DEVICE_BOB_DICT = {'AudioEffectGroupDevice':RCK_BOBS, 
- 'MidiEffectGroupDevice':RCK_BOBS, 
- 'InstrumentGroupDevice':RCK_BOBS, 
- 'DrumGroupDevice':RCK_BOBS, 
- 'InstrumentImpulse':IMP_BOBS, 
- 'Operator':OPR_BOBS, 
- 'UltraAnalog':ALG_BOBS, 
- 'OriginalSimpler':SIM_BOBS, 
- 'MultiSampler':SAM_BOBS, 
- 'MidiArpeggiator':ARP_BOBS, 
- 'LoungeLizard':ELC_BOBS, 
- 'StringStudio':TNS_BOBS, 
- 'Collision':COL_BOBS, 
- 'MidiChord':CRD_BOBS, 
- 'MidiNoteLength':NTL_BOBS, 
- 'MidiPitcher':PIT_BOBS, 
- 'MidiRandom':RND_BOBS, 
- 'MidiScale':SCL_BOBS, 
- 'MidiVelocity':VEL_BOBS, 
- 'AutoFilter':AFL_BOBS, 
- 'AutoPan':APN_BOBS, 
- 'BeatRepeat':BRP_BOBS, 
- 'Chorus':CHR_BOBS, 
- 'Compressor2':CP3_BOBS, 
- 'Corpus':CRP_BOBS, 
- 'Eq8':EQ8_BOBS, 
- 'FilterEQ3':EQ3_BOBS, 
- 'Erosion':ERO_BOBS, 
- 'FilterDelay':FLD_BOBS, 
- 'Flanger':FLG_BOBS, 
- 'FrequencyShifter':FRS_BOBS, 
- 'GrainDelay':GRD_BOBS, 
- 'Looper':LPR_BOBS, 
- 'MultibandDynamics':MBD_BOBS, 
- 'Overdrive':OVR_BOBS, 
- 'Phaser':PHS_BOBS, 
- 'Redux':RDX_BOBS, 
- 'Saturator':SAT_BOBS, 
- 'Resonator':RSN_BOBS, 
- 'StereoGain':UTL_BOBS, 
- 'Tube':DTB_BOBS, 
- 'Reverb':RVB_BOBS, 
- 'Vinyl':VDS_BOBS, 
- 'Gate':GTE_BOBS, 
- 'Vocoder':VOC_BOBS, 
- 'Amp':AMP_BOBS, 
- 'Cabinet':CAB_BOBS, 
- 'GlueCompressor':GLU_BOBS, 
- 'Pedal':PDL_BOBS, 
- 'DrumBuss':DRB_BOBS, 
- 'Echo':ECH_BOBS, 
- 'InstrumentVector':WVT_BOBS}
-BANK_NAME_DICT = {'AudioEffectGroupDevice':RCK_BNK_NAMES, 
- 'MidiEffectGroupDevice':RCK_BNK_NAMES, 
- 'InstrumentGroupDevice':RCK_BNK_NAMES, 
- 'DrumGroupDevice':RCK_BNK_NAMES, 
- 'InstrumentImpulse':IMP_BNK_NAMES, 
- 'Operator':OPR_BNK_NAMES, 
- 'UltraAnalog':ALG_BNK_NAMES, 
- 'OriginalSimpler':SIM_BNK_NAMES, 
- 'MultiSampler':SAM_BNK_NAMES, 
- 'MidiArpeggiator':ARP_BNK_NAMES, 
- 'LoungeLizard':ELC_BNK_NAMES, 
- 'StringStudio':TNS_BNK_NAMES, 
- 'Collision':COL_BNK_NAMES, 
- 'MidiChord':CRD_BNK_NAMES, 
- 'BeatRepeat':BRP_BNK_NAMES, 
- 'Compressor2':CP3_BNK_NAMES, 
- 'Corpus':CRP_BNK_NAMES, 
- 'Eq8':EQ8_BNK_NAMES, 
- 'FilterDelay':FLD_BNK_NAMES, 
- 'Flanger':FLG_BNK_NAMES, 
- 'Gate':GTE_BNK_NAMES, 
- 'MultibandDynamics':MBD_BNK_NAMES, 
- 'Phaser':PHS_BNK_NAMES, 
- 'Saturator':SAT_BNK_NAMES, 
- 'Resonator':RSN_BNK_NAMES, 
- 'Reverb':RVB_BNK_NAMES, 
- 'Vocoder':VOC_BNK_NAMES, 
- 'Amp':AMP_BNK_NAMES, 
- 'GlueCompressor':GLU_BNK_NAMES, 
- 'AutoFilter':AFL_BNK_NAMES, 
- 'StereoGain':UTL_BNK_NAMES, 
- 'DrumBuss':DRB_BANK_NAMES, 
- 'Echo':ECH_BANK_NAMES, 
- 'Pedal':PDL_BANK_NAMES, 
- 'InstrumentVector':WVT_BANK_NAMES}
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 MAX_DEVICES = ('MxDeviceInstrument', 'MxDeviceAudioEffect', 'MxDeviceMidiEffect')
 
 def device_parameters_to_map(device):
