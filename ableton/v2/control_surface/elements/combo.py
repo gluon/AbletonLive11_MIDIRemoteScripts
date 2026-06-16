@@ -1,22 +1,14 @@
-<<<<<<< HEAD
-=======
-# decompyle3 version 3.8.0
-# Python bytecode 3.7.0 (3394)
-# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
-# [Clang 13.1.6 (clang-1316.0.21.2.3)]
-# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/ableton/v2/control_surface/elements/combo.py
-# Compiled at: 2022-01-28 05:06:24
-# Size of source mod 2**32: 14926 bytes
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
+# decompyle3 version 3.9.0
+# Python bytecode version base 3.7.0 (3394)
+# Decompiled from: Python 3.8.0 (tags/v3.8.0:fa919fd, Oct 14 2019, 19:37:50) [MSC v.1916 64 bit (AMD64)]
+# Embedded file name: ..\..\..\output\Live\win_64_static\Release\python-bundle\MIDI Remote Scripts\ableton\v2\control_surface\elements\combo.py
+# Compiled at: 2022-11-29 09:57:03
+# Size of source mod 2**32: 15414 bytes
 from __future__ import absolute_import, print_function, unicode_literals
 from builtins import map
 from future.utils import string_types
 from contextlib import contextmanager
-<<<<<<< HEAD
 from ...base import PY3, EventObject, ProxyBase, const, depends, find_if, is_iterable, lazy_attribute, listens, liveobj_valid, nop, task
-=======
-from ...base import PY3, EventObject, ProxyBase, const, depends, find_if, is_iterable, lazy_attribute, listens, nop, task
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 from .. import defaults
 from ..compound_element import CompoundElement
 from ..control_element import NotifyingControlElement, get_element
@@ -190,7 +182,7 @@ class DoublePressContext(EventObject):
     @contextmanager
     def breaking_double_press(self):
         self._broke_double_press = False
-        (yield)
+        yield
         if not self._broke_double_press:
             self.break_double_press()
 
@@ -275,19 +267,12 @@ class MultiElement(CompoundElement, ButtonElementMixin):
             self.notify_value(value)
 
     def is_pressed(self):
-<<<<<<< HEAD
         return find_if(lambda c: getattr(c, 'is_pressed', const(False))()
 , self.owned_control_elements()) is not None
 
     def is_momentary(self):
         return find_if(lambda c: getattr(c, 'is_momentary', const(False))()
 , self.nested_control_elements()) is not None
-=======
-        return find_if(lambda c: getattr(c, 'is_pressed', const(False))(), self.owned_control_elements()) != None
-
-    def is_momentary(self):
-        return find_if(lambda c: getattr(c, 'is_momentary', const(False))(), self.nested_control_elements()) != None
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 
     def on_nested_control_element_received(self, control):
         pass
@@ -313,9 +298,5 @@ class ToggleElement(WrapperElement):
         if self.has_control_element(self._wrapped_control):
             self.unregister_control_element(self._wrapped_control)
         self._wrapped_control = self._on_control if self._toggled else self._off_control
-<<<<<<< HEAD
         if self._wrapped_control is not None:
-=======
-        if self._wrapped_control != None:
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
             self.register_control_element(self._wrapped_control)

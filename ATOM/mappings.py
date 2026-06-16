@@ -1,3 +1,9 @@
+# decompyle3 version 3.9.0
+# Python bytecode version base 3.7.0 (3394)
+# Decompiled from: Python 3.8.0 (tags/v3.8.0:fa919fd, Oct 14 2019, 19:37:50) [MSC v.1916 64 bit (AMD64)]
+# Embedded file name: ..\..\..\output\Live\win_64_static\Release\python-bundle\MIDI Remote Scripts\ATOM\mappings.py
+# Compiled at: 2023-04-03 14:43:04
+# Size of source mod 2**32: 4929 bytes
 from __future__ import absolute_import, print_function, unicode_literals
 from ableton.v3.control_surface import LOW_PRIORITY
 from ableton.v3.control_surface.mode import LatchingBehaviour, MomentaryBehaviour
@@ -8,11 +14,11 @@ def create_mappings(control_surface):
     mappings['Undo_Redo'] = dict(undo_button='stop_button_with_shift')
     mappings['View_Toggle'] = dict(detail_view_toggle_button='show_hide_button',
       main_view_toggle_button='preset_button')
+    mappings['View_Based_Recording'] = dict(record_button='record_button')
     mappings['Transport'] = dict(play_button='play_button',
       loop_button='play_button_with_shift',
       stop_button='stop_button',
-      metronome_button='click_button',
-      view_based_record_button='record_button')
+      metronome_button='click_button')
     mappings['Session_Navigation_Modes'] = dict(cycle_mode_button='bank_button',
       default=dict(component='Session_Navigation',
       up_button='up_button',

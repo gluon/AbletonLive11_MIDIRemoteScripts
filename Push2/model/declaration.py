@@ -1,13 +1,9 @@
-<<<<<<< HEAD
-=======
-# decompyle3 version 3.8.0
-# Python bytecode 3.7.0 (3394)
-# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
-# [Clang 13.1.6 (clang-1316.0.21.2.3)]
-# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Push2/model/declaration.py
-# Compiled at: 2022-01-27 16:28:16
-# Size of source mod 2**32: 6911 bytes
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
+# decompyle3 version 3.9.0
+# Python bytecode version base 3.7.0 (3394)
+# Decompiled from: Python 3.8.0 (tags/v3.8.0:fa919fd, Oct 14 2019, 19:37:50) [MSC v.1916 64 bit (AMD64)]
+# Embedded file name: ..\..\..\output\Live\win_64_static\Release\python-bundle\MIDI Remote Scripts\Push2\model\declaration.py
+# Compiled at: 2022-11-29 09:57:03
+# Size of source mod 2**32: 7157 bytes
 from __future__ import absolute_import, print_function, unicode_literals
 from future.utils import iteritems, with_metaclass
 from past.builtins import long, unicode
@@ -153,12 +149,8 @@ class ModelVisitor(object):
 
     def visit_class_declarations(self, class_):
         view_properties = ((name, decl) for name, decl in iteritems(class_.__dict__) if isinstance(decl, property_declaration))
-<<<<<<< HEAD
         for name, decl in sorted(view_properties, key=(lambda item: item[1].order
 )):
-=======
-        for name, decl in sorted(view_properties, key=(lambda item: item[1].order)):
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
             decl.visit(name, self)
 
     def visit_id_property(self, name, decl):
@@ -168,7 +160,6 @@ class ModelVisitor(object):
         if is_reference_property_decl(decl):
             self.visit_reference_property(name, decl)
         else:
-<<<<<<< HEAD
             if is_binding_property_decl(decl):
                 self.visit_binding_property(name, decl)
             else:
@@ -182,9 +173,6 @@ class ModelVisitor(object):
                             self.visit_list_property(name, decl)
                         else:
                             raise Exception('Invalid property declaration')
-=======
-            raise Exception('Invalid property declaration')
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 
     def visit_reference_property(self, name, decl):
         pass
@@ -202,7 +190,6 @@ class ModelVisitor(object):
         if is_reference_property_decl(decl.property_type):
             self.visit_reference_list_property(name, decl, decl.property_type.property_type)
         else:
-<<<<<<< HEAD
             if is_value_property_type(decl.property_type):
                 self.visit_value_list_property(name, decl, decl.property_type.property_type)
             else:
@@ -213,9 +200,6 @@ class ModelVisitor(object):
                         self.visit_complex_list_property(name, decl, decl.property_type.property_type)
                     else:
                         raise Exception('Invalid property declaration')
-=======
-            raise Exception('Invalid property declaration')
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 
     def visit_value_list_property(self, name, decl, value_type):
         pass

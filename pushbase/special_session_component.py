@@ -1,3 +1,9 @@
+# decompyle3 version 3.9.0
+# Python bytecode version base 3.7.0 (3394)
+# Decompiled from: Python 3.8.0 (tags/v3.8.0:fa919fd, Oct 14 2019, 19:37:50) [MSC v.1916 64 bit (AMD64)]
+# Embedded file name: ..\..\..\output\Live\win_64_static\Release\python-bundle\MIDI Remote Scripts\pushbase\special_session_component.py
+# Compiled at: 2022-11-29 09:57:03
+# Size of source mod 2**32: 10938 bytes
 from __future__ import absolute_import, print_function, unicode_literals
 from builtins import range
 import Live
@@ -62,10 +68,11 @@ class ClipSlotCopyHandler(Messenger):
                     self._perform_copy(target_clip_slot)
                 else:
                     self._show_notification(MessageBoxText.CANNOT_COPY_AUDIO_CLIP_TO_MIDI_TRACK)
-            elif not target_track.has_audio_input:
-                self._perform_copy(target_clip_slot)
             else:
-                self._show_notification(MessageBoxText.CANNOT_COPY_MIDI_CLIP_TO_AUDIO_TRACK)
+                if not target_track.has_audio_input:
+                    self._perform_copy(target_clip_slot)
+                else:
+                    self._show_notification(MessageBoxText.CANNOT_COPY_MIDI_CLIP_TO_AUDIO_TRACK)
         else:
             self._show_notification(MessageBoxText.CANNOT_PASTE_INTO_GROUP_SLOT)
 
@@ -139,16 +146,90 @@ class SpecialClipSlotComponent(ClipSlotComponent, Messenger):
     def _clip_is_recording(self):
         return self.has_clip() and self._clip_slot.clip.is_recording
 
-    def _do_launch_clip(self, fire_state):
-        should_start_fixed_length_recording = self._fixed_length_recording.should_start_fixed_length_recording(self._clip_slot)
-        clip_is_recording = self._clip_is_recording()
-        if fire_state and not should_start_fixed_length_recording and not clip_is_recording or not fire_state:
-            super(SpecialClipSlotComponent, self)._do_launch_clip(fire_state)
-        elif should_start_fixed_length_recording:
-            track = self._clip_slot.canonical_parent
-            self._fixed_length_recording.start_recording_in_slot(track, list(track.clip_slots).index(self._clip_slot))
-        elif clip_is_recording:
-            self._fixed_length_recording.stop_recording(self._clip_slot.clip)
+    def _do_launch_clip--- This code section failed: ---
+
+ L. 171         0  LOAD_FAST                'self'
+                2  LOAD_ATTR                _fixed_length_recording
+                4  LOAD_METHOD              should_start_fixed_length_recording
+
+ L. 172         6  LOAD_FAST                'self'
+                8  LOAD_ATTR                _clip_slot
+               10  CALL_METHOD_1         1  '1 positional argument'
+               12  STORE_FAST               'should_start_fixed_length_recording'
+
+ L. 174        14  LOAD_FAST                'self'
+               16  LOAD_METHOD              _clip_is_recording
+               18  CALL_METHOD_0         0  '0 positional arguments'
+               20  STORE_FAST               'clip_is_recording'
+
+ L. 177        22  LOAD_FAST                'fire_state'
+               24  POP_JUMP_IF_FALSE    34  'to 34'
+
+ L. 178        26  LOAD_FAST                'should_start_fixed_length_recording'
+               28  POP_JUMP_IF_TRUE     34  'to 34'
+
+ L. 179        30  LOAD_FAST                'clip_is_recording'
+               32  POP_JUMP_IF_FALSE    38  'to 38'
+             34_0  COME_FROM            28  '28'
+             34_1  COME_FROM            24  '24'
+
+ L. 180        34  LOAD_FAST                'fire_state'
+               36  POP_JUMP_IF_TRUE     56  'to 56'
+             38_0  COME_FROM            32  '32'
+
+ L. 182        38  LOAD_GLOBAL              super
+               40  LOAD_GLOBAL              SpecialClipSlotComponent
+               42  LOAD_FAST                'self'
+               44  CALL_FUNCTION_2       2  '2 positional arguments'
+               46  LOAD_METHOD              _do_launch_clip
+               48  LOAD_FAST                'fire_state'
+               50  CALL_METHOD_1         1  '1 positional argument'
+               52  POP_TOP          
+               54  JUMP_FORWARD        118  'to 118'
+             56_0  COME_FROM            36  '36'
+
+ L. 183        56  LOAD_FAST                'should_start_fixed_length_recording'
+               58  POP_JUMP_IF_FALSE    98  'to 98'
+
+ L. 184        60  LOAD_FAST                'self'
+               62  LOAD_ATTR                _clip_slot
+               64  LOAD_ATTR                canonical_parent
+               66  STORE_FAST               'track'
+
+ L. 185        68  LOAD_FAST                'self'
+               70  LOAD_ATTR                _fixed_length_recording
+               72  LOAD_METHOD              start_recording_in_slot
+
+ L. 186        74  LOAD_FAST                'track'
+               76  LOAD_GLOBAL              list
+               78  LOAD_FAST                'track'
+               80  LOAD_ATTR                clip_slots
+               82  CALL_FUNCTION_1       1  '1 positional argument'
+               84  LOAD_METHOD              index
+               86  LOAD_FAST                'self'
+               88  LOAD_ATTR                _clip_slot
+               90  CALL_METHOD_1         1  '1 positional argument'
+               92  CALL_METHOD_2         2  '2 positional arguments'
+               94  POP_TOP          
+               96  JUMP_FORWARD        118  'to 118'
+             98_0  COME_FROM            58  '58'
+
+ L. 188        98  LOAD_FAST                'clip_is_recording'
+              100  POP_JUMP_IF_FALSE   118  'to 118'
+
+ L. 189       102  LOAD_FAST                'self'
+              104  LOAD_ATTR                _fixed_length_recording
+              106  LOAD_METHOD              stop_recording
+              108  LOAD_FAST                'self'
+              110  LOAD_ATTR                _clip_slot
+              112  LOAD_ATTR                clip
+              114  CALL_METHOD_1         1  '1 positional argument'
+              116  POP_TOP          
+            118_0  COME_FROM           100  '100'
+            118_1  COME_FROM            96  '96'
+            118_2  COME_FROM            54  '54'
+
+Parse error at or near `JUMP_FORWARD' instruction at offset 54
 
 
 class SpecialSceneComponent(SceneComponent, Messenger):

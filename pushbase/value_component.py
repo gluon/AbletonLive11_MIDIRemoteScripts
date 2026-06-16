@@ -1,13 +1,9 @@
-<<<<<<< HEAD
-=======
-# decompyle3 version 3.8.0
-# Python bytecode 3.7.0 (3394)
-# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
-# [Clang 13.1.6 (clang-1316.0.21.2.3)]
-# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/pushbase/value_component.py
-# Compiled at: 2022-01-27 16:28:17
-# Size of source mod 2**32: 9563 bytes
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
+# decompyle3 version 3.9.0
+# Python bytecode version base 3.7.0 (3394)
+# Decompiled from: Python 3.8.0 (tags/v3.8.0:fa919fd, Oct 14 2019, 19:37:50) [MSC v.1916 64 bit (AMD64)]
+# Embedded file name: ..\..\..\output\Live\win_64_static\Release\python-bundle\MIDI Remote Scripts\pushbase\value_component.py
+# Compiled at: 2022-11-29 09:57:03
+# Size of source mod 2**32: 9864 bytes
 from __future__ import absolute_import, division, print_function, unicode_literals
 from builtins import str
 from past.utils import old_div
@@ -144,15 +140,10 @@ class ValueComponent(ValueComponentBase):
     encoder_factor = 1.0
 
     def create_display_component(self, *a, **k):
-<<<<<<< HEAD
         return ValueDisplayComponent(a, parent=self, property_name=self._property_name, subject=self._subject, display_format=self._display_format, view_transform=lambda x: self.view_transform(x)
 , 
          graphic_transform=lambda x: self.graphic_transform(x), **
 k)
-=======
-        return ValueDisplayComponent(a, parent=self, property_name=self._property_name, subject=self._subject, display_format=self._display_format, view_transform=lambda x: self.view_transform(x), 
-         graphic_transform=lambda x: self.graphic_transform(x), **k)
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 
     def __init__(self, property_name=None, subject=None, display_format='%f', model_transform=None, view_transform=None, graphic_transform=None, encoder_factor=None, *a, **k):
         self._property_name = property_name

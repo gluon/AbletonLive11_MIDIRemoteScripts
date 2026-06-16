@@ -1,10 +1,9 @@
-# decompyle3 version 3.8.0
-# Python bytecode 3.7.0 (3394)
-# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
-# [Clang 13.1.6 (clang-1316.0.21.2.3)]
-# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Launchkey/Launchkey.py
-# Compiled at: 2022-01-27 16:28:16
-# Size of source mod 2**32: 10941 bytes
+# decompyle3 version 3.9.0
+# Python bytecode version base 3.7.0 (3394)
+# Decompiled from: Python 3.8.0 (tags/v3.8.0:fa919fd, Oct 14 2019, 19:37:50) [MSC v.1916 64 bit (AMD64)]
+# Embedded file name: ..\..\..\output\Live\win_64_static\Release\python-bundle\MIDI Remote Scripts\Launchkey\Launchkey.py
+# Compiled at: 2022-11-29 09:57:02
+# Size of source mod 2**32: 11225 bytes
 from __future__ import absolute_import, print_function, unicode_literals
 from builtins import object, range, str
 import Live
@@ -87,7 +86,7 @@ class Launchkey(ControlSurface):
             for index in range(3):
                 button = ButtonElement(IS_MOMENTARY, MIDI_NOTE_TYPE, 0, 13 + index)
                 self._modes_buttons.append(button)
-                self._modes_buttons[(-1)].add_value_listener(self._dummy_listener)
+                self._modes_buttons[-1].add_value_listener(self._dummy_listener)
 
             self._setup_mixer()
             self._setup_session()
@@ -162,7 +161,7 @@ class Launchkey(ControlSurface):
             strip.name = 'Channel_Strip_' + str(index)
             strip.set_invert_mute_feedback(True)
             self._sliders.append(make_slider(41 + index, 'Volume_Control_%d' % index))
-            strip.set_volume_control(self._sliders[(-1)])
+            strip.set_volume_control(self._sliders[-1])
             self._strip_buttons.append(make_button(51 + index, 'Mute_Button_%d' % index))
 
         self._mixer.set_strip_mute_solo_buttons(tuple(self._strip_buttons), mute_solo_flip_button)
@@ -191,7 +190,7 @@ class Launchkey(ControlSurface):
             clip_slot.set_stopped_value(AMBER_FULL)
             clip_slot.set_started_value(GREEN_FULL)
             clip_slot.set_recording_value(RED_FULL)
-            clip_slot.set_launch_button(clip_launch_buttons[(-1)])
+            clip_slot.set_launch_button(clip_launch_buttons[-1])
             clip_slot.name = 'Selected_Clip_Slot_' + str(index)
 
         self._session.set_stop_track_clip_buttons(tuple(clip_stop_buttons))

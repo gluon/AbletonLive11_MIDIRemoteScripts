@@ -1,16 +1,10 @@
-<<<<<<< HEAD
+# decompyle3 version 3.9.0
+# Python bytecode version base 3.7.0 (3394)
+# Decompiled from: Python 3.8.0 (tags/v3.8.0:fa919fd, Oct 14 2019, 19:37:50) [MSC v.1916 64 bit (AMD64)]
+# Embedded file name: ..\..\..\output\Live\win_64_static\Release\python-bundle\MIDI Remote Scripts\SL_MkIII\elements.py
+# Compiled at: 2022-11-29 09:57:03
+# Size of source mod 2**32: 14695 bytes
 from __future__ import absolute_import, print_function, unicode_literals
-=======
-# decompyle3 version 3.8.0
-# Python bytecode 3.7.0 (3394)
-# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
-# [Clang 13.1.6 (clang-1316.0.21.2.3)]
-# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/SL_MkIII/elements.py
-# Compiled at: 2022-01-27 16:28:16
-# Size of source mod 2**32: 14364 bytes
-from __future__ import absolute_import, print_function, unicode_literals
-from builtins import object, range
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 import Live
 from ableton.v2.base import depends, mixin
 from ableton.v2.control_surface import MIDI_CC_TYPE, MIDI_NOTE_TYPE, PrioritizedResource
@@ -34,12 +28,8 @@ def create_display_color_element(h_position, v_position, name, **k):
      sysex.COLOR_PROPERTY_BYTE,
      v_position)
     return (mixin(CachingControlElement, ColorSysexElement))(sysex_identifier=sysex_identifier, 
-<<<<<<< HEAD
      send_message_generator=lambda v: sysex_identifier + (v, sysex.SYSEX_END_BYTE)
 , 
-=======
-     send_message_generator=lambda v: sysex_identifier + (v, sysex.SYSEX_END_BYTE), 
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
      default_value=0, 
      name=name, **k)
 
@@ -59,12 +49,8 @@ def create_selection_field(h_position, v_position):
      sysex.VALUE_PROPERTY_BYTE,
      v_position)
     return mixin(CachingControlElement, SysexElement)(sysex_identifier=sysex_identifier,
-<<<<<<< HEAD
       send_message_generator=(lambda v: sysex_identifier + (v, sysex.SYSEX_END_BYTE)
 ),
-=======
-      send_message_generator=(lambda v: sysex_identifier + (v, sysex.SYSEX_END_BYTE)),
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
       default_value=0,
       name=('Selection_Field_{}_{}'.format(h_position, v_position)))
 
@@ -80,12 +66,8 @@ def create_selection_field_line(v_position):
 
 @depends(skin=None)
 def create_rgb_led(identifier, name, **k):
-<<<<<<< HEAD
     return ColorSysexElement(send_message_generator=lambda v: sysex.SET_LED_MSG_HEADER + (identifier, sysex.SOLID_COLOR_LED_BYTE) + v + (sysex.SYSEX_END_BYTE,)
 , 
-=======
-    return ColorSysexElement(send_message_generator=lambda v: sysex.SET_LED_MSG_HEADER + (identifier, sysex.SOLID_COLOR_LED_BYTE) + v + (sysex.SYSEX_END_BYTE,), 
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
      default_value=(0, 0, 0), 
      name=name, **k)
 
@@ -114,11 +96,7 @@ class SpecialFeedbackChannelSliderElement(SliderElement):
 class Elements:
 
     def __init__(self, *a, **k):
-<<<<<<< HEAD
         (super().__init__)(*a, **k)
-=======
-        (super(Elements, self).__init__)(*a, **k)
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
         self.display_up_button = create_button(81, 'Display_Up_Button')
         self.display_down_button = create_button(82, 'Display_Down_Button')
         self.up_button = create_button(85, 'Up_Button')
@@ -217,12 +195,8 @@ class Elements:
         self.select_buttons_with_shift_raw = [with_shift(button) for button in self.select_buttons_raw]
         self.display_layout_switch = SysexElement(name='Display_Layout_Switch',
           send_message_generator=(lambda v: sysex.SET_SCREEN_LAYOUT_MESSAGE_HEADER + (
-<<<<<<< HEAD
          v, sysex.SYSEX_END_BYTE)
 ),
-=======
-         v, sysex.SYSEX_END_BYTE)),
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
           default_value=(sysex.EMPTY_SCREEN_LAYOUT_BYTE),
           optimized=True)
         self.text_display_line_0 = create_text_display_line(0)

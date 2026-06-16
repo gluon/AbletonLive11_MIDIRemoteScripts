@@ -1,20 +1,11 @@
-<<<<<<< HEAD
+# decompyle3 version 3.9.0
+# Python bytecode version base 3.7.0 (3394)
+# Decompiled from: Python 3.8.0 (tags/v3.8.0:fa919fd, Oct 14 2019, 19:37:50) [MSC v.1916 64 bit (AMD64)]
+# Embedded file name: ..\..\..\output\Live\win_64_static\Release\python-bundle\MIDI Remote Scripts\ATOM\drum_group.py
+# Compiled at: 2022-12-08 12:23:09
+# Size of source mod 2**32: 993 bytes
 from __future__ import absolute_import, division, print_function, unicode_literals
 from ableton.v3.control_surface.components import DrumGroupComponent as DrumGroupComponentBase
-=======
-# decompyle3 version 3.8.0
-# Python bytecode 3.7.0 (3394)
-# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
-# [Clang 13.1.6 (clang-1316.0.21.2.3)]
-# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/ATOM/drum_group.py
-# Compiled at: 2022-01-27 16:28:16
-# Size of source mod 2**32: 1307 bytes
-from __future__ import absolute_import, division, print_function, unicode_literals
-from builtins import range
-from past.utils import old_div
-from ableton.v2.base import liveobj_valid
-import ableton.v2.control_surface.components as DrumGroupComponentBase
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 from .note_pad import NotePadMixin
 COMPLETE_QUADRANTS_RANGE = range(4, 116)
 MAX_QUADRANT_INDEX = 7
@@ -23,24 +14,9 @@ PADS_PER_ROW = 4
 
 class DrumGroupComponent(NotePadMixin, DrumGroupComponentBase):
 
-<<<<<<< HEAD
     @staticmethod
     def _filled_color(pad):
         pad_quadrant = MAX_QUADRANT_INDEX
         if pad.note in COMPLETE_QUADRANTS_RANGE:
             pad_quadrant = (pad.note - PADS_PER_ROW) // NUM_PADS
         return 'DrumGroup.PadQuadrant{}'.format(pad_quadrant)
-=======
-    def _update_button_color(self, button):
-        pad = self._pad_for_button(button)
-        color = self._color_for_pad(pad) if liveobj_valid(pad) else 'DrumGroup.PadEmpty'
-        if color == 'DrumGroup.PadFilled':
-            button_row, _ = button.coordinate
-            button_index = (self.matrix.height - button_row - 1) * PADS_PER_ROW
-            pad_row_start_note = self._drum_group_device.visible_drum_pads[button_index].note
-            pad_quadrant = MAX_QUADRANT_INDEX
-            if pad_row_start_note in COMPLETE_QUADRANTS_RANGE:
-                pad_quadrant = old_div(pad_row_start_note - 1, NUM_PADS)
-            color = 'DrumGroup.PadQuadrant{}'.format(pad_quadrant)
-        button.color = color
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34

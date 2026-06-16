@@ -1,6 +1,13 @@
+# decompyle3 version 3.9.0
+# Python bytecode version base 3.7.0 (3394)
+# Decompiled from: Python 3.8.0 (tags/v3.8.0:fa919fd, Oct 14 2019, 19:37:50) [MSC v.1916 64 bit (AMD64)]
+# Embedded file name: ..\..\..\output\Live\win_64_static\Release\python-bundle\MIDI Remote Scripts\_MxDCore\ControlSurfaceWrapper.py
+# Compiled at: 2023-10-06 16:19:02
+# Size of source mod 2**32: 11734 bytes
 from __future__ import absolute_import, print_function, unicode_literals
-import Live
+import weakref, Live
 from ableton.v2.base import EventObject, old_hasattr
+from ableton.v2.control_surface import MessageScheduler, defaults
 
 def is_real_control_surface(lom_object):
     return is_local_control_surface(lom_object) or isinstance(lom_object, Live.Application.ControlSurfaceProxy)
@@ -188,9 +195,51 @@ class RemoteControlSurfaceWrapper(ControlSurfaceWrapper):
         self._control_proxies = {desc.name: ControlProxy(name=(desc.name), id=(desc.id), proxy=proxy) for desc in }
         self._control_proxies_by_id = {p.id: p for p in self._control_proxies.values()}
         proxy.add_control_values_arrived_listener(self._RemoteControlSurfaceWrapper__on_control_values_arrived)
+        proxy.add_midi_received_listener(self._RemoteControlSurfaceWrapper__on_midi_received)
+
+        class Timer:
+            MS_PER_TICK = defaults.TIMER_DELAY * 1000
+
+            def __init__(self):
+                self._timer_instance = None
+
+            def start(self, timeout, callback):
+                self_ref = weakref.ref(self)
+
+                def callback_wrapper():
+                    callback()
+                    if self_ref:
+                        self_ref().cancel()
+
+                self._timer_instance = Live.Base.Timer(callback=callback_wrapper,
+                  interval=(int((timeout + 1) * self.MS_PER_TICK)),
+                  start=True)
+
+            def cancel(self):
+                try:
+                    self._timer_instance.stop()
+                except AttributeError:
+                    pass
+
+                self._timer_instance = None
+
+            def disconnect(self):
+                self.cancel()
+
+        self._timer = Timer()
+        self.mxd_midi_scheduler = MessageScheduler(send_message_callback=(self._proxy.send_midi),
+          timer=(self._timer),
+          on_state_changed_callback=(self._on_mxd_midi_scheduler_state_changed))
+
+    @property
+    def timer_instance(self):
+        return self._timer._timer_instance
 
     def disconnect(self):
+        self._timer.disconnect()
+        self._proxy.enable_receive_midi(False)
         self._proxy.remove_control_values_arrived_listener(self._RemoteControlSurfaceWrapper__on_control_values_arrived)
+        self._proxy.remove_midi_received_listener(self._RemoteControlSurfaceWrapper__on_midi_received)
 
     def __eq__(self, other):
         return self._proxy == other
@@ -206,12 +255,19 @@ class RemoteControlSurfaceWrapper(ControlSurfaceWrapper):
     def control_names(self):
         return tuple((c.name for c in self._proxy.control_descriptions))
 
+    def _on_mxd_midi_scheduler_state_changed(self, new_state):
+        self._proxy.enable_receive_midi(new_state in ('grabbed', 'wait', 'grabbed_wait'))
+
     def __on_control_values_arrived(self):
         for control_id, value in self._proxy.fetch_received_values():
             try:
                 self._control_proxies_by_id[control_id].receive_value(value)
             except KeyError:
                 pass
+
+    def __on_midi_received(self):
+        for message in self._proxy.fetch_received_midi_messages():
+            self.mxd_midi_scheduler.handle_message(message)
 
     def has_control(self, control):
         return control in self._control_proxies.values()

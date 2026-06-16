@@ -1,21 +1,29 @@
+# decompyle3 version 3.9.0
+# Python bytecode version base 3.7.0 (3394)
+# Decompiled from: Python 3.8.0 (tags/v3.8.0:fa919fd, Oct 14 2019, 19:37:50) [MSC v.1916 64 bit (AMD64)]
+# Embedded file name: ..\..\..\output\Live\win_64_static\Release\python-bundle\MIDI Remote Scripts\ableton\v3\control_surface\components\clip_slot.py
+# Compiled at: 2023-08-04 12:30:20
+# Size of source mod 2**32: 8347 bytes
 from __future__ import absolute_import, print_function, unicode_literals
-import Live
-from ...base import const, depends, is_track_armed, listens, liveobj_changed, liveobj_valid
+from ...base import const, depends, listens
+from ...live import action, display_name, is_track_armed, liveobj_changed, liveobj_valid
 from .. import Component
 from ..controls import ButtonControl
+from ..display import Renderable
 from ..skin import LiveObjSkinEntry, OptionalSkinEntry
 
-class ClipSlotComponent(Component):
+class ClipSlotComponent(Component, Renderable):
     launch_button = ButtonControl()
     select_button = ButtonControl(color=None)
     delete_button = ButtonControl(color=None)
     duplicate_button = ButtonControl(color=None)
     copy_button = ButtonControl(color=None)
+    include_in_top_level_state = False
 
-    @depends(copy_handler=(const(None)))
-    def __init__(self, copy_handler=None, *a, **k):
+    @depends(clipboard=(const(None)))
+    def __init__(self, clipboard=None, *a, **k):
         (super().__init__)(*a, **k)
-        self._copy_handler = copy_handler
+        self._clipboard = clipboard
         self._clip_slot = None
         self._non_player_track = None
 
@@ -70,76 +78,45 @@ class ClipSlotComponent(Component):
         self._on_launch_button_pressed()
 
     def _on_launch_button_pressed(self):
+        slot_name = display_name(self._clip_slot) if liveobj_valid(self._clip_slot) else ''
         if self.select_button.is_pressed:
-            self._do_select_clip_or_track()
+            if action.select(self._clip_slot):
+                self.notify(self.notifications.Clip.select, slot_name)
+            else:
+                action.select(self._non_player_track)
         else:
-            if liveobj_valid(self._clip_slot):
-                if self.duplicate_button.is_pressed:
-                    self._do_duplicate_clip()
+            if self.duplicate_button.is_pressed:
+                action.duplicate(self._clip_slot)
+            else:
+                if self._is_copying():
+                    self._clipboard.copy_or_paste(self._clip_slot)
                 else:
-                    if self.copy_button.is_pressed:
-                        self._do_copy_or_paste_clip()
-                    else:
-                        if self.delete_button.is_pressed:
-                            self._do_delete_clip()
+                    if self.delete_button.is_pressed:
+                        if action.delete(self._clip_slot):
+                            self.notify(self.notifications.Clip.delete, slot_name)
                         else:
-                            self._do_launch_clip(True)
-                            self._show_launched_slot_as_highlighted_slot()
+                            self.notify(self.notifications.Clip.error_delete_empty_slot)
+                    else:
+                        self._do_launch_slot()
+
+    def _do_launch_slot(self):
+        action.fire((self._clip_slot), button_state=True)
 
     @launch_button.released
     def launch_button(self, _):
         self._on_launch_button_released()
 
     def _on_launch_button_released(self):
-        if liveobj_valid(self._clip_slot):
-            if self.launch_button.is_momentary:
-                if not self._any_modifier_pressed():
-                    self._do_launch_clip(False)
-
-    def _do_launch_clip(self, fire_state):
-        object_to_launch = self._clip_slot
-        if self._has_clip():
-            object_to_launch = self._clip_slot.clip
-        object_to_launch.set_fire_button_state(fire_state)
-
-    def _do_select_clip_or_track(self):
-        if liveobj_valid(self._clip_slot):
-            self._select_slot_in_song()
-        else:
-            self._select_non_player_track_in_song()
-
-    def _do_delete_clip(self):
-        if self._has_clip():
-            self._clip_slot.delete_clip()
-
-    def _do_duplicate_clip(self):
-        if self._has_clip():
-            try:
-                track = self._clip_slot.canonical_parent
-                track.duplicate_clip_slot(list(track.clip_slots).index(self._clip_slot))
-            except (Live.Base.LimitationError, RuntimeError):
-                pass
-
-    def _do_copy_or_paste_clip(self):
-        if self._copy_handler:
-            self._copy_handler.copy_or_paste(self._clip_slot)
-
-    def _show_launched_slot_as_highlighted_slot(self):
-        if self.song.select_on_launch:
-            self._select_slot_in_song()
-
-    def _select_slot_in_song(self):
-        if liveobj_valid(self._clip_slot):
-            if liveobj_changed(self.song.view.highlighted_clip_slot, self._clip_slot):
-                self.song.view.highlighted_clip_slot = self._clip_slot
-
-    def _select_non_player_track_in_song(self):
-        if liveobj_valid(self._non_player_track):
-            if liveobj_changed(self.song.view.selected_track, self._non_player_track):
-                self.song.view.selected_track = self._non_player_track
+        if self.launch_button.is_momentary:
+            if not self._any_modifier_pressed():
+                if not self._is_copying():
+                    action.fire((self._clip_slot), button_state=False)
 
     def _has_clip(self):
         return liveobj_valid(self._clip_slot) and self._clip_slot.has_clip
+
+    def _is_copying(self):
+        return (self.copy_button.is_pressed) or ((self._clipboard) and (self._clipboard.has_content))
 
     def _any_modifier_pressed(self):
         return self.select_button.is_pressed or self.delete_button.is_pressed or self.duplicate_button.is_pressed or self.copy_button.is_pressed

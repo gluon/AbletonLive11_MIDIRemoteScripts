@@ -1,7 +1,14 @@
+# decompyle3 version 3.9.0
+# Python bytecode version base 3.7.0 (3394)
+# Decompiled from: Python 3.8.0 (tags/v3.8.0:fa919fd, Oct 14 2019, 19:37:50) [MSC v.1916 64 bit (AMD64)]
+# Embedded file name: ..\..\..\output\Live\win_64_static\Release\python-bundle\MIDI Remote Scripts\APC_Key_25_mk2\colors.py
+# Compiled at: 2023-04-03 14:43:04
+# Size of source mod 2**32: 1735 bytes
 from __future__ import absolute_import, print_function, unicode_literals
-from ableton.v3.base import liveobj_color_to_value_from_palette, memoize
+from ableton.v3.base import memoize
 from ableton.v3.control_surface import STANDARD_COLOR_PALETTE, STANDARD_FALLBACK_COLOR_TABLE
 from ableton.v3.control_surface.elements import SimpleColor
+from ableton.v3.live import liveobj_color_to_value_from_palette
 HALF_BRIGHTNESS_CHANNEL = 1
 FULL_BRIGHTNESS_CHANNEL = 6
 PULSE_CHANNEL = 10

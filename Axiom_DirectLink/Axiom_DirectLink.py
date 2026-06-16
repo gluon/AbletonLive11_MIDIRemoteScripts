@@ -1,13 +1,9 @@
-<<<<<<< HEAD
-=======
-# decompyle3 version 3.8.0
-# Python bytecode 3.7.0 (3394)
-# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
-# [Clang 13.1.6 (clang-1316.0.21.2.3)]
-# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Axiom_DirectLink/Axiom_DirectLink.py
-# Compiled at: 2022-01-27 16:28:16
-# Size of source mod 2**32: 19801 bytes
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
+# decompyle3 version 3.9.0
+# Python bytecode version base 3.7.0 (3394)
+# Decompiled from: Python 3.8.0 (tags/v3.8.0:fa919fd, Oct 14 2019, 19:37:50) [MSC v.1916 64 bit (AMD64)]
+# Embedded file name: ..\..\..\output\Live\win_64_static\Release\python-bundle\MIDI Remote Scripts\Axiom_DirectLink\Axiom_DirectLink.py
+# Compiled at: 2022-11-29 09:57:02
+# Size of source mod 2**32: 20312 bytes
 from __future__ import absolute_import, print_function, unicode_literals
 from builtins import chr, range, str
 import Live
@@ -80,13 +76,8 @@ class Axiom_DirectLink(ControlSurface):
 
     def handle_sysex(self, midi_bytes):
         if midi_bytes[0:-2] == SYSEX_START + (32, ):
-<<<<<<< HEAD
             if midi_bytes[-2] != 0:
                 self._has_sliders = midi_bytes[-2] & 8 != 0
-=======
-            if midi_bytes[(-2)] != 0:
-                self._has_sliders = midi_bytes[(-2)] & 8 != 0
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
                 if self._waiting_for_first_response:
                     self._waiting_for_first_response = False
                     self.schedule_message(1, self._show_startup_message)
@@ -163,7 +154,6 @@ class Axiom_DirectLink(ControlSurface):
             strip.name = 'Channel_Strip_' + str(index)
             strip.set_invert_mute_feedback(True)
             self._sliders.append(SliderElement(MIDI_CC_TYPE, 15, 33 + index))
-<<<<<<< HEAD
             self._sliders[-1].name = str(index) + '_Volume_Control'
             self._sliders[-1].set_feedback_delay(-1)
             self._sliders[-1].add_value_listener((self._slider_value), identify_sender=True)
@@ -171,15 +161,6 @@ class Axiom_DirectLink(ControlSurface):
             self._strip_buttons.append(ButtonElement(IS_MOMENTARY, MIDI_CC_TYPE, 15, 49 + index))
             self._strip_buttons[-1].name = str(index) + '_Mute_Button'
             self._strip_buttons[-1].add_value_listener((self._mixer_button_value),
-=======
-            self._sliders[(-1)].name = str(index) + '_Volume_Control'
-            self._sliders[(-1)].set_feedback_delay(-1)
-            self._sliders[(-1)].add_value_listener((self._slider_value), identify_sender=True)
-            strip.set_volume_control(self._sliders[(-1)])
-            self._strip_buttons.append(ButtonElement(IS_MOMENTARY, MIDI_CC_TYPE, 15, 49 + index))
-            self._strip_buttons[(-1)].name = str(index) + '_Mute_Button'
-            self._strip_buttons[(-1)].add_value_listener((self._mixer_button_value),
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
               identify_sender=True)
 
         self._mixer.set_strip_mute_solo_buttons(tuple(self._strip_buttons), mute_solo_flip_button)
@@ -206,11 +187,7 @@ class Axiom_DirectLink(ControlSurface):
         pads = []
         for index in range(len(PAD_TRANSLATIONS)):
             pads.append(ButtonElement(IS_MOMENTARY, MIDI_NOTE_TYPE, 15, PAD_TRANSLATIONS[index][2]))
-<<<<<<< HEAD
             pads[-1].name = 'Pad_' + str(index)
-=======
-            pads[(-1)].name = 'Pad_' + str(index)
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 
         self._session = ShiftableSessionComponent(8, 0)
         self._session.name = 'Session_Control'
@@ -225,17 +202,10 @@ class Axiom_DirectLink(ControlSurface):
         self._encoders = []
         for offset in range(8):
             self._encoders.append(PeekableEncoderElement(MIDI_CC_TYPE, 15, 17 + offset, Live.MidiMap.MapMode.relative_smooth_two_compliment))
-<<<<<<< HEAD
             self._encoders[-1].set_feedback_delay(-1)
             self._encoders[-1].add_value_listener((self._encoder_value),
               identify_sender=True)
             self._encoders[-1].name = 'Device_Control_' + str(offset)
-=======
-            self._encoders[(-1)].set_feedback_delay(-1)
-            self._encoders[(-1)].add_value_listener((self._encoder_value),
-              identify_sender=True)
-            self._encoders[(-1)].name = 'Device_Control_' + str(offset)
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 
         prev_bank_button = ButtonElement(IS_MOMENTARY, MIDI_CC_TYPE, 15, 14)
         next_bank_button = ButtonElement(IS_MOMENTARY, MIDI_CC_TYPE, 15, 15)
@@ -314,18 +284,11 @@ class Axiom_DirectLink(ControlSurface):
                     pass
                 if track in tracks:
                     display_string = str(list(tracks).index(track) + 1)
-<<<<<<< HEAD
                 else:
                     if track in returns:
                         display_string = str(chr(ord('A') + list(returns).index(track)))
                     else:
                         pass
-=======
-                elif track in returns:
-                    display_string = str(chr(ord('A') + list(returns).index(track)))
-                else:
-                    pass
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
                 display_string += ' Vol'
             self._display_data_source.set_display_string(display_string)
             self._set_display_data_source(self._display_data_source)
