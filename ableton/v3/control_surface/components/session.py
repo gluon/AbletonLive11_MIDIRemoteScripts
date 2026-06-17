@@ -1,37 +1,35 @@
-<<<<<<< HEAD
+# decompyle3 version 3.9.0
+# Python bytecode version base 3.7.0 (3394)
+# Decompiled from: Python 3.8.0 (tags/v3.8.0:fa919fd, Oct 14 2019, 19:37:50) [MSC v.1916 64 bit (AMD64)]
+# Embedded file name: ..\..\..\output\Live\win_64_static\Release\python-bundle\MIDI Remote Scripts\ableton\v3\control_surface\components\session.py
+# Compiled at: 2023-09-22 14:37:57
+# Size of source mod 2**32: 12242 bytes
 from __future__ import absolute_import, print_function, unicode_literals
 from itertools import count, zip_longest
-from ...base import clip_slot_display_name, const, depends, inject, listens, listens_group, liveobj_valid
+from ...base import const, depends, inject, listenable_property, listens, listens_group
+from ...live import liveobj_valid
 from .. import Component
 from ..controls import ButtonControl, control_list
-from . import SceneComponent
-COPY_FROM_GROUP_SLOT_ERROR = 'Cannot copy from Group Slot'
-COPY_FROM_EMPTY_SLOT_ERROR = 'Cannot copy from empty Clip Slot'
-COPY_RECORDING_CLIP_ERROR = 'Cannot copy recording Clip'
-COPY_SUCCESS = '{} copied. Press destination Clip Slot to paste'
-PASTE_TO_GROUP_SLOT_ERROR = 'Cannot paste into Group Slot'
-PASTE_AUDIO_TO_MIDI_ERROR = 'Cannot paste an audio Clip into a MIDI Track'
-PASTE_MIDI_TO_AUDIO_ERROR = 'Cannot paste a MIDI Clip into an audio Track'
-PASTE_SUCCESS = '{} copied to: {}'
+from ..display import Renderable
+from . import ClipboardComponent, SceneComponent
 
-class SessionComponent(Component):
-    copy_button = ButtonControl(color=None)
+class SessionComponent(Component, Renderable):
     stop_all_clips_button = ButtonControl(color='Session.StopAllClips',
       pressed_color='Session.StopAllClipsPressed')
     stop_track_clip_buttons = control_list(ButtonControl)
     _session_component_ends_initialisation = True
 
     @depends(session_ring=None)
-    def __init__(self, name='Session', session_ring=None, scene_component_type=None, clip_slot_component_type=None, clip_slot_copy_handler_type=None, *a, **k):
+    def __init__(self, name='Session', session_ring=None, scene_component_type=None, clip_slot_component_type=None, clipboard_component_type=None, *a, **k):
         (super().__init__)(a, name=name, **k)
         self._session_ring = session_ring
         scene_component_type = scene_component_type or SceneComponent
         create_scene = lambda: scene_component_type(parent=self,
           session_ring=(self._session_ring),
           clip_slot_component_type=clip_slot_component_type)
-        clip_slot_copy_handler_type = clip_slot_copy_handler_type or ClipSlotCopyHandler
-        self._clip_slot_copy_handler = clip_slot_copy_handler_type()
-        with inject(copy_handler=(const(self._clip_slot_copy_handler))).everywhere():
+        clipboard_component_type = clipboard_component_type or ClipSlotClipboardComponent
+        self._clipboard = clipboard_component_type(parent=self)
+        with inject(clipboard=(const(self._clipboard))).everywhere():
             self._selected_scene = create_scene()
             self._scenes = [create_scene() for _ in range(self._session_ring.num_scenes)]
         self.register_slot(self._session_ring, self._reassign_scenes, 'scenes')
@@ -42,9 +40,9 @@ class SessionComponent(Component):
         if self._session_component_ends_initialisation:
             self._end_initialisation()
 
-    @property
-    def clip_slot_copy_handler(self):
-        return self._clip_slot_copy_handler
+    @listenable_property
+    def clipboard(self):
+        return self._clipboard
 
     def scene(self, index):
         return self._scenes[index]
@@ -62,84 +60,11 @@ class SessionComponent(Component):
         num_scenes = self._session_ring.num_scenes
         for scene, button in zip_longest(self._scenes, buttons or []):
             scene.set_launch_button(button)
-=======
-# decompyle3 version 3.8.0
-# Python bytecode 3.7.0 (3394)
-# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
-# [Clang 13.1.6 (clang-1316.0.21.2.3)]
-# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/ableton/v3/control_surface/components/session.py
-# Compiled at: 2022-01-28 05:06:24
-# Size of source mod 2**32: 4573 bytes
-from __future__ import absolute_import, print_function, unicode_literals
-import ableton.v2.control_surface.components as ClipSlotComponentBase
-import ableton.v2.control_surface.components as SceneComponentBase
-import ableton.v2.control_surface.components as SessionComponentBase
-from ...base import depends, liveobj_valid
-from ..controls import ButtonControl, control_list
-
-class ClipSlotComponent(ClipSlotComponentBase):
-
-    def __init__(self, color_for_obj_function=None, *a, **k):
-        self._color_for_obj_function = color_for_obj_function
-        (super().__init__)(*a, **k)
-        self._record_button_color = 'Session.ClipRecordButton'
-
-    @property
-    def clip_slot(self):
-        return self._clip_slot
-
-    def _color_value(self, slot_or_clip):
-        if self._color_for_obj_function:
-            if liveobj_valid(slot_or_clip):
-                return self._color_for_obj_function(slot_or_clip)
-        return super()._color_value(slot_or_clip)
-
-
-class SceneComponent(SceneComponentBase):
-
-    def __init__(self, clip_slot_component_type=None, color_for_obj_function=None, *a, **k):
-        self._color_for_obj_function = color_for_obj_function
-        clip_slot_component_type = clip_slot_component_type or ClipSlotComponent
-        self._create_clip_slot = lambda: clip_slot_component_type(parent=self,
-          color_for_obj_function=color_for_obj_function)
-        (super().__init__)(*a, **k)
-        self._no_scene_color = 'Session.SceneEmpty'
-
-    @property
-    def scene(self):
-        return self._scene
-
-    def _color_value(self, color):
-        if self._color_for_obj_function:
-            if liveobj_valid(self._scene):
-                return self._color_for_obj_function(self._scene)
-        return super()._color_value(color)
-
-
-class SessionComponent(SessionComponentBase):
-    stop_all_clips_button = ButtonControl(color='Session.StopAllClips',
-      pressed_color='Session.StopAllClipsPressed')
-    stop_track_clip_buttons = control_list(ButtonControl)
-
-    @depends(session_ring=None)
-    def __init__(self, name='Session', session_ring=None, scene_component_type=None, clip_slot_component_type=None, color_for_obj_function=None, *a, **k):
-        scene_component_type = scene_component_type or SceneComponent
-        self._create_scene = lambda: scene_component_type(parent=self,
-          session_ring=(self._session_ring),
-          clip_slot_component_type=clip_slot_component_type,
-          color_for_obj_function=color_for_obj_function)
-        (super().__init__)(a, name=name, session_ring=session_ring, **k)
-        self.stop_track_clip_buttons.control_count = session_ring.num_tracks
-
-    def set_stop_all_clips_button(self, button):
-        self.stop_all_clips_button.set_control_element(button)
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 
     def set_stop_track_clip_buttons(self, buttons):
         self.stop_track_clip_buttons.set_control_element(buttons)
         self._update_stop_track_clip_buttons()
 
-<<<<<<< HEAD
     def set_clip_slot_select_button(self, button):
         self.set_modifier_button(button, 'select_button', clip_slots_only=True)
 
@@ -153,7 +78,7 @@ class SessionComponent(SessionComponentBase):
         self.set_modifier_button(button, 'duplicate_button')
 
     def set_copy_button(self, button):
-        self.copy_button.set_control_element(button)
+        self._clipboard.set_copy_button(button)
         self.set_modifier_button(button, 'copy_button', clip_slots_only=True)
 
     def set_modifier_button(self, button, name, clip_slots_only=False):
@@ -173,19 +98,12 @@ class SessionComponent(SessionComponentBase):
                 return self.scene(int(name.split('_')[-3])).set_launch_button
         raise AttributeError
 
-    @copy_button.released
-    def copy_button(self, _):
-        self._clip_slot_copy_handler.stop_copying()
-
-=======
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
     @stop_all_clips_button.pressed
     def stop_all_clips_button(self, _):
         self.song.stop_all_clips()
 
     @stop_track_clip_buttons.pressed
     def stop_track_clip_buttons(self, button):
-<<<<<<< HEAD
         self._session_ring.tracks[button.index].stop_all_clips()
 
     def _end_initialisation(self):
@@ -255,92 +173,41 @@ class SessionComponent(SessionComponentBase):
         self._update_stop_clips_led(track_index)
 
 
-class ClipSlotCopyHandler:
+class ClipSlotClipboardComponent(ClipboardComponent):
 
-    @depends(show_message=None)
-    def __init__(self, show_message=None, *a, **k):
-        (super().__init__)(*a, **k)
-        self._show_message = show_message
-        self._is_copying = False
-        self._source_clip_slot = None
-
-    @property
-    def is_copying(self):
-        return self._is_copying
-
-    def copy_or_paste(self, slot):
-        status_msg = None
-        if self._is_copying:
-            status_msg = self._paste_clip_slot(slot)
+    def _do_copy(self, obj):
+        if not liveobj_valid(obj):
+            return
+        if obj.is_group_slot:
+            self.notify(self.notifications.Clip.CopyPaste.error_copy_from_group_slot)
         else:
-            status_msg = self._copy_clip_slot(slot)
-        if status_msg:
-            self._show_message(status_msg)
-
-    def stop_copying(self):
-        self._reset_copying_state()
-
-    def _copy_clip_slot(self, source_slot):
-        if not liveobj_valid(source_slot):
-            return
-        if source_slot.is_group_slot:
-            return COPY_FROM_GROUP_SLOT_ERROR
-        if not liveobj_valid(source_slot.clip):
-            return COPY_FROM_EMPTY_SLOT_ERROR
-        if source_slot.clip.is_recording:
-            return COPY_RECORDING_CLIP_ERROR
-        return self._perform_copy(source_slot)
-
-    def _perform_copy(self, source_slot):
-        self._is_copying = True
-        self._source_clip_slot = source_slot
-        clip_name = clip_slot_display_name(source_slot)
-        return COPY_SUCCESS.format(clip_name)
-
-    def _paste_clip_slot(self, destination_slot):
-        if not liveobj_valid(destination_slot):
-            return
-        if destination_slot.is_group_slot:
-            return PASTE_TO_GROUP_SLOT_ERROR
-        source_is_audio = self._source_clip_slot.clip.is_audio_clip
-        destination_track = destination_slot.canonical_parent
-        if source_is_audio:
-            if not destination_track.has_audio_input:
-                return PASTE_AUDIO_TO_MIDI_ERROR
-            if not source_is_audio:
-                if destination_track.has_audio_input:
-                    return PASTE_MIDI_TO_AUDIO_ERROR
-            return self._perform_paste(destination_track, destination_slot)
-
-    def _perform_paste(self, destination_track, destination_slot):
-        self._source_clip_slot.duplicate_clip_to(destination_slot)
-        clip_name = clip_slot_display_name(self._source_clip_slot)
-        self._reset_copying_state()
-        return PASTE_SUCCESS.format(clip_name, destination_track.name)
-
-    def _reset_copying_state(self):
-        self._source_clip_slot = None
-        self._is_copying = False
-=======
-        tracks_to_use = self._session_ring.tracks_to_use()
-        track_index = self._session_ring.track_offset + button.index
-        if track_index < len(tracks_to_use):
-            tracks_to_use[track_index].stop_all_clips()
-
-    def _update_stop_clips_led(self, index):
-        if index < self.stop_track_clip_buttons.control_count:
-            tracks_to_use = self._session_ring.tracks_to_use()
-            track_index = self._session_ring.track_offset + index
-            button = self.stop_track_clip_buttons[index]
-            if track_index < len(tracks_to_use) and tracks_to_use[track_index].clip_slots:
-                button.enabled = True
-                track = tracks_to_use[track_index]
-                if track.fired_slot_index == -2:
-                    button.color = 'Session.StopClipTriggered'
-                elif track.playing_slot_index >= 0:
-                    button.color = 'Session.StopClip'
-                else:
-                    button.color = 'Session.StopClipDisabled'
+            if not liveobj_valid(obj.clip):
+                self.notify(self.notifications.Clip.CopyPaste.error_copy_from_empty_slot)
             else:
-                button.enabled = False
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
+                if obj.clip.is_recording:
+                    self.notify(self.notifications.Clip.CopyPaste.error_copy_recording_clip)
+                else:
+                    self.notify(self.notifications.Clip.CopyPaste.copy, obj)
+                    return obj
+
+    def _do_paste(self, obj):
+        if not liveobj_valid(obj):
+            return False
+        if obj.is_group_slot:
+            self.notify(self.notifications.Clip.CopyPaste.error_paste_to_group_slot)
+            return False
+        source_is_audio = self._source_obj.clip.is_audio_clip
+        destination_track = obj.canonical_parent
+        if source_is_audio and not destination_track.has_audio_input:
+            self.notify(self.notifications.Clip.CopyPaste.error_paste_audio_to_midi)
+        else:
+            if not source_is_audio or destination_track.has_audio_input:
+                self.notify(self.notifications.Clip.CopyPaste.error_paste_midi_to_audio)
+            else:
+                self._source_obj.duplicate_clip_to(obj)
+                self.notify(self.notifications.Clip.CopyPaste.paste, self._source_obj)
+                return True
+        return False
+
+    def _is_source_valid(self):
+        return liveobj_valid(self._source_obj) and self._source_obj.has_clip

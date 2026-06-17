@@ -1,13 +1,9 @@
-<<<<<<< HEAD
-=======
-# decompyle3 version 3.8.0
-# Python bytecode 3.7.0 (3394)
-# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
-# [Clang 13.1.6 (clang-1316.0.21.2.3)]
-# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/_Framework/SessionComponent.py
-# Compiled at: 2022-01-27 16:28:16
-# Size of source mod 2**32: 26320 bytes
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
+# decompyle3 version 3.9.0
+# Python bytecode version base 3.7.0 (3394)
+# Decompiled from: Python 3.8.0 (tags/v3.8.0:fa919fd, Oct 14 2019, 19:37:50) [MSC v.1916 64 bit (AMD64)]
+# Embedded file name: ..\..\..\output\Live\win_64_static\Release\python-bundle\MIDI Remote Scripts\_Framework\SessionComponent.py
+# Compiled at: 2022-11-29 09:57:03
+# Size of source mod 2**32: 27014 bytes
 from __future__ import absolute_import, print_function, unicode_literals
 from builtins import range
 from itertools import count
@@ -409,7 +405,7 @@ class SessionComponent(CompoundComponent):
     def _update_select_buttons(self):
         selected_scene = self.song().view.selected_scene
         if self._next_scene_button != None:
-            self._next_scene_button.set_light(selected_scene != self.song().scenes[(-1)])
+            self._next_scene_button.set_light(selected_scene != self.song().scenes[-1])
         if self._prev_scene_button != None:
             self._prev_scene_button.set_light(selected_scene != self.song().scenes[0])
 
@@ -475,9 +471,9 @@ class SessionComponent(CompoundComponent):
             if not (value is not 0 or self._next_scene_button.is_momentary()):
                 selected_scene = self.song().view.selected_scene
                 all_scenes = self.song().scenes
-                if selected_scene != all_scenes[(-1)]:
+                if selected_scene != all_scenes[-1]:
                     index = list(all_scenes).index(selected_scene)
-                    self.song().view.selected_scene = all_scenes[(index + 1)]
+                    self.song().view.selected_scene = all_scenes[index + 1]
 
     @subject_slot('value')
     def _on_prev_scene_value(self, value):
@@ -487,7 +483,7 @@ class SessionComponent(CompoundComponent):
                 all_scenes = self.song().scenes
                 if selected_scene != all_scenes[0]:
                     index = list(all_scenes).index(selected_scene)
-                    self.song().view.selected_scene = all_scenes[(index - 1)]
+                    self.song().view.selected_scene = all_scenes[index - 1]
 
     @subject_slot_group('value')
     def _on_stop_track_value(self, value, button):
@@ -530,7 +526,6 @@ class SessionComponent(CompoundComponent):
                                 track = tracks_to_use[track_index]
                                 if track.fired_slot_index == -2:
                                     value_to_send = self._stop_clip_triggered_value
-<<<<<<< HEAD
                                 else:
                                     if track.playing_slot_index >= 0:
                                         value_to_send = self._stop_clip_value
@@ -541,16 +536,6 @@ class SessionComponent(CompoundComponent):
                                 button.send_value(value_to_send)
                             else:
                                 button.set_light(value_to_send)
-=======
-                                elif track.playing_slot_index >= 0:
-                                    value_to_send = self._stop_clip_value
-                        if value_to_send == None:
-                            button.turn_off()
-                        elif in_range(value_to_send, 0, 128):
-                            button.send_value(value_to_send)
-                        else:
-                            button.set_light(value_to_send)
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 
     def _is_linked(self):
         return self in SessionComponent._linked_session_instances

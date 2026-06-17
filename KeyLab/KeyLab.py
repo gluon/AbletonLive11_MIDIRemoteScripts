@@ -1,21 +1,12 @@
-<<<<<<< HEAD
-=======
-# decompyle3 version 3.8.0
-# Python bytecode 3.7.0 (3394)
-# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
-# [Clang 13.1.6 (clang-1316.0.21.2.3)]
-# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/KeyLab/KeyLab.py
-# Compiled at: 2022-01-28 05:06:23
-# Size of source mod 2**32: 11085 bytes
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
+# decompyle3 version 3.9.0
+# Python bytecode version base 3.7.0 (3394)
+# Decompiled from: Python 3.8.0 (tags/v3.8.0:fa919fd, Oct 14 2019, 19:37:50) [MSC v.1916 64 bit (AMD64)]
+# Embedded file name: ..\..\..\output\Live\win_64_static\Release\python-bundle\MIDI Remote Scripts\KeyLab\KeyLab.py
+# Compiled at: 2022-11-29 09:57:02
+# Size of source mod 2**32: 11302 bytes
 from __future__ import absolute_import, print_function, unicode_literals
 from builtins import range
-from functools import partial
 import Live
-<<<<<<< HEAD
-=======
-from _Framework import Task
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 import _Framework.ButtonElement as ButtonElement
 import _Framework.ButtonMatrixElement as ButtonMatrixElement
 import _Framework.ClipCreator as ClipCreator
@@ -41,7 +32,6 @@ PAD_HARDWARE_IDS = list(range(112, 128))
 ENCODER_MSG_IDS = (74, 71, 76, 77, 18, 19, 16, 17, 93, 91)
 SLIDER_MSG_IDS = (73, 75, 79, 72, 80, 81, 82, 83, 85)
 PAD_MSG_IDS = list(range(36, 52))
-<<<<<<< HEAD
 MESSAGE_DELAY = 0.1
 BUTTON_HARDWARE_AND_MESSAGE_IDS = {
   'session_record_button': (91, 5),
@@ -56,21 +46,6 @@ BUTTON_HARDWARE_AND_MESSAGE_IDS = {
   'scene_down_button': (26, 30),
   'scene_launch_button': (27, 31)}
 ENCODER_CHANNEL = 0
-=======
-MESSAGE_DELAY = 0.001
-BUTTON_HARDWARE_AND_MESSAGE_IDS = {'session_record_button':(91, 5), 
- 'stop_all_clips_button':(92, 4), 
- 'stop_button':(89, 102), 
- 'play_button':(88, 2), 
- 'record_button':(90, 6), 
- 'loop_button':(93, 55), 
- 'device_left_button':(18, 22), 
- 'device_right_button':(19, 23), 
- 'scene_up_button':(25, 29), 
- 'scene_down_button':(26, 30), 
- 'scene_launch_button':(27, 31)}
-ENCODER_CHANNEL = 1
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 PAD_CHANNEL = 9
 
 def get_button_identifier_by_name(identifier):
@@ -99,29 +74,17 @@ class KeyLab(ArturiaControlSurface):
          ENCODER_MSG_IDS[:4], ENCODER_MSG_IDS[4:8]))])
         self._horizontal_scroll_encoder = EncoderElement(MIDI_CC_TYPE,
           ENCODER_CHANNEL,
-<<<<<<< HEAD
           (ENCODER_MSG_IDS[-2]),
-=======
-          (ENCODER_MSG_IDS[(-2)]),
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
           (Live.MidiMap.MapMode.relative_smooth_binary_offset),
           name='Horizontal_Scroll_Encoder')
         self._vertical_scroll_encoder = EncoderElement(MIDI_CC_TYPE,
           ENCODER_CHANNEL,
-<<<<<<< HEAD
           (ENCODER_MSG_IDS[-1]),
-=======
-          (ENCODER_MSG_IDS[(-1)]),
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
           (Live.MidiMap.MapMode.relative_smooth_binary_offset),
           name='Vertical_Scroll_Encoder')
         self._volume_sliders = ButtonMatrixElement(rows=[
          [SliderElement(MIDI_CC_TYPE, ENCODER_CHANNEL, identifier) for identifier in SLIDER_MSG_IDS[:-1]]])
-<<<<<<< HEAD
         self._master_slider = SliderElement(MIDI_CC_TYPE, ENCODER_CHANNEL, SLIDER_MSG_IDS[-1])
-=======
-        self._master_slider = SliderElement(MIDI_CC_TYPE, ENCODER_CHANNEL, SLIDER_MSG_IDS[(-1)])
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 
         def make_keylab_button(name):
             button = ButtonElement(True,
@@ -242,12 +205,7 @@ class KeyLab(ArturiaControlSurface):
         self._collect_setup_message(MODE_PROPERTY, hardware_id, PAD_NOTE_MODE)
 
     def _setup_hardware(self):
-<<<<<<< HEAD
         for i, msg in enumerate(self._messages_to_send):
             self.schedule_message(MESSAGE_DELAY * i + 1, self._send_midi, msg)
-=======
-        for msg in self._messages_to_send:
-            self._tasks.add(Task.sequence(partial(self._send_midi, msg), Task.wait(MESSAGE_DELAY)))
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 
         self._messages_to_send = []

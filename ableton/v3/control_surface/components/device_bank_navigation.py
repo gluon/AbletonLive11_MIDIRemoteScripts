@@ -1,11 +1,19 @@
+# decompyle3 version 3.9.0
+# Python bytecode version base 3.7.0 (3394)
+# Decompiled from: Python 3.8.0 (tags/v3.8.0:fa919fd, Oct 14 2019, 19:37:50) [MSC v.1916 64 bit (AMD64)]
+# Embedded file name: ..\..\..\output\Live\win_64_static\Release\python-bundle\MIDI Remote Scripts\ableton\v3\control_surface\components\device_bank_navigation.py
+# Compiled at: 2023-06-08 07:52:37
+# Size of source mod 2**32: 7148 bytes
 from __future__ import absolute_import, print_function, unicode_literals
 from math import ceil
+from typing import cast
 from ...base import depends, listens
 from ..controls import FixedRadioButtonGroup
+from ..display import Renderable
 from .scroll import Scrollable, ScrollComponent
 NUM_BANK_SELECT_BUTTONS = 8
 
-class DeviceBankNavigationComponent(ScrollComponent, Scrollable):
+class DeviceBankNavigationComponent(ScrollComponent, Renderable, Scrollable):
     bank_select_buttons = FixedRadioButtonGroup(control_count=NUM_BANK_SELECT_BUTTONS,
       unchecked_color='Device.Bank.NotSelected',
       checked_color='Device.Bank.Selected')
@@ -55,13 +63,19 @@ class DeviceBankNavigationComponent(ScrollComponent, Scrollable):
             if new_index >= self._bank_provider.bank_count():
                 new_index = 0
         self._bank_provider.index = new_index
+        self._notify_bank_name()
 
     def scroll_down(self):
         self._bank_provider.index = self._bank_provider.index - self._banking_info.num_simultaneous_banks
+        self._notify_bank_name()
 
     @bank_select_buttons.checked
     def bank_select_buttons(self, button):
         self._bank_provider.index = button.index * self._banking_info.num_simultaneous_banks + int(self._should_skip_first_bank())
+        self._notify_bank_name()
+
+    def _notify_bank_name(self):
+        self.notify(self.notifications.Device.bank, cast(str, self._banking_info.device_bank_names(self._bank_provider.device)[self._bank_provider.index]))
 
     def _adjusted_bank_count(self):
         if self._bank_provider:

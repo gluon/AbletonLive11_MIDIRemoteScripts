@@ -1,13 +1,9 @@
-<<<<<<< HEAD
-=======
-# decompyle3 version 3.8.0
-# Python bytecode 3.7.0 (3394)
-# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
-# [Clang 13.1.6 (clang-1316.0.21.2.3)]
-# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/ableton/v2/control_surface/default_bank_definitions.py
-# Compiled at: 2022-01-28 05:06:24
-# Size of source mod 2**32: 239163 bytes
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
+# decompyle3 version 3.9.0
+# Python bytecode version base 3.7.0 (3394)
+# Decompiled from: Python 3.8.0 (tags/v3.8.0:fa919fd, Oct 14 2019, 19:37:50) [MSC v.1916 64 bit (AMD64)]
+# Embedded file name: ..\..\..\output\Live\win_64_static\Release\python-bundle\MIDI Remote Scripts\ableton\v2\control_surface\default_bank_definitions.py
+# Compiled at: 2023-10-06 16:19:02
+# Size of source mod 2**32: 264959 bytes
 from __future__ import absolute_import, print_function, unicode_literals
 from ableton.v2.base.collection import IndexedDict
 from ableton.v2.control_surface import BANK_MAIN_KEY, BANK_PARAMETERS_KEY, use
@@ -254,11 +250,7 @@ BANK_DEFINITIONS = {'AudioEffectGroupDevice':RACK_BANKS,
                           use('Mallet Noise Amount').if_parameter('Mallet On/Off').has_value('On'),
                           use('Mallet Stiffness').if_parameter('Mallet On/Off').has_value('On'),
                           use('Mallet Noise Color').if_parameter('Mallet On/Off').has_value('On'),
-<<<<<<< HEAD
                           '',
-=======
-                          use('Mallet Modulation').if_parameter('Mallet On/Off').has_value('On'),
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
                           use('Mallet Volume < Vel').if_parameter('Mallet On/Off').has_value('On'),
                           use('Mallet Noise Amount < Vel').if_parameter('Mallet On/Off').has_value('On'))}),
   (
@@ -360,6 +352,49 @@ BANK_DEFINITIONS = {'AudioEffectGroupDevice':RACK_BANKS,
                           use('Mallet Stiffness < Key').if_parameter('Mallet On/Off').has_value('On'),
                           use('Mallet Stiffness < Vel').if_parameter('Mallet On/Off').has_value('On'),
                           '')}))), 
+ 'Drift':IndexedDict((
+  (
+   BANK_MAIN_KEY,
+   {BANK_PARAMETERS_KEY: ('Osc 1 Wave', 'Osc 1 Shape', 'Osc 1 Oct', 'Osc 1 Gain', 'Osc 2 Gain', 'LP Freq', 'LP Reso',
+ 'Volume')}),
+  (
+   'Oscillator',
+   {BANK_PARAMETERS_KEY: ('Osc 1 Wave', 'Osc 1 Shape', 'Osc 1 Oct', 'Osc 1 Gain', 'Osc 2 Wave', 'Osc 2 Detune',
+ 'Osc 2 Oct', 'Osc 2 Gain')}),
+  (
+   'Filter',
+   {BANK_PARAMETERS_KEY: ('LP Type', 'LP Freq', 'LP Reso', 'HP Freq', 'LP Mod Src 1', 'LP Mod Amt 1', 'LP Mod Src 2',
+ 'LP Mod Amt 2')}),
+  (
+   'Envelopes',
+   {BANK_PARAMETERS_KEY: ('Env 1 Attack', 'Env 1 Decay', 'Env 1 Sustain', 'Env 1 Release', 'Env 2 Attack', 'Env 2 Decay',
+ 'Env 2 Sustain', 'Env 2 Release')}),
+  (
+   'LFO',
+   {BANK_PARAMETERS_KEY: (
+                          'LFO Wave',
+                          'LFO Time Mode',
+                          use('LFO Rate').if_parameter('LFO Time Mode').has_value('Freq').else_use('LFO Ratio').if_parameter('LFO Time Mode').has_value('Ratio').else_use('LFO Time').if_parameter('LFO Time Mode').has_value('Time').else_use('LFO Synced'),
+                          'LFO Amt',
+                          'Cyc Env Tilt',
+                          'Cyc Env Hold',
+                          'Cyc Env Time Mode',
+                          use('Cyc Env Rate').if_parameter('Cyc Env Time Mode').has_value('Freq').else_use('Cyc Env Ratio').if_parameter('Cyc Env Time Mode').has_value('Ratio').else_use('Cyc Env Time').if_parameter('Cyc Env Time Mode').has_value('Time').else_use('Cyc Env Synced'))}),
+  (
+   'Modulation',
+   {BANK_PARAMETERS_KEY: ('Osc 1 Shape Mod Amt', 'Pitch Mod Amt 1', 'Pitch Mod Amt 2', 'LP Mod Amt 1', 'LP Mod Amt 2',
+ 'LFO Mod Amt', 'Vel > Vol', '')}),
+  (
+   'Global',
+   {BANK_PARAMETERS_KEY: (
+                          'Voice Mode',
+                          use('').if_parameter('Voice Mode').has_value('Poly').else_use('Thickness').if_parameter('Voice Mode').has_value('Mono').else_use('Spread').if_parameter('Voice Mode').has_value('Stereo').else_use('Strength').if_parameter('Voice Mode').has_value('Unison'),
+                          'Voice Count',
+                          'Glide Time',
+                          'Drift',
+                          'Transpose',
+                          'Noise Gain',
+                          'Volume')}))), 
  'LoungeLizard':IndexedDict((
   (
    BANK_MAIN_KEY,
@@ -386,7 +421,7 @@ BANK_DEFINITIONS = {'AudioEffectGroupDevice':RACK_BANKS,
  'F Tine < Key', 'P Amp < Key', 'Volume')}),
   (
    'Global',
-   {BANK_PARAMETERS_KEY: ('KB Stretch', 'PB Range', '', '', 'Voices', 'Semitone', 'Detune', 'Volume')}))), 
+   {BANK_PARAMETERS_KEY: ('KB Stretch', 'PB Range', 'Note PB Range', '', 'Voices', 'Semitone', 'Detune', 'Volume')}))), 
  'InstrumentImpulse':IndexedDict((
   (
    BANK_MAIN_KEY,
@@ -927,11 +962,7 @@ BANK_DEFINITIONS = {'AudioEffectGroupDevice':RACK_BANKS,
   (
    BANK_MAIN_KEY,
    {BANK_PARAMETERS_KEY: (
-<<<<<<< HEAD
                           use('Exciter Type').if_parameter('Exc On/Off').has_value('On'),
-=======
-                          use('Excitator Type').if_parameter('Exc On/Off').has_value('On'),
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
                           use('Exc ForceMassProt').if_parameter('Exc On/Off').has_value('On'),
                           use('Exc FricStiff').if_parameter('Exc On/Off').has_value('On'),
                           use('Exc Velocity').if_parameter('Exc On/Off').has_value('On'),
@@ -940,17 +971,10 @@ BANK_DEFINITIONS = {'AudioEffectGroupDevice':RACK_BANKS,
                           'Str Damping',
                           'Volume')}),
   (
-<<<<<<< HEAD
    'Exciter',
    {BANK_PARAMETERS_KEY: (
                           'Exc On/Off',
                           use('Exciter Type').if_parameter('Exc On/Off').has_value('On'),
-=======
-   'Excitator',
-   {BANK_PARAMETERS_KEY: (
-                          'Exc On/Off',
-                          use('Excitator Type').if_parameter('Exc On/Off').has_value('On'),
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
                           use('Exc ForceMassProt').if_parameter('Exc On/Off').has_value('On'),
                           use('Exc FricStiff').if_parameter('Exc On/Off').has_value('On'),
                           use('Exc Velocity').if_parameter('Exc On/Off').has_value('On'),
@@ -1046,8 +1070,19 @@ BANK_DEFINITIONS = {'AudioEffectGroupDevice':RACK_BANKS,
                           use('Porta Legato').if_parameter('Porta On/Off').has_value('On'),
                           use('Porta Prop').if_parameter('Porta On/Off').has_value('On'))}),
   (
-   'Global',
-   {BANK_PARAMETERS_KEY: ('Octave', 'Semitone', 'Fine Tune', 'Voices', 'PB Depth', 'Stretch', 'Error', 'Key Priority')}),
+   'Global 1',
+   {BANK_PARAMETERS_KEY: (
+                          'Octave',
+                          'Semitone',
+                          'Fine Tune',
+                          'PB Range',
+                          use('Note PB Range').with_name('Note PB'),
+                          '',
+                          '',
+                          '')}),
+  (
+   'Global 2',
+   {BANK_PARAMETERS_KEY: ('Voices', 'Stretch', 'Error', 'Key Priority', '', '', '', '')}),
   (
    'Filt. Env.',
    {BANK_PARAMETERS_KEY: (
@@ -1060,21 +1095,12 @@ BANK_DEFINITIONS = {'AudioEffectGroupDevice':RACK_BANKS,
                           use('FEG < Vel').if_parameter('FEG On/Off').has_value('On'),
                           '')}),
   (
-<<<<<<< HEAD
    'Exciter Mod.',
    {BANK_PARAMETERS_KEY: (
                           use('Exc ForceMassProt < Vel').if_parameter('Exc On/Off').has_value('On'),
                           use('Exc ForceMassProt < Key').if_parameter('Exc On/Off').has_value('On'),
                           use('Exc FricStiff < Vel').if_parameter('Exc On/Off').has_value('On'),
                           use('Exc FricStiff < Key').if_parameter('Exc On/Off').has_value('On'),
-=======
-   'Excitator Mod.',
-   {BANK_PARAMETERS_KEY: (
-                          use('Exc Prot < Vel').if_parameter('Exc On/Off').has_value('On'),
-                          use('Exc Prot < Key').if_parameter('Exc On/Off').has_value('On'),
-                          use('Exc Stiff < Vel').if_parameter('Exc On/Off').has_value('On'),
-                          use('Exc Stiff < Key').if_parameter('Exc On/Off').has_value('On'),
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
                           use('Exc Vel < Vel').if_parameter('Exc On/Off').has_value('On'),
                           use('Exc Vel < Key').if_parameter('Exc On/Off').has_value('On'),
                           use('E Pos < Vel').if_parameter('Exc On/Off').has_value('On'),
@@ -1089,7 +1115,11 @@ BANK_DEFINITIONS = {'AudioEffectGroupDevice':RACK_BANKS,
                           use('Damper Gated').if_parameter('Damper On').has_value('On'),
                           use('').if_parameter('Damper On').has_value('Off').else_use('D Velo < Key').if_parameter('Damper Gated').has_value('On').else_use(''),
                           '',
-                          '')}))), 
+                          '')}),
+  (
+   'MIDI Mod.',
+   {BANK_PARAMETERS_KEY: ('Press Dest A', 'Press Amt A', 'Press Dest B', 'Press Amt B', 'Slide Dest A', 'Slide Amt A',
+ 'Slide Dest B', 'Slide Amt B')}))), 
  'InstrumentVector':IndexedDict((
   (
    BANK_MAIN_KEY,
@@ -1207,11 +1237,7 @@ BANK_DEFINITIONS = {'AudioEffectGroupDevice':RACK_BANKS,
                           use('LFO 1 Shape').with_name('Shape'),
                           use('LFO 1 Sync').with_name('Sync'),
                           use('LFO 1 S. Rate').with_name('SyncRate').if_parameter('LFO 1 Sync').has_value('Tempo').else_use('LFO 1 Rate').with_name('Rate'),
-<<<<<<< HEAD
                           use('LFO 1 Shaping').with_name('Shape'),
-=======
-                          use('LFO 1 Shaping').with_name('Shaping'),
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
                           use('LFO 1 Attack Time').with_name('Attack'),
                           use('LFO 1 Amount').with_name('Amount'),
                           use('LFO 1 Phase Offset').with_name('Phase'),
@@ -1222,11 +1248,7 @@ BANK_DEFINITIONS = {'AudioEffectGroupDevice':RACK_BANKS,
                           use('LFO 2 Shape').with_name('Shape'),
                           use('LFO 2 Sync').with_name('Sync'),
                           use('LFO 2 S. Rate').with_name('SyncRate').if_parameter('LFO 2 Sync').has_value('Tempo').else_use('LFO 2 Rate').with_name('Rate'),
-<<<<<<< HEAD
                           use('LFO 2 Shaping').with_name('Shape'),
-=======
-                          use('LFO 2 Shaping').with_name('Shaping'),
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
                           use('LFO 2 Attack Time').with_name('Attack'),
                           use('LFO 2 Amount').with_name('Amount'),
                           use('LFO 2 Phase Offset').with_name('Phase'),
@@ -1539,7 +1561,6 @@ BANK_DEFINITIONS = {'AudioEffectGroupDevice':RACK_BANKS,
                           'Dly < Mod',
                           'Feedback',
                           'Dry/Wet')}))), 
-<<<<<<< HEAD
  'DrumBuss':IndexedDict((
   (
    BANK_MAIN_KEY,
@@ -1552,8 +1573,6 @@ BANK_DEFINITIONS = {'AudioEffectGroupDevice':RACK_BANKS,
   (
    'Gain',
    {BANK_PARAMETERS_KEY: ('Trim', 'Output Gain', 'Dry/Wet', 'Compressor On', 'Damping Freq', '', '', '')}))), 
-=======
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
  'Tube':IndexedDict((
   (
    'Character',
@@ -1940,7 +1959,6 @@ BANK_DEFINITIONS = {'AudioEffectGroupDevice':RACK_BANKS,
                           '',
                           '',
                           'DryWet')}))), 
-<<<<<<< HEAD
  'Hybrid':IndexedDict((
   (
    BANK_MAIN_KEY,
@@ -2009,8 +2027,6 @@ BANK_DEFINITIONS = {'AudioEffectGroupDevice':RACK_BANKS,
                           use('Width').with_name('Stereo'),
                           'Blend',
                           'Dry/Wet')}))), 
-=======
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
  'Limiter':IndexedDict((
   (
    BANK_MAIN_KEY,
@@ -2140,7 +2156,6 @@ BANK_DEFINITIONS = {'AudioEffectGroupDevice':RACK_BANKS,
                           use('LFO Width (Random)').if_parameter('LFO Waveform').has_value('S&H Width').else_use('LFO Phase').if_parameter('LFO Sync').has_value('Sync').else_use('LFO Phase').if_parameter('LFO Stereo Mode').has_value('Phase').else_use('LFO Spin'),
                           '',
                           '')}))), 
-<<<<<<< HEAD
  'PhaserNew':IndexedDict((
   (
    BANK_MAIN_KEY,
@@ -2186,8 +2201,6 @@ BANK_DEFINITIONS = {'AudioEffectGroupDevice':RACK_BANKS,
                           use('Safe Freq').with_name('Safe Bass'),
                           use('Output Gain').with_name('Gain'),
                           'Dry/Wet')}))), 
-=======
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
  'Redux':IndexedDict((
   (
    BANK_MAIN_KEY,
@@ -2200,7 +2213,6 @@ BANK_DEFINITIONS = {'AudioEffectGroupDevice':RACK_BANKS,
                           '',
                           '',
                           '')}),)), 
-<<<<<<< HEAD
  'Redux2':IndexedDict((
   (
    BANK_MAIN_KEY,
@@ -2213,8 +2225,6 @@ BANK_DEFINITIONS = {'AudioEffectGroupDevice':RACK_BANKS,
                           'Pre-Filter On',
                           'Post-Filter',
                           'Dry/Wet')}),)), 
-=======
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
  'Resonator':IndexedDict((
   (
    BANK_MAIN_KEY,
@@ -2300,7 +2310,6 @@ BANK_DEFINITIONS = {'AudioEffectGroupDevice':RACK_BANKS,
   (
    BANK_MAIN_KEY,
    {BANK_PARAMETERS_KEY: (
-<<<<<<< HEAD
                           'Predelay',
                           use('In Filter Freq').if_parameter('In LowCut On').has_value('On').else_use('ER Shape').if_parameter('In HighCut On').has_value('Off').else_use('In Filter Freq'),
                           use('Chorus Amount').if_parameter('Chorus On').has_value('On').else_use('Reflect Level'),
@@ -2308,15 +2317,6 @@ BANK_DEFINITIONS = {'AudioEffectGroupDevice':RACK_BANKS,
                           'Room Size',
                           'Decay Time',
                           use('HiShelf Gain').if_parameter('HiFilter On').has_value('On').else_use('Diffuse Level'),
-=======
-                          'PreDelay',
-                          use('In Filter Freq').if_parameter('In LowCut On').has_value('On').else_use('ER Shape').if_parameter('In HighCut On').has_value('Off').else_use('In Filter Freq'),
-                          use('Chorus Amount').if_parameter('Chorus On').has_value('On').else_use('ER Level'),
-                          'Stereo Image',
-                          'Room Size',
-                          'DecayTime',
-                          use('HiShelf Gain').if_parameter('HiShelf On').has_value('On').else_use('Diffuse Level'),
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
                           'Dry/Wet')}),
   (
    'Global',
@@ -2324,22 +2324,14 @@ BANK_DEFINITIONS = {'AudioEffectGroupDevice':RACK_BANKS,
                           'Chorus On',
                           use('Chorus Rate').if_parameter('Chorus On').has_value('On'),
                           use('Chorus Amount').if_parameter('Chorus On').has_value('On'),
-<<<<<<< HEAD
                           'Density',
                           'Freeze On',
                           'Flat On',
                           'Reflect Level',
-=======
-                          'Quality',
-                          'Freeze On',
-                          'Flat On',
-                          'ER Level',
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
                           'Diffuse Level')}),
   (
    'Diffusion Network',
    {BANK_PARAMETERS_KEY: (
-<<<<<<< HEAD
                           'HiFilter On',
                           use('HiFilter Freq').if_parameter('HiFilter On').has_value('On'),
                           use('HiShelf Gain').if_parameter('HiFilter On').has_value('On'),
@@ -2347,15 +2339,6 @@ BANK_DEFINITIONS = {'AudioEffectGroupDevice':RACK_BANKS,
                           use('LowShelf Freq').if_parameter('LowShelf On').has_value('On'),
                           use('LowShelf Gain').if_parameter('LowShelf On').has_value('On'),
                           'Diffusion',
-=======
-                          'HiShelf On',
-                          use('HiShelf Freq').if_parameter('HiShelf On').has_value('On'),
-                          use('HiShelf Gain').if_parameter('HiShelf On').has_value('On'),
-                          'LowShelf On',
-                          use('LowShelf Freq').if_parameter('LowShelf On').has_value('On'),
-                          use('LowShelf Gain').if_parameter('LowShelf On').has_value('On'),
-                          'Density',
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
                           'Scale')}),
   (
    'Input/Reflections',
@@ -2457,9 +2440,8 @@ BANK_DEFINITIONS = {'AudioEffectGroupDevice':RACK_BANKS,
    'Filters/Voicing',
    {BANK_PARAMETERS_KEY: ('Filter Bandwidth', 'Upper Filter Band', 'Lower Filter Band', 'Precise/Retro', 'Unvoiced Level',
  'Unvoiced Sensitivity', 'Unvoiced Speed', 'Enhance')})))}
-PARAMETERS_BLACKLIST_FOR_CPP_SANITY_CHECK = {'OriginalSimpler':('Start', 'End', 'Sensitivity', 'Mode', 'Playback', 'Pad Slicing', 'Multi Sample',
- 'Warp', 'Warp Mode', 'Voices', 'Preserve', 'Loop Mode', 'Envelope', 'Grain Size Tones',
- 'Grain Size Texture', 'Flux', 'Formants', 'Envelope Complex Pro', 'Gain'), 
- 'InstrumentVector':('Osc 1 Effect Type', 'Osc 2 Effect Type', 'Osc 1 Table', 'Osc 2 Table', 'Osc 1 Category',
- 'Osc 2 Category', 'Osc 1 Pitch', 'Osc 2 Pitch', 'Unison Mode', 'Mono On'), 
- 'Delay':('L Sync Enum', 'R Sync Enum')}
+PARAMETERS_BLACKLIST_FOR_CPP_SANITY_CHECK = {
+  'OriginalSimpler': ('Start', 'End', 'Sensitivity', 'Mode', 'Playback', 'Pad Slicing', 'Multi Sample', 'Warp', 'Warp Mode', 'Voices', 'Preserve', 'Loop Mode', 'Envelope', 'Grain Size Tones', 'Grain Size Texture', 'Flux', 'Formants', 'Envelope Complex Pro', 'Gain'),
+  'InstrumentVector': ('Osc 1 Effect Type', 'Osc 2 Effect Type', 'Osc 1 Table', 'Osc 2 Table', 'Osc 1 Category', 'Osc 2 Category', 'Osc 1 Pitch', 'Osc 2 Pitch', 'Unison Mode', 'Mono On'),
+  'Delay': ('L Sync Enum', 'R Sync Enum'),
+  'Drift': ('Voice Mode', 'Voice Count', 'LP Mod Src 1', 'LP Mod Src 2')}

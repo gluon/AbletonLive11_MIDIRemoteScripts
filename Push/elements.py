@@ -1,20 +1,16 @@
-<<<<<<< HEAD
-=======
-# decompyle3 version 3.8.0
-# Python bytecode 3.7.0 (3394)
-# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
-# [Clang 13.1.6 (clang-1316.0.21.2.3)]
-# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Push/elements.py
-# Compiled at: 2022-01-27 16:28:16
-# Size of source mod 2**32: 3650 bytes
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
+# decompyle3 version 3.9.0
+# Python bytecode version base 3.7.0 (3394)
+# Decompiled from: Python 3.8.0 (tags/v3.8.0:fa919fd, Oct 14 2019, 19:37:50) [MSC v.1916 64 bit (AMD64)]
+# Embedded file name: ..\..\..\output\Live\win_64_static\Release\python-bundle\MIDI Remote Scripts\Push\elements.py
+# Compiled at: 2022-11-29 09:57:03
+# Size of source mod 2**32: 3754 bytes
 from __future__ import absolute_import, print_function, unicode_literals
 from functools import partial
 from ableton.v2.base import recursive_map
 from ableton.v2.control_surface.elements import ButtonMatrixElement, ComboElement, SysexElement
 from pushbase import consts
 from pushbase.control_element_factory import create_note_button, make_send_message_generator
-import pushbase.elements as ElementsBase
+from pushbase.elements import Elements as ElementsBase
 from pushbase.touch_strip_element import TouchStripElement
 from . import sysex
 from .parameter_mapping_sensitivities import CONTINUOUS_MAPPING_SENSITIVITY, FINE_GRAINED_CONTINUOUS_MAPPING_SENSITIVITY

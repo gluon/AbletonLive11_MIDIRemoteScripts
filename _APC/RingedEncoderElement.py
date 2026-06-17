@@ -1,13 +1,9 @@
-<<<<<<< HEAD
-=======
-# decompyle3 version 3.8.0
-# Python bytecode 3.7.0 (3394)
-# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
-# [Clang 13.1.6 (clang-1316.0.21.2.3)]
-# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/_APC/RingedEncoderElement.py
-# Compiled at: 2022-01-27 16:28:16
-# Size of source mod 2**32: 3318 bytes
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
+# decompyle3 version 3.9.0
+# Python bytecode version base 3.7.0 (3394)
+# Decompiled from: Python 3.8.0 (tags/v3.8.0:fa919fd, Oct 14 2019, 19:37:50) [MSC v.1916 64 bit (AMD64)]
+# Embedded file name: ..\..\..\output\Live\win_64_static\Release\python-bundle\MIDI Remote Scripts\_APC\RingedEncoderElement.py
+# Compiled at: 2022-11-29 09:57:03
+# Size of source mod 2**32: 3414 bytes
 from __future__ import absolute_import, division, print_function, unicode_literals
 from past.utils import old_div
 import _Framework.ButtonElement as ButtonElement
@@ -55,7 +51,6 @@ class RingedEncoderElement(EncoderElement):
         if self._ring_mode_button != None:
             if self.is_mapped_manually():
                 self._ring_mode_button.send_value(RING_SIN_VALUE, force=True)
-<<<<<<< HEAD
             else:
                 if self._parameter_to_map_to != None:
                     param = self._parameter_to_map_to
@@ -71,18 +66,3 @@ class RingedEncoderElement(EncoderElement):
                             self._ring_mode_button.send_value(RING_VOL_VALUE, force=True)
                 else:
                     self._ring_mode_button.send_value(RING_OFF_VALUE, force=True)
-=======
-            elif self._parameter_to_map_to != None:
-                param = self._parameter_to_map_to
-                p_range = param.max - param.min
-                value = old_div(param.value - param.min, p_range) * 127
-                self.send_value((int(value)), force=True)
-                if self._parameter_to_map_to.min == -1 * self._parameter_to_map_to.max:
-                    self._ring_mode_button.send_value(RING_PAN_VALUE, force=True)
-                elif self._parameter_to_map_to.is_quantized:
-                    self._ring_mode_button.send_value(RING_SIN_VALUE, force=True)
-                else:
-                    self._ring_mode_button.send_value(RING_VOL_VALUE, force=True)
-            else:
-                self._ring_mode_button.send_value(RING_OFF_VALUE, force=True)
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34

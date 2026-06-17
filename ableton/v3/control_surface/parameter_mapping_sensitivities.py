@@ -1,5 +1,11 @@
+# decompyle3 version 3.9.0
+# Python bytecode version base 3.7.0 (3394)
+# Decompiled from: Python 3.8.0 (tags/v3.8.0:fa919fd, Oct 14 2019, 19:37:50) [MSC v.1916 64 bit (AMD64)]
+# Embedded file name: ..\..\..\output\Live\win_64_static\Release\python-bundle\MIDI Remote Scripts\ableton\v3\control_surface\parameter_mapping_sensitivities.py
+# Compiled at: 2023-08-04 12:30:20
+# Size of source mod 2**32: 4842 bytes
 from __future__ import absolute_import, print_function, unicode_literals
-from ..base import is_parameter_quantized, liveobj_valid
+from ..live import is_parameter_quantized, liveobj_valid
 DEFAULT_CONTINUOUS_PARAMETER_SENSITIVITY = 1.0
 DEFAULT_QUANTIZED_PARAMETER_SENSITIVITY = 0.1
 FINE_GRAIN_SENSITIVITY_FACTOR = 0.1
@@ -38,6 +44,7 @@ def create_sensitivities(quantized_parameter_sensitivity):
     q_min = quantized_parameter_sensitivity / 2
     q_default = quantized_parameter_sensitivity
     q_median = quantized_parameter_sensitivity * 3
+    q_max = quantized_parameter_sensitivity * 6
     return {'BeatRepeat':{'Pitch': q_default}, 
      'GrainDelay':{'Pitch': q_median}, 
      'InstrumentImpulse':{
@@ -59,7 +66,16 @@ def create_sensitivities(quantized_parameter_sensitivity):
        'B Coarse': q_median,
        'C Coarse': q_median,
        'D Coarse': q_median}, 
-     'OriginalSimpler':{'Transpose': q_median}, 
+     'OriginalSimpler':{
+       'Transpose': q_median,
+       'Start': q_median,
+       'End': q_median,
+       'Nudge': q_median,
+       'Slice by': q_median,
+       'Playback': q_median,
+       'Sensitivity': q_max,
+       'Division': q_median,
+       'Regions': q_max}, 
      'Resonator':{
        'I Note': q_median,
        'II Pitch': q_median,

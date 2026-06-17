@@ -1,3 +1,9 @@
+# decompyle3 version 3.9.0
+# Python bytecode version base 3.7.0 (3394)
+# Decompiled from: Python 3.8.0 (tags/v3.8.0:fa919fd, Oct 14 2019, 19:37:50) [MSC v.1916 64 bit (AMD64)]
+# Embedded file name: ..\..\..\output\Live\win_64_static\Release\python-bundle\MIDI Remote Scripts\ableton\v3\control_surface\default_bank_definitions.py
+# Compiled at: 2023-10-06 16:19:02
+# Size of source mod 2**32: 136106 bytes
 from __future__ import absolute_import, print_function, unicode_literals
 from ableton.v2.base.collection import IndexedDict
 from . import BANK_MAIN_KEY, BANK_PARAMETERS_KEY, use
@@ -106,8 +112,8 @@ BANK_DEFINITIONS['AutoFilter'] = IndexedDict((
                          use('Filter Type').if_parameter('Filter Type').is_available(True).else_use('Filter Type (Legacy)'),
                          use('Frequency'),
                          use('Resonance').if_parameter('Resonance').is_available(True).else_use('Resonance (Legacy)'),
-                         use('Slope').if_parameter('Slope').is_available(True),
                          use('Morph').if_parameter('Filter Type').has_value('Morph').else_use('Drive').if_parameter('Drive').is_available(True),
+                         use('Slope').if_parameter('Slope').is_available(True),
                          'Env. Attack',
                          'Env. Release',
                          'Env. Modulation')}),
@@ -384,6 +390,49 @@ BANK_DEFINITIONS['Delay'] = IndexedDict((
                          'Dly < Mod',
                          'Feedback',
                          'Dry/Wet')})))
+BANK_DEFINITIONS['Drift'] = IndexedDict((
+ (
+  BANK_MAIN_KEY,
+  {BANK_PARAMETERS_KEY: ('Osc 1 Wave', 'Osc 1 Shape', 'Osc 1 Oct', 'Osc 1 Gain', 'Osc 2 Gain', 'LP Freq', 'LP Reso',
+ 'Volume')}),
+ (
+  'Oscillator',
+  {BANK_PARAMETERS_KEY: ('Osc 1 Wave', 'Osc 1 Shape', 'Osc 1 Oct', 'Osc 1 Gain', 'Osc 2 Wave', 'Osc 2 Detune',
+ 'Osc 2 Oct', 'Osc 2 Gain')}),
+ (
+  'Filter',
+  {BANK_PARAMETERS_KEY: ('LP Type', 'LP Freq', 'LP Reso', 'HP Freq', 'LP Mod Src 1', 'LP Mod Amt 1', 'LP Mod Src 2',
+ 'LP Mod Amt 2')}),
+ (
+  'Envelopes',
+  {BANK_PARAMETERS_KEY: ('Env 1 Attack', 'Env 1 Decay', 'Env 1 Sustain', 'Env 1 Release', 'Env 2 Attack', 'Env 2 Decay',
+ 'Env 2 Sustain', 'Env 2 Release')}),
+ (
+  'LFO',
+  {BANK_PARAMETERS_KEY: (
+                         'LFO Wave',
+                         'LFO Time Mode',
+                         use('LFO Rate').if_parameter('LFO Time Mode').has_value('Freq').else_use('LFO Ratio').if_parameter('LFO Time Mode').has_value('Ratio').else_use('LFO Time').if_parameter('LFO Time Mode').has_value('Time').else_use('LFO Synced'),
+                         'LFO Amt',
+                         'Cyc Env Tilt',
+                         'Cyc Env Hold',
+                         'Cyc Env Time Mode',
+                         use('Cyc Env Rate').if_parameter('Cyc Env Time Mode').has_value('Freq').else_use('Cyc Env Ratio').if_parameter('Cyc Env Time Mode').has_value('Ratio').else_use('Cyc Env Time').if_parameter('Cyc Env Time Mode').has_value('Time').else_use('Cyc Env Synced'))}),
+ (
+  'Modulation',
+  {BANK_PARAMETERS_KEY: ('Osc 1 Shape Mod Amt', 'Pitch Mod Amt 1', 'Pitch Mod Amt 2', 'LP Mod Amt 1', 'LP Mod Amt 2',
+ 'LFO Mod Amt', 'Vel > Vol', '')}),
+ (
+  'Global',
+  {BANK_PARAMETERS_KEY: (
+                         'Voice Mode',
+                         use('').if_parameter('Voice Mode').has_value('Poly').else_use('Thickness').if_parameter('Voice Mode').has_value('Mono').else_use('Spread').if_parameter('Voice Mode').has_value('Stereo').else_use('Strength').if_parameter('Voice Mode').has_value('Unison'),
+                         'Voice Count',
+                         'Glide Time',
+                         'Drift',
+                         'Transpose',
+                         'Noise Gain',
+                         'Volume')})))
 BANK_DEFINITIONS['DrumBuss'] = IndexedDict((
  (
   BANK_MAIN_KEY,

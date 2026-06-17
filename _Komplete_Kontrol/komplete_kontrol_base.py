@@ -1,22 +1,14 @@
-<<<<<<< HEAD
-=======
-# decompyle3 version 3.8.0
-# Python bytecode 3.7.0 (3394)
-# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
-# [Clang 13.1.6 (clang-1316.0.21.2.3)]
-# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/_Komplete_Kontrol/komplete_kontrol_base.py
-# Compiled at: 2022-01-27 16:28:17
-# Size of source mod 2**32: 14316 bytes
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
+# decompyle3 version 3.9.0
+# Python bytecode version base 3.7.0 (3394)
+# Decompiled from: Python 3.8.0 (tags/v3.8.0:fa919fd, Oct 14 2019, 19:37:50) [MSC v.1916 64 bit (AMD64)]
+# Embedded file name: ..\..\..\output\Live\win_64_static\Release\python-bundle\MIDI Remote Scripts\_Komplete_Kontrol\komplete_kontrol_base.py
+# Compiled at: 2022-11-29 09:57:03
+# Size of source mod 2**32: 14742 bytes
 from __future__ import absolute_import, print_function, unicode_literals
 from builtins import range
 from functools import partial
 from ableton.v2.base import listens, nop, task
-<<<<<<< HEAD
 from ableton.v2.control_surface import Layer, SimpleControlSurface, midi
-=======
-from ableton.v2.control_surface import ControlSurface, Layer, midi
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 from ableton.v2.control_surface.components import AutoArmComponent, BackgroundComponent, SessionRecordingComponent, SimpleTrackAssigner, UndoRedoComponent
 from ableton.v2.control_surface.elements import ButtonMatrixElement, MultiElement, SysexElement
 from ableton.v2.control_surface.mode import AddLayerMode, EnablingMode, ModesComponent
@@ -125,12 +117,8 @@ class KompleteKontrolBase(SimpleControlSurface):
         self._track_selection_displays = ButtonMatrixElement(rows=[
          [create_sysex_element(sysex.TRACK_SELECT_DISPLAY_HEADER, index, 'Track_Selection_Display_{}'.format(index)) for index in range(NUM_TRACKS)]],
           name='Track_Selection_Displays')
-<<<<<<< HEAD
         self._focus_follow_control = SysexElement((lambda value: sysex.TRACK_CHANGED_DISPLAY_HEADER + value + (midi.SYSEX_END,)
 ),
-=======
-        self._focus_follow_control = SysexElement((lambda value: sysex.TRACK_CHANGED_DISPLAY_HEADER + value + (midi.SYSEX_END,)),
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
           name='Focus_Follow_Control')
         self._handshake_control = create_button(1, 'Handshake_Control')
         self._handshake_control.reset = nop

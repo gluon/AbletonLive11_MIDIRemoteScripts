@@ -1,7 +1,13 @@
+# decompyle3 version 3.9.0
+# Python bytecode version base 3.7.0 (3394)
+# Decompiled from: Python 3.8.0 (tags/v3.8.0:fa919fd, Oct 14 2019, 19:37:50) [MSC v.1916 64 bit (AMD64)]
+# Embedded file name: ..\..\..\output\Live\win_64_static\Release\python-bundle\MIDI Remote Scripts\MiniLab_3\colors.py
+# Compiled at: 2023-06-08 07:52:37
+# Size of source mod 2**32: 2410 bytes
 from __future__ import absolute_import, print_function, unicode_literals
-from ableton.v3.base import liveobj_color_to_midi_rgb_values
 from ableton.v3.control_surface import BasicColors
 from ableton.v3.control_surface.elements import FallbackColor, RgbColor, create_rgb_color
+from ableton.v3.live import liveobj_color_to_midi_rgb_values
 
 class Rgb:
     OFF = FallbackColor(RgbColor(0, 0, 0), BasicColors.OFF)
@@ -46,11 +52,13 @@ class Skin:
         LoopOff = Rgb.AMBER_HALF
         TapTempoPressed = Rgb.WHITE
         TapTempo = Rgb.WHITE_HALF
-        ArrangementRecordingOn = Rgb.RED
-        ArrangementRecordingOff = Rgb.RED_HALF
-        SessionRecordingOn = Rgb.RED
-        SessionRecordingTransition = Rgb.RED_HALF
-        SessionRecordingOff = Rgb.RED_HALF
+
+    class Recording:
+        ArrangementRecordOn = Rgb.RED
+        ArrangementRecordOff = Rgb.RED_HALF
+        SessionRecordOn = Rgb.RED
+        SessionRecordTransition = Rgb.RED_HALF
+        SessionRecordOff = Rgb.RED_HALF
 
     class Session:
         Slot = Rgb.OFF

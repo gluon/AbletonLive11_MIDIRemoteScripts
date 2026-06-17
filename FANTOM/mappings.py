@@ -1,3 +1,9 @@
+# decompyle3 version 3.9.0
+# Python bytecode version base 3.7.0 (3394)
+# Decompiled from: Python 3.8.0 (tags/v3.8.0:fa919fd, Oct 14 2019, 19:37:50) [MSC v.1916 64 bit (AMD64)]
+# Embedded file name: ..\..\..\output\Live\win_64_static\Release\python-bundle\MIDI Remote Scripts\FANTOM\mappings.py
+# Compiled at: 2023-04-03 14:43:04
+# Size of source mod 2**32: 2277 bytes
 from __future__ import absolute_import, print_function, unicode_literals
 
 def create_mappings(_):
@@ -5,14 +11,14 @@ def create_mappings(_):
     mappings['Undo_Redo'] = dict(undo_button='undo_button')
     mappings['Device'] = dict(parameter_controls='device_controls')
     mappings['Drum_Group'] = dict(matrix='drum_pads')
+    mappings['Recording'] = dict(arrangement_record_button='record_button',
+      arrangement_overdub_button='arrangement_overdub_button',
+      session_record_button='session_record_button')
     mappings['Transport'] = dict(play_button='play_button',
       stop_button='stop_button',
-      arrangement_record_button='record_button',
-      session_record_button='session_record_button',
       re_enable_automation_button='automation_re-enable_button',
       automation_arm_button='automation_arm_button',
       metronome_button='metronome_button',
-      arrangement_overdub_button='arrangement_overdub_button',
       tap_tempo_button='tap_tempo_button',
       capture_midi_button='capture_midi_button',
       tempo_coarse_encoder='tempo_coarse_control',

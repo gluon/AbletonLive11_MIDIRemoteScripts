@@ -1,13 +1,9 @@
-<<<<<<< HEAD
-=======
-# decompyle3 version 3.8.0
-# Python bytecode 3.7.0 (3394)
-# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
-# [Clang 13.1.6 (clang-1316.0.21.2.3)]
-# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Launchkey_MK3/launchkey_mk3.py
-# Compiled at: 2022-01-27 16:28:16
-# Size of source mod 2**32: 18413 bytes
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
+# decompyle3 version 3.9.0
+# Python bytecode version base 3.7.0 (3394)
+# Decompiled from: Python 3.8.0 (tags/v3.8.0:fa919fd, Oct 14 2019, 19:37:50) [MSC v.1916 64 bit (AMD64)]
+# Embedded file name: ..\..\..\output\Live\win_64_static\Release\python-bundle\MIDI Remote Scripts\Launchkey_MK3\launchkey_mk3.py
+# Compiled at: 2023-04-03 14:43:04
+# Size of source mod 2**32: 19115 bytes
 from __future__ import absolute_import, print_function, unicode_literals
 from functools import partial
 from ableton.v2.base import listens, nop
@@ -15,10 +11,6 @@ from ableton.v2.control_surface import Layer, SessionRingSelectionLinking
 from ableton.v2.control_surface.components import AutoArmComponent, BackgroundComponent, UndoRedoComponent
 from ableton.v2.control_surface.mode import AddLayerMode, LayerMode
 from novation import sysex
-<<<<<<< HEAD
-=======
-from novation.clip_actions import ClipActionsComponent
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 from novation.instrument_control import InstrumentControlMixin
 from novation.launchkey_drum_group import DrumGroupComponent
 from novation.launchkey_elements import SESSION_HEIGHT
@@ -163,7 +155,7 @@ class Launchkey_MK3(InstrumentControlMixin, NovationBase):
     def _create_undo(self):
         self._undo = UndoRedoComponent(name='Undo',
           is_enabled=False,
-          layer=Layer(undo_button='undo_button'))
+          layer=Layer(undo_button='undo_button', redo_button='undo_button_with_shift'))
         self._undo.set_enabled(True)
 
     def _create_quantization(self):
@@ -302,11 +294,7 @@ class Launchkey_MK3(InstrumentControlMixin, NovationBase):
         self._select_recording_mode()
 
     @listens('selected_mode')
-<<<<<<< HEAD
     def __on_pad_mode_changed(self, _):
-=======
-    def __on_pad_mode_changed(self, mode):
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
         self._select_recording_mode()
         self._update_controlled_track()
 
@@ -338,10 +326,7 @@ class Launchkey_MK3(InstrumentControlMixin, NovationBase):
     def _extract_product_id_bytes(self, midi_bytes):
         id_bytes = super(Launchkey_MK3, self)._extract_product_id_bytes(midi_bytes)
         model_id_byte = id_bytes[3]
-<<<<<<< HEAD
         self._elements.init_display_elements(model_id_byte == midi.LK_MK3_88_ID_BYTE)
-=======
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
         if id_bytes[:3] == sysex.NOVATION_MANUFACTURER_ID:
             if model_id_byte in midi.MODEL_ID_BYTES:
                 if id_bytes[4:] == midi.MODEL_ID_BYTE_SUFFIX:

@@ -1,13 +1,9 @@
-<<<<<<< HEAD
-=======
-# decompyle3 version 3.8.0
-# Python bytecode 3.7.0 (3394)
-# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
-# [Clang 13.1.6 (clang-1316.0.21.2.3)]
-# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Axiom_AIR_25_49_61/SpecialSessionComponent.py
-# Compiled at: 2021-06-29 09:33:48
-# Size of source mod 2**32: 4508 bytes
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
+# decompyle3 version 3.9.0
+# Python bytecode version base 3.7.0 (3394)
+# Decompiled from: Python 3.8.0 (tags/v3.8.0:fa919fd, Oct 14 2019, 19:37:50) [MSC v.1916 64 bit (AMD64)]
+# Embedded file name: ..\..\..\output\Live\win_64_static\Release\python-bundle\MIDI Remote Scripts\Axiom_AIR_25_49_61\SpecialSessionComponent.py
+# Compiled at: 2022-11-28 08:01:31
+# Size of source mod 2**32: 4616 bytes
 from __future__ import absolute_import, print_function, unicode_literals
 import _Framework.SessionComponent as SessionComponent
 
@@ -57,18 +53,11 @@ class SpecialSessionComponent(SessionComponent):
         list_of_tracks = None
         if self._mixer != None:
             list_of_tracks = self._mixer.tracks_to_use()
-<<<<<<< HEAD
         else:
             if self._alt_mixer != None:
                 list_of_tracks = self._alt_mixer.tracks_to_use()
             else:
                 list_of_tracks = self.song().visible_tracks
-=======
-        elif self._alt_mixer != None:
-            list_of_tracks = self._alt_mixer.tracks_to_use()
-        else:
-            list_of_tracks = self.song().visible_tracks
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
         return list_of_tracks
 
     def _change_offsets(self, track_increment, scene_increment):
@@ -93,15 +82,9 @@ class SpecialSessionComponent(SessionComponent):
             if not (value is not 0 or self._next_track_button.is_momentary()):
                 selected_track = self.song().view.selected_track
                 all_tracks = self.song().visible_tracks + self.song().return_tracks + (self.song().master_track,)
-<<<<<<< HEAD
                 if selected_track != all_tracks[-1]:
                     index = list(all_tracks).index(selected_track)
                     self.song().view.selected_track = all_tracks[index + 1]
-=======
-                if selected_track != all_tracks[(-1)]:
-                    index = list(all_tracks).index(selected_track)
-                    self.song().view.selected_track = all_tracks[(index + 1)]
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 
     def _prev_track_value(self, value):
         if self.is_enabled():
@@ -110,8 +93,4 @@ class SpecialSessionComponent(SessionComponent):
                 all_tracks = self.song().visible_tracks + self.song().return_tracks + (self.song().master_track,)
                 if selected_track != all_tracks[0]:
                     index = list(all_tracks).index(selected_track)
-<<<<<<< HEAD
                     self.song().view.selected_track = all_tracks[index - 1]
-=======
-                    self.song().view.selected_track = all_tracks[(index - 1)]
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34

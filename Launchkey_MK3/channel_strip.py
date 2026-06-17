@@ -1,17 +1,13 @@
-<<<<<<< HEAD
-=======
-# decompyle3 version 3.8.0
-# Python bytecode 3.7.0 (3394)
-# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
-# [Clang 13.1.6 (clang-1316.0.21.2.3)]
-# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/Launchkey_MK3/channel_strip.py
-# Compiled at: 2022-01-27 16:28:16
-# Size of source mod 2**32: 3466 bytes
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
+# decompyle3 version 3.9.0
+# Python bytecode version base 3.7.0 (3394)
+# Decompiled from: Python 3.8.0 (tags/v3.8.0:fa919fd, Oct 14 2019, 19:37:50) [MSC v.1916 64 bit (AMD64)]
+# Embedded file name: ..\..\..\output\Live\win_64_static\Release\python-bundle\MIDI Remote Scripts\Launchkey_MK3\channel_strip.py
+# Compiled at: 2022-11-29 09:57:03
+# Size of source mod 2**32: 3568 bytes
 from __future__ import absolute_import, print_function, unicode_literals
 from past.builtins import unicode
 from ableton.v2.base import listens, liveobj_valid
-import novation.channel_strip as ChannelStripComponentBase
+from novation.channel_strip import ChannelStripComponent as ChannelStripComponentBase
 from .control import DisplayControl
 
 class ChannelStripComponent(ChannelStripComponentBase):
@@ -46,11 +42,7 @@ class ChannelStripComponent(ChannelStripComponentBase):
     def update(self):
         super(ChannelStripComponent, self).update()
         mixer = self._track.mixer_device if liveobj_valid(self._track) else None
-<<<<<<< HEAD
         self._ChannelStripComponent__on_send_a_value_changed.subject = mixer.sends[0] if mixer and (mixer.sends) else None
-=======
-        self._ChannelStripComponent__on_send_a_value_changed.subject = mixer.sends[0] if mixer and (len(mixer.sends)) else None
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
         self._ChannelStripComponent__on_send_b_value_changed.subject = mixer.sends[1] if mixer and (len(mixer.sends) > 1) else None
         self._update_send_display(self.send_a_display, 0)
         self._update_send_display(self.send_b_display, 1)

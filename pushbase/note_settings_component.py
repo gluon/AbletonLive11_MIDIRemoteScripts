@@ -1,13 +1,9 @@
-<<<<<<< HEAD
-=======
-# decompyle3 version 3.8.0
-# Python bytecode 3.7.0 (3394)
-# Decompiled from: Python 3.8.9 (default, Mar 30 2022, 13:51:17) 
-# [Clang 13.1.6 (clang-1316.0.21.2.3)]
-# Embedded file name: output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/pushbase/note_settings_component.py
-# Compiled at: 2022-01-27 16:28:17
-# Size of source mod 2**32: 24089 bytes
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
+# decompyle3 version 3.9.0
+# Python bytecode version base 3.7.0 (3394)
+# Decompiled from: Python 3.8.0 (tags/v3.8.0:fa919fd, Oct 14 2019, 19:37:50) [MSC v.1916 64 bit (AMD64)]
+# Embedded file name: ..\..\..\output\Live\win_64_static\Release\python-bundle\MIDI Remote Scripts\pushbase\note_settings_component.py
+# Compiled at: 2022-11-29 09:57:03
+# Size of source mod 2**32: 24841 bytes
 from __future__ import absolute_import, division, print_function, unicode_literals
 from builtins import filter, map, range, round, str
 from past.utils import old_div
@@ -437,16 +433,10 @@ class NoteEditorSettingsComponent(ModesComponent):
     def update_view_state_based_on_selected_setting(self, setting):
         if self.selected_mode == 'enabled' and self.is_touched or setting is None:
             self._set_settings_view_enabled(False)
-<<<<<<< HEAD
         else:
             if self._is_step_held():
                 if self.selected_setting == 'automation' and self.automation.can_automate_parameters or self.selected_setting == 'note_settings':
                     self._show_settings()
-=======
-        elif self._is_step_held():
-            if self.selected_setting == 'automation' and self.automation.can_automate_parameters or self.selected_setting == 'note_settings':
-                self._show_settings()
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
 
     @listens('full_velocity')
     def __on_full_velocity_changed(self):
@@ -569,12 +559,8 @@ class NoteEditorSettingsComponent(ModesComponent):
                 return (
                  min(l_min, r_min), max(l_max, r_max))
 
-<<<<<<< HEAD
             all_min_max_attributes = [_f for _f in map(lambda e: e.get_min_max_note_values()
 , self._editors) if _f]
-=======
-            all_min_max_attributes = [_f for _f in map(lambda e: e.get_min_max_note_values(), self._editors) if _f]
->>>>>>> d4a7b269eef325b60d6e8b8cc6298fd52c04fa34
             min_max_values = [(99999, -99999)] * self.settings.number_of_settings if len(all_min_max_attributes) > 0 else None
             for min_max_attribute in all_min_max_attributes:
                 for i, attribute in enumerate(min_max_attribute[:self.settings.number_of_settings]):

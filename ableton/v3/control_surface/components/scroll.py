@@ -1,27 +1,25 @@
+# decompyle3 version 3.9.0
+# Python bytecode version base 3.7.0 (3394)
+# Decompiled from: Python 3.8.0 (tags/v3.8.0:fa919fd, Oct 14 2019, 19:37:50) [MSC v.1916 64 bit (AMD64)]
+# Embedded file name: ..\..\..\output\Live\win_64_static\Release\python-bundle\MIDI Remote Scripts\ableton\v3\control_surface\components\scroll.py
+# Compiled at: 2023-09-13 04:24:51
+# Size of source mod 2**32: 5560 bytes
 from __future__ import absolute_import, print_function, unicode_literals
 from ...base import task
 from .. import MOMENTARY_DELAY, Component
-from ..controls import ButtonControl, EncoderControl
+from ..controls import ButtonControl, StepEncoderControl
 
 class Scrollable:
-
-    def can_scroll_up(self):
-        return False
-
-    def can_scroll_down(self):
-        return False
-
-    def scroll_up(self):
-        pass
-
-    def scroll_down(self):
-        pass
+    can_scroll_up = NotImplemented
+    can_scroll_down = NotImplemented
+    scroll_up = NotImplemented
+    scroll_down = NotImplemented
 
 
 class ScrollComponent(Component, Scrollable):
     scrolling_delay = MOMENTARY_DELAY
     scrolling_step_delay = 0.1
-    scroll_encoder = EncoderControl()
+    scroll_encoder = StepEncoderControl(num_steps=64)
     scroll_up_button = ButtonControl()
     scroll_down_button = ButtonControl()
 
